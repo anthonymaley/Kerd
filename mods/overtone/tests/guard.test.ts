@@ -1327,7 +1327,9 @@ describe('guard', () => {
       component: 'AbovePrompt',
       props: { hasSurvey: false, isWorking: true, maxRows: 20, bodyColumns: 120 } as never,
     })
-    expect((await ui.find({ type: 'Text', text: /^ {2}ctx/ }))?.text).toBe('  ctx ◼◼◼◼◼◼◼◼◼◼  │  5h —  │  7d —  │  cache —')
+    // the terminal draws the bar as a Raster: its first Text run is the label
+    expect((await ui.find({ type: 'Text', text: /^ctx / }))?.text).toBe('ctx ')
+    expect(await ui.find({ type: 'Raster' })).toBeDefined()
     expect(await ui.find({ type: 'Text', text: /overtone guard/ })).toBeDefined()
     expect(await ui.find({ type: 'Text', text: /kerd-laptop-result\.patch/ })).toBeDefined()
     await ui.unmount()

@@ -25,6 +25,7 @@ import type {
 import { EMPTY_MODEL, EMPTY_WORKERS, INFERRED, compareModels, isActive, QUIET_AFTER_MS, isQuiet, normModel, quietCount, readContext } from './logic'
 import type { BandState } from './logic'
 import { shownText } from './plan-logic'
+import type { PlanRow, PlanRowState, PlanView } from './plan-logic'
 
 // ---------------------------------------------------------------------------
 // Segments: what the hook draws, as plain data
@@ -33,7 +34,10 @@ import { shownText } from './plan-logic'
 // `success`, `warning`, `error` are the host's theme keys (colour follows
 // light and dark); `dim` and `plain` carry no colour.
 export type UTone = 'dim' | 'plain' | 'success' | 'warning' | 'error'
-export type USeg = { text: string; tone?: UTone; bold?: boolean }
+// `bar`: a band bar a Raster draws in true colour (`left` = percent LEFT,
+// 0..100, in the segment's tone). Its `text` is blanks as wide as the bar, so
+// the width budget counts it honestly; a surface without Raster never gets one.
+export type USeg = { text: string; tone?: UTone; bold?: boolean; bar?: { left: number } }
 export type ULine = USeg[]
 
 const sg = (text: string, tone?: UTone, bold?: boolean): USeg =>
@@ -464,10 +468,42 @@ const withEffort = (model: string | undefined, effort: string | number | undefin
 // Active workers, and those that returned since the main loop last stepped
 // (it has not read them yet). Quiet workers (see isQuiet) are not jobs: they
 // are counted apart, never as running.
-export function workerJobs(w: OvertoneWorkers | null | undefined, lastMainStartMs: number | undefined, nowMs: number): JobRow[] {
+function shownWorkers(w: OvertoneWorkers | null | undefined, lastMainStartMs: number | undefined, nowMs: number): OvertoneWorker[] {
   const all = Object.values((w ?? EMPTY_WORKERS).byId)
   const shown = all.filter(x => x.status !== INFERRED && !isQuiet(x, nowMs) && (isActive(x) || (x.endedMs !== undefined && x.endedMs > (lastMainStartMs ?? 0))))
-  shown.sort((a, b) => a.firstSeenMs - b.firstSeenMs)
+  return shown.sort((a, b) => a.firstSeenMs - b.firstSeenMs)
+}
+
+// The workers, drawn as a plan of their own when no plan was sent: each
+// worker the Workers card lists is a task, numbered in the order they
+// started, matched to itself. Running is yellow, waiting on you red, failed
+// red, returned green (nothing accepts a worker's return, so the header
+// counts `returned`). Undefined with no worker to show. Never the collapsed
+// band's plan bar: no plan was sent.
+export function workerPlanView(s: Snapshot): PlanView | undefined {
+  const list = shownWorkers(s.workers, s.steps?.last?.startMs, s.nowMs)
+  if (list.length === 0) return undefined
+  const rows = list.map((x, i): PlanRow => {
+    const state: PlanRowState = isActive(x) ? (x.blocked ? 'needs' : 'running') : FAILED.has(x.status) ? 'failed' : 'done'
+    const row: PlanRow = {
+      key: `w-${x.id}`,
+      kind: 'task',
+      n: i + 1,
+      title: shownText(x.label),
+      state,
+      startedMs: x.firstSeenMs,
+      worker: x,
+    }
+    if (x.endedMs !== undefined) row.finishedMs = x.endedMs
+    if (state === 'done') row.detail = 'returned'
+    if (x.steps) row.steps = { ...x.steps, ...(x.steps.note !== undefined ? { note: shownText(x.steps.note) } : {}) }
+    return row
+  })
+  return { accepted: rows.filter(r => r.state === 'done').length, total: rows.length, unit: 'returned', rows }
+}
+
+export function workerJobs(w: OvertoneWorkers | null | undefined, lastMainStartMs: number | undefined, nowMs: number): JobRow[] {
+  const shown = shownWorkers(w, lastMainStartMs, nowMs)
   return shown.map(x => {
     const state = workerState(x)
     const end = isActive(x) ? nowMs : (x.endedMs ?? nowMs)
@@ -723,6 +759,8 @@ export const SEP = '  │  '
 const DOT = ' · '
 
 export const BAR_CELLS = [10, 6, 4] as const
+// The Raster bars start at 8 columns (the approved look) and shrink with the text ones.
+export const RASTER_BAR_COLS = 8
 
 type Cells = {
   bar: number
@@ -767,23 +805,24 @@ export const sevenTone = (p: Pace | undefined): UTone => worse(paceTone(p), land
 // rest dim. Blocks (`◼`, a medium square: `■` ran solid in his font), not a solid run, so each cell reads on its own,
 // as the band-bars mock drew them; no reading, a dim `—`.
 export const BLOCK = '◼'
-function barGroup(label: string, free: number | undefined, tone: UTone, width: number): ULine {
+function barGroup(label: string, free: number | undefined, tone: UTone, width: number, raster = false): ULine {
   const g: ULine = label ? [sg(`${label} `, 'dim')] : []
   if (free === undefined) return [...g, sg('—', 'dim')]
+  if (raster) return [...g, { text: ' '.repeat(width), tone, bar: { left: Math.max(0, Math.min(100, free)) } }]
   const b = gauge(free, width)
   if (b.fill) g.push(sg(BLOCK.repeat(b.fill.length), tone))
   if (b.rest) g.push(sg(BLOCK.repeat(b.rest.length), 'dim'))
   return g
 }
 
-function buildCollapsed(s: Snapshot, cells: Cells): ULine {
+function buildCollapsed(s: Snapshot, cells: Cells, raster: boolean): ULine {
   const groups: ULine[] = []
   const c = readContext(s.reading)
-  if (cells.ctx) groups.push(barGroup(cells.ctxLabel ? 'ctx' : '', c?.percent === undefined ? undefined : 100 - c.percent, ctxTone(c?.state), cells.bar))
+  if (cells.ctx) groups.push(barGroup(cells.ctxLabel ? 'ctx' : '', c?.percent === undefined ? undefined : 100 - c.percent, ctxTone(c?.state), cells.bar, raster))
   const five = pace(limitOf(s.usage, 'five_hour'), s.nowMs, FIVE_HOUR_MS)
-  if (cells.five) groups.push(barGroup('5h', five ? 100 - five.percent : undefined, paceTone(five), cells.bar))
+  if (cells.five) groups.push(barGroup('5h', five ? 100 - five.percent : undefined, paceTone(five), cells.bar, raster))
   const seven = pace(limitOf(s.usage, 'seven_day'), s.nowMs, SEVEN_DAY_MS)
-  if (cells.seven) groups.push(barGroup('7d', seven ? 100 - seven.percent : undefined, sevenTone(seven), cells.bar))
+  if (cells.seven) groups.push(barGroup('7d', seven ? 100 - seven.percent : undefined, sevenTone(seven), cells.bar, raster))
   // The last prompt's cache hit, always (a cache alert, when one fires, says it instead).
   const alerts = alertsOf(s)
   if (cells.cache && !alerts.some(a => a.key === 'cache')) {
@@ -802,8 +841,8 @@ function buildCollapsed(s: Snapshot, cells: Cells): ULine {
 
 // The terminal draws a Button as `[ label ]`, then a two-space gap; the
 // engine draws its own `[-]` at the row's right end, which is kept free.
-export const COLLAPSED_LABEL = '▸ usage'
-export const EXPANDED_LABEL = '▾ usage'
+export const COLLAPSED_LABEL = 'expand ▾'
+export const EXPANDED_LABEL = 'collapse ▴'
 export const BUTTON_ROOM = [...COLLAPSED_LABEL].length + 4 + 2 + 4
 
 // The line never passes `room`, with one documented exception: while alerts
@@ -811,10 +850,13 @@ export const BUTTON_ROOM = [...COLLAPSED_LABEL].length + 4 + 2 + 4
 // narrower, so an alert is never hidden by the host's truncation while a
 // shorter form exists. With no alerts and no room even for a bare bar, the
 // line is empty.
-export function collapsedLine(s: Snapshot, columns: number): ULine {
+//
+// `raster`: the three bars are Raster segments (see USeg.bar), 8 columns,
+// then 6, then 4, as the text ones shrink; the rest of the line is as ever.
+export function collapsedLine(s: Snapshot, columns: number, raster = false): ULine {
   const room = Math.max(0, (isNum(columns) ? columns : 200) - BUTTON_ROOM)
   const cells: Cells = {
-    bar: BAR_CELLS[0],
+    bar: raster ? RASTER_BAR_COLS : BAR_CELLS[0],
     cache: true,
     five: true,
     seven: true,
@@ -823,11 +865,11 @@ export function collapsedLine(s: Snapshot, columns: number): ULine {
     ctxLabel: true,
     ctx: true,
   }
-  let line = buildCollapsed(s, cells)
+  let line = buildCollapsed(s, cells, raster)
   for (const step of REDUCE) {
     if (lineWidth(line) <= room) return line
     step(cells)
-    line = buildCollapsed(s, cells)
+    line = buildCollapsed(s, cells, raster)
   }
   // Every step taken: `⚠ N` alone while alerts fire (the floor), else nothing.
   return lineWidth(line) <= room || alertsOf(s).length ? line : []

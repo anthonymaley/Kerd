@@ -10,6 +10,9 @@ import {
   cells,
   fit,
   isAnimating,
+  leftBarCells,
+  leftBarPixels,
+  toneRgb,
   BAND_TITLE_MAX,
   bandLabel,
   planBand,
@@ -417,5 +420,56 @@ describe('worker text on the plan card', () => {
     expect(b.detail!.text).toBe('[31mgit push')
     const a = cardRow(row({ state: 'running', worker: worker({ activity: 'ran \u001b]0;t\u0007it‮' }) }), lay, true, 0)
     expect(BAD.test(a.detail!.text)).toBe(false)
+  })
+})
+
+describe('the band left-bars', () => {
+  test('tones take the plan colours; no tone is the grey of what is to come', () => {
+    expect([toneRgb('success'), toneRgb('warning'), toneRgb('error'), toneRgb('dim'), toneRgb('plain'), toneRgb(undefined)]).toEqual([
+      GREEN,
+      YELLOW,
+      RED,
+      GREY,
+      GREY,
+      GREY,
+    ])
+  })
+
+  test('as the approved prototype drew it: round(2 * cols * left) pixels in colour, the rest the track, both rows alike', () => {
+    const px = leftBarPixels(8, 0.79, GREEN)
+    expect(px).toHaveLength(2)
+    expect(px[0]).toEqual(px[1])
+    // round(16 * 0.79) = 13 pixels: columns 0..6 start inside them, column 7 does not
+    expect(px[0]!.slice(0, 7).every(p => p === GREEN)).toBe(true)
+    expect(px[0]![7]).not.toBe(GREEN)
+  })
+
+  test('empty, full and out-of-range left; cells are 8 solid blocks full, none in colour empty', () => {
+    expect(leftBarPixels(4, 0, RED)[0]!.every(p => p !== RED)).toBe(true)
+    expect(leftBarPixels(4, 1, RED)[0]!.every(p => p === RED)).toBe(true)
+    expect(leftBarPixels(4, 7, RED)).toEqual(leftBarPixels(4, 1, RED))
+    expect(leftBarPixels(4, -1, RED)).toEqual(leftBarPixels(4, 0, RED))
+    expect(leftBarPixels(4, NaN, RED)).toEqual(leftBarPixels(4, 0, RED))
+    expect(bytes(leftBarCells(8, 1, GREEN))).toHaveLength(8 * 3 * 4)
+    expect(firstWord(leftBarCells(8, 1, GREEN))).toBe(0x2588)
+  })
+})
+
+describe('worker rows drawn without a plan', () => {
+  test('the card header counts returned workers, and a returned row says so, not accepted', () => {
+    const row = (n: number, state: PlanRow['state'], detail?: string): PlanRow => ({
+      key: `w-${n}`,
+      kind: 'task',
+      n,
+      title: `Job ${n}`,
+      state,
+      ...(detail ? { detail } : {}),
+    })
+    const v: PlanView = { accepted: 1, total: 2, unit: 'returned', rows: [row(1, 'done', 'returned'), row(2, 'running')] }
+    const card = planCard(v, 120, true, 0)
+    expect(card.header).toBe('1 of 2 returned')
+    expect(card.rows[0]?.detail?.text).toBe('returned')
+    expect(planCard({ ...v, unit: undefined, rows: [row(1, 'done')] }, 120, true, 0).rows[0]?.detail?.text).toBe('accepted')
+    expect(planCard({ ...v, unit: undefined }, 120, true, 0).header).toBe('1 of 2 accepted')
   })
 })

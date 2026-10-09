@@ -317,13 +317,21 @@ export type PlanRow = {
   worker?: OvertoneWorker
   // The worker's own step report, when it made one.
   steps?: OvertoneStep
+  // A done row's detail where `accepted` would be wrong (a worker with no plan).
+  detail?: string
 }
 
 export type PlanTotals = { accepted: number; total: number }
 
 // `title`: the plan tool's title, when it gave one. `overflow`: tasks a host
 // tool reported past PLAN_CAP and not kept.
-export type PlanView = PlanTotals & { title?: string; overflow?: number; rows: PlanRow[] }
+export type PlanView = PlanTotals & {
+  title?: string
+  overflow?: number
+  // What the header counts: `accepted` (a plan), `returned` (workers with no plan).
+  unit?: string
+  rows: PlanRow[]
+}
 
 // accepted: tasks completed; total: tasks not deleted.
 export function planTotals(plan: OvertonePlan | null | undefined): PlanTotals {

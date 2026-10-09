@@ -64,7 +64,7 @@ import type {
 import { EMPTY_MODEL, EMPTY_WORKERS, bandText, noteList, noteListError, noteStepEnd, noteStepStart } from './logic'
 import { EMPTY_PLAN, PLAN_SPEC, STEP_SPEC, planView } from './plan-logic'
 import type { PlanView } from './plan-logic'
-import { isAnimating, planBand, planCard } from './plan-draw'
+import { isAnimating, leftBarCells, planBand, planCard, toneRgb } from './plan-draw'
 import type { CardRow, PSeg } from './plan-draw'
 import {
   BAND_ACTION,
@@ -84,6 +84,7 @@ import {
   jobColumns,
   jobTitle,
   lineWidth,
+  workerPlanView,
   noteMainStep,
   noteWorkerModel,
   noteWorkerSeen,
@@ -508,6 +509,20 @@ export const register: Register = on => {
     } catch {
       pv = undefined
     }
+    // No plan sent: the workers are drawn as a plan of their own (the same
+    // rows), never on the collapsed band.
+    let wv: PlanView | undefined
+    if (!pv) {
+      try {
+        wv = workerPlanView(s)
+        if (wv && isAnimating(wv)) {
+          fr = await read($, anim)
+          void syncer?.()
+        }
+      } catch {
+        wv = undefined
+      }
+    }
     const toggle = () => {
       void update($, view, (v: OvertoneView) => toggleView(v))
     }
@@ -521,6 +536,27 @@ export const register: Register = on => {
           </Text>
         ),
       )
+    // The band line with Raster bars: one element per segment in a row.
+    const rasterLine = (line: ULine, key: string) => (
+      <Box key={`${key}-r`} flexDirection="row">
+        <Text key={`${key}-pad`}>{'  '}</Text>
+        {line.map((sg, i) =>
+          sg.bar && Raster ? (
+            <Raster key={`${key}-${i}`} columns={sg.text.length} rows={1} cells={leftBarCells(sg.text.length, sg.bar.left / 100, toneRgb(sg.tone))} />
+          ) : (
+            <Text
+              key={`${key}-${i}`}
+              color={sg.tone ? COLOR[sg.tone] : undefined}
+              bold={sg.bold}
+              dimColor={sg.tone === 'dim' ? true : undefined}
+              wrap="truncate-end"
+            >
+              {sg.text}
+            </Text>
+          ),
+        )}
+      </Box>
+    )
     const pseg = (list: PSeg[], key: string) =>
       list.map((p, i) => (
         <Text key={`${key}-${i}`} color={p.color} bold={p.bold ? true : undefined} dimColor={p.dim ? true : undefined}>
@@ -531,7 +567,8 @@ export const register: Register = on => {
     const cols = e.props.bodyColumns
     if (!expanded) {
       // The plan takes what the usage figures leave; it shrinks, then goes.
-      const line = collapsedLine(s, cols)
+      const line = collapsedLine(s, cols, Raster !== undefined)
+      const drawn = Raster !== undefined && line.some(sg => sg.bar)
       const band = pv
         ? planBand(pv, (Number.isFinite(cols) ? cols : 200) - BUTTON_ROOM - lineWidth(line), Raster !== undefined, fr)
         : undefined
@@ -540,10 +577,14 @@ export const register: Register = on => {
           <Text key="space"> </Text>
           <Box flexDirection="row">
             <Button key="usage" label={COLLAPSED_LABEL} variant="primary" action={BAND_ACTION} onPress={toggle} />
-            <Text key="line" wrap="truncate-end">
-              {'  '}
-              {segs(line, 'c')}
-            </Text>
+            {drawn ? (
+              rasterLine(line, 'c')
+            ) : (
+              <Text key="line" wrap="truncate-end">
+                {'  '}
+                {segs(line, 'c')}
+              </Text>
+            )}
             {band ? (
               <Box key="plan" flexDirection="row">
                 <Text key="plan-sep" dimColor>
@@ -639,12 +680,13 @@ export const register: Register = on => {
     // partner requests keep their own lines beneath. The quiet count and the
     // note stay.
     let planCardEl: unknown = ''
-    if (pv && !d.jobsOff) {
+    const cardView = pv ?? wv
+    if (cardView && !d.jobsOff) {
       const partnerJobs = d.jobs.filter(j => j.kind === 'partner')
       const inner = Math.max(30, (Number.isFinite(cols) ? cols : 200) - (d.outerBorder ? 4 : 0) - (d.panelBorder ? 4 : 0))
       const room =
         e.props.maxRows - dashboardRows({ ...d, jobsOff: true }) - (d.panelBorder ? 2 : 0) - 1 - partnerJobs.length
-      const card = planCard(pv, inner, Raster !== undefined, fr, Math.max(1, room))
+      const card = planCard(cardView, inner, Raster !== undefined, fr, Math.max(1, room))
       planCardEl = (
         <Box {...frame('p-jobs')}>
           {titleRow(
@@ -684,7 +726,7 @@ export const register: Register = on => {
           </Box>
           {d.jobsOff ? (
             ''
-          ) : pv ? (
+          ) : cardView ? (
             planCardEl
           ) : d.jobs.length === 0 && d.jobsHidden === 0 ? (
             <Text key="no-jobs" wrap="truncate-end">

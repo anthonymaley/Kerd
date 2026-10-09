@@ -178,6 +178,31 @@ export function squarePixels(state: PlanRowState, frame: number): Px[][] {
 export const squareCells = (state: PlanRowState, frame: number): string => cells(squarePixels(state, frame), 2, 1)
 
 // ---------------------------------------------------------------------------
+// The band's left-bars (ctx, 5h, 7d)
+// ---------------------------------------------------------------------------
+
+// The true colour of a usage tone, the same greens, yellows and reds the plan
+// bars use; a figure with no tone (dim, plain) draws in the grey of what is
+// to come.
+export const toneRgb = (tone: 'dim' | 'plain' | 'success' | 'warning' | 'error' | undefined): number =>
+  tone === 'success' ? GREEN : tone === 'warning' ? YELLOW : tone === 'error' ? RED : GREY
+
+// A bar of what is LEFT: `cols` cells, two pixels wide each, the first
+// round(2 * cols * left) pixels in `color`, the rest the track. `left` is a
+// fraction, 0..1 (clamped); both pixel rows are alike.
+export function leftBarPixels(cols: number, left: number, color: number): Px[][] {
+  const c = Math.max(0, Math.floor(cols))
+  const f = Number.isFinite(left) ? Math.max(0, Math.min(1, left)) : 0
+  const n = Math.round(c * 2 * f)
+  const row: Px[] = []
+  for (let x = 0; x < c; x++) row.push(x * 2 < n ? color : TRACK)
+  return [row, [...row]]
+}
+
+export const leftBarCells = (cols: number, left: number, color: number): string =>
+  cells(leftBarPixels(cols, left, color), Math.max(0, Math.floor(cols)), 1)
+
+// ---------------------------------------------------------------------------
 // Text forms (no Raster)
 // ---------------------------------------------------------------------------
 
@@ -392,7 +417,7 @@ function detailOf(row: PlanRow, width: number): PSeg | undefined {
     case 'failed':
       return { text: 'failed', color: HEX.failed }
     case 'done':
-      return { text: 'accepted', dim: true }
+      return { text: row.detail ?? 'accepted', dim: true }
     case 'todo':
       return { text: 'to come', dim: true }
     case 'returned':
@@ -446,7 +471,7 @@ export function planCard(v: PlanView, inner: number, raster: boolean, frame: num
   }
   const hidden = v.rows.length - keep.length
   return {
-    header: `${v.accepted} of ${v.total} accepted${hidden > 0 ? ` · +${hidden} more` : ''}${v.overflow ? ` · ${v.overflow} over the cap not kept` : ''}`,
+    header: `${v.accepted} of ${v.total} ${v.unit ?? 'accepted'}${hidden > 0 ? ` · +${hidden} more` : ''}${v.overflow ? ` · ${v.overflow} over the cap not kept` : ''}`,
     layout,
     rows: keep.map(i => cardRow(v.rows[i]!, layout, raster, frame)),
     hidden,

@@ -139,6 +139,36 @@ const LINE = /^ {2}ctx/
 const ROW = (name: string) => new RegExp(`^▸ ${name} `)
 const squash = (t: string | undefined) => (t ?? '').trim().replace(/ {2,}/g, ' | ')
 
+// The terminal draws the band's bars (and the plan card's marks and bars) as
+// Raster; elsewhere they are text. `walk` flattens a node to text with each
+// Raster as ▰ per column; `lineOf` is the band line either way.
+type N = { type: string; props: Record<string, unknown>; text?: string; children?: (N | string)[] }
+const walk = (n: N | string): string =>
+  typeof n === 'string' ? n : n.type === 'Raster' ? '▰'.repeat(Number(n.props.columns)) : (n.children ?? []).map(walk).join('')
+type Found = { findAll(q: { type: string }): Promise<N[]>; find(q: { type: string; text?: string | RegExp }): Promise<N | undefined> }
+const boxKeyed = async (ui: Found, key: string) => (await ui.findAll({ type: 'Box' })).find(b => b.props.key === key)
+const lineOf = async (ui: Found): Promise<string | undefined> => {
+  const r = await boxKeyed(ui, 'c-r')
+  return r ? walk(r) : (await ui.find({ type: 'Text', text: LINE }))?.text
+}
+// A bar of `w` cells (10 full): Raster 8 columns on the terminal, text elsewhere.
+const bar = (surface: string, w = 10) => (surface === 'terminal' ? '▰'.repeat(w === 10 ? 8 : w) : '◼'.repeat(w))
+// A worker's one-line plan row, squashed.
+const rowOf = async (ui: Found, id: string): Promise<string | undefined> => {
+  const b = await boxKeyed(ui, `w-${id}`)
+  return b ? walk(b).trim().replace(/ +/g, ' ') : undefined
+}
+// The foreground colour of a Raster's first cell.
+const fgOf = (cells: unknown): number => {
+  const b = atob(String(cells))
+  return b.charCodeAt(4) | (b.charCodeAt(5) << 8) | (b.charCodeAt(6) << 16)
+}
+const lineRasterFgs = async (ui: Found): Promise<number[]> => {
+  const r = await boxKeyed(ui, 'c-r')
+  return ((r?.children ?? []) as (N | string)[]).filter((c): c is N => typeof c !== 'string' && c.type === 'Raster').map(c => fgOf(c.props.cells))
+}
+const C = { green: 0x5cc5a3, yellow: 0xe3b341, red: 0xd64545 }
+
 describe('band', () => {
   test('calm: one line above the prompt, bars of what is left, no key hint', async ($, on) => {
     const w = world(on)
@@ -146,10 +176,13 @@ describe('band', () => {
     await measure($, w)
     for (const surface of SURFACES) {
       const ui = await $.ui.mount({ plugin: 'overtone', surface, component: 'AbovePrompt', props: PROPS })
-      expect((await ui.find({ type: 'Text', text: LINE }))?.text).toBe('  ctx ◼◼◼◼◼◼◼◼◼◼  │  5h —  │  7d —  │  cache —')
-      expect((await ui.find({ type: 'Button' }))?.props).toMatchObject({ label: '▸ usage', action: 'app:cycleDiffBase' })
-      const coloured = (await ui.findAll({ type: 'Text' })).filter(t => t.props.color !== undefined)
-      expect(coloured.map(t => [t.text, t.props.color])).toEqual([['◼◼◼◼◼◼◼◼◼', 'success']])
+      expect(await lineOf(ui)).toBe(`  ctx ${bar(surface)}  │  5h —  │  7d —  │  cache —`)
+      expect((await ui.find({ type: 'Button' }))?.props).toMatchObject({ label: 'expand ▾', action: 'app:cycleDiffBase' })
+      if (surface === 'terminal') expect(await lineRasterFgs(ui)).toEqual([C.green])
+      else {
+        const coloured = (await ui.findAll({ type: 'Text' })).filter(t => t.props.color !== undefined)
+        expect(coloured.map(t => [t.text, t.props.color])).toEqual([['◼◼◼◼◼◼◼◼◼', 'success']])
+      }
       await ui.unmount()
     }
   })
@@ -167,11 +200,12 @@ describe('band', () => {
     await measure($, w)
     for (const surface of SURFACES) {
       const ui = await $.ui.mount({ plugin: 'overtone', surface, component: 'AbovePrompt', props: PROPS })
-      expect((await ui.find({ type: 'Text', text: LINE }))?.text).toBe('  ctx ◼◼◼◼◼◼◼◼◼◼  │  5h —  │  7d —  │  cache —')
-      const coloured = (await ui.findAll({ type: 'Text' })).filter(t => t.props.color !== undefined)
-      expect(coloured.map(t => [t.text, t.props.color])).toEqual([
-        ['◼◼', 'error'],
-      ])
+      expect(await lineOf(ui)).toBe(`  ctx ${bar(surface)}  │  5h —  │  7d —  │  cache —`)
+      if (surface === 'terminal') expect(await lineRasterFgs(ui)).toEqual([C.red])
+      else {
+        const coloured = (await ui.findAll({ type: 'Text' })).filter(t => t.props.color !== undefined)
+        expect(coloured.map(t => [t.text, t.props.color])).toEqual([['◼◼', 'error']])
+      }
       await ui.unmount()
     }
   })
@@ -187,7 +221,7 @@ describe('band', () => {
       expect(await ui.find({ type: 'Text', text: '5-hour' })).toBeUndefined()
       expect(await ui.find({ type: 'Text', text: 'Weekly' })).toBeUndefined()
       expect(await ui.find({ type: 'Text', text: /Monthly|Today|This session/ })).toBeUndefined()
-      expect((await ui.find({ type: 'Button' }))?.props).toMatchObject({ label: '▾ usage', action: 'app:cycleDiffBase' })
+      expect((await ui.find({ type: 'Button' }))?.props).toMatchObject({ label: 'collapse ▴', action: 'app:cycleDiffBase' })
       expect((await ui.find({ type: 'Text', text: /collapses$/ }))?.text).toBe('click or ctrl+x b collapses')
       expect(await ui.find({ type: 'Text', text: '▸ Workers · no jobs running' })).toBeDefined()
       // nothing needs him: no next line, no cache card
@@ -197,7 +231,7 @@ describe('band', () => {
       await ui.press({ key: 'usage' })
       await ui.unmount()
       const closed = await $.ui.mount({ plugin: 'overtone', surface, component: 'AbovePrompt', props: PROPS })
-      expect(await closed.find({ type: 'Text', text: LINE })).toBeDefined()
+      expect(await lineOf(closed)).toBeDefined()
       await closed.unmount()
     }
   })
@@ -214,9 +248,8 @@ describe('band', () => {
     }
     await measure($, w)
     const ui = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: { ...PROPS, bodyColumns: 200 } })
-    expect((await ui.find({ type: 'Text', text: LINE }))?.text).toBe('  ctx ◼◼◼◼◼◼◼◼◼◼  │  5h ◼◼◼◼◼◼◼◼◼◼  │  7d ◼◼◼◼◼◼◼◼◼◼  │  cache —')
-    const hot = (await ui.findAll({ type: 'Text' })).filter(t => t.props.color === 'warning').map(t => t.text)
-    expect(hot).toEqual(['◼◼', '◼◼◼◼◼'])
+    expect(await lineOf(ui)).toBe(`  ctx ${bar('terminal')}  │  5h ${bar('terminal')}  │  7d ${bar('terminal')}  │  cache —`)
+    expect(await lineRasterFgs(ui)).toEqual([C.green, C.yellow, C.yellow])
     await ui.unmount()
     const big = await expanded($, { bodyColumns: 150 })
     expect((await big.find({ type: 'Text', text: /^next ▸/ }))?.text).toMatch(/^next ▸ 5-hour runs out ≈ \d\d:\d\d — hold big jobs; a good point to Switch Out$/)
@@ -274,7 +307,7 @@ describe('band', () => {
     await drain($.turn.step(step()))
     await measure($, w)
     const ui = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
-    expect((await ui.find({ type: 'Text', text: LINE }))?.text).toBe('  ctx ◼◼◼◼◼◼◼◼◼◼  │  5h —  │  7d —  │  cache 44% ▼ re-sent 126k')
+    expect(await lineOf(ui)).toBe(`  ctx ${bar('terminal')}  │  5h —  │  7d —  │  cache 44% ▼ re-sent 126k`)
     expect((await ui.findAll({ type: 'Text' })).filter(t => t.props.color === 'error').map(t => t.text)).toEqual(['cache 44% ▼ re-sent 126k'])
     await ui.unmount()
     const open = await expanded($, { bodyColumns: 150, maxRows: 30 })
@@ -344,10 +377,9 @@ describe('workers', () => {
     w.now = T0 + 2 * 60_000
     for (const surface of SURFACES) {
       const ui = await expanded($, {}, surface)
-      expect((await ui.find({ type: 'Text', text: /^Workers/ }))?.text).toBe('Workers running now, asked vs saw')
-      expect(squash((await ui.find({ type: 'Text', text: /^ {2}job/ }))?.text)).toBe('job | asked | saw | elapsed | state')
-      expect(squash((await ui.find({ type: 'Text', text: ROW('Reviewer') }))?.text)).toBe('▸ Reviewer | — | — | ≥2m 00s | running')
-      expect(squash((await ui.find({ type: 'Text', text: ROW('Scout') }))?.text)).toBe('▸ Scout | — | — | ≥0s | returned, not yet checked')
+      expect((await ui.find({ type: 'Text', text: /^Workers/ }))?.text).toBe('Workers  1 of 2 returned')
+      expect(await rowOf(ui, 'a1')).toMatch(/1\. Reviewer\s.*— —$/)
+      expect(await rowOf(ui, 'a2')).toMatch(/2\. Scout\s.*— — returned$/)
       await ui.press({ key: 'usage' })
       await ui.unmount()
     }
@@ -361,6 +393,28 @@ describe('workers', () => {
     await ui.unmount()
   })
 
+  test('workers with no plan sent: the card draws them as plan rows, numbered in start order, colour by state', async ($, on) => {
+    const w = world(on)
+    w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
+    w.agents = [
+      { id: 'a1', description: 'Reviewer', type: 'Explore', status: 'running' },
+      { id: 'a2', description: 'Scout', type: 'Explore', status: 'completed' },
+    ]
+    await measure($, w)
+    const band = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
+    // no plan was sent: no plan bar on the collapsed band
+    expect(await band.find({ type: 'Text', text: / of 2$/ })).toBeUndefined()
+    expect(await band.find({ type: 'Text', text: /^(plan|workers) $/ })).toBeUndefined()
+    await band.unmount()
+    const ui = await expanded($)
+    expect((await ui.find({ type: 'Text', text: /^Workers/ }))?.text).toBe('Workers  1 of 2 returned')
+    const scout = await boxKeyed(ui, 'w-a2')
+    const marks = ((scout?.children ?? []) as (N | string)[]).filter((c): c is N => typeof c !== 'string' && c.type === 'Raster')
+    // the returned worker's square is solid green
+    expect(fgOf(marks[0]?.props.cells)).toBe(C.green)
+    await ui.unmount()
+  })
+
   test('a spawn and its requests: asked vs saw, activity; a permission ask holds it', async ($, on) => {
     const w = world(on)
     w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
@@ -371,7 +425,7 @@ describe('workers', () => {
     on('tool.call', async (_inner, e) => {
       ask = await $.tool.check({ tool: e.tool, input: {}, tool_use_id: e.tool_use_id } as never)
       const ui = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
-      seenWhileWaiting = (await ui.findAll({ type: 'Text' })).map(t => squash(t.text))
+      seenWhileWaiting = [...(await ui.findAll({ type: 'Text' })).map(t => squash(t.text)), (await rowOf(ui, 's1')) ?? '']
       await ui.unmount()
       return { result: 'ok' } as never
     })
@@ -385,12 +439,10 @@ describe('workers', () => {
     const call = await $.tool.call({ tool: 'Read', file_path: '/a/b/hooks.ts', agentId: 's1', tool_use_id: 'u1' } as never)
     expect(call).toMatchObject({ result: 'ok' })
     expect(ask).toMatchObject({ decision: 'ask' })
-    expect(seenWhileWaiting).toContain('▸ Reviewer · Read hooks.ts | Sonnet · high | Sonnet 5.5 | 0s | waiting on you')
+    expect(seenWhileWaiting).toContain('▰▰1. Reviewer ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰Sonnet 5.5 high Read hooks.ts')
     expect(seenWhileWaiting).toContain('next ▸ The Reviewer — waits on a permission prompt')
     const ui = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
-    expect(squash((await ui.find({ type: 'Text', text: ROW('Reviewer') }))?.text)).toBe(
-      '▸ Reviewer | Sonnet · high | Sonnet 5.5 | 0s | ✓ matches',
-    )
+    expect(await rowOf(ui, 's1')).toMatch(/^▰*1\. Reviewer\b/)
     await ui.unmount()
   })
 
@@ -415,12 +467,15 @@ describe('workers', () => {
     await measure($, w)
     const rows = async () => {
       const ui = await expanded($)
-      const texts = (await ui.findAll({ type: 'Text' })).map(t => squash(t.text))
+      const texts = (await ui.findAll({ type: 'Box' }))
+        .filter(b => String(b.props.key).startsWith('w-'))
+        .map(b => walk(b).trim().replace(/ +/g, ' '))
       await ui.press({ key: 'usage' })
       await ui.unmount()
       return texts
     }
-    expect((await rows()).filter(t => t.startsWith('▸ ')).map(t => t.split(' | ')[0])).toEqual(['▸ Parent', '▸ Child', '▸ agent h1', '▸ agent h2'])
+    const names = (rs: string[]) => rs.map(t => /^▰*(\d+\. (?:agent h\d|\w+))/.exec(t)?.[1])
+    expect(names(await rows())).toEqual(['1. Parent', '2. Child', '3. agent h1', '4. agent h2'])
     // the parent returns; the list (read first) no longer shows its helper as alive
     w.agents = [
       { id: 'p1', description: 'Parent', type: 'Explore', status: 'completed' },
@@ -432,9 +487,9 @@ describe('workers', () => {
     await $.turn.complete(done())
     // the ones the list says returned show so (until the main loop steps); the child inferred over is
     // not claimed as returned; none is running
-    const after = (await rows()).filter(t => t.startsWith('▸ ') && t.includes(' | '))
-    expect(after.map(t => t.split(' | ')[0])).toEqual(['▸ Parent', '▸ agent h1', '▸ agent h2'])
-    expect(after.every(t => t.endsWith('returned, not yet checked'))).toBe(true)
+    const after = await rows()
+    expect(names(after)).toEqual(['1. Parent', '2. agent h1', '3. agent h2'])
+    expect(after.every(t => t.endsWith('returned'))).toBe(true)
   })
 
   test('a worker the list does not name goes quiet after ten minutes: counted apart, not running, not done', async ($, on) => {
@@ -447,7 +502,7 @@ describe('workers', () => {
     await measure($, w)
     w.now = T0 + 9 * 60_000
     let ui = await expanded($)
-    expect(squash((await ui.find({ type: 'Text', text: ROW('agent h9') }))?.text)).toMatch(/^▸ agent h9 \| .* \| running$/)
+    expect(await rowOf(ui, 'h9')).toMatch(/^▰*1\. agent h9\b/)
     await ui.press({ key: 'usage' })
     await ui.unmount()
     w.now = T0 + 11 * 60_000
@@ -459,7 +514,7 @@ describe('workers', () => {
     await ui.unmount()
     await $.tool.call({ tool: 'Read', file_path: '/a/c.ts', agentId: 'h9', tool_use_id: 'u2' } as never)
     ui = await expanded($)
-    expect(squash((await ui.find({ type: 'Text', text: ROW('agent h9') }))?.text)).toMatch(/running$/)
+    expect(await rowOf(ui, 'h9')).toMatch(/^▰*1\. agent h9\b/)
     await ui.press({ key: 'usage' })
     await ui.unmount()
   })
@@ -472,12 +527,13 @@ describe('workers', () => {
     await $.agent.spawn({ prompt: 'Build.', description: 'Builder', subagentType: 'general-purpose', model: 'opus' } as never)
     await drain($.turn.step(step({ agentId: 'b1', model: 'claude-sonnet-5-5', effort: 'high' })))
     const ui = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
-    expect((await ui.find({ type: 'Text', text: LINE }))?.text).toBe('  ctx ◼◼◼◼◼◼◼◼◼◼  │  5h —  │  7d —  │  cache —  │  worker on sonnet, asked opus')
+    expect(await lineOf(ui)).toBe(`  ctx ${bar('terminal')}  │  5h —  │  7d —  │  cache —  │  worker on sonnet, asked opus`)
     await ui.unmount()
     const open = await expanded($)
-    expect(squash((await open.find({ type: 'Text', text: ROW('Builder') }))?.text)).toBe('▸ Builder | Opus | Sonnet 5.5 | 0s | ▼ wrong model · sent Sonnet 5.5 · high')
-    const red = (await open.findAll({ type: 'Text' })).filter(t => t.props.color === 'error').map(t => t.text.trim())
-    expect(red).toEqual(expect.arrayContaining(['Sonnet 5.5', '▼ wrong model']))
+    expect(await rowOf(open, 'b1')).toMatch(/^▰*1\. Builder\b.*Sonnet 5\.5 high$/)
+    // the model the worker is not meant to be on shows red in its row
+    const red = (await open.findAll({ type: 'Text' })).filter(t => t.props.color === '#D64545').map(t => t.text.trim())
+    expect(red).toEqual(expect.arrayContaining(['Sonnet 5.5']))
     expect((await open.find({ type: 'Text', text: /^next ▸/ }))?.text).toBe('next ▸ The Builder — is on the wrong model')
     await open.unmount()
   })
@@ -541,8 +597,7 @@ describe('workers', () => {
       component: 'AbovePrompt',
       props: { ...PROPS, bodyColumns: 40 },
     })
-    const lines = (await ui.findAll({ type: 'Text', text: LINE })).map(t => t.text)
-    expect(lines).toEqual(['  ctx ◼◼◼◼  │  5h ◼◼◼◼'])
+    expect(await lineOf(ui)).toBe('  ctx ▰▰▰▰  │  5h ▰▰▰▰')
     await ui.unmount()
   })
 
@@ -636,7 +691,7 @@ describe('what Claude and Switch Out see', () => {
     await clock.settle()
     expect(w.runs.filter(r => r[0] === 'git')).toEqual([['git', 'rev-parse', '--path-format=absolute', '--git-path', 'kerd-agent']])
     const ui = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
-    expect((await ui.find({ type: 'Text', text: LINE }))?.text).toBe('  ctx ◼◼◼◼◼◼◼◼◼◼  │  5h —  │  7d —  │  cache —  │  codex-partner waiting 14m')
+    expect(await lineOf(ui)).toBe(`  ctx ${bar('terminal')}  │  5h —  │  7d —  │  cache —  │  codex-partner waiting 14m`)
     await ui.unmount()
     const open = await expanded($, { bodyColumns: 150 })
     expect(squash((await open.find({ type: 'Text', text: /^▸ codex-partner .*review/ }))?.text)).toBe(
@@ -724,7 +779,7 @@ describe('plan state and the step tool', () => {
     expect(await band.find({ type: 'Text', text: 'plan ' })).toBeDefined()
     expect(await band.find({ type: 'Text', text: ' 1 of 2' })).toBeDefined()
     expect(await band.find({ type: 'Raster' })).toBeDefined()
-    expect(await band.find({ type: 'Text', text: LINE })).toBeDefined()
+    expect(await lineOf(band)).toBeDefined()
     await band.unmount()
     for (const surface of SURFACES) {
       const ui = await expanded($, {}, surface)

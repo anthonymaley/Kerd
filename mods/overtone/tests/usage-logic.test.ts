@@ -6,6 +6,8 @@ import {
   BAND_ACTION,
   BAND_CHORD,
   BUTTON_ROOM,
+  COLLAPSED_LABEL,
+  EXPANDED_LABEL,
   EMPTY_STEPS,
   alertsOf,
   aliasMap,
@@ -45,6 +47,7 @@ import {
   snapshotJson,
   toggleView,
   usageText,
+  workerPlanView,
 } from '../hooks/usage-logic'
 import type { Snapshot } from '../hooks/usage-logic'
 
@@ -222,15 +225,15 @@ describe('collapsed line', () => {
   test('narrow: bars shrink 10 → 6 → 4 before any group goes; never past its room; ctx stays', () => {
     const at = (cols: number) => lineText(collapsedLine(snap(), cols))
     for (let cols = 200; cols >= 25; cols--) expect(lineWidth(collapsedLine(snap(), cols))).toBeLessThanOrEqual(cols - BUTTON_ROOM)
-    expect(at(81)).toBe(`ctx ${B(8)}  │  5h ${B(9)}  │  7d ${B(2)}  │  cache 98%`)
-    expect(at(80)).toBe(`ctx ${B(5, 6)}  │  5h ${B(5, 6)}  │  7d ${B(1, 6)}  │  cache 98%`)
-    expect(at(68)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}  │  7d ${B(1, 4)}  │  cache 98%`)
-    expect(at(62)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}  │  7d ${B(1, 4)}`)
-    expect(at(48)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}`)
-    expect(at(36)).toBe(`ctx ${B(3, 4)}`)
+    expect(at(82)).toBe(`ctx ${B(8)}  │  5h ${B(9)}  │  7d ${B(2)}  │  cache 98%`)
+    expect(at(81)).toBe(`ctx ${B(5, 6)}  │  5h ${B(5, 6)}  │  7d ${B(1, 6)}  │  cache 98%`)
+    expect(at(69)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}  │  7d ${B(1, 4)}  │  cache 98%`)
+    expect(at(63)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}  │  7d ${B(1, 4)}`)
+    expect(at(49)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}`)
+    expect(at(37)).toBe(`ctx ${B(3, 4)}`)
     // an alert stays: short wording while it fits, else folded into ⚠ N
-    expect(lineText(collapsedLine(snap({ steps: COLD }), 41))).toBe(`ctx ${B(3, 4)}  │  cache 44% ▼`)
-    expect(lineText(collapsedLine(snap({ steps: COLD }), 40))).toBe(`ctx ${B(3, 4)}  │  ⚠ 1`)
+    expect(lineText(collapsedLine(snap({ steps: COLD }), 42))).toBe(`ctx ${B(3, 4)}  │  cache 44% ▼`)
+    expect(lineText(collapsedLine(snap({ steps: COLD }), 41))).toBe(`ctx ${B(3, 4)}  │  ⚠ 1`)
   })
 
   // Three alerts firing: the cold cache, a worker on the wrong model, a partner waiting.
@@ -243,11 +246,11 @@ describe('collapsed line', () => {
   test('alerts never hidden: short wording, then one red ⚠ N, then the ctx label and bar go; ⚠ N is the floor', () => {
     const at = (cols: number) => lineText(collapsedLine(ALERTS3, cols))
     expect(alertsOf(ALERTS3).map(a => a.short)).toEqual(['cache 44% ▼', 'wrong model', 'codex-partner 14m'])
-    // 40 columns: the short wording has no room, so ⚠ 3 stands for all three
-    expect(at(40)).toBe(`ctx ${B(3, 4)}  │  ⚠ 3`)
-    expect(collapsedLine(ALERTS3, 40).at(-1)).toEqual({ text: alertMark(3), tone: 'error', bold: true })
-    expect(at(29)).toBe(`${B(3, 4)}  │  ⚠ 3`)
-    expect(at(20)).toBe('⚠ 3')
+    // 41 columns: the short wording has no room, so ⚠ 3 stands for all three
+    expect(at(41)).toBe(`ctx ${B(3, 4)}  │  ⚠ 3`)
+    expect(collapsedLine(ALERTS3, 41).at(-1)).toEqual({ text: alertMark(3), tone: 'error', bold: true })
+    expect(at(30)).toBe(`${B(3, 4)}  │  ⚠ 3`)
+    expect(at(21)).toBe('⚠ 3')
     // below the floor: ⚠ 3 still, the one documented case past the room
     expect(at(8)).toBe('⚠ 3')
     expect(at(0)).toBe('⚠ 3')
@@ -268,8 +271,8 @@ describe('collapsed line', () => {
 
   test('no alerts at tiny widths: the ctx bar alone, then the bare bar, then an empty line', () => {
     const at = (cols: number) => lineText(collapsedLine(snap(), cols))
-    expect(at(25)).toBe(`ctx ${B(3, 4)}`)
-    expect(at(21)).toBe(B(3, 4))
+    expect(at(26)).toBe(`ctx ${B(3, 4)}`)
+    expect(at(22)).toBe(B(3, 4))
     expect(collapsedLine(snap(), 20)).toEqual([])
     expect(collapsedLine(snap(), 0)).toEqual([])
   })
@@ -278,6 +281,102 @@ describe('collapsed line', () => {
     expect(toggleView(undefined)).toEqual({ expanded: true })
     expect(toggleView({ expanded: true })).toEqual({ expanded: false })
     expect([BAND_ACTION, BAND_CHORD]).toEqual(['app:cycleDiffBase', 'ctrl+x b'])
+  })
+})
+
+describe('collapsed line with Raster bars', () => {
+  const bars = (line: ReturnType<typeof collapsedLine>) => line.filter(g => g.bar)
+
+  test('the fold button says expand / collapse, and the room it takes follows', () => {
+    expect([COLLAPSED_LABEL, EXPANDED_LABEL]).toEqual(['expand ▾', 'collapse ▴'])
+    expect(BUTTON_ROOM).toBe([...COLLAPSED_LABEL].length + 4 + 2 + 4)
+  })
+
+  test('three 8-column bars of what is left, in the tone each figure has; labels, cache and alerts as ever', () => {
+    const line = collapsedLine(snap(), 220, true)
+    expect(bars(line).map(g => [g.text.length, g.bar?.left, g.tone])).toEqual([
+      [8, 79, 'warning'],
+      [8, 85, 'success'],
+      [8, 15, 'warning'],
+    ])
+    expect(lineText(line)).toBe(`ctx ${' '.repeat(8)}  │  5h ${' '.repeat(8)}  │  7d ${' '.repeat(8)}  │  cache 98%`)
+    const hot = collapsedLine(snap({ steps: COLD }), 220, true)
+    expect(hot.at(-1)).toEqual({ text: 'cache 44% ▼ re-sent 126k', tone: 'error', bold: true })
+  })
+
+  test('no reading: a dim dash, not a bar', () => {
+    const line = collapsedLine(snap({ usage: null }), 220, true)
+    expect(bars(line)).toHaveLength(1)
+    expect(lineText(line)).toBe(`ctx ${' '.repeat(8)}  │  5h —  │  7d —  │  cache 98%`)
+  })
+
+  test('the width budget counts the bars: never past the room, same reduction order, 8 → 6 → 4', () => {
+    for (let cols = 200; cols >= 25; cols--) {
+      expect(lineWidth(collapsedLine(snap(), cols, true))).toBeLessThanOrEqual(cols - BUTTON_ROOM)
+      expect(lineWidth(collapsedLine(ALERTS_R, cols, true))).toBeLessThanOrEqual(Math.max(cols - BUTTON_ROOM, lineWidth(collapsedLine(ALERTS_R, 0, true))))
+    }
+    const widths = (cols: number) => bars(collapsedLine(snap(), cols, true)).map(g => g.text.length)
+    expect(widths(100)).toEqual([8, 8, 8])
+    expect(widths(70)).toEqual([6, 6, 6])
+    expect(widths(60)).toEqual([4, 4, 4])
+    expect(widths(49)).toEqual([4, 4])
+    expect(widths(37)).toEqual([4])
+  })
+
+  const ALERTS_R = snap({
+    steps: COLD,
+    workers: { byId: { b: worker({ id: 'b', label: 'Builder', asked: 'opus', seen: 'claude-sonnet-5-5' }) } },
+  })
+
+  test('off the terminal: the text line, exactly as before (no bar segments)', () => {
+    expect(bars(collapsedLine(snap(), 220))).toHaveLength(0)
+    expect(lineText(collapsedLine(snap(), 220, false))).toBe(lineText(collapsedLine(snap(), 220)))
+  })
+})
+
+describe('workers drawn as a plan of their own', () => {
+  const jobs = (extra: Record<string, OvertoneWorker>) => snap({ workers: { byId: extra } })
+
+  test('none to show: no view', () => {
+    expect(workerPlanView(snap())).toBeUndefined()
+  })
+
+  test('one task per worker in start order, numbered, matched to itself; colour by state', () => {
+    const v = workerPlanView(
+      jobs({
+        c: worker({ id: 'c', label: 'Third', firstSeenMs: T0 - 1_000 }),
+        a: worker({ id: 'a', label: 'First', firstSeenMs: T0 - 3_000, status: 'completed', endedMs: T0 - 500 }),
+        b: worker({ id: 'b', label: 'Second', firstSeenMs: T0 - 2_000, blocked: { what: 'wants to run ls', sinceMs: T0 - 100, toolUseId: 'u' } }),
+        d: worker({ id: 'd', label: 'Fourth', firstSeenMs: T0 - 500, status: 'failed', endedMs: T0 - 100 }),
+      }),
+    )
+    expect(v?.rows.map(r => [r.n, r.title, r.state, r.kind, r.worker?.id])).toEqual([
+      [1, 'First', 'done', 'task', 'a'],
+      [2, 'Second', 'needs', 'task', 'b'],
+      [3, 'Third', 'running', 'task', 'c'],
+      [4, 'Fourth', 'failed', 'task', 'd'],
+    ])
+    expect([v?.accepted, v?.total, v?.unit]).toEqual([1, 4, 'returned'])
+    expect(v?.rows[0]?.detail).toBe('returned')
+  })
+
+  test('a worker with no steps keeps no steps; one that reported carries them', () => {
+    const v = workerPlanView(
+      jobs({
+        a: worker({ id: 'a', firstSeenMs: T0 - 2_000 }),
+        b: worker({ id: 'b', firstSeenMs: T0 - 1_000, steps: { done: 2, total: 5, note: 'read it', atMs: T0 } }),
+      }),
+    )
+    expect(v?.rows[0]?.steps).toBeUndefined()
+    expect(v?.rows[1]?.steps).toMatchObject({ done: 2, total: 5, note: 'read it' })
+  })
+
+  test('the same workers as the old job list shows: quiet ones and ones returned before the main loop stepped are left out', () => {
+    const s = jobs({
+      a: worker({ id: 'a', status: 'completed', endedMs: T0 - 10 * H }),
+      b: worker({ id: 'b' }),
+    })
+    expect(workerPlanView(s)?.rows.map(r => r.worker?.id)).toEqual(jobsOf(s).filter(j => j.kind === 'worker').map(j => j.key.slice(2)))
   })
 })
 
