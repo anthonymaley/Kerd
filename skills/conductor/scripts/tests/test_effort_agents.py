@@ -200,6 +200,7 @@ class DispatchContractTests(unittest.TestCase):
 
 
 MODELS = ("sonnet", "opus", "fable")
+HAIKU_LEVELS = ("low", "medium", "high")
 
 
 class ModelEffortAgentDefinitionTests(unittest.TestCase):
@@ -208,12 +209,14 @@ class ModelEffortAgentDefinitionTests(unittest.TestCase):
 
     def test_every_model_and_effort_pair_has_one_definition(self):
         found = sorted(p.stem for p in AGENTS_DIR.glob("*.md") if not p.stem.startswith("effort-"))
-        expected = sorted([f"{model}-{level}" for model in MODELS for level in LEVELS] + ["haiku"])
+        expected = sorted([f"{model}-{level}" for model in MODELS for level in LEVELS]
+                          + [f"haiku-{level}" for level in HAIKU_LEVELS] + ["haiku"])
         self.assertEqual(found, expected)
 
     def test_each_definition_sets_the_model_and_effort_its_name_carries(self):
-        for model in MODELS:
-            for level in LEVELS:
+        pairs = [(m, l) for m in MODELS for l in LEVELS] + [("haiku", l) for l in HAIKU_LEVELS]
+        for model, level in pairs:
+            if True:
                 path = AGENTS_DIR / f"{model}-{level}.md"
                 with self.subTest(agent=path.stem):
                     fields, body = parse_frontmatter(path.read_text(encoding="utf-8"))
@@ -255,15 +258,28 @@ class ModelEffortAgentDefinitionTests(unittest.TestCase):
                 self.assertIn(mentions.get(rel, "<model>-<effort>"), text)
                 self.assertIn("kerd:haiku", text, f"{rel}: names the model agents without the Haiku exception")
 
-    def test_haiku_names_no_effort_because_it_takes_none(self):
+    def test_plain_haiku_sets_no_effort_and_says_it_is_the_legacy_route(self):
         path = AGENTS_DIR / "haiku.md"
         fields, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+        description = fields.get("description", "")
         self.assertEqual(fields.get("name"), "haiku")
         self.assertEqual(fields.get("model"), "haiku")
-        self.assertNotIn("effort", fields, "Haiku takes no effort setting, so the name must not claim one")
-        self.assertIn("explicitly selects kerd:haiku", fields.get("description", ""))
-        self.assertNotIn(": ", fields.get("description", ""))
+        self.assertNotIn("effort", fields, "plain haiku is the route with no effort set")
+        self.assertIn("explicitly selects kerd:haiku ", description)
+        self.assertIn("no effort set", description)
+        self.assertIn("predate kerd:haiku-low", description)
+        self.assertIn("defaults to medium", description)
+        self.assertIn("unconfirmed", description)
+        self.assertNotIn("takes no effort setting", description)
+        self.assertLessEqual(len(description), 1024)
+        self.assertNotIn("<", description)
+        self.assertNotIn(">", description)
+        self.assertNotIn(": ", description)
         self.assertIn("Follow the brief", body)
+
+    def test_haiku_has_no_xhigh_or_max_agent(self):
+        for level in ("xhigh", "max"):
+            self.assertFalse((AGENTS_DIR / f"haiku-{level}.md").exists())
 
 
 if __name__ == "__main__":
