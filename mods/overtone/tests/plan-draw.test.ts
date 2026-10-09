@@ -232,6 +232,16 @@ describe('card rows', () => {
     expect(sonnet.effort!.text.trim()).toBe('medium')
   })
 
+  test('Sonnet asked at high but Haiku answering keeps the asked effort when none was sent', () => {
+    const c = cardRow(
+      row({ state: 'running', worker: worker({ asked: 'sonnet', askedEffort: 'high', seen: 'claude-haiku-5-5' }) }),
+      lay,
+      true,
+      0,
+    )
+    expect(c.effort!.text.trim()).toBe('high')
+  })
+
   test('model and effort show what was seen; a different ask shows red', () => {
     const ok = cardRow(
       row({ state: 'running', worker: worker({ asked: 'sonnet', seen: 'claude-sonnet-5-5', askedEffort: 'medium', effort: 'medium' }) }),

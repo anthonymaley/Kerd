@@ -450,7 +450,10 @@ export function noteMode(
   const old = prev.byId[id]
   const mode = m.own || m.parent
   if (!old || !mode) return prev
-  return { ...prev, byId: { ...prev.byId, [id]: { ...old, permissionMode: mode } } }
+  const next: OvertoneWorker = { ...old, permissionMode: mode }
+  // learned late: an ask already recorded was never put to a person
+  if (NO_PERSON_MODES.has(mode)) delete next.blocked
+  return { ...prev, byId: { ...prev.byId, [id]: next } }
 }
 
 // A permission ask on a call a worker is making: that worker is blocked

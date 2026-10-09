@@ -437,6 +437,21 @@ describe('jobs', () => {
     expect(sentNote(base)).toBeUndefined()
   })
 
+  test('Haiku effort is never shown as sent; the asked effort follows the requested model only', () => {
+    const base = worker({ id: 'a' })
+    expect(sentNote({ ...base, asked: 'haiku', model: 'claude-haiku-5-5', effort: 'medium' })).toBeUndefined()
+    expect(sentNote({ ...base, asked: 'opus', model: 'claude-haiku-5-5', effort: 'high' })).toBe('sent Haiku 5.5')
+    const w: OvertoneWorkers = {
+      byId: {
+        s: worker({ id: 's', asked: 'sonnet', askedEffort: 'high', seen: 'claude-haiku-5-5', model: 'claude-haiku-5-5' }),
+        h: worker({ id: 'h', asked: 'haiku', askedEffort: 'medium' }),
+      },
+    }
+    const rows = jobsOf(snap({ workers: w }))
+    expect(rows.find(r => r.key === 'w-s')?.asked).toBe('Sonnet · high')
+    expect(rows.find(r => r.key === 'w-h')?.asked).not.toContain('medium')
+  })
+
   test('no response yet: running, saw —, never "matches" before the API answers', () => {
     let w: OvertoneWorkers = { byId: { a: worker({ id: 'a', label: 'A' }) } }
     w = noteAsked(w, 'a', { type: 'kerd:sonnet-high' })

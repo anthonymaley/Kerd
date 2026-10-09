@@ -441,7 +441,9 @@ export function sentNote(x: OvertoneWorker): string | undefined {
   const parts: string[] = []
   const asked = askedModel(x)
   if (x.model && (!asked || compareModels(asked, x.model) === 'mismatch')) parts.push(prettyModel(x.model))
-  if (x.effort !== undefined && (parts.length > 0 || String(x.effort) !== askedEffort(x))) parts.push(shownText(String(x.effort)))
+  // Haiku takes no effort setting: whatever the request carried is not shown
+  const sentIsHaiku = /haiku/i.test(x.model ?? x.seen ?? asked ?? '')
+  if (x.effort !== undefined && !sentIsHaiku && (parts.length > 0 || String(x.effort) !== askedEffort(x))) parts.push(shownText(String(x.effort)))
   return parts.length > 0 ? `sent ${parts.join(' · ')}` : undefined
 }
 
@@ -477,7 +479,7 @@ export function workerJobs(w: OvertoneWorkers | null | undefined, lastMainStartM
       // The task, what it waits on and its activity are model-written.
       job: shownText(x.label),
       doing: shownText(x.blocked ? x.blocked.what : !isActive(x) ? 'returned' : (x.activity ?? 'started')),
-      asked: withEffort(askedModel(x), /haiku/i.test(x.seen ?? x.model ?? askedModel(x) ?? '') ? undefined : askedEffort(x)),
+      asked: withEffort(askedModel(x), /haiku/i.test(askedModel(x) ?? '') ? undefined : askedEffort(x)),
       saw: x.seen ? prettyModel(x.seen) : '—',
       elapsed: `${x.fromSpawn ? '' : '≥'}${fmtElapsed(end - x.firstSeenMs)}`,
       state,

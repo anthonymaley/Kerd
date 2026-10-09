@@ -199,6 +199,15 @@ describe('workers', () => {
     expect(ask({ own: 'auto', parent: 'default' }).byId.a0?.blocked).toBeUndefined()
   })
 
+  test('learning a no-person mode after an ask clears the blocked mark', () => {
+    let w = running(1)
+    w = noteToolStart(w, { agentId: 'a0', toolUseId: 'u1', summary: 'Bash sleep 120', nowMs: T0 })
+    w = noteAsk(w, { toolUseId: 'u1', nowMs: T0 })
+    expect(w.byId.a0?.blocked).toBeDefined()
+    expect(noteMode(w, 'a0', { parent: 'default' }).byId.a0?.blocked).toBeDefined()
+    expect(noteMode(w, 'a0', { parent: 'auto' }).byId.a0?.blocked).toBeUndefined()
+  })
+
   test('a permission ask blocks its worker until the call settles', () => {
     let w = running(1)
     w = noteToolStart(w, { agentId: 'a0', toolUseId: 'u9', summary: 'Bash git push origin main', nowMs: T0 })
