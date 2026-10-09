@@ -698,7 +698,8 @@ export type Next = { lead: string; rest: string; tone: UTone }
 
 type Part = { lead: string; rest: string; tone: UTone; second: string }
 
-export function nextNote(s: Snapshot): Next | undefined {
+// `skipModel`: leave the main-model mismatch out (the band line shows it).
+export function nextNote(s: Snapshot, skipModel = false): Next | undefined {
   const c = readContext(s.reading)
   const five = pace(limitOf(s.usage, 'five_hour'), s.nowMs, FIVE_HOUR_MS)
   const seven = pace(limitOf(s.usage, 'seven_day'), s.nowMs, SEVEN_DAY_MS)
@@ -728,8 +729,8 @@ export function nextNote(s: Snapshot): Next | undefined {
     parts.push({ lead: `The ${j.job}`, rest: `is on the ${j.state}`, tone: 'error', second: t })
   }
   const mm = s.model ?? EMPTY_MODEL
-  if (compareModels(mm.asked, mm.seen) === 'mismatch') {
-    // The band line carries it too, but folds it into `⚠ N` when narrow.
+  if (!skipModel && compareModels(mm.asked, mm.seen) === 'mismatch') {
+    // Named here only when the band line has folded it into `⚠ N` (or dropped it).
     const t = `asked ${prettyModel(mm.asked)} ≠ seen`
     parts.push({ lead: t, rest: 'this session is not on the model you asked for', tone: 'error', second: t })
   }
@@ -1088,7 +1089,8 @@ export function dashboardRows(
 // `cardRows`: the plan rows of the Workers card the view will draw, when it
 // draws one; the budget then counts that card (frame, title, visible rows)
 // instead of the job table.
-export function dashboard(s: Snapshot, columns: number, maxRows: number = Infinity, cardRows?: number): Dashboard {
+// `raster`: the band line draws Raster bars (their width decides what folds).
+export function dashboard(s: Snapshot, columns: number, maxRows: number = Infinity, cardRows?: number, raster = false): Dashboard {
   const perRow = perRowFor(columns)
   const inner = (isNum(columns) ? columns : 200) - 4
   const panelWidth = Math.max(24, Math.floor((inner - (perRow - 1)) / perRow))
@@ -1122,7 +1124,13 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
   if (quiet > 0) d.jobsQuiet = quiet
   const cache = cacheCard(s)
   if (cache) d.cache = cache
-  const n = nextNote(s)
+  // Nothing repeats what is on screen: the mismatch goes on the next line
+  // only when the band line did not keep it in full.
+  const mm = s.model ?? EMPTY_MODEL
+  const onLine =
+    compareModels(mm.asked, mm.seen) === 'mismatch' &&
+    lineText(collapsedLine(s, columns, raster)).includes(`asked ${prettyModel(mm.asked)} ≠ seen`)
+  const n = nextNote(s, onLine)
   if (n) d.next = n
   // Workers come first: on a band short of rows the cache card shrinks to its first line and then goes (the line still
   // shows the cache in red), then the next line; only then do jobs fold, and

@@ -625,7 +625,7 @@ export const register: Register = on => {
       )
     }
     const cardView = pv ?? wv
-    const d = dashboard(s, cols, e.props.maxRows, cardView?.rows.length)
+    const d = dashboard(s, cols, e.props.maxRows, cardView?.rows.length, Raster !== undefined)
     const frame = (key: string, tone?: UTone) => ({
       key,
       flexDirection: 'column' as const,

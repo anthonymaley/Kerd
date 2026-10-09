@@ -790,6 +790,10 @@ describe('the dashboard', () => {
     // 40 columns: folded into ⚠ 1 on the line, named in the dashboard
     expect(lineText(collapsedLine(wrong, 40))).toContain('⚠ 1')
     expect(nextText(dashboard(wrong, 40).next as never)).toContain('asked Opus 4.7 ≠ seen')
+    // wide: the band line has it in full, so the next line does not repeat it
+    expect(lineText(collapsedLine(wrong, 200))).toContain('asked Opus 4.7 ≠ seen')
+    expect(nextText(dashboard(wrong, 200).next as never)).not.toContain('≠ seen')
+    expect(dashboard({ ...wrong, reading: undefined }, 200).next).toBeUndefined()
   })
 
   test('every height from 1 to 12, 0 to 8 workers, blocked or not: within the rows, no job folded that would fit', () => {

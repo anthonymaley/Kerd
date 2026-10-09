@@ -365,10 +365,17 @@ describe('model row', () => {
     await folded.unmount()
     const open = await expanded($)
     const [oa, ...orest] = await alertOf(open)
-    expect(orest).toHaveLength(1)
+    // wide: once, in the band; the next line does not repeat it
+    expect(orest).toHaveLength(0)
     expect(oa?.props).toMatchObject({ color: 'error', bold: true })
     await open.press({ key: 'usage' })
     await open.unmount()
+    // 40 columns: the band folds it into ⚠ 1, the next line names it
+    const narrow = await expanded($, { bodyColumns: 40 })
+    expect(await alertOf(narrow)).toHaveLength(1)
+    expect((await narrow.find({ type: 'Text', text: /^⚠ 1$/ }))?.props.color).toBe('error')
+    await narrow.press({ key: 'usage' })
+    await narrow.unmount()
   })
 
   test('subagent steps are excluded: they name their own model', async ($, on) => {
