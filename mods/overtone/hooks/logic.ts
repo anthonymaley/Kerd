@@ -436,12 +436,31 @@ export function noteToolEnd(
   return { ...prev, byId: { ...prev.byId, [t.agentId]: next } }
 }
 
+// Modes whose decider is not a person: an `ask` verdict there is settled by
+// the auto-mode classifier or a rule, so nothing waits on anyone.
+const NO_PERSON_MODES = new Set(['auto', 'dontAsk', 'bypassPermissions'])
+
+// The mode a worker runs under: the spawn call's own, else the parent's.
+export function noteMode(
+  w: OvertoneWorkers | null | undefined,
+  id: string,
+  m: { own?: string; parent?: string },
+): OvertoneWorkers {
+  const prev = ws(w)
+  const old = prev.byId[id]
+  const mode = m.own || m.parent
+  if (!old || !mode) return prev
+  return { ...prev, byId: { ...prev.byId, [id]: { ...old, permissionMode: mode } } }
+}
+
 // A permission ask on a call a worker is making: that worker is blocked
 // until the call settles. Calls no worker made change nothing.
 export function noteAsk(w: OvertoneWorkers | null | undefined, a: { toolUseId: string; nowMs: number }): OvertoneWorkers {
   const prev = ws(w)
   const owner = Object.values(prev.byId).find(x => isActive(x) && x.pending[a.toolUseId] !== undefined)
   if (!owner) return prev
+  // no person is asked in these modes, so the worker is not waiting on one
+  if (owner.permissionMode !== undefined && NO_PERSON_MODES.has(owner.permissionMode)) return prev
   const blocked = { what: `wants to run ${owner.pending[a.toolUseId]}`, sinceMs: a.nowMs, toolUseId: a.toolUseId }
   return { ...prev, byId: { ...prev.byId, [owner.id]: { ...owner, blocked } } }
 }

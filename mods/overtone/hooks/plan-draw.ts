@@ -369,6 +369,9 @@ function effortCol(row: PlanRow, width: number): PSeg | undefined {
   if (width <= 0) return undefined
   const w = row.worker
   if (!w) return { text: fit('', width) }
+  // Haiku takes no effort setting: show none, whatever was reported
+  const model = w.seen ?? w.model ?? w.asked
+  if (model && /haiku/i.test(model)) return { text: fit('—', width), dim: true }
   const shown = w.effort ?? w.askedEffort
   const bad = w.effort !== undefined && w.askedEffort !== undefined && String(w.effort) !== w.askedEffort
   const seg: PSeg = { text: fit(shown === undefined ? '—' : shownText(String(shown)), width) }

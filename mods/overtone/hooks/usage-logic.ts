@@ -477,7 +477,7 @@ export function workerJobs(w: OvertoneWorkers | null | undefined, lastMainStartM
       // The task, what it waits on and its activity are model-written.
       job: shownText(x.label),
       doing: shownText(x.blocked ? x.blocked.what : !isActive(x) ? 'returned' : (x.activity ?? 'started')),
-      asked: withEffort(askedModel(x), askedEffort(x)),
+      asked: withEffort(askedModel(x), /haiku/i.test(x.seen ?? x.model ?? askedModel(x) ?? '') ? undefined : askedEffort(x)),
       saw: x.seen ? prettyModel(x.seen) : '—',
       elapsed: `${x.fromSpawn ? '' : '≥'}${fmtElapsed(end - x.firstSeenMs)}`,
       state,

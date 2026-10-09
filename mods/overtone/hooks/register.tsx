@@ -40,7 +40,7 @@ import { atom, update } from 'claude-code'
 import type { AgentInfo, Register } from 'claude-code'
 
 import type { OvertonePlan, OvertoneWorkers } from '../types'
-import { EMPTY_WORKERS, noteAsk, noteEnd, noteList, noteSpawn, noteToolEnd, noteToolStart, summarizeTool } from './logic'
+import { EMPTY_WORKERS, noteAsk, noteEnd, noteMode, noteList, noteSpawn, noteToolEnd, noteToolStart, summarizeTool } from './logic'
 import {
   EMPTY_PLAN,
   PLAN_SUB_ANSWER,
@@ -77,6 +77,8 @@ export const register: Register = on => {
         const id = result.agentId
         const s = { id, description: e.description, name: e.name, type: e.subagentType, parentId: e.parentAgentId, nowMs: t0 }
         await update($, workers, (w: OvertoneWorkers) => noteSpawn(w, s))
+        // the mode it runs under: the call's own if the event carries one, else the parent's
+        await update($, workers, (w: OvertoneWorkers) => noteMode(w, id, { parent: e.permissionMode }))
         // what the spawn asked for: the Agent call's model, or a kerd:<model>-<effort> type
         await update($, workers, (w: OvertoneWorkers) => noteAsked(w, id, { model: e.model, type: e.subagentType }))
       }

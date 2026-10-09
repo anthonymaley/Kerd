@@ -14,6 +14,7 @@ import {
   isQuiet,
   needsBand,
   noteAsk,
+  noteMode,
   noteEnd,
   noteList,
   noteListError,
@@ -180,6 +181,22 @@ describe('workers', () => {
     const late = noteList(EMPTY_WORKERS, [{ id: 'y', description: 'Builder', type: 'general-purpose', status: 'running' }], T0)
     const b = composeBand({ reading: calm, model: null, workers: late, nowMs: T0 + 3 * MIN }, 120)
     expect(texts(b)).toContain('    ≥3m · 0 tool calls')
+  })
+
+  test('an ask blocks in default or unknown mode, but not where no person is asked', () => {
+    const ask = (mode: { own?: string; parent?: string } | undefined): OvertoneWorkers => {
+      let w = running(1)
+      if (mode) w = noteMode(w, 'a0', mode)
+      w = noteToolStart(w, { agentId: 'a0', toolUseId: 'u1', summary: 'Bash sleep 120', nowMs: T0 })
+      return noteAsk(w, { toolUseId: 'u1', nowMs: T0 })
+    }
+    expect(ask({ parent: 'default' }).byId.a0?.blocked).toBeDefined()
+    expect(ask({ parent: 'plan' }).byId.a0?.blocked).toBeDefined()
+    expect(ask(undefined).byId.a0?.blocked).toBeDefined()
+    for (const m of ['auto', 'dontAsk', 'bypassPermissions']) expect(ask({ parent: m }).byId.a0?.blocked).toBeUndefined()
+    // the call's own mode overrides the parent's, either way
+    expect(ask({ own: 'default', parent: 'auto' }).byId.a0?.blocked).toBeDefined()
+    expect(ask({ own: 'auto', parent: 'default' }).byId.a0?.blocked).toBeUndefined()
   })
 
   test('a permission ask blocks its worker until the call settles', () => {

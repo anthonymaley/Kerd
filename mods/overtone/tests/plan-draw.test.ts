@@ -215,6 +215,23 @@ describe('layout', () => {
 
 describe('card rows', () => {
   const lay = planLayout(120, true)
+  test('Haiku shows no effort; a Sonnet row keeps its level', () => {
+    const haiku = cardRow(
+      row({ state: 'running', worker: worker({ asked: 'haiku', seen: 'claude-haiku-5-5', askedEffort: 'medium', effort: 'medium' }) }),
+      lay,
+      true,
+      0,
+    )
+    expect(haiku.effort!.text.trim()).toBe('—')
+    const sonnet = cardRow(
+      row({ state: 'running', worker: worker({ asked: 'sonnet', seen: 'claude-sonnet-5-5', effort: 'medium' }) }),
+      lay,
+      true,
+      0,
+    )
+    expect(sonnet.effort!.text.trim()).toBe('medium')
+  })
+
   test('model and effort show what was seen; a different ask shows red', () => {
     const ok = cardRow(
       row({ state: 'running', worker: worker({ asked: 'sonnet', seen: 'claude-sonnet-5-5', askedEffort: 'medium', effort: 'medium' }) }),

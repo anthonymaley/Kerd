@@ -53,6 +53,8 @@ export type OvertoneWorker = {
   pending: Record<string, string>
   // Set while one of its calls sits at a permission ask.
   blocked?: { what: string; sinceMs: number; toolUseId: string }
+  // The permission mode it runs under (its own, else the parent's), when known.
+  permissionMode?: string
   // What the spawn asked for: the Agent call's model (an alias or an id), or
   // the one a kerd:<model>-<effort> agent type names, and that type's effort.
   asked?: string
