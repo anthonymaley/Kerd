@@ -1730,3 +1730,7 @@ TODO.md under "Earlier launch sequence" and `kivna/sessions/2026-09-03.md`.
   nor `validate` recreated it on 2026-10-09 00:0x, so the 23:39 claim that the tests write it is not confirmed; the file times
   (types folder 21:45, the trial tab's `--plugin-dir` start) point at a `--plugin-dir` load, not proven. The ignore covers
   either writer.
+- **overtone: the band has no ● before the plan name** (2026-10-09 00:01). Verdict: released in 0.180.2 / overtone 0.9.2
+  (Anthony's "y" 00:06), widened on his questions to the whole band against the prototype: plain button last, ● and bold
+  name, opened view = band + one Workers box. Evidence: live trial with three workers; 743 tests; codex-tui round 3
+  "Safe to push". `notes:overtone-savvy/work.md`.
