@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.181.1
+
+**A Haiku worker sent without an effort level now says what it runs at.** 0.181.0 called the effort of a plain
+`kerd:haiku` worker unconfirmed. Two probes (Claude Code 2.1.295, Haiku 5.5 sessions at low and at high, no effort
+variables set) found the worker runs at the session's own effort, not Haiku 5.5's default of medium; the agent's
+description and the Haiku 5.5 profile now say so, scoped to what was tested. Sessions at xhigh or max, and
+`CLAUDE_CODE_EFFORT_LEVEL` set, are not tested yet.
+
 ## 0.181.0
 
 **Haiku 5.5 jobs now run at an effort Conductor chooses, and overtone 0.10.0 shows it.** Haiku 5.5 (released
