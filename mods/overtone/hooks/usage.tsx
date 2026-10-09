@@ -726,6 +726,7 @@ export const register: Register = on => {
     return (
       <Box flexDirection="column">
         <Box flexDirection="column">
+          {d.spacer ? <Text key="space"> </Text> : ''}
           {bandLine(EXPANDED_LABEL)}
           {d.jobsOff ? (
             ''

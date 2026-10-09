@@ -658,6 +658,11 @@ export function alertsOf(s: Snapshot): Alert[] {
       note: `cache ${cache.cold.hit}% hit (was ${cache.cold.was}%), re-sent ${fmtTok(cache.cold.resent)} (case: ${cache.cold.case})`,
     })
   }
+  const m = s.model ?? EMPTY_MODEL
+  if (compareModels(m.asked, m.seen) === 'mismatch') {
+    const t = `asked ${prettyModel(m.asked)} ≠ seen`
+    out.push({ key: 'model', text: t, short: t, note: `main model: asked ${prettyModel(m.asked)}, saw ${prettyModel(m.seen)}` })
+  }
   const jobs = jobsOf(s)
   const wrong = jobs.filter(j => j.kind === 'worker' && j.state === 'wrong model')
   if (wrong.length === 1) {
@@ -1039,6 +1044,8 @@ export type Dashboard = {
   // On a band short of rows the card frames go last, when nothing else will
   // make the whole fit.
   panelBorder: boolean
+  // The blank row above the band line, as when folded; a one-row band has no room for it.
+  spacer: boolean
 }
 
 // Panels three across from 124 columns, two from 80, else one.
@@ -1048,7 +1055,7 @@ export function perRowFor(columns: number): number {
 }
 
 export function dashboardRows(
-  d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'jobsCompact' | 'jobsOff' | 'panels' | 'perRow' | 'cache' | 'next' | 'panelBorder'>,
+  d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'jobsCompact' | 'jobsOff' | 'panels' | 'perRow' | 'cache' | 'next' | 'panelBorder' | 'spacer'>,
 ): number {
   const frame = d.panelBorder ? 2 : 0
   const jobs = d.jobsOff
@@ -1061,8 +1068,9 @@ export function dashboardRows(
   // The context, 5-hour and weekly panels are not drawn in the band (the
   // line carries them as bars); /overtone prints them.
   const cache = d.cache ? frame + 1 + d.cache.lines.length : 0
-  // The band line (1 row) stays on top; the opened view has no outer frame.
-  return 1 + jobs + cache + (d.next ? 1 : 0)
+  // The blank spacer row above the band (dropped on a one-row band) and the band line stay on top; the opened
+  // view has no outer frame.
+  return (d.spacer ? 1 : 0) + 1 + jobs + cache + (d.next ? 1 : 0)
 }
 
 export function dashboard(s: Snapshot, columns: number, maxRows: number = Infinity): Dashboard {
@@ -1084,6 +1092,7 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
     perRow,
     panelWidth,
     panelBorder: true,
+    spacer: maxRows >= 2,
   }
   const notes = [
     s.workers?.error !== undefined ? `worker status unavailable · ${shownText(s.workers.error)}` : '',

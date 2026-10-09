@@ -346,6 +346,30 @@ describe('model row', () => {
     await open.unmount()
   })
 
+  test('a main-model mismatch is a red bold alert in the band line, folded and opened, before the plan group; matched, nothing shows', async ($, on) => {
+    const w = world(on)
+    w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
+    await measure($, w)
+    const alertOf = async (ui: Found) => (await ui.findAll({ type: 'Text' })).filter(t => /≠ seen/.test(t.text ?? ''))
+    const matched = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
+    expect(await alertOf(matched)).toHaveLength(0)
+    await matched.unmount()
+    w.sessionModel = 'Opus 4.7'
+    w.answeredBy = 'claude-sonnet-5-5'
+    await drain($.turn.step(step()))
+    const folded = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
+    const open = await expanded($)
+    for (const ui of [folded, open]) {
+      const [a, ...rest] = await alertOf(ui)
+      expect(rest).toHaveLength(0)
+      expect(a?.props).toMatchObject({ color: 'error', bold: true })
+      expect(a?.text).toBe('asked Opus 4.7 ≠ seen')
+    }
+    await open.press({ key: 'usage' })
+    await folded.unmount()
+    await open.unmount()
+  })
+
   test('subagent steps are excluded: they name their own model', async ($, on) => {
     const w = world(on)
     w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
@@ -415,7 +439,7 @@ describe('workers', () => {
     await ui.unmount()
   })
 
-  test('workers with no plan on a two-row band: the card keeps its count-only header, no worker row past the budget', async ($, on) => {
+  test('workers with no plan on a three-row band: the card keeps its count-only header, no worker row past the budget', async ($, on) => {
     const w = world(on)
     w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
     w.agents = [
@@ -423,7 +447,7 @@ describe('workers', () => {
       { id: 'a2', description: 'Scout', type: 'Explore', status: 'running' },
     ]
     await measure($, w)
-    const ui = await expanded($, { maxRows: 2 })
+    const ui = await expanded($, { maxRows: 3 })
     const rowBoxes = (await ui.findAll({ type: 'Box' })).filter(b => String(b.props.key).startsWith('w-'))
     expect(rowBoxes).toHaveLength(0)
     expect(await ui.find({ type: 'Text', text: /^Workers/ })).toBeDefined()
@@ -846,6 +870,8 @@ describe('plan state and the step tool', () => {
       return (band?.children ?? []).filter((c): c is N => typeof c !== 'string').at(-1)
     }
     const folded = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
+    // the blank spacer row sits above the band, folded and opened alike
+    expect(await folded.find({ type: 'Text', text: ' ' })).toBeDefined()
     const fb = await lastOf(folded)
     expect(fb?.type).toBe('Button')
     expect(fb?.props).toMatchObject({ label: 'expand ▾', plain: true, action: 'app:cycleDiffBase' })
@@ -860,6 +886,7 @@ describe('plan state and the step tool', () => {
     await folded.press({ key: 'usage' })
     await folded.unmount()
     const open = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
+    expect(await open.find({ type: 'Text', text: ' ' })).toBeDefined()
     const ob = await lastOf(open)
     expect(ob?.type).toBe('Button')
     expect(ob?.props).toMatchObject({ label: 'collapse ▴', plain: true })

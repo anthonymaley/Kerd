@@ -675,15 +675,15 @@ describe('the dashboard', () => {
     const w = { byId: { a: worker({ id: 'a', label: 'A' }) } }
     const s = snap({ steps: COLD, workers: w })
     const tall = dashboard(s, 150)
-    // band line 1 + jobs card (2 frame + title + columns + 1 job) 5 + cache (2 + title + 3) 6 + next 1
-    expect([tall.panelBorder, dashboardRows(tall)]).toEqual([true, 13])
-    const noOuter = dashboard(s, 150, 13)
-    expect([noOuter.cache?.lines.length, dashboardRows(noOuter)]).toEqual([3, 13])
-    const shrunk = dashboard(s, 150, 11)
-    expect([shrunk.cache?.lines.length, dashboardRows(shrunk)]).toEqual([1, 11])
-    const noCache = dashboard(s, 150, 6)
+    // spacer 1 + band line 1 + jobs card (2 frame + title + columns + 1 job) 5 + cache (2 + title + 3) 6 + next 1 (14 in all)
+    expect([tall.panelBorder, dashboardRows(tall)]).toEqual([true, 14])
+    const noOuter = dashboard(s, 150, 14)
+    expect([noOuter.cache?.lines.length, dashboardRows(noOuter)]).toEqual([3, 14])
+    const shrunk = dashboard(s, 150, 12)
+    expect([shrunk.cache?.lines.length, dashboardRows(shrunk)]).toEqual([1, 12])
+    const noCache = dashboard(s, 150, 7)
     expect([noCache.cache, noCache.next, noCache.panelBorder, noCache.jobs.length]).toEqual([undefined, undefined, true, 1])
-    const tiny = dashboard(s, 150, 5)
+    const tiny = dashboard(s, 150, 6)
     expect(tiny.panelBorder).toBe(false)
     // /overtone still prints the context, 5-hour and weekly panels
     expect(usageText(s)).toMatch(/^Context — /m)
@@ -699,25 +699,25 @@ describe('the dashboard', () => {
     const s = snap({ workers: { byId } })
     const all = dashboard(s, 150)
     expect([all.jobs.length, all.jobsHidden]).toEqual([8, 0])
-    const short = dashboard(s, 150, 8)
+    const short = dashboard(s, 150, 9)
     expect(short.panelBorder).toBe(true)
-    expect(dashboardRows(short)).toBeLessThanOrEqual(8)
+    expect(dashboardRows(short)).toBeLessThanOrEqual(9)
     expect(short.jobsHidden).toBe(8 - short.jobs.length)
     expect(short.jobs.map(j => j.job)).toContain('Job 6')
     expect(usageText(s).includes('+')).toBe(false)
-    // A hard cap from three rows up, with the worker-list note too: the jobs
+    // A hard cap from four rows up, with the worker-list note too: the jobs
     // card sheds its column-header row and folds "+K more" and the note into
     // its title row; the worst job stays.
     const noted = snap({ workers: { byId, error: 'read failed' } })
     for (const snapshot of [s, noted]) {
-      for (let rows = 3; rows <= 16; rows++) {
+      for (let rows = 4; rows <= 16; rows++) {
         const d = dashboard(snapshot, 150, rows)
         expect([rows, dashboardRows(d) <= rows]).toEqual([rows, true])
         expect([rows, d.jobs.length + d.jobsHidden, d.jobs.map(j => j.job).includes('Job 6')]).toEqual([rows, 8, true])
       }
     }
-    const five = dashboard(noted, 150, 5)
-    expect([five.jobsCompact, five.jobsNote, dashboardRows(five)]).toEqual([true, 'worker status unavailable · read failed', 5])
+    const five = dashboard(noted, 150, 6)
+    expect([five.jobsCompact, five.jobsNote, dashboardRows(five)]).toEqual([true, 'worker status unavailable · read failed', 6])
   })
 
   // `n` running workers, the first `blocked` of them waiting on the user.
@@ -732,21 +732,25 @@ describe('the dashboard', () => {
   test('G5a: with the card frame gone the band folds only the jobs that still do not fit', () => {
     // 5 rows: header 1 + (title + columns + 2 jobs) 4 is too many with the frame
     // (2 more) but two jobs fit without it; folding to one was a row too early.
-    const d = dashboard(crowd(2), 150, 5)
-    expect([d.panelBorder, d.jobs.length, d.jobsHidden, dashboardRows(d)]).toEqual([false, 2, 0, 5])
-    const six = dashboard(crowd(5), 150, 6)
-    expect([six.panelBorder, six.jobs.length, six.jobsHidden, dashboardRows(six)]).toEqual([false, 2, 3, 6])
+    const d = dashboard(crowd(2), 150, 6)
+    expect([d.panelBorder, d.jobs.length, d.jobsHidden, dashboardRows(d)]).toEqual([false, 2, 0, 6])
+    const six = dashboard(crowd(5), 150, 7)
+    expect([six.panelBorder, six.jobs.length, six.jobsHidden, dashboardRows(six)]).toEqual([false, 2, 3, 7])
   })
 
   test('G5b: a band of one or two rows never runs past what it is given', () => {
     // Two rows: the header and one workers row (the count, "+K more" in its
     // title); one row: the header alone, the collapse button stays.
+    // Three rows: the spacer, the band and one workers row; two: spacer and
+    // band; one: the band alone (the spacer goes, the collapse button stays).
+    const three = dashboard(crowd(3), 150, 3)
+    expect([dashboardRows(three), three.jobs.length, three.jobsHidden]).toEqual([3, 0, 3])
     const two = dashboard(crowd(3), 150, 2)
-    expect([dashboardRows(two), two.jobs.length, two.jobsHidden]).toEqual([2, 0, 3])
+    expect([two.spacer, two.jobsOff, dashboardRows(two)]).toEqual([true, true, 2])
     const one = dashboard(crowd(3), 150, 1)
-    expect(dashboardRows(one)).toBe(1)
+    expect([one.spacer, dashboardRows(one)]).toEqual([false, 1])
     expect(dashboardRows(dashboard(crowd(0), 150, 1))).toBe(1)
-    expect(dashboardRows(dashboard(crowd(1), 150, 2))).toBe(2)
+    expect(dashboardRows(dashboard(crowd(1), 150, 3))).toBe(3)
   })
 
   test('every height from 1 to 12, 0 to 8 workers, blocked or not: within the rows, no job folded that would fit', () => {
