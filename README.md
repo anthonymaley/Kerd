@@ -200,6 +200,13 @@ the detail behind each figure. Red alerts join the line only while something
 is wrong, such as a cache that went cold or a worker on a model you did not ask
 for.
 
+**The plan.** While Kerd's Conductor runs a concert, the band shows its plan: the title, a bar with
+one block per task and "N of M" accepted. Opened, the Workers card lists the tasks in plan order, one line
+each: a square and a bar per step, coloured by state (green done, yellow running with its last block
+flashing, red when a worker needs you, grey to come), then the model, the effort and what it is doing.
+Conductor reports the plan through overtone's `plan` tool and each player its steps through `step`; both
+tools' short descriptions sit in every session's context. Nothing shows for work Conductor does inline.
+
 **The guard.** Before Claude stages, commits or pushes a private path toward a
 public repo, overtone asks you first, and no answer within 30 seconds counts as
 no. It always guards `.env` and `.playwright-mcp/`. Set your notes folder once
@@ -318,9 +325,24 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.179.0)
+## What's New (v0.180.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.180.0
+
+**overtone 0.9.0: the band shows Conductor's plan, and each player's progress.** While Kerd's Conductor runs a
+concert, the band shows its plan: the title, a bar with one block per task and "N of M" accepted. Opened, the Workers
+card lists the tasks in plan order, one line each: a square and a bar per step, coloured by state (green done, yellow
+running with its last block flashing, red when a worker needs you, grey to come), then model, effort and what it is
+doing. Conductor reports the plan through overtone's new `plan` tool and now tells each player to report its steps
+through `step` (a player told "if available" never called it). Model-written plan, worker and note text is stripped of
+control, bidi and format characters before it is drawn. A worker running in auto, dontAsk or bypass mode is no longer
+shown as waiting on a permission prompt while the auto-mode classifier decides (a live run showed a 2-minute command
+red as "needs you"); the mode read is the parent's, the only one the engine passes. Haiku rows show no effort.
+Also: a Conductor test that failed at random under load now waits for a complete ready file. Checked live in a trial
+session on 2026-10-08: the plan bar, task rows in order, step bars filling from real Haiku workers, no false block;
+706 overtone tests; codex-tui reviewed the plan view (three rounds) and the text stripping (two).
 
 ### v0.179.0
 

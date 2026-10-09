@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.180.0
+
+**overtone 0.9.0: the band shows Conductor's plan, and each player's progress.** While Kerd's Conductor runs a
+concert, the band shows its plan: the title, a bar with one block per task and "N of M" accepted. Opened, the Workers
+card lists the tasks in plan order, one line each: a square and a bar per step, coloured by state (green done, yellow
+running with its last block flashing, red when a worker needs you, grey to come), then model, effort and what it is
+doing. Conductor reports the plan through overtone's new `plan` tool and now tells each player to report its steps
+through `step` (a player told "if available" never called it). Model-written plan, worker and note text is stripped of
+control, bidi and format characters before it is drawn. A worker running in auto, dontAsk or bypass mode is no longer
+shown as waiting on a permission prompt while the auto-mode classifier decides (a live run showed a 2-minute command
+red as "needs you"); the mode read is the parent's, the only one the engine passes. Haiku rows show no effort.
+Also: a Conductor test that failed at random under load now waits for a complete ready file. Checked live in a trial
+session on 2026-10-08: the plan bar, task rows in order, step bars filling from real Haiku workers, no false block;
+706 overtone tests; codex-tui reviewed the plan view (three rounds) and the text stripping (two).
+
 ## 0.179.0
 
 **Switch Out saves your private notes by their real folder path, and steps you do yourself say where.** Switch
