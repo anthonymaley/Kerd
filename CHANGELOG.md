@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.181.4
+
+**A wait line says what was done meanwhile.** 0.181.2 had Conductor keep working while CI or tests ran, but a
+session could still end its turn on a bare "⏳ waiting on the tests" with records left to write, and you had to ask
+what it was doing. Now the wait line also says what was done meanwhile, or that nothing else authorized can move and
+why, and a host or global rule that accepts a named wait as a turn ending does not lift this.
+
 ## 0.181.3
 
 **A Haiku worker sent without an effort level follows the session at xhigh too.** 0.181.1 said a plain
