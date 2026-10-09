@@ -7,6 +7,10 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-09 (Conductor and Switch Out, 10:1x)
+
+**Done:** the Now row "Find what effort an un-set Haiku worker runs at". Evidence: two headless `claude -p` probes (Claude Code 2.1.295, Haiku 5.5 parents at low and high, effort variables unset), `job_evidence.py` observed the plain `kerd:haiku` worker at low and at high, matching the parent; wording fixed on main 97e82ceb (codex-tui "Safe to push"), unreleased. Detail `notes:haiku-55/work.md`. Its watch parts stay in Now.
+
 ## Closed 2026-10-09 (Conductor and Switch Out, 08:5x)
 
 **Done (no longer needed):** the Now row "Anthony: close the trial tmux window `studio:overtone-trial`". Evidence: `tmux list-windows -a` at 2026-10-09 08:0x lists no such window; it was closed outside the record.
