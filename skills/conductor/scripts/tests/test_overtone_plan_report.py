@@ -32,6 +32,12 @@ class OvertonePlanReportTests(unittest.TestCase):
         self.assertIn("The report is never a reason to delay work", self.text)
         self.assertIn("Without the tool there is nothing to do", self.text)
 
+    def test_players_report_their_steps(self):
+        # Live trial 2026-10-08: a player briefed "if it is available" never called
+        # the step tool, though it was in its tool list; its bar stayed empty.
+        self.assertIn("Each player's brief tells it to call overtone's `step` tool (`mcp__overtone__step`) after each step of its job", self.text)
+        self.assertIn('not "if available"', self.text)
+
     def test_sits_in_the_concert_after_fan_out(self):
         fan_out = self.text.index("In the **concert**, fan out every independent part of the score")
         report = self.text.index("**The score in overtone.**")
