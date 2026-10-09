@@ -57,6 +57,17 @@ class PrivateNotesWordingTests(unittest.TestCase):
         self.assertIn("docs/work/<short-work-name>/work.md", self.record)
         self.assertIn("docs/work/<work>/work.md", self.skill)
 
+    def test_git_commands_name_the_repo_by_literal_path(self):
+        # Rehearsal and concert alike; the guard asks rather than refusing outright.
+        self.assertIn(
+            "Wherever Conductor runs a git command that changes a repo, in rehearsal or "
+            "the concert, name the repo by its literal absolute path (`git -C /abs/path …`), "
+            "never a repo or command held in a shell variable (`cd $W`, `$G add`): a git "
+            "guard such as overtone's cannot read where it points, so it asks, and an ask "
+            "nobody answers within 30 s refuses the command.",
+            self.prose,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
