@@ -26,6 +26,18 @@ class TransportTests(unittest.TestCase):
         commands = {p: [sys.executable, str(ROOT / "tests/fake_cli.py"), p] for p in ("codex", "claude")}
         self.bridge = ask.Bridge(self.project, commands)
 
+    def wait_for_group(self, ready, runner=None):
+        # The fixture child's write_text is not atomic: wait for a complete file, not just its name.
+        deadline = time.monotonic() + 5
+        while True:
+            try:
+                return json.loads(ready.read_text())["group"]
+            except (FileNotFoundError, json.JSONDecodeError):
+                if runner is not None:
+                    self.assertIsNone(runner.poll())
+                self.assertLess(time.monotonic(), deadline)
+                time.sleep(0.01)
+
     def run_job(self, provider="codex", prompt="Review this", **kwargs):
         return self.bridge.run(provider, prompt, kwargs.pop("role", "reviewer"),
                                kwargs.pop("session", provider), **kwargs)
@@ -187,11 +199,7 @@ class TransportTests(unittest.TestCase):
         thread.start()
         self.addCleanup(thread.join, 5)
         ready = self.project / "fixture-child.json"
-        deadline = time.monotonic() + 5
-        while not ready.exists():
-            self.assertLess(time.monotonic(), deadline)
-            time.sleep(0.01)
-        group = json.loads(ready.read_text())["group"]
+        group = self.wait_for_group(ready)
         def cleanup_group():
             try:
                 os.killpg(group, signal.SIGKILL)
@@ -298,12 +306,7 @@ class TransportTests(unittest.TestCase):
                 runner.kill()
             runner.communicate(timeout=5)
         self.addCleanup(cleanup_runner)
-        deadline = time.monotonic() + 5
-        while not ready.exists():
-            self.assertIsNone(runner.poll())
-            self.assertLess(time.monotonic(), deadline)
-            time.sleep(0.01)
-        group = json.loads(ready.read_text())["group"]
+        group = self.wait_for_group(ready, runner)
         def cleanup_group():
             try:
                 os.killpg(group, signal.SIGKILL)
@@ -413,11 +416,7 @@ class TransportTests(unittest.TestCase):
         thread.start()
         self.addCleanup(thread.join, 5)
         ready = self.project / "fixture-detached.json"
-        deadline = time.monotonic() + 5
-        while not ready.exists():
-            self.assertLess(time.monotonic(), deadline)
-            time.sleep(0.01)
-        group = json.loads(ready.read_text())["group"]
+        group = self.wait_for_group(ready)
         def cleanup_detached_fixture():
             try:
                 os.killpg(group, signal.SIGKILL)

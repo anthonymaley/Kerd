@@ -259,6 +259,18 @@ merge because the steps ran out. Work is not done because the steps ran out. A g
 answer stops that passage and comes back to the person in the chat for that one
 point, not to the start.
 
+**The score in overtone.** When overtone's `plan` tool (`mcp__overtone__plan`) is
+available, report the score to it so the person sees the plan above the prompt. At
+the go, send the title and the tasks in order. Each task's subject is the exact
+Agent `description` that task will be dispatched with, so its player lands on its
+row. After each accepted task, send it as accepted. At the end, send
+`finished: true`. Each player's brief tells it to call overtone's `step` tool
+(`mcp__overtone__step`) after each step of its job, with steps done of the steps it
+expects and a few words on the step, so its row's bar fills as it works; the brief
+says this plainly, not "if available", since the tool reaches players whenever
+the plan tool reaches Conductor. The report is never a reason to delay work: a failed call is
+passed over. Without the tool there is nothing to do.
+
 Agents and rendered views work the same in both: use agents whenever they help,
 and show a view whenever agreement or alignment is needed.
 In the concert, the views also show what has been built and how far the
