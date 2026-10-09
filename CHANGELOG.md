@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.180.2
+
+**overtone 0.9.2: the band and its opened view now match the approved design.** The "expand ▾" button sits at the
+end of the band as a plain button, after the bars and the plan, and the plan reads "● name" with the name in bold.
+Opened, the band stays on top with "collapse ▴" at its end, and the Workers card is the one box beneath it: the old
+outer frame and its header row are gone, and the band no longer jumps a line when you open it. A session running on
+a model you did not ask for now says so in red on the band itself (it used to sit in the old header), and on the
+"next ▸" line only when a narrow band has folded it into "⚠ N". Short and narrow terminals are budgeted as drawn: a
+plan with no workers yet, a 40-column card and a one-row band all fit. Checked live in a trial session with three
+workers on 2026-10-09; 740 overtone tests; codex-tui reviewed it (two rounds).
+
 ## 0.180.1
 
 **overtone 0.9.1: the band and the Workers card now look the way they were designed, with or without a plan.** The

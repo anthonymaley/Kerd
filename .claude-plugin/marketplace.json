@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Kerd: opinionated workflow skills for Claude Code",
-    "version": "0.180.1"
+    "version": "0.180.2"
   },
   "plugins": [
     {
@@ -15,14 +15,14 @@
         "url": "https://github.com/anthonymaley/Kerd.git"
       },
       "description": "Opinionated workflow toolkit: rehearsing work turn by turn into a sketchbook and score then performing it as a concert checked against its goals, risks kept in view in the sketchbook, bounded score composition, per-step delegation and managed Codex context continuation, a Conductor chat that rolls itself into a fresh session in tmux, session discipline, session and machine handoff, knowledge management, project audits, human writing voice, structural health, visual agreement, and native Claude/Codex session collaboration with role and review-cadence continuity, and effort-sized native players dispatched with an explicit model",
-      "version": "0.180.1",
+      "version": "0.180.2",
       "strict": true
     },
     {
       "name": "overtone",
       "source": "./mods/overtone",
       "description": "Optional companion mod: a usage band above the prompt (context left, 5-hour and weekly allowance left, cache hit, red alerts) and a guard that asks before a private path is staged, committed or pushed toward a public repo",
-      "version": "0.9.1"
+      "version": "0.9.2"
     }
   ]
 }

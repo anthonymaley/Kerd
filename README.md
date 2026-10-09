@@ -195,12 +195,12 @@ commands.
 
 **What it shows.** One line above the prompt: three smooth colour bars for
 the context you have left, the 5-hour and weekly allowance you have left, then
-the cache hit. Click the band, or press `ctrl+x b`, and it opens in place into
-the detail behind each figure. Red alerts join the line only while something
+the cache hit, and "expand ▾" at its end. Click it, or press `ctrl+x b`, and the
+Workers card opens beneath the band ("collapse ▴" folds it again). Red alerts join the line only while something
 is wrong, such as a cache that went cold or a worker on a model you did not ask
 for.
 
-**The plan.** While Kerd's Conductor runs a concert, the band shows its plan: the title, a bar with
+**The plan.** While Kerd's Conductor runs a concert, the band shows its plan: "●" and the title, a bar with
 one block per task and "N of M" accepted. Opened, the Workers card lists the tasks in plan order, one line
 each: a square and a bar per step, coloured by state (green done, yellow running with its last block
 flashing, red when a worker needs you, grey to come), then the model, the effort and what it is doing.
@@ -325,9 +325,20 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.180.1)
+## What's New (v0.180.2)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.180.2
+
+**overtone 0.9.2: the band and its opened view now match the approved design.** The "expand ▾" button sits at the
+end of the band as a plain button, after the bars and the plan, and the plan reads "● name" with the name in bold.
+Opened, the band stays on top with "collapse ▴" at its end, and the Workers card is the one box beneath it: the old
+outer frame and its header row are gone, and the band no longer jumps a line when you open it. A session running on
+a model you did not ask for now says so in red on the band itself (it used to sit in the old header), and on the
+"next ▸" line only when a narrow band has folded it into "⚠ N". Short and narrow terminals are budgeted as drawn: a
+plan with no workers yet, a 40-column card and a one-row band all fit. Checked live in a trial session with three
+workers on 2026-10-09; 740 overtone tests; codex-tui reviewed it (two rounds).
 
 ### v0.180.1
 
