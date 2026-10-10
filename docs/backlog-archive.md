@@ -7,6 +7,12 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-10 (Switch Out, 17:5x)
+
+**Done:** the Backlog row "A repo held in a shell variable stalls on overtone's guard". Evidence: Conductor's literal-path paragraph (c3bc38b7) released in 0.182.0 (main 2c7fdc08, CI 38089342758 green, codex-tui "Safe to push"); Switch Out's vault save already named the literal path (0.179.0). Whether real sessions stop using shell variables stays a Now watch item. The row as it stood:
+
+- **A repo held in a shell variable stalls on overtone's guard** (real-use scan 2026-10-09, three sittings checked by Claude): `W=<scratchpad worktree>; cd $W && git add …` (1dc6a324 03:46, 72f898db 04:32, Conductor concert commits) and `G="git -C <vault>"; $G add …` (1b006fe9 13:59, Switch Out). Each time the guard correctly could not read the target, waited 30 s and refused; the retry by literal path passed. Kerd names the literal path only for Out's vault save (0.179.0); Conductor's worktree commits have no such line. **Built on main 2026-10-09 17:0x (his "y" 16:56), unreleased:** one paragraph in Conductor's `entry.md`, after the concert-branch paragraph: any git command that changes a repo, in rehearsal or the concert, names the repo by its literal absolute path, never a repo or command held in a shell variable (the guard asks; only an unanswered ask refuses after 30 s); wording test in `test_private_notes_wording.py`; codex-tui round 1 two should-fix (rehearsal uncovered; "refuses" overstated) fixed. The release is his. `notes:watch-scan-1009/work.md`.
+
 ## Closed 2026-10-09 (Conductor and Switch Out, 10:1x)
 
 **Done:** the Now row "Find what effort an un-set Haiku worker runs at". Evidence: two headless `claude -p` probes (Claude Code 2.1.295, Haiku 5.5 parents at low and high, effort variables unset), `job_evidence.py` observed the plain `kerd:haiku` worker at low and at high, matching the parent; wording fixed on main 97e82ceb (codex-tui "Safe to push"), unreleased. Detail `notes:haiku-55/work.md`. Its watch parts stay in Now.
