@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.182.0
+
+**CI and long test runs go to a background worker, and git commands name the repo by its path.** Conductor
+still sat waiting on CI or a long test run even after 0.181.4. Now every CI run, deploy or test run over about a
+minute goes to a worker launched in the background (Haiku at low effort on Claude Code) that comes back with pass or
+fail, the run ID and, on a failure, the failing lines; Conductor never runs a watcher, `sleep` or wait loop itself and
+picks up the result between other work. Also, any git command that changes a repo names it by its literal path,
+never a repo or command held in a shell variable, which overtone's guard cannot read and stalled on for 30 seconds.
+
 ## 0.181.4
 
 **A wait line says what was done meanwhile.** 0.181.2 had Conductor keep working while CI or tests ran, but a
