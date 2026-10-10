@@ -160,11 +160,14 @@ names the guide section with its detail: open that section before the step.
   authority already covers, then names the job and how and when it resumes, with what was done meanwhile (or why
   nothing else can move), and a
   turn that took in a partner's contribution still ends with a line to the person.
-  CI, a deploy or a long test run is watched in the background, never by a
-  foreground watcher (`gh run watch`, `sleep`) that holds the turn; while it runs,
-  do what does not need its result: records and sketchbook, the next steps'
-  commands made ready, read-only checks on open risks, the next queued task,
-  never editing files a local run is still reading or writing.
+  A CI run, deploy or test run expected to take over about a minute goes to a worker launched in the background (`kerd:haiku-low`, model haiku, on
+  Claude Code; elsewhere a worker with the access it needs, or the blocker said)
+  that runs or watches it and returns pass/fail, the run's ID and, on failure, the
+  failing lines; the controller never runs `gh run watch`, a
+  `sleep` or a wait loop itself. While the worker runs, do what does not need its
+  result: records and sketchbook, the next steps' commands made ready, read-only
+  checks on open risks, the next queued task, never editing files a local run is
+  still reading or writing. Short checks stay inline.
   Small or coupled work is simply delivered in rehearsal; it never needs a concert
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - Once intent is known, read the relevant project material to avoid asking for facts

@@ -594,17 +594,22 @@ line what it is waiting for; they should never have to ask what is going on.
 
 Two endings are easy to miss. **Waiting on a job** (a worker, a review, a long
 command): first start every other job the current authority already covers and
-that does not depend on it, rather than sitting behind one watcher; then keep
-retrieving it within the turn while that is practical. CI, a deploy or a long
-test run is the common case: start it in the background (the host's background
-command), never a foreground watcher such as `gh run watch` or `sleep` that holds
-the turn so nothing else can run. A step that needs its result waits; plenty does
-not: update the sketchbook and the project's records, make the next steps'
+that does not depend on it, rather than sitting behind one watcher; then check for its result between pieces of useful work, never by waiting or polling on it. CI, a deploy or a long
+test run is the common case: every one expected to take over about a minute is
+handed to a worker subagent launched in the background (on Claude Code a
+`kerd:haiku-low` Agent call, model haiku, which suits a short tool task; on another
+host, a worker that has the access the job needs, or else the blocker is disclosed
+without widening permissions) that runs or watches the job and returns pass/fail,
+the run's ID, and on failure the failing lines or why they could not be retrieved. The controller never runs a
+watcher such as `gh run watch`, a `sleep` or a wait loop itself, foreground or
+polled in the background, so nothing else is held up. Short checks (a single test
+file, `release_check`, a quick command) stay inline. A step that needs its result
+waits; plenty does not: update the sketchbook and the project's records, make the next steps'
 commands ready to run, check open risks read-only, start the next queued task.
 A local run keeps its inputs and outputs: leave the files it reads or writes
 alone until it returns, or do conflicting work in a separate worktree.
 The person should never have to say "move on" while CI runs. A named wait is the
-right ending only when nothing else authorized can move. When the turn does end, the last line names the job, says how the session resumes — the
+right ending only when nothing else authorized can move. When the turn does end, the last line names the worker or job, says how the session resumes — the
 host wakes it when the job returns, or the person says so, or the next check is
 at a named time — and when it should be back, or “return time unknown” with that
 next check; it never invents an estimate. The wait also says what was done

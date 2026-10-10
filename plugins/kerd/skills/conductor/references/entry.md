@@ -237,6 +237,11 @@ work is half-built. Before each save or roll, and when a fresh session picks the
 concert up, check that the checked-out branch is the recorded concert branch; if it
 is not, stop before committing and say so. Rehearsal and small work stay on the current branch.
 
+Wherever Conductor runs a git command that changes a repo, in rehearsal or the concert, name
+the repo by its literal absolute path (`git -C /abs/path …`), never a repo or command held
+in a shell variable (`cd $W`, `$G add`): a git guard such as overtone's cannot read where it
+points, so it asks, and an ask nobody answers within 30 s refuses the command.
+
 In the **concert**, fan out every independent part of the score to its own
 player, as many as the score allows, each at a fitted model and effort. When a
 batch returns, check each player's claim against its part of the score: Conductor
