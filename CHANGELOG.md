@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.183.0
+
+**Check questions name the result and ask whether it happened.** When Kerd asks you to check something, it no
+longer quizzes you on what the screen says. It names the expected result and asks whether you saw it; on a no, it asks
+what you saw instead. A genuine unknown still gets an open question.
+
 ## 0.182.0
 
 **CI and long test runs go to a background worker, and git commands name the repo by its path.** Conductor
