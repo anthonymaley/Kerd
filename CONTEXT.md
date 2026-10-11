@@ -157,7 +157,7 @@ background-session list; he quits there with Ctrl-C. Switch Out's restart line s
 
 **Guard work stopped (Anthony 2026-10-07 20:31, "y"):** the unreadable-working-`vault.json` redesign is parked in the Backlog (branch `fix/guard-unreadable-working-vault` 3dbcc28 kept local, unpushed); the next guard change waits for a real slip, per the guard-scope ruling. Four of the day's nine sittings went to guard edges found by review rather than real use.
 
-**Selected continuation (2026-10-11 11:4x): none eligible.** Everything in Now watches real use (the 11:4x scan found the wait-line template and CI-to-worker holding; still watched: check questions under 0.183.0, one sighting; the literal-path git rule, one miss) or is his decision; every Backlog row is parked or held. **Idea 6 (one-button Switch Out) is not eligible: it is the band button he parked 2026-10-03 17:48 ("just leave for now and stick to your plan"; don't raise it until he does).** The next In says nothing is buildable and offers "Something else".
+**Selected continuation (2026-10-11 13:2x): none eligible.** Everything in Now watches real use (still watched: check questions under 0.183.0, one sighting; the literal-path git rule, one miss) or is his decision; every Backlog row is parked or held. **Idea 6 (one-button Switch Out) is not eligible: it is the band button he parked 2026-10-03 17:48 ("just leave for now and stick to your plan"; don't raise it until he does).** The 13:2x trim of this file is done (pushed 52c52a04; its CI was carried by a Haiku-low background worker, result reported in that sitting). Proposed beside it, not agreed: trim TODO.md's Now, now the largest part of the pickup set (18k bytes of watch rows, several holding with long histories that could move to their sketchbooks), so Switch In meets its own 8,000-token target; it is bookkeeping, so it leads only if he picks it. The next In says nothing is buildable and offers "Something else".
 Session logs: `kivna/sessions/` (newest `2026-10-11.md`).
 
 **Pickup reading set** (update 2026-10-11 13:2x, after the trim):
@@ -173,7 +173,7 @@ Deeper: `notes:watch-scan-1011/work.md` (the 2026-10-11 scan: checked findings p
 
 The observed position before this save is `main` at f0d01e81 (release 0.183.0); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-11 13:2x, after the trim: 47,136 bytes, about 11,780 tokens (estimate, with this sitting's log entry), 3,780 over the 8,000 target (was 62,639 bytes, about 15,660). This file went from 32.6k to ~20k bytes: release cases moved to the session logs and README, the release-pause lift list to its ruling's case in `docs/decisions.md`. TODO.md's Now (18k, watch rows, all open) is now most of it. Carried phrases (the selected continuation, the release pause, the position) are all in the set. `read_args` for the next pickup:
+**Measured** 2026-10-11 13:2x, after the trim: 47,547 bytes, about 11,890 tokens (estimate, with this sitting's log entry), 3,890 over the 8,000 target (was 62,639 bytes, about 15,660). This file went from 32.6k to ~20k bytes: release cases moved to the session logs and README, the release-pause lift list to its ruling's case in `docs/decisions.md`. TODO.md's Now (18k, watch rows, all open) is now most of it. Carried phrases (the selected continuation, the release pause, the position) are all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-11.md",
