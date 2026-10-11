@@ -65,6 +65,23 @@ class QuestionFormTests(unittest.TestCase):
                 )
                 self.assertEqual(text.count(expected), 1)
 
+    def test_a_check_asks_whether_the_stated_result_happened(self):
+        """Static wording guard; it does not prove a model follows the form."""
+        for path in sorted(SKILLS.glob("*/SKILL.md")):
+            with self.subTest(skill=path.parent.name):
+                self.assertIn(
+                    "a check the person runs, its expected result already written above, asks whether that result happened",
+                    path.read_text(encoding="utf-8"),
+                )
+        prose = flat(JOURNEY.read_text(encoding="utf-8"))
+        for phrase in (
+            "the bubble asks whether it did, naming that result",
+            "it reads as a pop quiz and makes the person report detail the session knows",
+            "On a no, ask what they saw.",
+            "A genuine unknown, where the session cannot say what to expect, keeps its open question.",
+        ):
+            self.assertIn(phrase, prose)
+
     def test_the_linked_section_states_the_decision_block(self):
         """Static wording guard; it does not prove a model follows the form."""
         prose = flat(JOURNEY.read_text(encoding="utf-8"))

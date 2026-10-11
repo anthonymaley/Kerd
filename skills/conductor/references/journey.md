@@ -199,7 +199,16 @@ an internal name, and leave none out, an approval on a second device included.
 When the steps are already authorized work for the person to carry out, the
 bubble asks about their outcome and nothing else: steps written as prose under a
 bubble that asks how it went, or a check bundled with a second question, lose
-the reader. Steps that propose a consequential operation still end on the
+the reader.
+When the message already says what should happen (“the last line says how many
+were saved and how many were held”), the bubble asks whether it did, naming that
+result: “Did the import finish and say how many were saved and held?”, “Does the
+screen return to the library?”. Never an open recall question such as “What does
+the finished line say after a whole-book import?” or “What were the first words
+of the dialog's title?”: the answer is already above it, so it reads as a pop
+quiz and makes the person report detail the session knows. On a no, ask what
+they saw. A genuine unknown, where the session cannot say what to expect, keeps
+its open question. Steps that propose a consequential operation still end on the
 decision block and its approval bubble. In the sittings reviewed, length alone
 was not the problem: six clear steps were followed, and two that never said
 where they happen were not.
