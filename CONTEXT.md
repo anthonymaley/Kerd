@@ -32,11 +32,12 @@ read from those sittings when Anthony asks for it.** 3of3's work (its iCloud syn
 is 3of3's, never Kerd's open work or next step (Anthony, 2026-09-25 10:49: "we are mixing work";
 he had said the same 2026-09-23). Evidence so far: local sketchbook `notes:launch-plan/work.md`.
 
-**The homepage redesign was tried and dropped (Anthony, 12:56: "nah dont like it - lets drop
-it"; "will revisit").** Codex built three passes on his direct ask; his reactions and the
-dropped pass are in the local sketchbook `notes:homepage-redesign/work.md`. `site/` is
-unchanged. When revisited, start from what would make it feel serious rather than AI-made to
-him, not from another pick of direction.
+**The homepage has an agreed direction (2026-10-12): the orchestra.** After a reference board (he picked Tailscale: "a considered
+product narrative, with fewer clear ai generated gimmicks") and a rejected Tailscale-order draft ("no. lets rethink."), he set
+it at 11:09: "showing the orchestra as the whole project, with the key roles making it all work. more playful perhaps. visual,
+but with a real concrete why you need this edge." Cast of nine seats agreed ("y" 11:13); mock 1 (a drawn stage plan, seat
+cards with Without it / With it, one story through the hall) got "yes much better" (11:22). `site/` is unchanged; the mock
+lives in the vault. Sketchbook `notes:homepage-redesign/work.md` (September's dropped passes and his tells are there too).
 
 **Two teams already use Kerd** (Anthony, 2026-09-22): SAM and Aubel.app. The team note
 (`notes:launch-plan/team-note.md`) had his "y" to send (2026-09-23 17:05); not confirmed
@@ -120,8 +121,7 @@ drop this").** Don't raise it or recommend it again unless he does.
 Still governing from 2026-09-18: rehearsal is organic and the concert executes to a score
 and a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch.
 
-**Not yet ruled, and it is Anthony's:** where and when to announce, and what would make the
-homepage feel serious to him.
+**Not yet ruled, and it is Anthony's:** where and when to announce, and his go to publish the new homepage.
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
 review and investigation** (cadence: checkpoints, before-push). It was off for the 0.159.0/0.160.0
@@ -157,25 +157,34 @@ background-session list; he quits there with Ctrl-C. Switch Out's restart line s
 
 **Guard work stopped (Anthony 2026-10-07 20:31, "y"):** the unreadable-working-`vault.json` redesign is parked in the Backlog (branch `fix/guard-unreadable-working-vault` 3dbcc28 kept local, unpushed); the next guard change waits for a real slip, per the guard-scope ruling. Four of the day's nine sittings went to guard edges found by review rather than real use.
 
-**Selected continuation (2026-10-12 10:0x): none eligible.** Everything in Now watches real use (check questions hold 10 of 10; the literal-path git rule, two misses in one alapah session; whether 0.183.1 stops the "then <next step>" re-wait lines) or is his decision (where and when to announce; the homepage); every Backlog row is parked or held. **Idea 6 (one-button Switch Out) is not eligible: it is the band button he parked 2026-10-03 17:48 ("just leave for now and stick to your plan"; don't raise it until he does).** The 2026-10-12 real-use scan is done (`notes:watch-scan-1012/work.md`); its wait-line finding shipped as 0.183.1 (`notes:wait-line-rewait/work.md`). The next In says nothing is buildable and offers "Something else". Proposed beside it (2026-10-12 10:1x, his choices, not agreed): decide where and when to announce Kerd (the launch plan's announce step waited on the invited round he dropped 2026-09-25, so it has no recorded trigger now; `docs/design/launch-plan.md` also still lists the 2026-09-13 hold as open, lifted 2026-09-23); revisit the homepage from what would make it feel serious.
+**Selected continuation (2026-10-12 11:2x): put mock 1 into the live homepage. Proposed, awaiting his approval.** Claude ports
+`notes:homepage-redesign/mock-1/index.html` into `site/index.html` using the Kerd look's classes (`site/assets/kerd.css`), makes
+the story's small plan stay in view while scrolling, checks Safari and Firefox (the seat cards use CSS `:has()`), gets a
+codex-tui review, then stops before pushing: pushing `main` publishes through Vercel and needs his go. No version bump when
+the installed plugin stays byte-identical (ruling 2026-09-21). Open inside it: whether capabilities, examples and docs pages
+follow the new look now or later. Why first: it is the one item with an agreed direction and nothing blocking but his go;
+the homepage is what every new reader sees. Beside it (his choices, proposed): decide where and when to announce Kerd (the
+announce step lost its trigger when the invited round was dropped 2026-09-25); the rest of Now watches real use.
 Session logs: `kivna/sessions/` (newest `2026-10-12.md`).
 
-**Pickup reading set** (update 2026-10-12 10:0x, after 0.183.1):
-- this file complete: position (0.183.1 released, the re-wait wording; overtone 0.10.0; Claude Code and his Codex on 0.183.1), the continuation (none eligible; idea 6 parked), rulings and the Codex position;
+**Pickup reading set** (update 2026-10-12 11:2x, after the homepage direction):
+- this file complete: position (0.183.1 released; overtone 0.10.0; Claude Code and his Codex on 0.183.1), the homepage direction and the continuation (port mock 1, awaiting his go), rulings and the Codex position;
 - `TODO.md` `## Now`, the designated active list, one line per row with its sketchbook link (`## Backlog` is a separate section outside the set; its rows are held or out of scope);
 - `kivna/sessions/2026-10-12.md`, newest log (the real-use scan and 0.183.1);
-- `notes:outside-the-repo.md`, live links outside the repo.
+- `notes:outside-the-repo.md`, live links outside the repo;
+- `notes:homepage-redesign/work.md`, the homepage sketchbook (his words at each step, the cast, mock 1 and what is unchecked).
 Deeper: `notes:wait-line-rewait/work.md` (0.183.1: the 48 lines, the wording, the release); `notes:watch-scan-1012/work.md` (this scan: checked findings per watch item); `kivna/sessions/2026-10-11.md` (five sittings: the parked false alarm, the check-question rule, 0.183.0, both trims); `notes:now-trim/work.md` (the Now trim; `moved-rows.md` holds rows with no sketchbook); `notes:watch-scan-1011/work.md` (the 2026-10-11 scan: checked findings per watch item; its verdicts are in TODO.md's Now); `notes:watch-scan-1010/work.md` (the 2026-10-10 scan, the template decision, the parked guard false alarm); `notes:overtone-savvy/work.md` (the plan view: design, live trial, accepted limits; the Now watch row carries what to look for); `notes:release-0181/plan.html`; `kivna/sessions/2026-10-08.md` (ten sittings: question shape, 0.178.0 to 0.180.1, the plan view); `notes:overtone-savvy/mock.html`, `savvy-look.html`, `raster-proto-register.tsx` (the prototype); `notes:release-0179/work.md` (this sitting: 0.179.0, three review rounds, the `test_ask` race); `notes:bundle-1008/work.md` (notes save, step-list scan); `notes:sonnet-55/work.md` (medium vs high, three checks); `notes:question-shape/work.md` (recheck results, the Switch Out fix, its release); `kivna/sessions/2026-10-07.md` (twelve sittings); `notes:overtone-guard-gaps/work.md` (cut read, unreadable-working blocker, 0.8.3 refspec fix, 0.8.2, 0.8.1); `notes:codex-public-package/work.md` (0.177.2 Codex package, Codex's record); `notes:codex-update/work.md` (Codex 0.177.0 install); `notes:arrival-nothing-buildable/work.md` (0.177.0); `notes:haiku-switch/work.md` (0.176.0: diagnosis, probe, build); `notes:overtone-guard-gaps/work.md` (0.8.2 failed `cd`, and 0.8.1); `notes:opus-switch-evals/work.md` (Opus evals); `kivna/sessions/2026-10-06.md` (eight sittings: 0.172.1 to 0.175.1, the eval graders); `notes:boundary-slip/work.md` (0.175.2); `notes:switch-eval-graders/work.md`; `notes:overtone-guard-gaps/work.md`; `notes:chat-roll-window/work.md`; `notes:fixes-2026-10-06/work.md`; `notes:skills-guideline/work.md`; `docs/decisions.md`; `docs/backlog-archive.md`; `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `f03d7f4959936f5002ef46cd747f798b8682e636` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `dec402b96314f9cdae2d4c376a0cce62794bbbb1` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git (2026-10-07: the vault tree also holds apple-music's unsaved notes, not Kerd's; Kerd commits only its own paths).
 
-The observed position before this save is `main` at b77a124c (release 0.183.1); the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at b26446c7 (the 10:2x save after 0.183.1); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-12 10:2x, after the third sitting: 34,001 bytes, about 8,501 tokens (estimate), 501 over the 8,000 target (was ~8,187); the growth is today's three sittings in the log, kept because the next In needs the 0.183.1 position and the announcement finding; tomorrow's log starts small. Carried phrases (his Codex on 0.183.1, none eligible, the announce step's missing trigger) are all in the set. `read_args` for the next pickup:
+**Measured** 2026-10-12 11:2x, after the fourth sitting: 42,168 bytes, about 10,542 tokens (estimate), 2,542 over the 8,000 target; the homepage sketchbook (6,271 bytes) is in the set because the next action is porting mock 1 and needs his words at each step; today's log is four sittings long; tomorrow's starts small. Carried phrases (mock 1, "yes much better", the orchestra, awaiting his approval, Safari) are all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-12.md",
- "--file", "notes:outside-the-repo.md", "--section", "TODO.md", "## Now"]
+ "--file", "notes:outside-the-repo.md", "--file", "notes:homepage-redesign/work.md",
+ "--section", "TODO.md", "## Now"]
 ```
