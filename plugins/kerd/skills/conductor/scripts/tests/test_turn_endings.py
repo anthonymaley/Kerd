@@ -98,14 +98,16 @@ class TurnEndingTests(unittest.TestCase):
         self.assertIn("a contributing partner session never starts one", out)
 
     def test_wait_names_what_was_done_meanwhile(self):
+        # Real use, 2026-10-12: 11 of 48 wait lines put "Then <next step>" where the meanwhile clause belongs, mostly re-waits after a worker's notification.
         # Real use, 2026-10-09 13:5x: two turns ended on a bare test wait while records were still to do; the person asked "so what will you do instead of wait".
         text = normalize((REPO_ROOT / "skills/conductor/references/journey.md").read_text(encoding="utf-8"))
         for fragment in ("The wait also says what was done meanwhile, or that nothing else authorized can move and why",
                          "a bare wait with work still open is not that line",
+                         "A “then <next step>” clause does not stand in for it: every re-wait, including one right after a worker's notification, says what this turn did or why nothing else can move",
                          "A host or global rule that accepts a named wait as a turn ending does not lift this: it says how to end a turn, not when waiting is allowed"):
             self.assertIn(fragment, text)
         conductor = normalize((REPO_ROOT / "skills/conductor/SKILL.md").read_text(encoding="utf-8"))
-        self.assertIn("then names the job and how and when it resumes, with what was done meanwhile (or why nothing else can move)", conductor)
+        self.assertIn("then names the job and how and when it resumes, with what was done meanwhile (or why nothing else can move), never a “then <next step>” in its place, even on a re-wait", conductor)
 
     def test_skill_entries_carry_the_endings(self):
         conductor = normalize((REPO_ROOT / "skills/conductor/SKILL.md").read_text(encoding="utf-8"))

@@ -158,7 +158,7 @@ names the guide section with its detail: open that section before the step.
   person holds — never merely because a turn ended. Neither phase leaves a session
   idle with nothing asked: a turn waiting on a job first starts every other job its
   authority already covers, then names the job and how and when it resumes, with what was done meanwhile (or why
-  nothing else can move), and a
+  nothing else can move), never a “then <next step>” in its place, even on a re-wait, and a
   turn that took in a partner's contribution still ends with a line to the person.
   A CI run, deploy or test run expected to take over about a minute goes to a worker launched in the background (`kerd:haiku-low`, model haiku, on
   Claude Code; elsewhere a worker with the access it needs, or the blocker said)
