@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.183.1
+
+**A wait line says what was done meanwhile, even on a re-wait.** When Conductor ends a turn waiting on a job, it
+already had to say what it did in the meantime or why nothing else could move. In real use, 11 of 48 wait lines put
+"then <next step>" there instead, mostly right after a worker reported back. That substitution is now named and ruled
+out.
+
 ## 0.183.0
 
 **Check questions name the result and ask whether it happened.** When Kerd asks you to check something, it no

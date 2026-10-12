@@ -623,7 +623,9 @@ host wakes it when the job returns, or the person says so, or the next check is
 at a named time — and when it should be back, or “return time unknown” with that
 next check; it never invents an estimate. The wait also says what was done
 meanwhile, or that nothing else authorized can move and why; a bare wait with work
-still open is not that line. A host or global rule that accepts a named wait as a
+still open is not that line. A “then <next step>” clause does not stand in for it:
+every re-wait, including one right after a worker's notification, says what this
+turn did or why nothing else can move. A host or global rule that accepts a named wait as a
 turn ending does not lift this: it says how to end a turn, not when waiting is
 allowed. A bare “nothing is needed from you” or
 a status tick without the job and how it resumes is not that line. Claim an
