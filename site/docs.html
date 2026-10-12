@@ -4,9 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Docs · Kerd</title>
-<meta name="description" content="Every guide, one line each.">
+<meta name="description" content="The guides, by seat: each Kerd guide sits with the seat in the hall that uses it.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%230B5E4A' stroke-width='13'%3E%3Ccircle cx='50' cy='58' r='29.5'/%3E%3Cpath d='M79.5 6V94'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/kerd.css"></head>
+<link rel="stylesheet" href="assets/kerd.css">
+<link rel="stylesheet" href="assets/home.css">
+<link rel="stylesheet" href="assets/docs.css">
+<script src="assets/docs.js" defer></script>
+</head>
 <body>
 
 <header class="masthead">
@@ -36,55 +40,120 @@
 
 <main>
 
-  <section class="wrap grid band">
-    <div class="col-say">
-      <h1 class="statement">Read the guides.</h1>
+  <section class="wrap grid index" aria-label="The guides, seat by seat">
+    <div class="index__say">
+      <h1 class="statement">The guides, by seat.</h1>
+      <p class="lead">Each guide sits with the seat in the hall that uses it. Point at a seat on the plan to find its guide, or read down the list.</p>
+
+      <div class="guides">
+        <section class="guide guide--out" id="g-way" aria-label="The way in">
+          <div class="guide__seat">
+            <p class="guide__where">Foyer</p>
+            <h2 class="guide__name">The way in.</h2>
+          </div>
+          <div class="guide__read">
+            <p class="guide__link"><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/getting-started.md">Getting started</a></p>
+            <p>Install Kerd, sit down for the first time, and what to do when something is missing or goes wrong.</p>
+          </div>
+        </section>
+
+        <section class="guide" id="g-conductor" aria-label="Conductor, Composer and Players">
+          <div class="guide__seat">
+            <p class="guide__where">On stage</p>
+            <h2 class="guide__name">Conductor, Composer, Players.</h2>
+          </div>
+          <div class="guide__read">
+            <p class="guide__link"><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/conductor.md">Conductor</a> <code>/kerd:conductor</code></p>
+            <p>Rehearse a piece of work until done is pinned down, then have a team of agents perform it, checked against your goals.</p>
+          </div>
+        </section>
+
+        <section class="guide" id="g-stage" aria-label="Stage manager">
+          <div class="guide__seat">
+            <p class="guide__where">Wings</p>
+            <h2 class="guide__name">Stage manager.</h2>
+          </div>
+          <div class="guide__read">
+            <p class="guide__link"><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/switch.md">Switch</a> <code>/kerd:switch</code></p>
+            <p>Put work down and pick it up where you left it, on this machine or another.</p>
+          </div>
+        </section>
+
+        <section class="guide" id="g-illustrator" aria-label="Illustrator">
+          <div class="guide__seat">
+            <p class="guide__where">Upstage</p>
+            <h2 class="guide__name">Illustrator.</h2>
+          </div>
+          <div class="guide__read">
+            <p class="guide__link"><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/visuals.md">Visuals</a> <code>/kerd:visuals</code></p>
+            <p>How the parts, the owners and the before and after get drawn as a saved picture, and when one arrives without asking.</p>
+          </div>
+        </section>
+
+        <section class="guide" id="g-second" aria-label="Second opinion">
+          <div class="guide__seat">
+            <p class="guide__where">The box</p>
+            <h2 class="guide__name">Second opinion.</h2>
+          </div>
+          <div class="guide__read">
+            <p class="guide__link"><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/agent.md">Agent</a> <code>/kerd:agent</code></p>
+            <p>Ask another Claude or Codex session for its view, and keep track of which session is which.</p>
+          </div>
+        </section>
+
+        <section class="guide" id="g-tuner" aria-label="Tuner">
+          <div class="guide__seat">
+            <p class="guide__where">Backstage</p>
+            <h2 class="guide__name">Tuner.</h2>
+          </div>
+          <div class="guide__read">
+            <p class="guide__link"><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/tend-and-slainte.md">Tend and Slainte</a> <code>/kerd:tend</code> <code>/kerd:slainte</code></p>
+            <p>Tend keeps the repo’s structure in shape; Slainte checks whether the docs still match the code.</p>
+          </div>
+        </section>
+
+        <section class="guide" id="g-librarian" aria-label="Librarian">
+          <div class="guide__seat">
+            <p class="guide__where">Backstage</p>
+            <h2 class="guide__name">Librarian.</h2>
+          </div>
+          <div class="guide__read">
+            <p class="guide__link"><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/kivna-and-skriv.md">Kivna and Skriv</a> <code>/kerd:kivna</code></p>
+            <p>Keep what you learn in an Obsidian vault, in plain words, updated in place.</p>
+            <p class="guide__note">Skriv has no seat of its own and shares this guide: it keeps your prose sounding like a person wrote it.</p>
+          </div>
+        </section>
+
+        <section class="guide guide--out" id="g-notes" aria-label="Programme notes">
+          <div class="guide__seat">
+            <p class="guide__where">Foyer</p>
+            <h2 class="guide__name">Programme notes.</h2>
+          </div>
+          <div class="guide__read">
+            <p class="guide__link"><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/reference.md">Reference</a></p>
+            <p>Every command Kerd’s skills accept, one line each, grouped by skill.</p>
+          </div>
+        </section>
+      </div>
     </div>
 
-    <div class="does">
-      <div class="does__row">
-        <b>Getting started. What each question means, and what to do when something is
-          missing.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/getting-started.md">Read it</a></span>
+    <figure class="index__show">
+      <div class="plan-frame plan-scroll">
+        <svg class="plan" id="seats" viewBox="0 0 800 760" role="group" aria-label="Plan of the hall from above, as an index of the guides: each seat leads to the guide for it. The way in and the programme notes are in the foyer, outside the hall.">
+          <defs><pattern id="d-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path class="gridln" d="M40 0H0V40"/></pattern></defs><rect x="0" y="0" width="800" height="760" fill="url(#d-grid)"/><g class="house"><rect class="ln" x="20" y="16" width="760" height="630"/><path class="ln" d="M20 96H384M416 96H780"/><path class="ln" d="M384 96V64A32 32 0 0 1 416 96"/><path class="ln" d="M20 460H140M660 460H780"/><path class="ln" d="M140 460A865 865 0 0 0 660 460"/><path class="ln" d="M140 120L104 142M660 120L696 142"/><path class="ln" d="M140 200L104 222M660 200L696 222"/><path class="ln" d="M140 280L104 302M660 280L696 302"/><path class="ln row" d="M385.2 549.4A170 170 0 0 1 295.3 514"/><path class="ln row" d="M504.7 514A170 170 0 0 1 414.8 549.4"/><path class="ln row" d="M523.1 537.6A200 200 0 0 1 276.9 537.6"/><path class="ln row" d="M541.6 561.2A230 230 0 0 1 258.4 561.2"/><path class="ln" d="M20 482H80V542H20"/><circle class="ln" cx="42" cy="512" r="7"/><circle class="ln" cx="62" cy="512" r="7"/><path class="ln" d="M780 482H720V542H780"/></g><path class="ln foyer" d="M20 646V744H780V646"/><rect class="gap" x="369" y="643" width="62" height="6"/><g class="area"><text x="36" y="44">Backstage</text><text x="36" y="124">Wings</text><text x="36" y="626">Hall</text><text x="36" y="724">Foyer</text></g><path class="sight" d="M738 506L418 448"/><a class="seat seat--way" href="#g-way" aria-label="The way in: Getting started"><rect class="hit" x="330" y="652" width="140" height="86"/><rect class="ring" x="330" y="652" width="140" height="86"/><path class="ln" d="M368 646V678A32 32 0 0 0 400 646M432 646V678A32 32 0 0 1 400 646"/><text class="lab" x="400" y="726" text-anchor="middle">The way in</text></a><a class="seat seat--conductor" href="#g-conductor" aria-label="Conductor: the Conductor guide"><rect class="hit" x="360" y="405" width="80" height="92"/><rect class="ring" x="360" y="405" width="80" height="92"/><rect class="ln" x="382" y="427" width="36" height="36"/><circle class="chair" cx="400" cy="445" r="8"/><path class="ln" d="M405 437L415 417"/><text class="lab" x="400" y="487" text-anchor="middle">Conductor</text></a><a class="seat seat--composer" href="#g-conductor" aria-label="Composer: the Conductor guide"><rect class="hit" x="150" y="104" width="100" height="94"/><rect class="ring" x="150" y="104" width="100" height="94"/><rect class="ln" x="168" y="116" width="64" height="24"/><path class="ln" d="M176 124H224M176 132H224"/><circle class="ln" cx="192" cy="128" r="3"/><circle class="ln" cx="208" cy="124" r="3"/><circle class="chair" cx="200" cy="156" r="7"/><text class="lab" x="200" y="188" text-anchor="middle">Composer</text></a><a class="seat seat--players" href="#g-conductor" aria-label="Players: the Conductor guide"><rect class="hit" x="205" y="200" width="390" height="205"/><rect class="ring" x="205" y="200" width="390" height="205"/><circle class="chair" cx="486.1" cy="404.9" r="7"/><path class="ln" d="M470 405.8L475 416.6"/><circle class="chair" cx="451" cy="364.9" r="7"/><path class="ln" d="M437.9 374.3L448 380.8"/><circle class="chair" cx="400" cy="350" r="7"/><path class="ln" d="M394 365L406 365"/><circle class="chair" cx="349" cy="364.9" r="7"/><path class="ln" d="M352 380.8L362.1 374.3"/><circle class="chair" cx="313.9" cy="404.9" r="7"/><path class="ln" d="M325 416.6L330 405.8"/><circle class="chair" cx="535.9" cy="381.6" r="7"/><path class="ln" d="M519.8 382.5L524.9 393.4"/><circle class="chair" cx="508.7" cy="341.6" r="7"/><path class="ln" d="M493.7 347.6L501.9 356.3"/><circle class="chair" cx="470.1" cy="312.4" r="7"/><path class="ln" d="M457.8 322.8L468.4 328.4"/><circle class="chair" cx="424.2" cy="297" r="7"/><path class="ln" d="M415.9 310.8L427.7 312.7"/><circle class="chair" cx="375.8" cy="297" r="7"/><path class="ln" d="M372.3 312.7L384.1 310.8"/><circle class="chair" cx="329.9" cy="312.4" r="7"/><path class="ln" d="M331.6 328.4L342.2 322.8"/><circle class="chair" cx="291.3" cy="341.6" r="7"/><path class="ln" d="M298.1 356.3L306.3 347.6"/><circle class="chair" cx="264.1" cy="381.6" r="7"/><path class="ln" d="M275.1 393.4L280.2 382.5"/><circle class="chair" cx="585.8" cy="358.4" r="7"/><path class="ln" d="M569.7 359.3L574.7 370.1"/><circle class="chair" cx="561.5" cy="318.8" r="7"/><path class="ln" d="M546 323.3L553.4 332.8"/><circle class="chair" cx="529" cy="285.7" r="7"/><path class="ln" d="M514.9 293.6L524.2 301.1"/><circle class="chair" cx="489.9" cy="260.7" r="7"/><path class="ln" d="M477.9 271.6L488.7 276.9"/><circle class="chair" cx="446.1" cy="245.3" r="7"/><path class="ln" d="M436.9 258.5L448.6 261.2"/><circle class="chair" cx="400" cy="240" r="7"/><path class="ln" d="M394 255L406 255"/><circle class="chair" cx="353.9" cy="245.3" r="7"/><path class="ln" d="M351.4 261.2L363.1 258.5"/><circle class="chair" cx="310.1" cy="260.7" r="7"/><path class="ln" d="M311.3 276.9L322.1 271.6"/><circle class="chair" cx="271" cy="285.7" r="7"/><path class="ln" d="M275.8 301.1L285.1 293.6"/><circle class="chair" cx="238.5" cy="318.8" r="7"/><path class="ln" d="M246.6 332.8L254 323.3"/><circle class="chair" cx="214.2" cy="358.4" r="7"/><path class="ln" d="M225.3 370.1L230.3 359.3"/><text class="lab" x="400" y="218" text-anchor="middle">Players</text></a><a class="seat seat--stage" href="#g-stage" aria-label="Stage manager: the Switch guide"><rect class="hit" x="24" y="352" width="112" height="92"/><rect class="ring" x="24" y="352" width="112" height="92"/><rect class="ln" x="48" y="366" width="64" height="20"/><path class="ln" d="M58 372H76M58 380H70"/><circle class="chair" cx="80" cy="400" r="7"/><text class="lab" x="80" y="432" text-anchor="middle">Stage manager</text></a><a class="seat seat--illustrator" href="#g-illustrator" aria-label="Illustrator: the Visuals guide"><rect class="hit" x="540" y="102" width="112" height="108"/><rect class="ring" x="540" y="102" width="112" height="108"/><rect class="ln" x="562" y="112" width="66" height="44"/><circle class="ln" cx="588" cy="136" r="10"/><path class="ln" d="M604 122V150"/><circle class="chair" cx="595" cy="172" r="7"/><text class="lab" x="595" y="202" text-anchor="middle">Illustrator</text></a><a class="seat seat--second" href="#g-second" aria-label="Second opinion: the Agent guide"><rect class="hit" x="640" y="486" width="140" height="90"/><rect class="ring" x="640" y="486" width="140" height="90"/><circle class="chair" cx="750" cy="512" r="7"/><text class="lab" x="772" y="566" text-anchor="end">Second opinion</text></a><a class="seat seat--tuner" href="#g-tuner" aria-label="Tuner: the Tend and Slainte guide"><rect class="hit" x="222" y="26" width="92" height="62"/><rect class="ring" x="222" y="26" width="92" height="62"/><path class="ln" d="M232 34V58A8 8 0 0 0 248 58V34M240 66V82"/><text class="lab" x="262" y="62" text-anchor="start">Tuner</text></a><a class="seat seat--librarian" href="#g-librarian" aria-label="Librarian: the Kivna and Skriv guide"><rect class="hit" x="510" y="24" width="200" height="60"/><rect class="ring" x="510" y="24" width="200" height="60"/><rect class="ln" x="520" y="32" width="80" height="18"/><path class="ln" d="M528 34V48M536 34V48M544 34V48M552 34V48M560 34V48M568 34V48M576 34V48M584 34V48M592 34V48"/><circle class="chair" cx="560" cy="68" r="7"/><text class="lab" x="614" y="72" text-anchor="start">Librarian</text></a><g class="seat seat--you"><rect class="hit" x="384" y="532" width="60" height="36"/><rect class="ring" x="384" y="532" width="60" height="36"/><circle class="chair" cx="400" cy="550" r="8"/><text class="lab" x="416" y="556" text-anchor="start">You</text></g><a class="seat seat--notes" href="#g-notes" aria-label="Programme notes: Reference"><rect class="hit" x="520" y="652" width="200" height="86"/><rect class="ring" x="520" y="652" width="200" height="86"/><rect class="ln" x="588" y="664" width="64" height="24"/><path class="ln" d="M596 670H614M596 677H610M626 670H644M626 677H640"/><text class="lab" x="620" y="726" text-anchor="middle">Programme notes</text></a>
+        </svg>
       </div>
-      <div class="does__row">
-        <b>Put work down and pick it up exactly where you left it.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/switch.md">Switch</a></span>
-      </div>
-      <div class="does__row">
-        <b>Shape a piece of work, agree it, and have it performed.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/conductor.md">Conductor</a></span>
-      </div>
-      <div class="does__row">
-        <b>See it: pictures of what you are making, as you go.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/visuals.md">Visuals</a></span>
-      </div>
-      <div class="does__row">
-        <b>Get a second opinion from another AI session, Claude or Codex.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/agent.md">Agent</a></span>
-      </div>
-      <div class="does__row">
-        <b>Keep the project tidy and catch what has drifted.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/tend-and-slainte.md">Tend, Slainte</a></span>
-      </div>
-      <div class="does__row">
-        <b>Keep what you learn, and write like a person.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/kivna-and-skriv.md">Kivna, Skriv</a></span>
-      </div>
-      <div class="does__row">
-        <b>Every command, one line each.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/reference.md">Reference</a></span>
-      </div>
-    </div>
+      <figcaption class="caption">The hall from above. Every seat but yours leads to its guide; the way in and the programme notes wait in the foyer.</figcaption>
+    </figure>
   </section>
 
 </main>
 
 <footer class="wrap grid colophon">
   <div class="colophon__say">
-    <p>Kerd runs inside Claude Code, and a four-skill core can be built for Codex.</p>
-    <p class="soft">Rehearsal and the concert are new in version 0.139.0. This site, the README
-      and the guides are the first piece of work made with them.</p>
+    <p>Kerd runs inside Claude Code, and a four-skill core installs in Codex.</p>
+    <p class="soft">This site, the README and the guides were made with Kerd: rehearsed first,
+      then performed as a concert.</p>
     <p class="small soft">MIT licensed.</p>
   </div>
   <nav class="colophon__nav small" aria-label="Site">

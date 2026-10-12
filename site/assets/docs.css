@@ -1,0 +1,129 @@
+/* Kerd docs page: the guides, by seat. Loaded after kerd.css and home.css
+   (which supplies the hall-plan drawing styles), on docs.html only.
+   A seat on the plan is a link to its guide's row, and :has() lights the seat
+   and the row together on hover, focus or when the row is the target. No JS
+   needed for any of it; docs.js only centres the plan on a phone. */
+
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* ----------------------------------------------------------- the index */
+
+.index { padding-block: clamp(36px, 4vw, 60px) var(--s8); row-gap: var(--s6); align-items: start; }
+.index__say { grid-column: 1 / span 5; }
+.index__show { grid-column: 7 / span 6; position: sticky; top: var(--s5); }
+.index .lead { margin-top: var(--s4); }
+.index__show .caption { max-width: none; }
+
+.guides { margin-top: var(--s6); }
+.guide {
+  padding-block: var(--s4);
+  border-top: 1px solid var(--rule);
+  scroll-margin-top: var(--s5);
+}
+.guide:last-child { border-bottom: 1px solid var(--rule); }
+/* The seat on top, where it sits beside it; the guide and what it teaches below. */
+.guide__seat { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--s3); }
+.guide__where { order: 2; font-size: var(--t-small); color: var(--ink-soft); }
+.guide__name {
+  font-size: var(--t-body); line-height: 1.35; letter-spacing: -0.01em;
+  transition: color .18s ease;
+}
+.guide__read { margin-top: var(--s2); }
+.guide__link a { font-weight: 600; }
+.guide__link code { margin-left: var(--s2); font-size: var(--t-micro); color: var(--ink-soft); white-space: nowrap; }
+.guide__read p + p { margin-top: var(--s1); }
+.guide__read .guide__note { margin-top: var(--s3); font-size: var(--t-small); color: var(--ink-soft); }
+
+/* ------------------------------------------------------------ the plan */
+
+#seats .lab { font-size: 22px; }
+#seats .area text { font-size: 18px; }
+#seats .gap { fill: var(--surface); stroke: none; }
+/* Your seat is drawn but leads nowhere: it is where you sit to read. */
+#seats .seat--you .ln, #seats .seat--you .chair { stroke: var(--ink-soft); }
+#seats .seat--you .lab { fill: var(--ink-soft); }
+
+/* ------------------------------------- a seat and its guide, lit together */
+
+:is(.index:has(#g-way:hover, #g-way:focus-within, a.seat[href="#g-way"]:hover, a.seat[href="#g-way"]:focus-visible) a.seat[href="#g-way"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-way:target) a.seat[href="#g-way"],
+.index:has(#g-conductor:hover, #g-conductor:focus-within, a.seat[href="#g-conductor"]:hover, a.seat[href="#g-conductor"]:focus-visible) a.seat[href="#g-conductor"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-conductor:target) a.seat[href="#g-conductor"],
+.index:has(#g-stage:hover, #g-stage:focus-within, a.seat[href="#g-stage"]:hover, a.seat[href="#g-stage"]:focus-visible) a.seat[href="#g-stage"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-stage:target) a.seat[href="#g-stage"],
+.index:has(#g-illustrator:hover, #g-illustrator:focus-within, a.seat[href="#g-illustrator"]:hover, a.seat[href="#g-illustrator"]:focus-visible) a.seat[href="#g-illustrator"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-illustrator:target) a.seat[href="#g-illustrator"],
+.index:has(#g-second:hover, #g-second:focus-within, a.seat[href="#g-second"]:hover, a.seat[href="#g-second"]:focus-visible) a.seat[href="#g-second"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-second:target) a.seat[href="#g-second"],
+.index:has(#g-tuner:hover, #g-tuner:focus-within, a.seat[href="#g-tuner"]:hover, a.seat[href="#g-tuner"]:focus-visible) a.seat[href="#g-tuner"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-tuner:target) a.seat[href="#g-tuner"],
+.index:has(#g-librarian:hover, #g-librarian:focus-within, a.seat[href="#g-librarian"]:hover, a.seat[href="#g-librarian"]:focus-visible) a.seat[href="#g-librarian"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-librarian:target) a.seat[href="#g-librarian"],
+.index:has(#g-notes:hover, #g-notes:focus-within, a.seat[href="#g-notes"]:hover, a.seat[href="#g-notes"]:focus-visible) a.seat[href="#g-notes"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-notes:target) a.seat[href="#g-notes"]) .ln { stroke: var(--accent); }
+:is(.index:has(#g-way:hover, #g-way:focus-within, a.seat[href="#g-way"]:hover, a.seat[href="#g-way"]:focus-visible) a.seat[href="#g-way"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-way:target) a.seat[href="#g-way"],
+.index:has(#g-conductor:hover, #g-conductor:focus-within, a.seat[href="#g-conductor"]:hover, a.seat[href="#g-conductor"]:focus-visible) a.seat[href="#g-conductor"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-conductor:target) a.seat[href="#g-conductor"],
+.index:has(#g-stage:hover, #g-stage:focus-within, a.seat[href="#g-stage"]:hover, a.seat[href="#g-stage"]:focus-visible) a.seat[href="#g-stage"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-stage:target) a.seat[href="#g-stage"],
+.index:has(#g-illustrator:hover, #g-illustrator:focus-within, a.seat[href="#g-illustrator"]:hover, a.seat[href="#g-illustrator"]:focus-visible) a.seat[href="#g-illustrator"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-illustrator:target) a.seat[href="#g-illustrator"],
+.index:has(#g-second:hover, #g-second:focus-within, a.seat[href="#g-second"]:hover, a.seat[href="#g-second"]:focus-visible) a.seat[href="#g-second"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-second:target) a.seat[href="#g-second"],
+.index:has(#g-tuner:hover, #g-tuner:focus-within, a.seat[href="#g-tuner"]:hover, a.seat[href="#g-tuner"]:focus-visible) a.seat[href="#g-tuner"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-tuner:target) a.seat[href="#g-tuner"],
+.index:has(#g-librarian:hover, #g-librarian:focus-within, a.seat[href="#g-librarian"]:hover, a.seat[href="#g-librarian"]:focus-visible) a.seat[href="#g-librarian"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-librarian:target) a.seat[href="#g-librarian"],
+.index:has(#g-notes:hover, #g-notes:focus-within, a.seat[href="#g-notes"]:hover, a.seat[href="#g-notes"]:focus-visible) a.seat[href="#g-notes"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-notes:target) a.seat[href="#g-notes"]) .chair { fill: var(--accent); stroke: var(--accent); }
+:is(.index:has(#g-way:hover, #g-way:focus-within, a.seat[href="#g-way"]:hover, a.seat[href="#g-way"]:focus-visible) a.seat[href="#g-way"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-way:target) a.seat[href="#g-way"],
+.index:has(#g-conductor:hover, #g-conductor:focus-within, a.seat[href="#g-conductor"]:hover, a.seat[href="#g-conductor"]:focus-visible) a.seat[href="#g-conductor"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-conductor:target) a.seat[href="#g-conductor"],
+.index:has(#g-stage:hover, #g-stage:focus-within, a.seat[href="#g-stage"]:hover, a.seat[href="#g-stage"]:focus-visible) a.seat[href="#g-stage"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-stage:target) a.seat[href="#g-stage"],
+.index:has(#g-illustrator:hover, #g-illustrator:focus-within, a.seat[href="#g-illustrator"]:hover, a.seat[href="#g-illustrator"]:focus-visible) a.seat[href="#g-illustrator"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-illustrator:target) a.seat[href="#g-illustrator"],
+.index:has(#g-second:hover, #g-second:focus-within, a.seat[href="#g-second"]:hover, a.seat[href="#g-second"]:focus-visible) a.seat[href="#g-second"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-second:target) a.seat[href="#g-second"],
+.index:has(#g-tuner:hover, #g-tuner:focus-within, a.seat[href="#g-tuner"]:hover, a.seat[href="#g-tuner"]:focus-visible) a.seat[href="#g-tuner"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-tuner:target) a.seat[href="#g-tuner"],
+.index:has(#g-librarian:hover, #g-librarian:focus-within, a.seat[href="#g-librarian"]:hover, a.seat[href="#g-librarian"]:focus-visible) a.seat[href="#g-librarian"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-librarian:target) a.seat[href="#g-librarian"],
+.index:has(#g-notes:hover, #g-notes:focus-within, a.seat[href="#g-notes"]:hover, a.seat[href="#g-notes"]:focus-visible) a.seat[href="#g-notes"],
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-notes:target) a.seat[href="#g-notes"]) .lab { fill: var(--accent); }
+:is(.index:has(#g-way:hover, #g-way:focus-within, a.seat[href="#g-way"]:hover, a.seat[href="#g-way"]:focus-visible) #g-way,
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-way:target) #g-way,
+.index:has(#g-conductor:hover, #g-conductor:focus-within, a.seat[href="#g-conductor"]:hover, a.seat[href="#g-conductor"]:focus-visible) #g-conductor,
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-conductor:target) #g-conductor,
+.index:has(#g-stage:hover, #g-stage:focus-within, a.seat[href="#g-stage"]:hover, a.seat[href="#g-stage"]:focus-visible) #g-stage,
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-stage:target) #g-stage,
+.index:has(#g-illustrator:hover, #g-illustrator:focus-within, a.seat[href="#g-illustrator"]:hover, a.seat[href="#g-illustrator"]:focus-visible) #g-illustrator,
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-illustrator:target) #g-illustrator,
+.index:has(#g-second:hover, #g-second:focus-within, a.seat[href="#g-second"]:hover, a.seat[href="#g-second"]:focus-visible) #g-second,
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-second:target) #g-second,
+.index:has(#g-tuner:hover, #g-tuner:focus-within, a.seat[href="#g-tuner"]:hover, a.seat[href="#g-tuner"]:focus-visible) #g-tuner,
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-tuner:target) #g-tuner,
+.index:has(#g-librarian:hover, #g-librarian:focus-within, a.seat[href="#g-librarian"]:hover, a.seat[href="#g-librarian"]:focus-visible) #g-librarian,
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-librarian:target) #g-librarian,
+.index:has(#g-notes:hover, #g-notes:focus-within, a.seat[href="#g-notes"]:hover, a.seat[href="#g-notes"]:focus-visible) #g-notes,
+.index:not(:has(.guide:hover, .guide:focus-within, a.seat:hover, a.seat:focus-visible)):has(#g-notes:target) #g-notes) .guide__name { color: var(--accent); }
+
+/* ------------------------------------------------------------ narrow */
+
+@media (max-width: 1200px) {
+  .index { row-gap: var(--s5); }
+  .index__say { display: contents; }
+  .index__say > * { grid-column: 1 / span 12; }
+  .index .lead { margin-top: 0; }
+  .index__show { grid-column: 1 / span 12; position: static; order: 2; max-width: 44rem; }
+  .guides { order: 3; margin-top: var(--s3); }
+}
+
+/* On a phone the plan scrolls sideways inside its frame, as on the homepage;
+   docs.js opens it centred on the stage. */
+@media (max-width: 760px) {
+  .index .plan-scroll .plan { min-width: 600px; }
+}
+

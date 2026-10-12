@@ -4,9 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Examples · Kerd</title>
-<meta name="description" content="Real work, not invented.">
+<meta name="description" content="Real work, not invented. Three pieces of work done with Kerd, each set out as a programme: the piece, the seats that played, and what happened.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%230B5E4A' stroke-width='13'%3E%3Ccircle cx='50' cy='58' r='29.5'/%3E%3Cpath d='M79.5 6V94'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/kerd.css"></head>
+<link rel="stylesheet" href="assets/kerd.css">
+<link rel="stylesheet" href="assets/home.css">
+<link rel="stylesheet" href="assets/examples.css">
+</head>
 <body>
 
 <header class="masthead">
@@ -36,37 +39,230 @@
 
 <main>
 
-  <section class="wrap grid band">
-    <div class="col-say">
+  <section class="wrap grid ex-intro">
+    <div class="ex-intro__say">
       <h1 class="statement">Real work, not invented.</h1>
     </div>
-
-    <div class="does">
-      <div class="does__row">
-        <b>MusicTUI across sittings. A terminal app carried through many sittings, the
-          place saved and picked up each time.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/examples/musictui-across-sittings.md">Read it</a></span>
-      </div>
-      <div class="does__row">
-        <b>A reviewed release. A Kerd release read by an independent second AI before it
-          shipped.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/examples/a-reviewed-release.md">Read it</a></span>
-      </div>
-      <div class="does__row">
-        <b>This package. The README, site and guides you are reading now, from rehearsal
-          to concert.</b>
-        <span><a href="https://github.com/anthonymaley/Kerd/blob/main/examples/this-package.md">Read it</a></span>
-      </div>
+    <div class="ex-intro__show">
+      <p class="lead">Three pieces of work done with Kerd, each set out as a programme: the
+        piece, the seats that played, and what happened. A seat its record does not show
+        playing stays dark.</p>
+      <p class="small soft ex-intro__hint">Every line here comes from the full record, which is
+        one link away on each. Point at a name in the cast to find its seat.</p>
     </div>
+  </section>
+
+  <section class="wrap grid prog" id="musictui" aria-labelledby="musictui-t">
+    <div class="prog__say">
+      <p class="prog__when">Eight sittings over two days, 2 and 3 September 2026.</p>
+      <h2 class="title" id="musictui-t">MusicTUI, across sittings.</h2>
+      <dl class="prog__parts">
+        <div>
+          <dt>The piece</dt>
+          <dd>MusicTUI is a terminal client for Apple Music. Its cleanup could delete the
+            playlist the app had just created to play from. The fix was one row of work,
+            “Discover lifecycle serialisation”, carried by name from the sitting that found
+            it to the sitting that shipped it.</dd>
+        </div>
+        <div>
+          <dt>What happened</dt>
+          <dd>
+            <p>Codex found it during a review of something else, and the close wrote it down
+              with its mechanism and one constraint: plan before code. The next four sittings
+              did other work, a push failure, a merge, a release, and each one carried the row
+              forward.</p>
+            <p>When it was picked up, the owner held it to a design: three review rounds with
+              Codex, four drafts, nothing built. On his go it was built, reviewed by Codex and
+              gated live. The gate passed, and also turned up one deletion nobody could
+              explain. The close wrote it down in full, two timestamps two seconds apart, and
+              the next sitting built a measuring campaign on that detail before v3.12.0 went
+              out.</p>
+          </dd>
+        </div>
+        <div>
+          <dt>What the record does not show</dt>
+          <dd>Anyone in the act of reading a log at pickup. And the deletion was never
+            explained: the work closed the races in the app’s own code, but did not make the
+            symptom impossible.</dd>
+        </div>
+      </dl>
+      <p class="prog__read"><a href="https://github.com/anthonymaley/Kerd/blob/main/examples/musictui-across-sittings.md">Read the full record</a></p>
+    </div>
+    <figure class="prog__show">
+      <div class="plan-frame">
+        <svg class="plan prog-plan" viewBox="0 0 800 660" data-lit="you stage second" aria-hidden="true" focusable="false">
+          <defs><pattern id="p1-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path class="gridln" d="M40 0H0V40"/></pattern></defs><rect x="0" y="0" width="800" height="660" fill="url(#p1-grid)"/><g class="house"><rect class="ln" x="20" y="16" width="760" height="630"/><path class="ln" d="M20 96H384M416 96H780"/><path class="ln" d="M384 96V64A32 32 0 0 1 416 96"/><path class="ln" d="M20 460H140M660 460H780"/><path class="ln" d="M140 460A865 865 0 0 0 660 460"/><path class="ln" d="M140 120L104 142M660 120L696 142"/><path class="ln" d="M140 200L104 222M660 200L696 222"/><path class="ln" d="M140 280L104 302M660 280L696 302"/><path class="ln row" d="M385.2 549.4A170 170 0 0 1 295.3 514"/><path class="ln row" d="M504.7 514A170 170 0 0 1 414.8 549.4"/><path class="ln row" d="M523.1 537.6A200 200 0 0 1 276.9 537.6"/><path class="ln row" d="M541.6 561.2A230 230 0 0 1 258.4 561.2"/><path class="ln" d="M20 482H80V542H20"/><path class="ln" d="M780 482H720V542H780"/></g><path class="sight" d="M738 506L418 448"/><g class="seat seat--players"><rect class="hit" x="205" y="200" width="390" height="205"/><rect class="ring" x="205" y="200" width="390" height="205"/><circle class="chair" cx="486.1" cy="404.9" r="7"/><path class="ln" d="M470 405.8L475 416.6"/><circle class="chair" cx="451" cy="364.9" r="7"/><path class="ln" d="M437.9 374.3L448 380.8"/><circle class="chair" cx="400" cy="350" r="7"/><path class="ln" d="M394 365L406 365"/><circle class="chair" cx="349" cy="364.9" r="7"/><path class="ln" d="M352 380.8L362.1 374.3"/><circle class="chair" cx="313.9" cy="404.9" r="7"/><path class="ln" d="M325 416.6L330 405.8"/><circle class="chair" cx="535.9" cy="381.6" r="7"/><path class="ln" d="M519.8 382.5L524.9 393.4"/><circle class="chair" cx="508.7" cy="341.6" r="7"/><path class="ln" d="M493.7 347.6L501.9 356.3"/><circle class="chair" cx="470.1" cy="312.4" r="7"/><path class="ln" d="M457.8 322.8L468.4 328.4"/><circle class="chair" cx="424.2" cy="297" r="7"/><path class="ln" d="M415.9 310.8L427.7 312.7"/><circle class="chair" cx="375.8" cy="297" r="7"/><path class="ln" d="M372.3 312.7L384.1 310.8"/><circle class="chair" cx="329.9" cy="312.4" r="7"/><path class="ln" d="M331.6 328.4L342.2 322.8"/><circle class="chair" cx="291.3" cy="341.6" r="7"/><path class="ln" d="M298.1 356.3L306.3 347.6"/><circle class="chair" cx="264.1" cy="381.6" r="7"/><path class="ln" d="M275.1 393.4L280.2 382.5"/><circle class="chair" cx="585.8" cy="358.4" r="7"/><path class="ln" d="M569.7 359.3L574.7 370.1"/><circle class="chair" cx="561.5" cy="318.8" r="7"/><path class="ln" d="M546 323.3L553.4 332.8"/><circle class="chair" cx="529" cy="285.7" r="7"/><path class="ln" d="M514.9 293.6L524.2 301.1"/><circle class="chair" cx="489.9" cy="260.7" r="7"/><path class="ln" d="M477.9 271.6L488.7 276.9"/><circle class="chair" cx="446.1" cy="245.3" r="7"/><path class="ln" d="M436.9 258.5L448.6 261.2"/><circle class="chair" cx="400" cy="240" r="7"/><path class="ln" d="M394 255L406 255"/><circle class="chair" cx="353.9" cy="245.3" r="7"/><path class="ln" d="M351.4 261.2L363.1 258.5"/><circle class="chair" cx="310.1" cy="260.7" r="7"/><path class="ln" d="M311.3 276.9L322.1 271.6"/><circle class="chair" cx="271" cy="285.7" r="7"/><path class="ln" d="M275.8 301.1L285.1 293.6"/><circle class="chair" cx="238.5" cy="318.8" r="7"/><path class="ln" d="M246.6 332.8L254 323.3"/><circle class="chair" cx="214.2" cy="358.4" r="7"/><path class="ln" d="M225.3 370.1L230.3 359.3"/><text class="lab" x="400" y="218" text-anchor="middle">Players</text></g><g class="seat seat--composer"><rect class="hit" x="150" y="104" width="100" height="94"/><rect class="ring" x="150" y="104" width="100" height="94"/><rect class="ln" x="168" y="116" width="64" height="24"/><path class="ln" d="M176 124H224M176 132H224"/><circle class="ln" cx="192" cy="128" r="3"/><circle class="ln" cx="208" cy="124" r="3"/><circle class="chair" cx="200" cy="156" r="7"/><text class="lab" x="200" y="188" text-anchor="middle">Composer</text></g><g class="seat seat--illustrator"><rect class="hit" x="540" y="102" width="112" height="108"/><rect class="ring" x="540" y="102" width="112" height="108"/><rect class="ln" x="562" y="112" width="66" height="44"/><circle class="ln" cx="588" cy="136" r="10"/><path class="ln" d="M604 122V150"/><circle class="chair" cx="595" cy="172" r="7"/><text class="lab" x="595" y="202" text-anchor="middle">Illustrator</text></g><g class="seat seat--stage"><rect class="hit" x="24" y="352" width="112" height="92"/><rect class="ring" x="24" y="352" width="112" height="92"/><rect class="ln" x="48" y="366" width="64" height="20"/><path class="ln" d="M58 372H76M58 380H70"/><circle class="chair" cx="80" cy="400" r="7"/><text class="lab" x="80" y="432" text-anchor="middle">Stage manager</text></g><g class="seat seat--tuner"><rect class="hit" x="222" y="26" width="92" height="62"/><rect class="ring" x="222" y="26" width="92" height="62"/><path class="ln" d="M232 34V58A8 8 0 0 0 248 58V34M240 66V82"/><text class="lab" x="262" y="62" text-anchor="start">Tuner</text></g><g class="seat seat--librarian"><rect class="hit" x="510" y="24" width="200" height="60"/><rect class="ring" x="510" y="24" width="200" height="60"/><rect class="ln" x="520" y="32" width="80" height="18"/><path class="ln" d="M528 34V48M536 34V48M544 34V48M552 34V48M560 34V48M568 34V48M576 34V48M584 34V48M592 34V48"/><circle class="chair" cx="560" cy="68" r="7"/><text class="lab" x="614" y="72" text-anchor="start">Librarian</text></g><g class="seat seat--second"><rect class="hit" x="640" y="486" width="140" height="90"/><rect class="ring" x="640" y="486" width="140" height="90"/><circle class="chair" cx="750" cy="512" r="7"/><text class="lab" x="772" y="566" text-anchor="end">Second opinion</text></g><g class="seat seat--you"><rect class="hit" x="384" y="532" width="60" height="36"/><rect class="ring" x="384" y="532" width="60" height="36"/><circle class="chair" cx="400" cy="550" r="8"/><text class="lab" x="416" y="556" text-anchor="start">You</text></g><g class="seat seat--conductor"><rect class="hit" x="360" y="405" width="80" height="92"/><rect class="ring" x="360" y="405" width="80" height="92"/><rect class="ln" x="382" y="427" width="36" height="36"/><circle class="chair" cx="400" cy="445" r="8"/><path class="ln" d="M405 437L415 417"/><text class="lab" x="400" y="487" text-anchor="middle">Conductor</text></g>
+        </svg>
+      </div>
+      <figcaption class="cast">
+        <p class="cast__head">Who played</p>
+        <dl>
+          <div class="cast__row" data-seat="you">
+            <dt>You</dt>
+            <dd>Chose the row, held it to a design, gave the go on two conditions, and ruled
+              out the release while one deletion stood unexplained.</dd>
+          </div>
+          <div class="cast__row" data-seat="stage">
+            <dt>Stage manager</dt>
+            <dd>Wrote the row down at every close, mechanism and constraint included, and
+              every open carried it forward unchanged.</dd>
+          </div>
+          <div class="cast__row" data-seat="second">
+            <dt>Second opinion</dt>
+            <dd>Codex. Raised the defect as an Important finding, reviewed the design over
+              three rounds, then reviewed the build.</dd>
+          </div>
+        </dl>
+        <p class="cast__off">Not in this record: the conductor, illustrator, composer,
+          players, tuner and librarian.</p>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap grid prog" id="reviewed-release" aria-labelledby="release-t">
+    <div class="prog__say">
+      <p class="prog__when">Kerd 0.134.0, released 17 September 2026. Two review rounds.</p>
+      <h2 class="title" id="release-t">A reviewed release.</h2>
+      <dl class="prog__parts">
+        <div>
+          <dt>The piece</dt>
+          <dd>A correction to Kerd’s Visuals skill, the illustrator’s own part. The owner
+            brought two versions of the same diagram card, one in implementation terms and
+            one in product language, and asked for the difference to be written in as a
+            contract correction, not a new governance protocol. Two clauses were new: an
+            expansion test, and the project or repository name readable inside the picture.</dd>
+        </div>
+        <div>
+          <dt>What happened</dt>
+          <dd>
+            <p>A Claude session wrote it, and Codex, which did not write it, read it before the
+              push. Five findings across two rounds, all five accepted. The first hit the very
+              rule the release existed to add: as written, a whole class of factual view had no
+              way to pass it.</p>
+            <p>The fix for that was reviewed again and had the same flaw one level up: it let
+              an author choose which test their own view takes. Codex’s wording replaced it,
+              so content decides the test, never the title. 731 tests and a clean gate were
+              green at every one of those points. None of them caught either flaw.</p>
+          </dd>
+        </div>
+        <div>
+          <dt>What the record does not show</dt>
+          <dd>That the two new clauses work. They had not been measured on real diagram
+            output when the release shipped, and the release said so.</dd>
+        </div>
+      </dl>
+      <p class="prog__read"><a href="https://github.com/anthonymaley/Kerd/blob/main/examples/a-reviewed-release.md">Read the full record</a></p>
+    </div>
+    <figure class="prog__show">
+      <div class="plan-frame">
+        <svg class="plan prog-plan" viewBox="0 0 800 660" data-lit="you second" aria-hidden="true" focusable="false">
+          <defs><pattern id="p2-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path class="gridln" d="M40 0H0V40"/></pattern></defs><rect x="0" y="0" width="800" height="660" fill="url(#p2-grid)"/><g class="house"><rect class="ln" x="20" y="16" width="760" height="630"/><path class="ln" d="M20 96H384M416 96H780"/><path class="ln" d="M384 96V64A32 32 0 0 1 416 96"/><path class="ln" d="M20 460H140M660 460H780"/><path class="ln" d="M140 460A865 865 0 0 0 660 460"/><path class="ln" d="M140 120L104 142M660 120L696 142"/><path class="ln" d="M140 200L104 222M660 200L696 222"/><path class="ln" d="M140 280L104 302M660 280L696 302"/><path class="ln row" d="M385.2 549.4A170 170 0 0 1 295.3 514"/><path class="ln row" d="M504.7 514A170 170 0 0 1 414.8 549.4"/><path class="ln row" d="M523.1 537.6A200 200 0 0 1 276.9 537.6"/><path class="ln row" d="M541.6 561.2A230 230 0 0 1 258.4 561.2"/><path class="ln" d="M20 482H80V542H20"/><path class="ln" d="M780 482H720V542H780"/></g><path class="sight" d="M738 506L418 448"/><g class="seat seat--players"><rect class="hit" x="205" y="200" width="390" height="205"/><rect class="ring" x="205" y="200" width="390" height="205"/><circle class="chair" cx="486.1" cy="404.9" r="7"/><path class="ln" d="M470 405.8L475 416.6"/><circle class="chair" cx="451" cy="364.9" r="7"/><path class="ln" d="M437.9 374.3L448 380.8"/><circle class="chair" cx="400" cy="350" r="7"/><path class="ln" d="M394 365L406 365"/><circle class="chair" cx="349" cy="364.9" r="7"/><path class="ln" d="M352 380.8L362.1 374.3"/><circle class="chair" cx="313.9" cy="404.9" r="7"/><path class="ln" d="M325 416.6L330 405.8"/><circle class="chair" cx="535.9" cy="381.6" r="7"/><path class="ln" d="M519.8 382.5L524.9 393.4"/><circle class="chair" cx="508.7" cy="341.6" r="7"/><path class="ln" d="M493.7 347.6L501.9 356.3"/><circle class="chair" cx="470.1" cy="312.4" r="7"/><path class="ln" d="M457.8 322.8L468.4 328.4"/><circle class="chair" cx="424.2" cy="297" r="7"/><path class="ln" d="M415.9 310.8L427.7 312.7"/><circle class="chair" cx="375.8" cy="297" r="7"/><path class="ln" d="M372.3 312.7L384.1 310.8"/><circle class="chair" cx="329.9" cy="312.4" r="7"/><path class="ln" d="M331.6 328.4L342.2 322.8"/><circle class="chair" cx="291.3" cy="341.6" r="7"/><path class="ln" d="M298.1 356.3L306.3 347.6"/><circle class="chair" cx="264.1" cy="381.6" r="7"/><path class="ln" d="M275.1 393.4L280.2 382.5"/><circle class="chair" cx="585.8" cy="358.4" r="7"/><path class="ln" d="M569.7 359.3L574.7 370.1"/><circle class="chair" cx="561.5" cy="318.8" r="7"/><path class="ln" d="M546 323.3L553.4 332.8"/><circle class="chair" cx="529" cy="285.7" r="7"/><path class="ln" d="M514.9 293.6L524.2 301.1"/><circle class="chair" cx="489.9" cy="260.7" r="7"/><path class="ln" d="M477.9 271.6L488.7 276.9"/><circle class="chair" cx="446.1" cy="245.3" r="7"/><path class="ln" d="M436.9 258.5L448.6 261.2"/><circle class="chair" cx="400" cy="240" r="7"/><path class="ln" d="M394 255L406 255"/><circle class="chair" cx="353.9" cy="245.3" r="7"/><path class="ln" d="M351.4 261.2L363.1 258.5"/><circle class="chair" cx="310.1" cy="260.7" r="7"/><path class="ln" d="M311.3 276.9L322.1 271.6"/><circle class="chair" cx="271" cy="285.7" r="7"/><path class="ln" d="M275.8 301.1L285.1 293.6"/><circle class="chair" cx="238.5" cy="318.8" r="7"/><path class="ln" d="M246.6 332.8L254 323.3"/><circle class="chair" cx="214.2" cy="358.4" r="7"/><path class="ln" d="M225.3 370.1L230.3 359.3"/><text class="lab" x="400" y="218" text-anchor="middle">Players</text></g><g class="seat seat--composer"><rect class="hit" x="150" y="104" width="100" height="94"/><rect class="ring" x="150" y="104" width="100" height="94"/><rect class="ln" x="168" y="116" width="64" height="24"/><path class="ln" d="M176 124H224M176 132H224"/><circle class="ln" cx="192" cy="128" r="3"/><circle class="ln" cx="208" cy="124" r="3"/><circle class="chair" cx="200" cy="156" r="7"/><text class="lab" x="200" y="188" text-anchor="middle">Composer</text></g><g class="seat seat--illustrator"><rect class="hit" x="540" y="102" width="112" height="108"/><rect class="ring" x="540" y="102" width="112" height="108"/><rect class="ln" x="562" y="112" width="66" height="44"/><circle class="ln" cx="588" cy="136" r="10"/><path class="ln" d="M604 122V150"/><circle class="chair" cx="595" cy="172" r="7"/><text class="lab" x="595" y="202" text-anchor="middle">Illustrator</text></g><g class="seat seat--stage"><rect class="hit" x="24" y="352" width="112" height="92"/><rect class="ring" x="24" y="352" width="112" height="92"/><rect class="ln" x="48" y="366" width="64" height="20"/><path class="ln" d="M58 372H76M58 380H70"/><circle class="chair" cx="80" cy="400" r="7"/><text class="lab" x="80" y="432" text-anchor="middle">Stage manager</text></g><g class="seat seat--tuner"><rect class="hit" x="222" y="26" width="92" height="62"/><rect class="ring" x="222" y="26" width="92" height="62"/><path class="ln" d="M232 34V58A8 8 0 0 0 248 58V34M240 66V82"/><text class="lab" x="262" y="62" text-anchor="start">Tuner</text></g><g class="seat seat--librarian"><rect class="hit" x="510" y="24" width="200" height="60"/><rect class="ring" x="510" y="24" width="200" height="60"/><rect class="ln" x="520" y="32" width="80" height="18"/><path class="ln" d="M528 34V48M536 34V48M544 34V48M552 34V48M560 34V48M568 34V48M576 34V48M584 34V48M592 34V48"/><circle class="chair" cx="560" cy="68" r="7"/><text class="lab" x="614" y="72" text-anchor="start">Librarian</text></g><g class="seat seat--second"><rect class="hit" x="640" y="486" width="140" height="90"/><rect class="ring" x="640" y="486" width="140" height="90"/><circle class="chair" cx="750" cy="512" r="7"/><text class="lab" x="772" y="566" text-anchor="end">Second opinion</text></g><g class="seat seat--you"><rect class="hit" x="384" y="532" width="60" height="36"/><rect class="ring" x="384" y="532" width="60" height="36"/><circle class="chair" cx="400" cy="550" r="8"/><text class="lab" x="416" y="556" text-anchor="start">You</text></g><g class="seat seat--conductor"><rect class="hit" x="360" y="405" width="80" height="92"/><rect class="ring" x="360" y="405" width="80" height="92"/><rect class="ln" x="382" y="427" width="36" height="36"/><circle class="chair" cx="400" cy="445" r="8"/><path class="ln" d="M405 437L415 417"/><text class="lab" x="400" y="487" text-anchor="middle">Conductor</text></g>
+        </svg>
+      </div>
+      <figcaption class="cast">
+        <p class="cast__head">Who played</p>
+        <dl>
+          <div class="cast__row" data-seat="you">
+            <dt>You</dt>
+            <dd>Brought the two cards, asked for a contract correction, and ruled out a new
+              protocol for it.</dd>
+          </div>
+          <div class="cast__row" data-seat="second">
+            <dt>Second opinion</dt>
+            <dd>Codex. Read the release before it was pushed, then read the fix for its
+              first finding. Five findings, all five taken.</dd>
+          </div>
+        </dl>
+        <p class="cast__off">Not in this record: the conductor, stage manager, composer,
+          players, tuner and librarian. The illustrator’s part was the piece being rewritten,
+          not a seat that played.</p>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap grid prog" id="this-package" aria-labelledby="package-t">
+    <div class="prog__say">
+      <p class="prog__when">One evening and the next morning. The first real use of rehearsal
+        and the concert.</p>
+      <h2 class="title" id="package-t">This package.</h2>
+      <dl class="prog__parts">
+        <div>
+          <dt>The piece</dt>
+          <dd>The README, the website, the guides, the pictures and the other two examples,
+            made as one piece of work. The record is a self-report by the conducting session;
+            where someone else checked something, it says who.</dd>
+        </div>
+        <div>
+          <dt>What happened</dt>
+          <dd>
+            <p>Rehearsal ran eight exchanges in no fixed order, each answer written into the
+              sketchbook before the next question. Twice the conductor said it was nearly
+              ready and named the one thing missing. The third time it showed the concert as
+              a picture in three batches and asked for the go.</p>
+            <p>Players worked in parallel, and every return was read against its part of the
+              score. What went wrong was caught by somebody reading or rendering the real
+              thing: install commands that did not exist, an invented eighth step, picture
+              frames that never filled. Readers who had never seen Kerd found what the pages
+              left out; two steps were performed again, and new readers read the result.</p>
+          </dd>
+        </div>
+        <div>
+          <dt>What the record does not show</dt>
+          <dd>Whether real people find any of it useful. That cannot be read from inside the
+            work.</dd>
+        </div>
+      </dl>
+      <p class="prog__read"><a href="https://github.com/anthonymaley/Kerd/blob/main/examples/this-package.md">Read the full record</a></p>
+    </div>
+    <figure class="prog__show">
+      <div class="plan-frame">
+        <svg class="plan prog-plan" viewBox="0 0 800 660" data-lit="you stage conductor illustrator players" aria-hidden="true" focusable="false">
+          <defs><pattern id="p3-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path class="gridln" d="M40 0H0V40"/></pattern></defs><rect x="0" y="0" width="800" height="660" fill="url(#p3-grid)"/><g class="house"><rect class="ln" x="20" y="16" width="760" height="630"/><path class="ln" d="M20 96H384M416 96H780"/><path class="ln" d="M384 96V64A32 32 0 0 1 416 96"/><path class="ln" d="M20 460H140M660 460H780"/><path class="ln" d="M140 460A865 865 0 0 0 660 460"/><path class="ln" d="M140 120L104 142M660 120L696 142"/><path class="ln" d="M140 200L104 222M660 200L696 222"/><path class="ln" d="M140 280L104 302M660 280L696 302"/><path class="ln row" d="M385.2 549.4A170 170 0 0 1 295.3 514"/><path class="ln row" d="M504.7 514A170 170 0 0 1 414.8 549.4"/><path class="ln row" d="M523.1 537.6A200 200 0 0 1 276.9 537.6"/><path class="ln row" d="M541.6 561.2A230 230 0 0 1 258.4 561.2"/><path class="ln" d="M20 482H80V542H20"/><path class="ln" d="M780 482H720V542H780"/></g><path class="sight" d="M738 506L418 448"/><g class="seat seat--players"><rect class="hit" x="205" y="200" width="390" height="205"/><rect class="ring" x="205" y="200" width="390" height="205"/><circle class="chair" cx="486.1" cy="404.9" r="7"/><path class="ln" d="M470 405.8L475 416.6"/><circle class="chair" cx="451" cy="364.9" r="7"/><path class="ln" d="M437.9 374.3L448 380.8"/><circle class="chair" cx="400" cy="350" r="7"/><path class="ln" d="M394 365L406 365"/><circle class="chair" cx="349" cy="364.9" r="7"/><path class="ln" d="M352 380.8L362.1 374.3"/><circle class="chair" cx="313.9" cy="404.9" r="7"/><path class="ln" d="M325 416.6L330 405.8"/><circle class="chair" cx="535.9" cy="381.6" r="7"/><path class="ln" d="M519.8 382.5L524.9 393.4"/><circle class="chair" cx="508.7" cy="341.6" r="7"/><path class="ln" d="M493.7 347.6L501.9 356.3"/><circle class="chair" cx="470.1" cy="312.4" r="7"/><path class="ln" d="M457.8 322.8L468.4 328.4"/><circle class="chair" cx="424.2" cy="297" r="7"/><path class="ln" d="M415.9 310.8L427.7 312.7"/><circle class="chair" cx="375.8" cy="297" r="7"/><path class="ln" d="M372.3 312.7L384.1 310.8"/><circle class="chair" cx="329.9" cy="312.4" r="7"/><path class="ln" d="M331.6 328.4L342.2 322.8"/><circle class="chair" cx="291.3" cy="341.6" r="7"/><path class="ln" d="M298.1 356.3L306.3 347.6"/><circle class="chair" cx="264.1" cy="381.6" r="7"/><path class="ln" d="M275.1 393.4L280.2 382.5"/><circle class="chair" cx="585.8" cy="358.4" r="7"/><path class="ln" d="M569.7 359.3L574.7 370.1"/><circle class="chair" cx="561.5" cy="318.8" r="7"/><path class="ln" d="M546 323.3L553.4 332.8"/><circle class="chair" cx="529" cy="285.7" r="7"/><path class="ln" d="M514.9 293.6L524.2 301.1"/><circle class="chair" cx="489.9" cy="260.7" r="7"/><path class="ln" d="M477.9 271.6L488.7 276.9"/><circle class="chair" cx="446.1" cy="245.3" r="7"/><path class="ln" d="M436.9 258.5L448.6 261.2"/><circle class="chair" cx="400" cy="240" r="7"/><path class="ln" d="M394 255L406 255"/><circle class="chair" cx="353.9" cy="245.3" r="7"/><path class="ln" d="M351.4 261.2L363.1 258.5"/><circle class="chair" cx="310.1" cy="260.7" r="7"/><path class="ln" d="M311.3 276.9L322.1 271.6"/><circle class="chair" cx="271" cy="285.7" r="7"/><path class="ln" d="M275.8 301.1L285.1 293.6"/><circle class="chair" cx="238.5" cy="318.8" r="7"/><path class="ln" d="M246.6 332.8L254 323.3"/><circle class="chair" cx="214.2" cy="358.4" r="7"/><path class="ln" d="M225.3 370.1L230.3 359.3"/><text class="lab" x="400" y="218" text-anchor="middle">Players</text></g><g class="seat seat--composer"><rect class="hit" x="150" y="104" width="100" height="94"/><rect class="ring" x="150" y="104" width="100" height="94"/><rect class="ln" x="168" y="116" width="64" height="24"/><path class="ln" d="M176 124H224M176 132H224"/><circle class="ln" cx="192" cy="128" r="3"/><circle class="ln" cx="208" cy="124" r="3"/><circle class="chair" cx="200" cy="156" r="7"/><text class="lab" x="200" y="188" text-anchor="middle">Composer</text></g><g class="seat seat--illustrator"><rect class="hit" x="540" y="102" width="112" height="108"/><rect class="ring" x="540" y="102" width="112" height="108"/><rect class="ln" x="562" y="112" width="66" height="44"/><circle class="ln" cx="588" cy="136" r="10"/><path class="ln" d="M604 122V150"/><circle class="chair" cx="595" cy="172" r="7"/><text class="lab" x="595" y="202" text-anchor="middle">Illustrator</text></g><g class="seat seat--stage"><rect class="hit" x="24" y="352" width="112" height="92"/><rect class="ring" x="24" y="352" width="112" height="92"/><rect class="ln" x="48" y="366" width="64" height="20"/><path class="ln" d="M58 372H76M58 380H70"/><circle class="chair" cx="80" cy="400" r="7"/><text class="lab" x="80" y="432" text-anchor="middle">Stage manager</text></g><g class="seat seat--tuner"><rect class="hit" x="222" y="26" width="92" height="62"/><rect class="ring" x="222" y="26" width="92" height="62"/><path class="ln" d="M232 34V58A8 8 0 0 0 248 58V34M240 66V82"/><text class="lab" x="262" y="62" text-anchor="start">Tuner</text></g><g class="seat seat--librarian"><rect class="hit" x="510" y="24" width="200" height="60"/><rect class="ring" x="510" y="24" width="200" height="60"/><rect class="ln" x="520" y="32" width="80" height="18"/><path class="ln" d="M528 34V48M536 34V48M544 34V48M552 34V48M560 34V48M568 34V48M576 34V48M584 34V48M592 34V48"/><circle class="chair" cx="560" cy="68" r="7"/><text class="lab" x="614" y="72" text-anchor="start">Librarian</text></g><g class="seat seat--second"><rect class="hit" x="640" y="486" width="140" height="90"/><rect class="ring" x="640" y="486" width="140" height="90"/><circle class="chair" cx="750" cy="512" r="7"/><text class="lab" x="772" y="566" text-anchor="end">Second opinion</text></g><g class="seat seat--you"><rect class="hit" x="384" y="532" width="60" height="36"/><rect class="ring" x="384" y="532" width="60" height="36"/><circle class="chair" cx="400" cy="550" r="8"/><text class="lab" x="416" y="556" text-anchor="start">You</text></g><g class="seat seat--conductor"><rect class="hit" x="360" y="405" width="80" height="92"/><rect class="ring" x="360" y="405" width="80" height="92"/><rect class="ln" x="382" y="427" width="36" height="36"/><circle class="chair" cx="400" cy="445" r="8"/><path class="ln" d="M405 437L415 417"/><text class="lab" x="400" y="487" text-anchor="middle">Conductor</text></g>
+        </svg>
+      </div>
+      <figcaption class="cast">
+        <p class="cast__head">Who played</p>
+        <dl>
+          <div class="cast__row" data-seat="you">
+            <dt>You</dt>
+            <dd>Widened who it was for, named the real work the examples could draw on, and
+              gave the go.</dd>
+          </div>
+          <div class="cast__row" data-seat="stage">
+            <dt>Stage manager</dt>
+            <dd>Picked up the sitting: said where things stood, recommended one thing, and
+              ended on its one question, “Start a Conductor session?”</dd>
+          </div>
+          <div class="cast__row" data-seat="conductor">
+            <dt>Conductor</dt>
+            <dd>Kept the sketchbook, planned the concert in three batches, and read every
+              return against the score. The README rebuild it checked by script, not by trust.</dd>
+          </div>
+          <div class="cast__row" data-seat="illustrator">
+            <dt>Illustrator</dt>
+            <dd>Showed the proposed package as a picture: two front doors leading to guides,
+              then examples. He agreed to it and corrected it.</dd>
+          </div>
+          <div class="cast__row" data-seat="players">
+            <dt>Players</dt>
+            <dd>Fourteen of them, up to seven at once. One cut the README from 1,546 lines to
+              about 150; others drew the pictures, wrote the guides and built the pages.</dd>
+          </div>
+        </dl>
+        <p class="cast__off">Not in this record: the composer, second opinion, tuner and
+          librarian. The six readers who had never seen Kerd were agents in the concert, not
+          a seat of their own.</p>
+      </figcaption>
+    </figure>
   </section>
 
 </main>
 
 <footer class="wrap grid colophon">
   <div class="colophon__say">
-    <p>Kerd runs inside Claude Code, and a four-skill core can be built for Codex.</p>
-    <p class="soft">Rehearsal and the concert are new in version 0.139.0. This site, the README
-      and the guides are the first piece of work made with them.</p>
+    <p>Kerd runs inside Claude Code, and a four-skill core installs in Codex.</p>
+    <p class="soft">This site, the README and the guides were made with Kerd: rehearsed first,
+      then performed as a concert.</p>
     <p class="small soft">MIT licensed.</p>
   </div>
   <nav class="colophon__nav small" aria-label="Site">

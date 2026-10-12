@@ -1,0 +1,105 @@
+/* Kerd examples: three programmes. Loaded after kerd.css and home.css, on
+   examples.html only. home.css gives the hall plan its drawing styles; this file
+   lays out each programme and lights the seats its record shows playing. */
+
+dl, dd { margin: 0; }
+
+/* ----------------------------------------------------------------- intro */
+
+.ex-intro { padding-block: clamp(36px, 4vw, 60px) clamp(32px, 3.2vw, 48px); row-gap: var(--s5); align-items: end; }
+.ex-intro__say { grid-column: 1 / span 5; }
+.ex-intro__show { grid-column: 7 / span 6; }
+.ex-intro__hint { margin-top: var(--s4); max-width: 30rem; }
+
+/* ------------------------------------------------------------ programme */
+
+.prog { padding-block: clamp(40px, 4.4vw, 64px); border-top: 1px solid var(--rule); row-gap: var(--s6); align-items: start; }
+.prog__say { grid-column: 1 / span 5; }
+.prog__show { grid-column: 7 / span 6; }
+
+.prog__when { font-size: var(--t-small); color: var(--ink-soft); }
+.prog .title { margin-top: var(--s2); }
+.prog__parts { margin-top: var(--s5); }
+.prog__parts > div { padding-block: var(--s4); border-top: 1px solid var(--rule); }
+.prog__parts dt, .cast__head { font-size: var(--t-small); font-weight: 600; }
+.prog__parts dd { margin-top: var(--s1); max-width: var(--measure); }
+.prog__parts dd p + p { margin-top: var(--s3); }
+.prog__parts > div:last-child dd { color: var(--ink-soft); }
+.prog__read { padding-top: var(--s4); border-top: 1px solid var(--rule); font-size: var(--t-small); }
+
+/* The cast, under the plan: one row per seat that played. */
+.cast { margin-top: var(--s5); }
+.cast dl { margin-top: var(--s3); }
+.cast__row {
+  display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); column-gap: var(--gutter);
+  padding-block: var(--s3); border-top: 1px solid var(--rule);
+  font-size: var(--t-small); line-height: 1.5;
+}
+.cast__row dt { font-weight: 600; }
+.cast__off { margin-top: var(--s3); padding-top: var(--s3); border-top: 1px solid var(--rule); font-size: var(--t-small); line-height: 1.5; color: var(--ink-soft); }
+
+/* ------------------------------------------------- the plan, lit by record */
+
+.prog-plan .seat .ln, .prog-plan .chair { stroke: var(--ink-soft); }
+.prog-plan .lab { fill: var(--ink-soft); font-size: 22px; }
+.prog-plan .seat { transition: opacity .18s ease; }
+
+.prog-plan[data-lit~="you"] .seat--you .ln,
+.prog-plan[data-lit~="conductor"] .seat--conductor .ln,
+.prog-plan[data-lit~="stage"] .seat--stage .ln,
+.prog-plan[data-lit~="illustrator"] .seat--illustrator .ln,
+.prog-plan[data-lit~="composer"] .seat--composer .ln,
+.prog-plan[data-lit~="players"] .seat--players .ln,
+.prog-plan[data-lit~="second"] .seat--second .ln,
+.prog-plan[data-lit~="tuner"] .seat--tuner .ln,
+.prog-plan[data-lit~="librarian"] .seat--librarian .ln { stroke: var(--accent); }
+.prog-plan[data-lit~="you"] .seat--you .chair,
+.prog-plan[data-lit~="conductor"] .seat--conductor .chair,
+.prog-plan[data-lit~="stage"] .seat--stage .chair,
+.prog-plan[data-lit~="illustrator"] .seat--illustrator .chair,
+.prog-plan[data-lit~="composer"] .seat--composer .chair,
+.prog-plan[data-lit~="players"] .seat--players .chair,
+.prog-plan[data-lit~="second"] .seat--second .chair,
+.prog-plan[data-lit~="tuner"] .seat--tuner .chair,
+.prog-plan[data-lit~="librarian"] .seat--librarian .chair { fill: var(--accent); stroke: var(--accent); }
+.prog-plan[data-lit~="you"] .seat--you .lab,
+.prog-plan[data-lit~="conductor"] .seat--conductor .lab,
+.prog-plan[data-lit~="stage"] .seat--stage .lab,
+.prog-plan[data-lit~="illustrator"] .seat--illustrator .lab,
+.prog-plan[data-lit~="composer"] .seat--composer .lab,
+.prog-plan[data-lit~="players"] .seat--players .lab,
+.prog-plan[data-lit~="second"] .seat--second .lab,
+.prog-plan[data-lit~="tuner"] .seat--tuner .lab,
+.prog-plan[data-lit~="librarian"] .seat--librarian .lab { fill: var(--accent); }
+
+/* Pointing at a name in the cast leaves only that seat standing on the plan. */
+.prog:has(.cast__row:hover) .prog-plan .seat { opacity: .22; }
+.prog:has(.cast__row[data-seat="you"]:hover) .prog-plan .seat--you,
+.prog:has(.cast__row[data-seat="conductor"]:hover) .prog-plan .seat--conductor,
+.prog:has(.cast__row[data-seat="stage"]:hover) .prog-plan .seat--stage,
+.prog:has(.cast__row[data-seat="illustrator"]:hover) .prog-plan .seat--illustrator,
+.prog:has(.cast__row[data-seat="composer"]:hover) .prog-plan .seat--composer,
+.prog:has(.cast__row[data-seat="players"]:hover) .prog-plan .seat--players,
+.prog:has(.cast__row[data-seat="second"]:hover) .prog-plan .seat--second,
+.prog:has(.cast__row[data-seat="tuner"]:hover) .prog-plan .seat--tuner,
+.prog:has(.cast__row[data-seat="librarian"]:hover) .prog-plan .seat--librarian { opacity: 1; }
+.cast__row:hover dt { text-decoration: underline; text-underline-offset: 0.22em; }
+
+/* ------------------------------------------------------------ narrow */
+
+@media (max-width: 1200px) {
+  .ex-intro__say, .ex-intro__show, .prog__say, .prog__show { grid-column: 1 / span 12; }
+  .prog__show { max-width: 46rem; }
+}
+
+/* On a phone the plan is drawn at half its size, so its names grow to stay
+   readable, and the stage manager's name turns to fit inside the wall. */
+@media (max-width: 760px) {
+  .prog-plan .lab { font-size: 30px; stroke-width: 7px; }
+  .prog-plan .seat--stage .lab { text-anchor: start; transform: translateX(-58px); }
+  .prog-plan .seat--players .lab { transform: translateY(-4px); }
+}
+
+@media (max-width: 560px) {
+  .cast__row { grid-template-columns: minmax(0, 1fr); row-gap: var(--s1); }
+}

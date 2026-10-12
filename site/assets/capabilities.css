@@ -1,0 +1,143 @@
+/* Kerd capabilities page: the seats, in detail. Loaded after kerd.css and
+   home.css. home.css supplies the hall plan's drawing styles (.plan) and the
+   seat card's pieces (.card__where, .card__part, .card__pair); this file lays
+   out the page and draws each seat's own cut of the plan. No JS. */
+
+/* --------------------------------------------------------------- intro */
+
+.seats-intro {
+  padding-block: clamp(36px, 4vw, 60px) var(--s8);
+  row-gap: var(--s6);
+  align-items: start;
+}
+.seats-intro__say { grid-column: 1 / span 5; }
+.seats-intro__say .lead { margin-top: var(--s5); }
+.seats-intro__say .prose { margin-top: var(--s5); }
+.seats-intro__say strong { font-weight: 600; }
+.seats-intro__show { grid-column: 7 / span 6; }
+
+/* The plan here is a map of the page: every seat is a link to its section,
+   and the one under the pointer lights up. Labels a touch larger than the
+   homepage's, because this plan is drawn smaller. */
+.hallnav .lab { font-size: 19px; }
+.hallnav a.seat:is(:hover, :focus-visible) .ln { stroke: var(--accent); }
+.hallnav a.seat:is(:hover, :focus-visible) .chair { fill: var(--accent); stroke: var(--accent); }
+.hallnav a.seat:is(:hover, :focus-visible) .lab { fill: var(--accent); }
+
+/* ----------------------------------------------------------- the seats */
+
+.seat {
+  padding-block: var(--s8);
+  border-top: 1px solid var(--rule);
+  row-gap: var(--s5);
+  align-items: start;
+  scroll-margin-top: var(--s4);
+}
+.seat__who { grid-column: 1 / span 5; position: sticky; top: var(--s5); }
+.seat__what { grid-column: 7 / span 6; }
+
+.seat__who .title { margin-top: var(--s2); }
+.seat__who .card__part { margin-top: var(--s2); }
+.seat__pic { margin-top: var(--s5); }
+
+.seat__what .card__pair { margin-top: 0; }
+.seat__what .card__pair div:last-child { border-bottom: 1px solid var(--rule); }
+.seat__body { margin-top: var(--s5); max-width: var(--measure); }
+.seat__body strong { font-weight: 600; }
+.seat__by { margin-top: var(--s5); font-size: var(--t-small); }
+.seat__by strong { font-weight: 600; }
+.seat__by a { margin-left: var(--s2); }
+
+.seat__note {
+  margin-top: var(--s6);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--rule);
+  max-width: var(--measure);
+  font-size: var(--t-small);
+  color: var(--ink-soft);
+}
+.seat__note strong { font-weight: 600; color: var(--ink); }
+.seat__note .card__part { margin-top: 0; display: inline; white-space: nowrap; }
+
+.seats-end { border-top: 1px solid var(--rule); padding-block: var(--s7); }
+.seats-end__say { grid-column: 1 / span 12; }
+
+/* ------------------------------------------------- each seat's own cut */
+
+/* The plan is drawn once (#hp, hidden at the top of the page) and each seat
+   shows its own window onto it with <use>. The window lights its seat in the
+   accent and leaves the rest of the hall soft around it. The colours reach
+   the drawing as custom properties, which inherit through <use>. */
+
+.hp-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.seatpic { width: 100%; height: auto; }
+
+.hp-defs .gridln { fill: none; stroke: var(--grid-line); stroke-width: 1; }
+.hp .ln { fill: none; stroke: var(--rule); stroke-width: 1.5; }
+.hp .row { stroke-dasharray: 0.1 12; stroke-linecap: round; stroke-width: 5; stroke: var(--rule); }
+.hp .sight { fill: none; stroke: var(--rule); stroke-width: 1.5; stroke-dasharray: 4 6; }
+.hp .seat .ln { stroke: var(--seat-ln, var(--ink-soft)); }
+.hp .chair { fill: var(--surface); stroke: var(--ink-soft); stroke-width: 1.5; }
+
+.hp .seat--you .ln { stroke: var(--lit-you, var(--ink-soft)); }
+.hp .seat--you .chair { stroke: var(--lit-you, var(--ink-soft)); fill: var(--lit-you, var(--surface)); }
+.hp .seat--conductor .ln { stroke: var(--lit-conductor, var(--ink-soft)); }
+.hp .seat--conductor .chair { stroke: var(--lit-conductor, var(--ink-soft)); fill: var(--lit-conductor, var(--surface)); }
+.hp .seat--stage .ln { stroke: var(--lit-stage, var(--ink-soft)); }
+.hp .seat--stage .chair { stroke: var(--lit-stage, var(--ink-soft)); fill: var(--lit-stage, var(--surface)); }
+.hp .seat--illustrator .ln { stroke: var(--lit-illustrator, var(--ink-soft)); }
+.hp .seat--illustrator .chair { stroke: var(--lit-illustrator, var(--ink-soft)); fill: var(--lit-illustrator, var(--surface)); }
+.hp .seat--composer .ln { stroke: var(--lit-composer, var(--ink-soft)); }
+.hp .seat--composer .chair { stroke: var(--lit-composer, var(--ink-soft)); fill: var(--lit-composer, var(--surface)); }
+.hp .seat--players .ln { stroke: var(--lit-players, var(--ink-soft)); }
+.hp .seat--players .chair { stroke: var(--lit-players, var(--ink-soft)); fill: var(--lit-players, var(--surface)); }
+.hp .seat--second .ln { stroke: var(--lit-second, var(--ink-soft)); }
+.hp .seat--second .chair { stroke: var(--lit-second, var(--ink-soft)); fill: var(--lit-second, var(--surface)); }
+.hp .seat--tuner .ln { stroke: var(--lit-tuner, var(--ink-soft)); }
+.hp .seat--tuner .chair { stroke: var(--lit-tuner, var(--ink-soft)); fill: var(--lit-tuner, var(--surface)); }
+.hp .seat--librarian .ln { stroke: var(--lit-librarian, var(--ink-soft)); }
+.hp .seat--librarian .chair { stroke: var(--lit-librarian, var(--ink-soft)); fill: var(--lit-librarian, var(--surface)); }
+
+.seatpic--you { --lit-you: var(--accent); }
+.seatpic--conductor { --lit-conductor: var(--accent); }
+.seatpic--stage { --lit-stage: var(--accent); }
+.seatpic--illustrator { --lit-illustrator: var(--accent); }
+.seatpic--composer { --lit-composer: var(--accent); }
+.seatpic--players { --lit-players: var(--accent); }
+.seatpic--second { --lit-second: var(--accent); }
+.seatpic--tuner { --lit-tuner: var(--accent); }
+.seatpic--librarian { --lit-librarian: var(--accent); }
+
+/* ------------------------------------------------------------ narrow */
+
+@media (max-width: 1200px) {
+  .seats-intro__say, .seats-intro__show, .seat__who, .seat__what { grid-column: 1 / span 12; }
+  .seats-intro__show { max-width: 46rem; }
+  .seat__who {
+    position: static;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 15rem);
+    grid-template-areas: "where pic" "title pic" "part pic" ". pic";
+    column-gap: var(--gutter);
+    align-items: start;
+  }
+  .seat__who .card__where { grid-area: where; }
+  .seat__who .title { grid-area: title; }
+  .seat__who .card__part { grid-area: part; }
+  .seat__pic { grid-area: pic; margin-top: 0; }
+  .seat__body, .seat__note { max-width: 40rem; }
+}
+
+@media (max-width: 560px) {
+  .seat { padding-block: var(--s7); }
+  .seat__who { display: block; }
+  .seat__pic { margin-top: var(--s4); }
+  .seat__by a { display: inline-block; margin-left: 0; }
+}
+
+/* Between 761 and 1200 the pair sits side by side (home.css), so both halves
+   close with a hairline. */
+@media (min-width: 761px) and (max-width: 1200px) {
+  .seat__what .card__pair div { border-bottom: 1px solid var(--rule); }
+}
