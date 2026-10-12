@@ -4,9 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kerd</title>
-<meta name="description" content="Kerd turns working with an AI from a string of chats into a piece of work. It runs inside Claude Code, and a four-skill core can be built for Codex.">
+<meta name="description" content="Kerd turns working with an AI from a string of chats into a piece of work. You rehearse it until you both know what done means; then a team of agents performs it.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%230B5E4A' stroke-width='13'%3E%3Ccircle cx='50' cy='58' r='29.5'/%3E%3Cpath d='M79.5 6V94'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/kerd.css"></head>
+<link rel="stylesheet" href="assets/kerd.css">
+<link rel="stylesheet" href="assets/home.css">
+<script>document.documentElement.classList.add('js');</script>
+<script src="assets/home.js" defer></script>
+</head>
 <body>
 
 <header class="masthead">
@@ -36,156 +40,184 @@
 
 <main>
 
-  <!-- The one breath -->
   <section class="wrap grid hero">
-    <h1 class="display">Kerd turns working with an AI from a string of chats into a piece of work.</h1>
-
-    <div class="hero__rule hero__rule--a" aria-hidden="true"></div>
-    <div class="hero__rule hero__rule--b" aria-hidden="true"></div>
-
+    <h1 class="display">Good work. In concert.</h1>
     <div class="hero__lead">
-      <p class="lead">You rehearse the work together until you both know what done means.
-        Then Kerd writes the score, and a team of agents performs it, with your goals checked
-        before it ends.</p>
+      <p class="lead">You rehearse a piece of work with the AI until you both know what done
+        means. Then a score is written, and a team of agents performs it, with your goals
+        checked before it ends.</p>
+    </div>
+    <div class="hero__side">
       <div class="actions">
         <a class="button" href="#install">Install Kerd</a>
         <a class="link-plain" href="docs.html">Read the guides</a>
       </div>
+      <p class="hero__aside small soft">Kerd runs inside Claude Code, and a four-skill core can be built for Codex.</p>
     </div>
-
-    <p class="hero__aside small soft">Kerd runs inside Claude Code, and a four-skill core can be built for Codex.</p>
   </section>
 
-  <!-- A day with Kerd -->
-  <section class="wrap grid band">
-    <div class="col-say">
-      <h2 class="statement">A day with Kerd.</h2>
+  <section class="wrap grid hall" id="hall" data-on="conductor" aria-label="The hall, seat by seat">
+    <div class="hall__say">
+      <div class="hall__intro">
+        <h2 class="title">Nine seats. Each one is there because something goes wrong without it.</h2>
+        <p class="hint small soft">Point at a seat on the plan, or tab through them.</p>
+      </div>
+      <div class="cards" aria-live="polite">
+        <section class="card" id="seat-conductor" aria-label="Conductor">
+          <p class="card__where">Centre front, on the podium.</p>
+          <h3 class="title">Conductor.</h3>
+          <p class="card__part">/kerd:conductor</p>
+          <dl class="card__pair">
+            <div><dt>Without it</dt><dd>Done is whatever the AI says.</dd></div>
+            <div><dt>With it</dt><dd>Done is pinned down in rehearsal before anything is built, and before the concert ends the result is compared with your goals. A gap the score cannot answer comes back to you for that one point, not to the start.</dd></div>
+          </dl>
+        </section>
+        <section class="card" id="seat-you" aria-label="You">
+          <p class="card__where">In the hall. Best seat in the house.</p>
+          <h3 class="title">You.</h3>
+          <p class="card__part">it’s your piece</p>
+          <dl class="card__pair">
+            <div><dt>Without you</dt><dd>There is no piece, only a chat that stops when it feels finished.</dd></div>
+            <div><dt>With you</dt><dd>You decide what done means and when rehearsal ends. Nothing is performed that you have not agreed.</dd></div>
+          </dl>
+        </section>
+        <section class="card" id="seat-stage" aria-label="Stage manager">
+          <p class="card__where">In the wings, where the running order lives.</p>
+          <h3 class="title">Stage manager.</h3>
+          <p class="card__part">/kerd:switch</p>
+          <dl class="card__pair">
+            <div><dt>Without it</dt><dd>Every new chat starts from nothing, and you re-explain.</dd></div>
+            <div><dt>With it</dt><dd>You sit down and it tells you where things stand, what is open, and the one thing it would do next and why. On this machine or another.</dd></div>
+          </dl>
+        </section>
+        <section class="card" id="seat-illustrator" aria-label="Illustrator">
+          <p class="card__where">At the easel, upstage.</p>
+          <h3 class="title">Illustrator.</h3>
+          <p class="card__part">/kerd:visuals</p>
+          <dl class="card__pair">
+            <div><dt>Without it</dt><dd>You agree to words you can’t picture.</dd></div>
+            <div><dt>With it</dt><dd>A proposal with connected parts, a branch or a before and after arrives with a picture, saved and rendered. Nobody asks whether you would like a diagram.</dd></div>
+          </dl>
+        </section>
+        <section class="card" id="seat-composer" aria-label="Composer">
+          <p class="card__where">At the desk at the back. Finishes before anyone plays.</p>
+          <h3 class="title">Composer.</h3>
+          <p class="card__part">writes the score</p>
+          <dl class="card__pair">
+            <div><dt>Without it</dt><dd>The AI builds before anyone knows what done is.</dd></div>
+            <div><dt>With it</dt><dd>When you say you are ready, what rehearsal settled is written as a score: the plan, one step per part. The asking is over before the playing starts.</dd></div>
+          </dl>
+        </section>
+        <section class="card" id="seat-players" aria-label="Players">
+          <p class="card__where">In the arcs, side by side.</p>
+          <h3 class="title">Players.</h3>
+          <p class="card__part">agents, side by side</p>
+          <dl class="card__pair">
+            <div><dt>Without them</dt><dd>One chat plays every part, one at a time.</dd></div>
+            <div><dt>With them</dt><dd>Several agents at once, each given one step and running alongside the others, and every return checked before it counts.</dd></div>
+          </dl>
+        </section>
+        <section class="card" id="seat-second" aria-label="Second opinion">
+          <p class="card__where">In the box. A clear view, and no stake in the build.</p>
+          <h3 class="title">Second opinion.</h3>
+          <p class="card__part">/kerd:agent, Codex or Claude</p>
+          <dl class="card__pair">
+            <div><dt>Without it</dt><dd>The AI marks its own homework.</dd></div>
+            <div><dt>With it</dt><dd>Another Claude or Codex session reads the work, given the brief and the sources, not the builder’s account of what it did. A model that has not spent the last hour convincing itself.</dd></div>
+          </dl>
+        </section>
+        <section class="card" id="seat-tuner" aria-label="Tuner">
+          <p class="card__where">Backstage, with the tuning fork.</p>
+          <h3 class="title">Tuner.</h3>
+          <p class="card__part">/kerd:tend, /kerd:slainte</p>
+          <dl class="card__pair">
+            <div><dt>Without it</dt><dd>The project drifts out of tune.</dd></div>
+            <div><dt>With it</dt><dd>Tend checks the repo’s structure against current convention. Slainte reports where a doc’s claims no longer match the code, with the evidence that found each one.</dd></div>
+          </dl>
+        </section>
+        <section class="card" id="seat-librarian" aria-label="Librarian">
+          <p class="card__where">Backstage, by the shelves.</p>
+          <h3 class="title">Librarian.</h3>
+          <p class="card__part">/kerd:kivna</p>
+          <dl class="card__pair">
+            <div><dt>Without it</dt><dd>What you learn leaves with the chat.</dd></div>
+            <div><dt>With it</dt><dd>What you learn goes into an Obsidian vault in plain words, updated in place rather than piled up in dated logs.</dd></div>
+          </dl>
+        </section>
+      </div>
     </div>
-    <figure class="day">
-      <div class="frame frame--wide"><img src="../docs/pictures/how-kerd-works.svg" alt="A day with Kerd"></div>
-      <figcaption class="caption">Sit down and pick up, rehearse, say you are ready, hear the
-        concert, take the result, put the work down again.</figcaption>
+    <figure class="hall__show">
+      <div class="plan-frame plan-scroll">
+        <svg class="plan" id="plan" viewBox="0 0 800 660" role="group" aria-label="Plan of the hall from above: backstage at the top, the stage with the conductor's podium at centre front and players in arcs behind it, the composer's desk and the illustrator's easel upstage, the stage manager in the wings, the second opinion in a side box, and you in the hall.">
+          <defs><pattern id="p-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path class="gridln" d="M40 0H0V40"/></pattern></defs><rect x="0" y="0" width="800" height="660" fill="url(#p-grid)"/><g class="house"><rect class="ln" x="20" y="16" width="760" height="630"/><path class="ln" d="M20 96H384M416 96H780"/><path class="ln" d="M384 96V64A32 32 0 0 1 416 96"/><path class="ln" d="M20 460H140M660 460H780"/><path class="ln" d="M140 460A865 865 0 0 0 660 460"/><path class="ln" d="M140 120L104 142M660 120L696 142"/><path class="ln" d="M140 200L104 222M660 200L696 222"/><path class="ln" d="M140 280L104 302M660 280L696 302"/><path class="ln row" d="M385.2 549.4A170 170 0 0 1 295.3 514"/><path class="ln row" d="M504.7 514A170 170 0 0 1 414.8 549.4"/><path class="ln row" d="M523.1 537.6A200 200 0 0 1 276.9 537.6"/><path class="ln row" d="M541.6 561.2A230 230 0 0 1 258.4 561.2"/><path class="ln" d="M20 482H80V542H20"/><circle class="ln" cx="42" cy="512" r="7"/><circle class="ln" cx="62" cy="512" r="7"/><path class="ln" d="M780 482H720V542H780"/></g><g class="area"><text x="36" y="44">Backstage</text><text x="36" y="124">Wings</text><text x="36" y="626">Hall</text></g><path class="sight" d="M738 506L418 448"/><a class="seat seat--players" href="#seat-players" data-seat="players" aria-label="Players"><rect class="hit" x="205" y="200" width="390" height="205"/><rect class="ring" x="205" y="200" width="390" height="205"/><circle class="chair" cx="486.1" cy="404.9" r="7"/><path class="ln" d="M470 405.8L475 416.6"/><circle class="chair" cx="451" cy="364.9" r="7"/><path class="ln" d="M437.9 374.3L448 380.8"/><circle class="chair" cx="400" cy="350" r="7"/><path class="ln" d="M394 365L406 365"/><circle class="chair" cx="349" cy="364.9" r="7"/><path class="ln" d="M352 380.8L362.1 374.3"/><circle class="chair" cx="313.9" cy="404.9" r="7"/><path class="ln" d="M325 416.6L330 405.8"/><circle class="chair" cx="535.9" cy="381.6" r="7"/><path class="ln" d="M519.8 382.5L524.9 393.4"/><circle class="chair" cx="508.7" cy="341.6" r="7"/><path class="ln" d="M493.7 347.6L501.9 356.3"/><circle class="chair" cx="470.1" cy="312.4" r="7"/><path class="ln" d="M457.8 322.8L468.4 328.4"/><circle class="chair" cx="424.2" cy="297" r="7"/><path class="ln" d="M415.9 310.8L427.7 312.7"/><circle class="chair" cx="375.8" cy="297" r="7"/><path class="ln" d="M372.3 312.7L384.1 310.8"/><circle class="chair" cx="329.9" cy="312.4" r="7"/><path class="ln" d="M331.6 328.4L342.2 322.8"/><circle class="chair" cx="291.3" cy="341.6" r="7"/><path class="ln" d="M298.1 356.3L306.3 347.6"/><circle class="chair" cx="264.1" cy="381.6" r="7"/><path class="ln" d="M275.1 393.4L280.2 382.5"/><circle class="chair" cx="585.8" cy="358.4" r="7"/><path class="ln" d="M569.7 359.3L574.7 370.1"/><circle class="chair" cx="561.5" cy="318.8" r="7"/><path class="ln" d="M546 323.3L553.4 332.8"/><circle class="chair" cx="529" cy="285.7" r="7"/><path class="ln" d="M514.9 293.6L524.2 301.1"/><circle class="chair" cx="489.9" cy="260.7" r="7"/><path class="ln" d="M477.9 271.6L488.7 276.9"/><circle class="chair" cx="446.1" cy="245.3" r="7"/><path class="ln" d="M436.9 258.5L448.6 261.2"/><circle class="chair" cx="400" cy="240" r="7"/><path class="ln" d="M394 255L406 255"/><circle class="chair" cx="353.9" cy="245.3" r="7"/><path class="ln" d="M351.4 261.2L363.1 258.5"/><circle class="chair" cx="310.1" cy="260.7" r="7"/><path class="ln" d="M311.3 276.9L322.1 271.6"/><circle class="chair" cx="271" cy="285.7" r="7"/><path class="ln" d="M275.8 301.1L285.1 293.6"/><circle class="chair" cx="238.5" cy="318.8" r="7"/><path class="ln" d="M246.6 332.8L254 323.3"/><circle class="chair" cx="214.2" cy="358.4" r="7"/><path class="ln" d="M225.3 370.1L230.3 359.3"/><text class="lab" x="400" y="222" text-anchor="middle">Players</text></a><a class="seat seat--composer" href="#seat-composer" data-seat="composer" aria-label="Composer"><rect class="hit" x="150" y="104" width="100" height="94"/><rect class="ring" x="150" y="104" width="100" height="94"/><rect class="ln" x="168" y="116" width="64" height="24"/><path class="ln" d="M176 124H224M176 132H224"/><circle class="ln" cx="192" cy="128" r="3"/><circle class="ln" cx="208" cy="124" r="3"/><circle class="chair" cx="200" cy="156" r="7"/><text class="lab" x="200" y="188" text-anchor="middle">Composer</text></a><a class="seat seat--illustrator" href="#seat-illustrator" data-seat="illustrator" aria-label="Illustrator"><rect class="hit" x="540" y="102" width="112" height="108"/><rect class="ring" x="540" y="102" width="112" height="108"/><rect class="ln" x="562" y="112" width="66" height="44"/><circle class="ln" cx="588" cy="136" r="10"/><path class="ln" d="M604 122V150"/><circle class="chair" cx="595" cy="172" r="7"/><text class="lab" x="595" y="202" text-anchor="middle">Illustrator</text></a><a class="seat seat--stage" href="#seat-stage" data-seat="stage" aria-label="Stage manager"><rect class="hit" x="24" y="352" width="112" height="92"/><rect class="ring" x="24" y="352" width="112" height="92"/><rect class="ln" x="48" y="366" width="64" height="20"/><path class="ln" d="M58 372H76M58 380H70"/><circle class="chair" cx="80" cy="400" r="7"/><text class="lab" x="80" y="432" text-anchor="middle">Stage manager</text></a><a class="seat seat--tuner" href="#seat-tuner" data-seat="tuner" aria-label="Tuner"><rect class="hit" x="222" y="26" width="92" height="62"/><rect class="ring" x="222" y="26" width="92" height="62"/><path class="ln" d="M232 34V58A8 8 0 0 0 248 58V34M240 66V82"/><text class="lab" x="262" y="62" text-anchor="start">Tuner</text></a><a class="seat seat--librarian" href="#seat-librarian" data-seat="librarian" aria-label="Librarian"><rect class="hit" x="510" y="24" width="200" height="60"/><rect class="ring" x="510" y="24" width="200" height="60"/><rect class="ln" x="520" y="32" width="80" height="18"/><path class="ln" d="M528 34V48M536 34V48M544 34V48M552 34V48M560 34V48M568 34V48M576 34V48M584 34V48M592 34V48"/><circle class="chair" cx="560" cy="68" r="7"/><text class="lab" x="614" y="72" text-anchor="start">Librarian</text></a><a class="seat seat--second" href="#seat-second" data-seat="second" aria-label="Second opinion"><rect class="hit" x="640" y="486" width="140" height="90"/><rect class="ring" x="640" y="486" width="140" height="90"/><circle class="chair" cx="750" cy="512" r="7"/><text class="lab" x="772" y="566" text-anchor="end">Second opinion</text></a><a class="seat seat--you" href="#seat-you" data-seat="you" aria-label="You"><rect class="hit" x="384" y="532" width="60" height="36"/><rect class="ring" x="384" y="532" width="60" height="36"/><circle class="chair" cx="400" cy="550" r="8"/><text class="lab" x="416" y="556" text-anchor="start">You</text></a><a class="seat seat--conductor" href="#seat-conductor" data-seat="conductor" aria-label="Conductor"><rect class="hit" x="360" y="405" width="80" height="92"/><rect class="ring" x="360" y="405" width="80" height="92"/><rect class="ln" x="382" y="427" width="36" height="36"/><circle class="chair" cx="400" cy="445" r="8"/><path class="ln" d="M405 437L415 417"/><text class="lab" x="400" y="487" text-anchor="middle">Conductor</text></a>
+        </svg>
+      </div>
+      <figcaption class="caption">The hall from above. Backstage at the top, the hall at the bottom, and the podium where the two meet.</figcaption>
     </figure>
   </section>
 
-  <!-- Why you would care -->
-  <section class="wrap grid band">
-    <h2 class="statement col-wide">Three things that go wrong today.</h2>
-  </section>
-
-  <section class="wrap grid band piece">
-    <div class="piece__say">
-      <h3 class="statement">You lose your place.</h3>
-      <p class="piece__body">Every new chat starts from nothing, and you re-explain. With Kerd
-        you sit down, and it tells you where things stand, what is open, and the one thing it
-        would do next and why. On this machine or another.</p>
-      <p class="piece__skill">This is Switch.</p>
+  <section class="wrap grid band story" aria-label="A piece of work, through the hall">
+    <h2 class="statement">One piece of work, from first rehearsal to the last bow.</h2>
+    <div class="story__text">
+        <div class="beat" data-lit="you conductor">
+          <p><strong>It starts in rehearsal.</strong> You have a piece of work and a rough idea of done. You and the conductor work it through turn by turn, in any order, and you keep shipping as you go. Nobody performs anything yet. This is the part where you find out what you meant.</p>
+          <p class="direction">You and the conductor, centre front.</p>
+        </div>
+        <div class="beat" data-lit="conductor illustrator">
+          <p><strong>What gets settled goes in the sketchbook.</strong> One sketchbook per piece of work, a running note of what is agreed. Ask “where are we?” at any point and the answer comes from the sketchbook, not from whatever the chat happens to remember. When a proposal has parts that connect, the illustrator draws it, so you agree to a picture rather than a paragraph.</p>
+          <p class="direction">The illustrator, at the easel.</p>
+        </div>
+        <div class="beat" data-lit="stage you">
+          <p><strong>Rehearsal rarely fits in one sitting.</strong> Stop when you like. The stage manager writes down your place, and when you sit down again, here or on another machine, it tells you where things stand, what is open, and the one thing it would do next and why. Nobody re-explains anything.</p>
+          <p class="direction">The stage manager, in the wings, with your place.</p>
+        </div>
+        <div class="beat" data-lit="you">
+          <p><strong>“I think we’re ready.”</strong> Only you get that line. Rehearsal ends when you decide it does, and nothing is performed that you have not agreed.</p>
+          <p class="direction">You, from the hall.</p>
+        </div>
+        <div class="beat" data-lit="composer">
+          <p><strong>The composer writes the score.</strong> What rehearsal settled becomes the plan, one step per part. From here there are no turn-by-turn questions, because the asking already happened.</p>
+          <p class="direction">The composer, at the desk.</p>
+        </div>
+        <div class="beat" data-lit="players conductor">
+          <p><strong>The players perform it, side by side.</strong> Each player is an agent given one step, running alongside the others, and the conductor checks every return before it counts. If something turns up that the score cannot answer, that part stops and comes back to you for that one point, not to the start.</p>
+          <p class="direction">Enter the players. The conductor raises the baton.</p>
+        </div>
+        <div class="beat" data-lit="second">
+          <p><strong>A second opinion reads the work.</strong> Another Claude or Codex session: a partner you have already paired with, which knows the project, or a fresh reviewer started for that one job. It gets the brief and the sources, not the builder’s account of how well it went.</p>
+          <p class="direction">The second opinion, in the box.</p>
+        </div>
+        <div class="beat" data-lit="conductor you">
+          <p><strong>The goals are checked before it ends.</strong> The result is compared with the goals you set in rehearsal. Done is when your spec and goals are met, which is a different moment from when the AI feels finished.</p>
+          <p class="direction">The conductor turns to face the hall.</p>
+        </div>
+        <div class="beat" data-lit="librarian tuner stage">
+          <p><strong>After the bow, backstage.</strong> The librarian keeps what was learned, in plain words. The tuner checks the project has not drifted: structure, stale counts, docs that no longer match the code. The stage manager writes down where things stand, so the next sitting starts there.</p>
+          <p class="direction">House lights up.</p>
+        </div>
     </div>
-    <figure class="piece__show">
-      <div class="frame"><img src="../docs/pictures/pick-up-where-you-left-off.svg" alt="Picking the work back up"></div>
-      <figcaption class="caption">Picking the work back up: where things stand, what is open,
-        and the next step.</figcaption>
+    <figure class="story__show" aria-hidden="true">
+      <div class="plan-frame">
+        <svg class="plan" id="mini" viewBox="0 0 800 660" data-lit="you conductor">
+          <defs><pattern id="m-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path class="gridln" d="M40 0H0V40"/></pattern></defs><rect x="0" y="0" width="800" height="660" fill="url(#m-grid)"/><g class="house"><rect class="ln" x="20" y="16" width="760" height="630"/><path class="ln" d="M20 96H384M416 96H780"/><path class="ln" d="M384 96V64A32 32 0 0 1 416 96"/><path class="ln" d="M20 460H140M660 460H780"/><path class="ln" d="M140 460A865 865 0 0 0 660 460"/><path class="ln" d="M140 120L104 142M660 120L696 142"/><path class="ln" d="M140 200L104 222M660 200L696 222"/><path class="ln" d="M140 280L104 302M660 280L696 302"/><path class="ln row" d="M385.2 549.4A170 170 0 0 1 295.3 514"/><path class="ln row" d="M504.7 514A170 170 0 0 1 414.8 549.4"/><path class="ln row" d="M523.1 537.6A200 200 0 0 1 276.9 537.6"/><path class="ln row" d="M541.6 561.2A230 230 0 0 1 258.4 561.2"/><path class="ln" d="M20 482H80V542H20"/><path class="ln" d="M780 482H720V542H780"/></g><path class="sight" d="M738 506L418 448"/><g class="seat seat--players"><rect class="hit" x="205" y="200" width="390" height="205"/><rect class="ring" x="205" y="200" width="390" height="205"/><circle class="chair" cx="486.1" cy="404.9" r="7"/><path class="ln" d="M470 405.8L475 416.6"/><circle class="chair" cx="451" cy="364.9" r="7"/><path class="ln" d="M437.9 374.3L448 380.8"/><circle class="chair" cx="400" cy="350" r="7"/><path class="ln" d="M394 365L406 365"/><circle class="chair" cx="349" cy="364.9" r="7"/><path class="ln" d="M352 380.8L362.1 374.3"/><circle class="chair" cx="313.9" cy="404.9" r="7"/><path class="ln" d="M325 416.6L330 405.8"/><circle class="chair" cx="535.9" cy="381.6" r="7"/><path class="ln" d="M519.8 382.5L524.9 393.4"/><circle class="chair" cx="508.7" cy="341.6" r="7"/><path class="ln" d="M493.7 347.6L501.9 356.3"/><circle class="chair" cx="470.1" cy="312.4" r="7"/><path class="ln" d="M457.8 322.8L468.4 328.4"/><circle class="chair" cx="424.2" cy="297" r="7"/><path class="ln" d="M415.9 310.8L427.7 312.7"/><circle class="chair" cx="375.8" cy="297" r="7"/><path class="ln" d="M372.3 312.7L384.1 310.8"/><circle class="chair" cx="329.9" cy="312.4" r="7"/><path class="ln" d="M331.6 328.4L342.2 322.8"/><circle class="chair" cx="291.3" cy="341.6" r="7"/><path class="ln" d="M298.1 356.3L306.3 347.6"/><circle class="chair" cx="264.1" cy="381.6" r="7"/><path class="ln" d="M275.1 393.4L280.2 382.5"/><circle class="chair" cx="585.8" cy="358.4" r="7"/><path class="ln" d="M569.7 359.3L574.7 370.1"/><circle class="chair" cx="561.5" cy="318.8" r="7"/><path class="ln" d="M546 323.3L553.4 332.8"/><circle class="chair" cx="529" cy="285.7" r="7"/><path class="ln" d="M514.9 293.6L524.2 301.1"/><circle class="chair" cx="489.9" cy="260.7" r="7"/><path class="ln" d="M477.9 271.6L488.7 276.9"/><circle class="chair" cx="446.1" cy="245.3" r="7"/><path class="ln" d="M436.9 258.5L448.6 261.2"/><circle class="chair" cx="400" cy="240" r="7"/><path class="ln" d="M394 255L406 255"/><circle class="chair" cx="353.9" cy="245.3" r="7"/><path class="ln" d="M351.4 261.2L363.1 258.5"/><circle class="chair" cx="310.1" cy="260.7" r="7"/><path class="ln" d="M311.3 276.9L322.1 271.6"/><circle class="chair" cx="271" cy="285.7" r="7"/><path class="ln" d="M275.8 301.1L285.1 293.6"/><circle class="chair" cx="238.5" cy="318.8" r="7"/><path class="ln" d="M246.6 332.8L254 323.3"/><circle class="chair" cx="214.2" cy="358.4" r="7"/><path class="ln" d="M225.3 370.1L230.3 359.3"/><text class="lab" x="400" y="218" text-anchor="middle">Players</text></g><g class="seat seat--composer"><rect class="hit" x="150" y="104" width="100" height="94"/><rect class="ring" x="150" y="104" width="100" height="94"/><rect class="ln" x="168" y="116" width="64" height="24"/><path class="ln" d="M176 124H224M176 132H224"/><circle class="ln" cx="192" cy="128" r="3"/><circle class="ln" cx="208" cy="124" r="3"/><circle class="chair" cx="200" cy="156" r="7"/><text class="lab" x="200" y="188" text-anchor="middle">Composer</text></g><g class="seat seat--illustrator"><rect class="hit" x="540" y="102" width="112" height="108"/><rect class="ring" x="540" y="102" width="112" height="108"/><rect class="ln" x="562" y="112" width="66" height="44"/><circle class="ln" cx="588" cy="136" r="10"/><path class="ln" d="M604 122V150"/><circle class="chair" cx="595" cy="172" r="7"/><text class="lab" x="595" y="202" text-anchor="middle">Illustrator</text></g><g class="seat seat--stage"><rect class="hit" x="24" y="352" width="112" height="92"/><rect class="ring" x="24" y="352" width="112" height="92"/><rect class="ln" x="48" y="366" width="64" height="20"/><path class="ln" d="M58 372H76M58 380H70"/><circle class="chair" cx="80" cy="400" r="7"/><text class="lab" x="80" y="432" text-anchor="middle">Stage manager</text></g><g class="seat seat--tuner"><rect class="hit" x="222" y="26" width="92" height="62"/><rect class="ring" x="222" y="26" width="92" height="62"/><path class="ln" d="M232 34V58A8 8 0 0 0 248 58V34M240 66V82"/><text class="lab" x="262" y="62" text-anchor="start">Tuner</text></g><g class="seat seat--librarian"><rect class="hit" x="510" y="24" width="200" height="60"/><rect class="ring" x="510" y="24" width="200" height="60"/><rect class="ln" x="520" y="32" width="80" height="18"/><path class="ln" d="M528 34V48M536 34V48M544 34V48M552 34V48M560 34V48M568 34V48M576 34V48M584 34V48M592 34V48"/><circle class="chair" cx="560" cy="68" r="7"/><text class="lab" x="614" y="72" text-anchor="start">Librarian</text></g><g class="seat seat--second"><rect class="hit" x="640" y="486" width="140" height="90"/><rect class="ring" x="640" y="486" width="140" height="90"/><circle class="chair" cx="750" cy="512" r="7"/><text class="lab" x="772" y="566" text-anchor="end">Second opinion</text></g><g class="seat seat--you"><rect class="hit" x="384" y="532" width="60" height="36"/><rect class="ring" x="384" y="532" width="60" height="36"/><circle class="chair" cx="400" cy="550" r="8"/><text class="lab" x="416" y="556" text-anchor="start">You</text></g><g class="seat seat--conductor"><rect class="hit" x="360" y="405" width="80" height="92"/><rect class="ring" x="360" y="405" width="80" height="92"/><rect class="ln" x="382" y="427" width="36" height="36"/><circle class="chair" cx="400" cy="445" r="8"/><path class="ln" d="M405 437L415 417"/><text class="lab" x="400" y="487" text-anchor="middle">Conductor</text></g>
+        </svg>
+      </div>
+      <figcaption class="caption" id="mini-cap">You and the conductor, centre front.</figcaption>
     </figure>
   </section>
 
-  <section class="wrap grid band" id="rehearsal">
-    <div class="col-say">
-      <h2 class="statement">Rehearsal, then the concert.</h2>
+  <section class="wrap grid band install" id="install">
+    <div class="install__say">
+      <h2 class="statement">Take your seat.</h2>
+      <p class="lead soft">Two commands in Claude Code. The concert starts when you say so, not when it installs.</p>
     </div>
-    <div class="col-show">
-      <p class="prose">Two words carry the whole of Kerd. <strong>Rehearsal</strong> is the part
-        you are in: working it through turn by turn, in any order, shipping as you go, while Kerd
-        keeps a sketchbook of what is settled. <strong>The concert</strong> is what happens once
-        you say you are ready: the work is written down as a score, and a team of agents performs
-        it. No turn-by-turn questions, because the asking already happened. It comes back to you
-        only if something the score cannot answer turns up.</p>
-      <p class="prose">You decide when rehearsal ends. Nothing is performed that you have not
-        agreed.</p>
-    </div>
-  </section>
-
-  <section class="wrap grid band piece">
-    <div class="piece__say">
-      <h3 class="statement">What you want never gets pinned down.</h3>
-      <p class="piece__body">The AI starts building before either of you knows what done means.
-        With Kerd you rehearse: work it through turn by turn, still delivering as you go, while
-        it keeps a sketchbook of what is settled and draws pictures you can agree to. Ask
-        &ldquo;where are we?&rdquo; at any time.</p>
-      <p class="piece__skill">This is Conductor and Visuals.</p>
-    </div>
-    <figure class="piece__show">
-      <div class="frame"><img src="../docs/pictures/rehearsal.svg" alt="Rehearsal"></div>
-      <figcaption class="caption">Rehearsal: turn by turn, the sketchbook of what is settled,
-        pictures to agree to.</figcaption>
-    </figure>
-  </section>
-
-  <section class="wrap grid band piece">
-    <div class="piece__say">
-      <h3 class="statement">It&rsquo;s done when your spec and goals are met.</h3>
-      <p class="piece__body">Everything stays turn by turn, and done is whatever the AI says it is.
-        With Kerd, once you are ready, the work is written as a score and performed as a
-        concert: many agents, each with its own part, every return checked, the result compared
-        with your goals before it ends. A second AI can read the work too.</p>
-      <p class="piece__skill">This is Conductor and Agent.</p>
-    </div>
-    <figure class="piece__show">
-      <div class="frame"><img src="../docs/pictures/the-concert.svg" alt="The concert"></div>
-      <figcaption class="caption">The concert: the score, players in parallel, every return
-        checked, the goals compared.</figcaption>
-    </figure>
-  </section>
-
-  <!-- What it lets you do -->
-  <section class="wrap grid band">
-    <div class="col-say">
-      <h2 class="statement">What Kerd lets you do.</h2>
-      <p class="prose soft">Six capabilities, in plain words. Each one has a guide.</p>
-    </div>
-
-    <div class="does">
-      <div class="does__row"><b>Put work down and pick it up exactly where you left it</b><span>Switch</span></div>
-      <div class="does__row"><b>Shape a piece of work, agree it, and have it performed</b><span>Conductor</span></div>
-      <div class="does__row"><b>See it: pictures of what you are making, as you go</b><span>Visuals</span></div>
-      <div class="does__row"><b>Get a second opinion from another AI session, Claude or Codex</b><span>Agent</span></div>
-      <div class="does__row"><b>Keep the project tidy and catch what has drifted</b><span>Tend, Slainte</span></div>
-      <div class="does__row"><b>Keep what you learn, and write like a person</b><span>Kivna, Skriv</span></div>
-    </div>
-
-    <p class="more"><a href="capabilities.html">Every capability, in detail</a></p>
-  </section>
-
-  <!-- Install -->
-  <section class="wrap grid band" id="install">
-    <div class="col-say">
-      <h2 class="statement">Install.</h2>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <p>In Claude Code: add the marketplace, then the plugin. For Codex, which takes a
-        different route, see <a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/getting-started.md#install-in-codex">getting started</a>.</p>
+    <div class="install__show">
+      <p>Add the marketplace, then the plugin. For Codex, which takes a different route, see
+        <a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/getting-started.md#install-in-codex">getting started</a>.</p>
 <pre><code>claude plugin marketplace add anthonymaley/Kerd
 claude plugin install kerd@kerd-marketplace</code></pre>
-      </div>
-
-      <div class="step">
-        <p>Try a version before adopting it, without installing it.</p>
-<pre><code>claude --plugin-dir /absolute/path/to/kerd</code></pre>
-        <p class="small soft">The local copy loads alongside whatever you already have, as a
-          session-only plugin, and closing the session ends that. Nothing is installed and
-          nothing is disabled, but it is not trace-free: starting a session this way records
-          one line of usage in your <code>~/.claude.json</code>.</p>
-      </div>
-
-      <div class="step">
-        <p>Then work: <code>/kerd:switch in</code>, answer its question, do the work,
-          <code>/kerd:switch out</code>.</p>
-        <p class="small soft">Rolling back means pinning the
-          marketplace to a commit, never keeping an old plugin file: cached versions are
-          collected and go away. <a href="docs.html">Getting started</a> walks through a first
-          sitting.</p>
-      </div>
+      <p>Then sit down: <code>/kerd:switch in</code>, answer its question, do the work,
+        <code>/kerd:switch out</code>.</p>
     </div>
   </section>
 
