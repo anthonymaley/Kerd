@@ -7,6 +7,13 @@
 
   var hall = document.getElementById('hall');
   if (hall) {
+    var start = /^#seat-([a-z]+)$/.exec(location.hash);
+    if (start && hall.querySelector('a.seat[data-seat="' + start[1] + '"]')) {
+      hall.setAttribute('data-on', start[1]);
+    }
+    /* With JS the picked seat decides; a #seat-… link only sets the first
+       pick, so its :target no longer pins that card (see home.css). */
+    hall.classList.add('live');
     hall.querySelectorAll('a.seat').forEach(function (a) {
       var key = a.getAttribute('data-seat');
       function pick() { hall.setAttribute('data-on', key); }
