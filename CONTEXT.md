@@ -32,14 +32,14 @@ read from those sittings when Anthony asks for it.** 3of3's work (its iCloud syn
 is 3of3's, never Kerd's open work or next step (Anthony, 2026-09-25 10:49: "we are mixing work";
 he had said the same 2026-09-23). Evidence so far: local sketchbook `notes:launch-plan/work.md`.
 
-**The homepage is the orchestra, live since 2026-10-12 14:3x** (https://kerd-six.vercel.app/site/index.html; `main` 5ef56bee, CI 38291761716
-green). The hall plan has nine seats, each with a Without it / With it card; one story moves through the hall with a small plan that stays
-in view; then install. Direction came from his reference-board pick (Tailscale) and his 11:09 brief: "showing the orchestra as the whole
-project, with the key roles making it all work. more playful perhaps. visual, but with a real concrete why you need this edge." Mock 1 got
-"yes much better" 11:22. Ported on his go, checked in Chromium, WebKit and Firefox (light, dark, 390, no JS), codex-tui reviewed twice
-("Safe to push"), published on his "y" 14:33 with no version bump (page only; my reading of the 2026-09-21 ruling, offered for push-back).
-Capabilities, Examples and Docs keep the old look and the footer's "new in version 0.139.0" until their own pass. GitHub records no
-deployment for 5ef56bee, though the page is live; unexplained, not looked into. Sketchbook `notes:homepage-redesign/work.md`.
+**The whole site is in the orchestra look, live since 2026-10-12 16:4x** (https://kerd-six.vercel.app/site/index.html; `main` a16ee817,
+CI 38305761648 green). Homepage (5ef56bee, 14:3x): the hall plan of nine seats, each with a Without it / With it card, one story through the
+hall, install. Capabilities: the nine seats in detail, each "Played by" its skill. Examples: three real programmes, seats lit only where the
+record shows them. Docs: the guides by seat, the hall plan as index. The footer on all four pages has no version number. Direction from his
+reference-board pick (Tailscale) and his 11:09 brief ("showing the orchestra as the whole project ... a real concrete why you need this
+edge"); shape agreed 15:05; published on his "like it!" 16:40 with no version bump (page only). codex-tui reviewed both passes ("Safe to
+push"). Left: the Tend and Slainte guide's stale "automatically at a release" line and the Capabilities plan on phones (Backlog rows). GitHub
+recorded no deployment for 5ef56bee though the page went live; unexplained, not looked into. Sketchbook `notes:homepage-redesign/work.md`.
 
 **Two teams already use Kerd** (Anthony, 2026-09-22): SAM and Aubel.app. The team note
 (`notes:launch-plan/team-note.md`) had his "y" to send (2026-09-23 17:05); not confirmed
@@ -159,33 +159,33 @@ background-session list; he quits there with Ctrl-C. Switch Out's restart line s
 
 **Guard work stopped (Anthony 2026-10-07 20:31, "y"):** the unreadable-working-`vault.json` redesign is parked in the Backlog (branch `fix/guard-unreadable-working-vault` 3dbcc28 kept local, unpushed); the next guard change waits for a real slip, per the guard-scope ruling. Four of the day's nine sittings went to guard edges found by review rather than real use.
 
-**Selected continuation (2026-10-12 14:4x): bring the Capabilities, Examples and Docs pages into the orchestra look. Proposed, not
-agreed.** Claude shapes it with him first in Conductor (what each page should show in the new look; his tells and September bans are in
-the homepage sketchbook), then ports on his go, checks the three engines, codex-tui reviews, and stops before push; pushing `main` publishes
-through Vercel and needs his go. The shared footer line ("new in version 0.139.0" on those pages) is fixed in the same pass. Why first: the
-homepage now leads into three pages in the old look, so a reader clicking through meets two designs; it is the one buildable item. Beside it
-(proposed): decide where and when to announce Kerd (his; the announce step has had no trigger since 2026-09-25); the rest of Now watches
-real use.
+**Selected continuation (2026-10-12 16:4x): correct the Tend and Slainte guide's "automatically at a release" line. Proposed, not agreed.**
+`docs/guide/tend-and-slainte.md:7` says Slainte runs automatically at a release; `skills/slainte/SKILL.md` says the release pass has no
+automatic caller (codex-tui found it 15:2x; the site copy was fixed in a16ee817). Slainte's own trigger description also mentions Conductor's
+close-out firing it; check that too, since it may be the skill, not the guide, that needs the correction. Claude drafts, codex-tui reviews,
+stops before push; whether it ships alone or waits is his release call (releases paused; a guide-only change does not alter what installs, but
+a SKILL.md description change does). Why first: Now holds only watches, and this is the one concrete Backlog row: a published guide states
+something Kerd does not do. Beside it (proposed): centre the Capabilities hall plan on phones (a few lines like docs.js); look into why
+GitHub records no Vercel deployment for the site pushes.
 Session logs: `kivna/sessions/` (newest `2026-10-12.md`).
 
-**Pickup reading set** (update 2026-10-12 14:4x, after the homepage went live):
-- this file complete: position (0.183.1 released; overtone 0.10.0; Claude Code and his Codex on 0.183.1), the live orchestra homepage and the continuation (the other three pages, proposed), rulings and the Codex position;
-- `TODO.md` `## Now`, the designated active list, one line per row with its sketchbook link (`## Backlog` is a separate section outside the set; its rows are held or out of scope);
+**Pickup reading set** (update 2026-10-12 16:4x, after all four site pages went live):
+- this file complete: position (0.183.1 released; overtone 0.10.0; Claude Code and his Codex on 0.183.1), the whole site live in the orchestra look and the continuation (the guide's stale Slainte line, proposed), rulings and the Codex position;
+- `TODO.md` `## Now`, the designated active list, one line per row with its sketchbook link (`## Backlog` is a separate section outside the set; its top two rows are the continuation and one beside it, the rest held or out of scope);
 - `kivna/sessions/2026-10-12.md`, newest log (the real-use scan and 0.183.1);
 - `notes:outside-the-repo.md`, live links outside the repo;
-- `notes:homepage-redesign/work.md`, the homepage sketchbook (his words and bans at each step, the cast, the port, its checks and review; the next pass starts from it).
-Deeper: `notes:wait-line-rewait/work.md` (0.183.1: the 48 lines, the wording, the release); `notes:watch-scan-1012/work.md` (this scan: checked findings per watch item); `kivna/sessions/2026-10-11.md` (five sittings: the parked false alarm, the check-question rule, 0.183.0, both trims); `notes:now-trim/work.md` (the Now trim; `moved-rows.md` holds rows with no sketchbook); `notes:watch-scan-1011/work.md` (the 2026-10-11 scan: checked findings per watch item; its verdicts are in TODO.md's Now); `notes:watch-scan-1010/work.md` (the 2026-10-10 scan, the template decision, the parked guard false alarm); `notes:overtone-savvy/work.md` (the plan view: design, live trial, accepted limits; the Now watch row carries what to look for); `notes:release-0181/plan.html`; `kivna/sessions/2026-10-08.md` (ten sittings: question shape, 0.178.0 to 0.180.1, the plan view); `notes:overtone-savvy/mock.html`, `savvy-look.html`, `raster-proto-register.tsx` (the prototype); `notes:release-0179/work.md` (this sitting: 0.179.0, three review rounds, the `test_ask` race); `notes:bundle-1008/work.md` (notes save, step-list scan); `notes:sonnet-55/work.md` (medium vs high, three checks); `notes:question-shape/work.md` (recheck results, the Switch Out fix, its release); `kivna/sessions/2026-10-07.md` (twelve sittings); `notes:overtone-guard-gaps/work.md` (cut read, unreadable-working blocker, 0.8.3 refspec fix, 0.8.2, 0.8.1); `notes:codex-public-package/work.md` (0.177.2 Codex package, Codex's record); `notes:codex-update/work.md` (Codex 0.177.0 install); `notes:arrival-nothing-buildable/work.md` (0.177.0); `notes:haiku-switch/work.md` (0.176.0: diagnosis, probe, build); `notes:overtone-guard-gaps/work.md` (0.8.2 failed `cd`, and 0.8.1); `notes:opus-switch-evals/work.md` (Opus evals); `kivna/sessions/2026-10-06.md` (eight sittings: 0.172.1 to 0.175.1, the eval graders); `notes:boundary-slip/work.md` (0.175.2); `notes:switch-eval-graders/work.md`; `notes:overtone-guard-gaps/work.md`; `notes:chat-roll-window/work.md`; `notes:fixes-2026-10-06/work.md`; `notes:skills-guideline/work.md`; `docs/decisions.md`; `docs/backlog-archive.md`; `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
+Deeper: `notes:homepage-redesign/work.md` (the site sketchbook, finished: his words and bans at each step, the cast, both passes, checks and reviews; where the guide finding and the phone plan came from); `notes:wait-line-rewait/work.md` (0.183.1: the 48 lines, the wording, the release); `notes:watch-scan-1012/work.md` (this scan: checked findings per watch item); `kivna/sessions/2026-10-11.md` (five sittings: the parked false alarm, the check-question rule, 0.183.0, both trims); `notes:now-trim/work.md` (the Now trim; `moved-rows.md` holds rows with no sketchbook); `notes:watch-scan-1011/work.md` (the 2026-10-11 scan: checked findings per watch item; its verdicts are in TODO.md's Now); `notes:watch-scan-1010/work.md` (the 2026-10-10 scan, the template decision, the parked guard false alarm); `notes:overtone-savvy/work.md` (the plan view: design, live trial, accepted limits; the Now watch row carries what to look for); `notes:release-0181/plan.html`; `kivna/sessions/2026-10-08.md` (ten sittings: question shape, 0.178.0 to 0.180.1, the plan view); `notes:overtone-savvy/mock.html`, `savvy-look.html`, `raster-proto-register.tsx` (the prototype); `notes:release-0179/work.md` (this sitting: 0.179.0, three review rounds, the `test_ask` race); `notes:bundle-1008/work.md` (notes save, step-list scan); `notes:sonnet-55/work.md` (medium vs high, three checks); `notes:question-shape/work.md` (recheck results, the Switch Out fix, its release); `kivna/sessions/2026-10-07.md` (twelve sittings); `notes:overtone-guard-gaps/work.md` (cut read, unreadable-working blocker, 0.8.3 refspec fix, 0.8.2, 0.8.1); `notes:codex-public-package/work.md` (0.177.2 Codex package, Codex's record); `notes:codex-update/work.md` (Codex 0.177.0 install); `notes:arrival-nothing-buildable/work.md` (0.177.0); `notes:haiku-switch/work.md` (0.176.0: diagnosis, probe, build); `notes:overtone-guard-gaps/work.md` (0.8.2 failed `cd`, and 0.8.1); `notes:opus-switch-evals/work.md` (Opus evals); `kivna/sessions/2026-10-06.md` (eight sittings: 0.172.1 to 0.175.1, the eval graders); `notes:boundary-slip/work.md` (0.175.2); `notes:switch-eval-graders/work.md`; `notes:overtone-guard-gaps/work.md`; `notes:chat-roll-window/work.md`; `notes:fixes-2026-10-06/work.md`; `notes:skills-guideline/work.md`; `docs/decisions.md`; `docs/backlog-archive.md`; `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `b25c258574dda88087290a0a30f29852dd738ea7` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `3144d0f65d6afe45f01728f0969657bdd5df9f9b` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git (2026-10-07: the vault tree also holds apple-music's unsaved notes, not Kerd's; Kerd commits only its own paths).
 
-The observed position before this save is `main` at 5ef56bee (the homepage, live); the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at a16ee817 (all four site pages, live); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-12 14:4x, after the fifth sitting: 49,186 bytes, about 12,297 tokens (estimate), 4,297 over the 8,000 target; the homepage sketchbook (11,247 bytes) stays in the set because the next pass on the other three pages starts from his words and bans in it; today's log is five sittings long; tomorrow's starts small. Carried phrases (orchestra look, 5ef56bee, Proposed, not, no version bump, third miss) are all in the set. `read_args` for the next pickup:
+**Measured** 2026-10-12 16:4x, after the sixth sitting: 39,862 bytes, about 9,966 tokens (estimate), 1,966 over the 8,000 target; the site sketchbook left the set (finished; the next item doesn't need it); today's log is six sittings long and tomorrow's starts small. Carried phrases (orchestra look, a16ee817, Proposed, not agreed, automatically at a release, no version bump) are all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-12.md",
- "--file", "notes:outside-the-repo.md", "--file", "notes:homepage-redesign/work.md",
+ "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
