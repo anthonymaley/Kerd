@@ -241,7 +241,7 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Vault `work/` writes | **conductor** (`<work>/work.md`, the sketchbook, opt-in via `work_notes`); **switch** (out) for `outside-the-repo.md` | Kivna does not write it; it only recognizes the key |
 | Vault `work/` save + push | **the Switch Out flow**, alongside the project | No other skill commits or pushes the vault repo |
 | Structural audit and fix | **tend** | Tend keeps structure; slainte fixes *content* drift under the caller's gate |
-| Content audit and fix | **slainte** — triggered by conductor at releases and feature closes, on demand otherwise | No other skill edits docs to fix content drift; slainte's own fixes land only under the caller's verification gate, restraint reported |
+| Content audit and fix | **slainte** — run explicitly: the release pass after a version bump, audits on demand | No other skill edits docs to fix content drift; slainte's own fixes land only under the caller's verification gate, restraint reported |
 
 ### Conflict resolution
 

@@ -4,7 +4,7 @@ Tend keeps a repo's structure and plumbing in shape: directories, config files, 
 
 ## When you would reach for it
 
-Reach for tend on a brand new repo, to set everything up in one pass, or on an existing one after a Kerd update, to catch what has drifted from current convention. Reach for slainte when you want to know if the words in a doc still match the state of the project, on demand for one area, or automatically at a release: a version bump or an acceptance record landing triggers slainte's release pass.
+Reach for tend on a brand new repo, to set everything up in one pass, or on an existing one after a Kerd update, to catch what has drifted from current convention. Reach for slainte when you want to know if the words in a doc still match the state of the project, on demand for one area, or at a release: after a version bump, run slainte's release pass yourself; nothing calls it for you.
 
 ## How tend goes
 
@@ -22,7 +22,7 @@ After the report, you choose: fix everything, pick items one at a time, or skip 
 /kerd:slainte <area>
 ```
 
-Valid areas are docs, code, site, deps, playbook, release, and all. Each finding gets a severity, high, medium, or low, and evidence: the specific command or comparison that found it, never a bare claim. The release pass is the one exception to report-only: it runs at a version bump or when an acceptance record lands, and it fixes what is drift under your verification gate, then lists what it deliberately left untouched and why.
+Valid areas are docs, code, site, deps, playbook, release, and all. Each finding gets a severity, high, medium, or low, and evidence: the specific command or comparison that found it, never a bare claim. The release pass is the one exception to report-only: you run it with `/kerd:slainte release` after a version bump, and it fixes what is drift under your verification gate, then lists what it deliberately left untouched and why.
 
 ## An exchange
 

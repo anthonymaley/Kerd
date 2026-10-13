@@ -90,8 +90,8 @@ The release pass, plus health audits you can run any time.
 
 - `/kerd:slainte <area>` runs the audit for one area. The valid areas are `docs`,
   `code`, `site`, `deps`, `playbook`, `release` and `all`.
-- `/kerd:slainte release` is the one to run yourself when a version bump or an
-  acceptance record lands. Nothing calls it automatically.
+- `/kerd:slainte release` is the one to run yourself after a version bump.
+  Nothing calls it automatically.
 
 Guide: [tend and slainte](tend-and-slainte.md).
 

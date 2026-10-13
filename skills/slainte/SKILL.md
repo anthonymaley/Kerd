@@ -1,6 +1,6 @@
 ---
 name: slainte
-description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies — or when conductor's close-out fires the release close-out pass at a version bump. The pass fixes drift under the caller's verification gate and reports what it deliberately left; on-demand area audits report-only unless the caller asks for fixes."
+description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies — or when the user runs the release pass after a version bump (nothing calls it automatically). The pass fixes drift under the caller's verification gate and reports what it deliberately left; on-demand area audits report-only unless the caller asks for fixes."
 ---
 
 # Slainte (Project Health)

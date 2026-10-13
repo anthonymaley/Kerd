@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.183.2
+
+**Slainte no longer claims something runs it at a release.** Slainte's description said Conductor's close-out fires
+its release pass, and the Tend and Slainte guide said it runs automatically at a release. No automatic caller has
+existed since 0.107.0. Separately, that guide, the reference, the playbook and the state contract still named an
+acceptance record landing as a time to run it; acceptance records left with the retired ladder, so they now name only
+the version bump. After a version bump, run `/kerd:slainte release` yourself.
+
 ## 0.183.1
 
 **A wait line says what was done meanwhile, even on a re-wait.** When Conductor ends a turn waiting on a job, it
