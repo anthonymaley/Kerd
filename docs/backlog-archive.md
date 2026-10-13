@@ -7,6 +7,12 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-13 (Conductor and Switch Out, 09:3x)
+
+**Done:** the Backlog row "Tend and Slainte guide says Slainte runs automatically at a release". Evidence: released as 0.183.2 on his "y" 09:33 (main d6bfd6ae, CI 38405904537 green, codex-tui "Safe to push" after three should-fixes). The claim was in six live places, all corrected: Slainte's trigger description, the Tend and Slainte guide (lines 7, 25), the reference, the playbook and the state contract (the last four also dropped the retired acceptance-record trigger). `notes:homepage-redesign/work.md`. The row as it stood:
+
+- **Tend and Slainte guide says Slainte runs "automatically at a release"** (`docs/guide/tend-and-slainte.md:7`; codex-tui 2026-10-12 15:2x): Slainte's SKILL.md says the release pass has no automatic caller. The site copy was corrected in a16ee817; the guide was outside that pass. Slainte's trigger description also mentions Conductor's close-out firing it; check both. `notes:homepage-redesign/work.md`.
+
 ## Closed 2026-10-10 (Switch Out, 17:5x)
 
 **Done:** the Backlog row "A repo held in a shell variable stalls on overtone's guard". Evidence: Conductor's literal-path paragraph (c3bc38b7) released in 0.182.0 (main 2c7fdc08, CI 38089342758 green, codex-tui "Safe to push"); Switch Out's vault save already named the literal path (0.179.0). Whether real sessions stop using shell variables stays a Now watch item. The row as it stood:
