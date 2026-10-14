@@ -325,9 +325,18 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.183.2)
+## What's New (v0.184.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.184.0
+
+**Kerd says when a Codex request is still waiting in Codex's queue.** A request sent to a Codex window used to
+show only "sent, not confirmed", whether Codex had taken it or it was still sitting in Codex's own queue; on
+2026-10-14 three reviews sat there for two hours unseen. Agent now looks in that queue, read only, and says which:
+still waiting (with how long and how many ahead), no longer queued (which is not proof it was answered), or unknown.
+Switch In flags a Codex partner whose Kerd requests have waited over ten minutes. If the window is idle, typing in it
+woke a stalled one.
 
 ### v0.183.2
 

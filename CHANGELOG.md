@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.184.0
+
+**Kerd says when a Codex request is still waiting in Codex's queue.** A request sent to a Codex window used to
+show only "sent, not confirmed", whether Codex had taken it or it was still sitting in Codex's own queue; on
+2026-10-14 three reviews sat there for two hours unseen. Agent now looks in that queue, read only, and says which:
+still waiting (with how long and how many ahead), no longer queued (which is not proof it was answered), or unknown.
+Switch In flags a Codex partner whose Kerd requests have waited over ten minutes. If the window is idle, typing in it
+woke a stalled one.
+
 ## 0.183.2
 
 **Slainte no longer claims something runs it at a release.** Slainte's description said Conductor's close-out fires
