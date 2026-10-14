@@ -474,7 +474,9 @@ display, without modifying its private binding or assigning new responsibility.
 Do not synthesize the team from project history or a legacy bridge's
 collaborator names. The renderer groups identical identities and displays
 providers and roles only. Use `[]` for no established pairing and `null` for
-unread/unresolved state. A consequential routing problem belongs in `warnings`;
+unread/unresolved state. A team row's `attention` line (Kerd requests waiting
+undelivered in a Codex partner's queue over ten minutes) goes into `warnings`
+as it reads. A consequential routing problem belongs in `warnings`;
 routine unconfirmed notice delivery is not a blocker or an availability claim.
 
 Given a correctly shaped JSON object, fields are not required: a missing or null

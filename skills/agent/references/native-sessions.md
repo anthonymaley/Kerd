@@ -159,7 +159,20 @@ before anything is sent, and one request is enqueued by one route: an uncertain
 send is retained as `delivery-uncertain` and never followed by a second send
 elsewhere. Busy recipients retain their native queue ordering. Both a Claude
 socket write and a `codex queue` exit 0 are only **submitted-unconfirmed**:
-enqueued, not consumed, not answered. Native inbound policy can hold or refuse
+enqueued, not consumed, not answered. For a `codex queue` send still
+unconfirmed, `status` and `wait` also read Codex's own queue
+(`queue_1.sqlite`, `queued_items`, opened with `?mode=ro`: queue content is
+never written or re-sent from, though SQLite may create or update its `-wal`
+and `-shm` coordination files as any reader does) and add `delivery`: `queued`
+with `queued_seconds` and `ahead` when the request still waits there (seen
+2026-10-14: an interrupted TUI turn left three requests queued for two hours
+until someone typed in its window; a queued request may also simply wait for an
+active turn to finish), `not-queued` when it is absent (not proof it was taken
+or answered), or `unknown` when the queue is missing, its schema has changed or
+an unreadable row could be this request (tested with codex-cli 0.162.1). It
+is read fresh on each ask, never stored. An arrival row for a Codex partner adds
+an `attention` line when Kerd requests have waited in that thread's queue over
+ten minutes. Native inbound policy can hold or refuse
 a Claude message. Neither ever counts as a reply. Do not override that policy globally.
 New Claude partners use native `crossSessionInbound: accept` for that session's
 lifetime, with permission prompts disabled and the listed tool restrictions.

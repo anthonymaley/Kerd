@@ -206,6 +206,8 @@ arrival grid's TEAM cell: provider (role) + provider (role). IDs and routine not
 in Agent details, not the welcome dashboard or tracked Markdown. Repeated
 aliases for the same provider/ID are one member. Missing role means undefined,
 not inferred from the native title. Sending cannot make availability verified.
+A Codex row's `attention` line, present when Kerd requests have waited in that
+thread's own queue over ten minutes, goes to Switch's attention panel as it reads.
 
 The notice names project, sender ID, recorded role and previous ID when known.
 It says no reply needed and no work requested; recipients do not acknowledge,
