@@ -7,6 +7,10 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-14 (Conductor, 12:5x)
+
+**Mistaken premise:** the Backlog row "Agent cannot tell a closed Codex window from a stalled one". Evidence (read-only, 12:2x): the "dormant" thread 01a067d7 is open, a bare `codex resume` (pid 34242, cwd 3of3, since 2026-09-17) wrote all 790 of its log rows, last 2026-10-09; it is a live stalled window, so 0.184.0's "type in its window" hint already fits. A command-line process check would mislabel it closed (a picker-resumed window carries no thread ID), the rollout file is not held open, and the log table's pid can be the daemon's. No closed-window case has been seen. Archived on his "y" 12:50; nothing built. Sketchbook `notes:codex-queue-stall/work.md`.
+
 ## Closed 2026-10-14 (Conductor and Switch Out, 12:1x)
 
 **Done:** the Backlog row "Agent shows a Codex request queued but never delivered only as submitted-unconfirmed". Evidence: released as 0.184.0 on his "y" 12:04 (main d63ca6fa, CI 38594921884 green, codex `e108dda8`); codex-tui three rounds, five findings fixed, "Safe to commit"; 1,067 unit tests, 23 hook tests. Live read: codex-tui's notice `not-queued`, the dormant thread's 13 rows flagged. Follow-up row: closed window vs stalled one. `notes:codex-queue-stall/work.md`. The row as it stood:
