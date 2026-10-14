@@ -7,6 +7,12 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-14 (Conductor and Switch Out, 12:1x)
+
+**Done:** the Backlog row "Agent shows a Codex request queued but never delivered only as submitted-unconfirmed". Evidence: released as 0.184.0 on his "y" 12:04 (main d63ca6fa, CI 38594921884 green, codex `e108dda8`); codex-tui three rounds, five findings fixed, "Safe to commit"; 1,067 unit tests, 23 hook tests. Live read: codex-tui's notice `not-queued`, the dormant thread's 13 rows flagged. Follow-up row: closed window vs stalled one. `notes:codex-queue-stall/work.md`. The row as it stood:
+
+- **Agent shows a Codex request queued but never delivered only as "submitted-unconfirmed"** (2026-10-14): codex-tui held three requests ~2 h after an `exit` typed into its prompt interrupted its turn (2026-10-13 10:34); it drained them only when Anthony typed in it (11:19). A dormant Codex partner from another project has 13 queued since 2026-10-09. Idea: Agent reads Codex's queue (`~/.codex/queue_1.sqlite`, version-sensitive) and says "queued, not delivered". Proposed next; release is his call. `notes:codex-queue-stall/work.md`.
+
 ## Closed 2026-10-14 (Conductor and Switch Out, 11:2x)
 
 **False alarm:** the Backlog row "GitHub records no Vercel deployment for the site pushes, though the pages go live". Evidence (read-only, `gh api`): GitHub holds a Production deployment by `vercel[bot]` with a success status for 5ef56bee (created 19:13:04Z) and for every main push checked since 2026-10-11 (20), each also carrying a `Vercel` commit status. 5ef56bee was pushed 18:33:51Z, so its record arrived ~40 min late; the 2026-10-12 watcher polled only 9 min. Today's records land ~3 s after the push. The site publishes through Vercel's GitHub integration (main → Production, `codex` → Preview); no `.vercel/` link or Vercel CLI here. Why that one report was late is not visible without the Vercel dashboard (not checked). `notes:homepage-redesign/work.md`.
