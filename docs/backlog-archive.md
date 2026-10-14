@@ -7,6 +7,12 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-14 (Conductor and Switch Out, 11:2x)
+
+**False alarm:** the Backlog row "GitHub records no Vercel deployment for the site pushes, though the pages go live". Evidence (read-only, `gh api`): GitHub holds a Production deployment by `vercel[bot]` with a success status for 5ef56bee (created 19:13:04Z) and for every main push checked since 2026-10-11 (20), each also carrying a `Vercel` commit status. 5ef56bee was pushed 18:33:51Z, so its record arrived ~40 min late; the 2026-10-12 watcher polled only 9 min. Today's records land ~3 s after the push. The site publishes through Vercel's GitHub integration (main → Production, `codex` → Preview); no `.vercel/` link or Vercel CLI here. Why that one report was late is not visible without the Vercel dashboard (not checked). `notes:homepage-redesign/work.md`.
+
+- **GitHub records no Vercel deployment for the site pushes, though the pages go live** (2026-10-12, seen for 5ef56bee; later pushes not checked, though a16ee817 and 6362bd9c went live): unexplained. Find which path publishes the site and whether anything is broken; read-only first, setup changes on his go. `notes:homepage-redesign/work.md`.
+
 ## Closed 2026-10-14 (Conductor, 10:1x)
 
 **Done:** the Backlog row "Capabilities page: the hall plan opens scrolled left on phones". Evidence: `site/assets/capabilities.js` (docs.js's three lines) and its script tag, pushed on his "y" 10:12 as main 6362bd9c, page only, no bump. At 390 the plan opens at its middle (scrollLeft 0 → 186 of 186) in Chromium, Firefox and WebKit, 1440 unchanged, no console errors; a one-off Codex review said "Safe to commit" (codex-tui left the request unread). `notes:homepage-redesign/work.md`.

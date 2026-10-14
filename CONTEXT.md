@@ -38,8 +38,8 @@ hall, install. Capabilities: the nine seats in detail, each "Played by" its skil
 record shows them. Docs: the guides by seat, the hall plan as index. The footer on all four pages has no version number. Direction from his
 reference-board pick (Tailscale) and his 11:09 brief ("showing the orchestra as the whole project ... a real concrete why you need this
 edge"); shape agreed 15:05; published on his "like it!" 16:40 with no version bump (page only). codex-tui reviewed both passes ("Safe to
-push"). The Capabilities plan opens centred on phones since 2026-10-14 10:1x (`site/assets/capabilities.js`, like docs.js; three engines at 390/1440; one-off Codex review; live, CI 38578538162); the guide's stale Slainte line was fixed in 0.183.2. GitHub
-recorded no deployment for 5ef56bee though the page went live; unexplained, not looked into (Backlog row). Sketchbook `notes:homepage-redesign/work.md`.
+push"). The Capabilities plan opens centred on phones since 2026-10-14 10:1x (`site/assets/capabilities.js`, like docs.js; three engines at 390/1440; one-off Codex review; live, CI 38578538162); the guide's stale Slainte line was fixed in 0.183.2. Every push
+deploys through Vercel's GitHub integration and GitHub holds each record (checked 2026-10-14 11:0x; 5ef56bee's arrived ~40 min late, which looked like none). Sketchbook `notes:homepage-redesign/work.md`.
 
 **Two teams already use Kerd** (Anthony, 2026-09-22): SAM and Aubel.app. The team note
 (`notes:launch-plan/team-note.md`) had his "y" to send (2026-09-23 17:05); not confirmed
@@ -150,7 +150,7 @@ local-only here moved there on 2026-09-25 (vault commit `b64d50a`). `notes:backl
 untracked the same day; the old commits still hold them.
 
 **Routing:** no role designation saved. The old `kerd-b5-review` binding still carries a pre-12:51
-handoff from 2026-09-25; not adopted. Anthony confirmed (2026-10-05 22:14) the bound codex-tui thread is the one to keep using; the session ID he first gave was a closed Codex voice session that Agent refused. Its process started 2026-10-05 22:13 and it follows each install on its next turn (checked 2026-10-06).
+handoff from 2026-09-25; not adopted. Anthony confirmed (2026-10-05 22:14) the bound codex-tui thread is the one to keep using; the session ID he first gave was a closed Codex voice session that Agent refused. Its process started 2026-10-05 22:13 and it follows each install on its next turn (checked 2026-10-06). It answers again since 2026-10-14 11:19 (test reply in 16 s at 11:24); an `exit` typed into its prompt on 2026-10-13 10:34 had left its queue undelivered until Anthony typed in it (`notes:codex-queue-stall/work.md`).
 
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
@@ -159,29 +159,25 @@ background-session list; he quits there with Ctrl-C. Switch Out's restart line s
 
 **Guard work stopped (Anthony 2026-10-07 20:31, "y"):** the unreadable-working-`vault.json` redesign is parked in the Backlog (branch `fix/guard-unreadable-working-vault` 3dbcc28 kept local, unpushed); the next guard change waits for a real slip, per the guard-scope ruling. Four of the day's nine sittings went to guard edges found by review rather than real use.
 
-**Selected continuation (2026-10-14 10:1x): find out why GitHub records no Vercel deployment for the site pushes. Proposed, not agreed.**
-The site pages go live on each push (5ef56bee, a16ee817, 6362bd9c all served), yet GitHub recorded no Vercel deployment for 5ef56bee (seen 2026-10-12; later pushes not checked). Read-only first:
-the repo's Vercel link (`vercel.json`, `.vercel/`, GitHub deployments and checks via `gh api`), then explain which path publishes the site and whether
-anything is broken; changing the Vercel or GitHub setup needs his go. Why first: Now holds only watches and the Capabilities phone fix closed the
-last site row; this is the one concrete, unparked item, and knowing how the site publishes matters before the next page change or the announcement.
-Beside it (proposed): check whether codex-tui still answers (it left a 2026-10-14 09:05 review request unread for over an hour; a fresh one-off
-Codex reviewer covered it), since every review before push routes to it.
-Session logs: `kivna/sessions/` (newest `2026-10-13.md`).
+**Selected continuation (2026-10-14 11:2x): make Agent say when a Codex request is still sitting in Codex's queue, undelivered. Proposed, not agreed.**
+Today codex-tui sat for ~2 h with three requests queued and Agent showed only "submitted-unconfirmed": an `exit` typed into its prompt on 2026-10-13 10:34 had interrupted the turn, and the TUI took nothing from its queue until Anthony typed in it at 11:19 (then all three drained, and a test request got a reply in 16 s). A dormant Codex partner from another project has 13 requests queued since 2026-10-09 the same way. Agent could read Codex's queue (`~/.codex/queue_1.sqlite`, version-sensitive) and say "queued, not delivered: the session needs someone to type in it". Shape first (read-only design, then a branch); releases are paused, so a release is his decision. Why first: Now holds only watches; every review before a push routes to codex-tui, and a silent queue cost two hours today with no signal.
+Beside it (proposed): nothing else in Now or the Backlog is buildable; the Backlog rows are held, parked or wait on a real slip.
+Session logs: `kivna/sessions/` (newest `2026-10-14.md`).
 
-**Pickup reading set** (update 2026-10-14 10:1x, after the Capabilities phone fix):
-- this file complete: position (0.183.2 released; overtone 0.10.0; Claude Code on 0.183.2, his Codex on 0.183.1, current for its package), the whole site live in the orchestra look and the continuation (the Vercel deployment record, proposed), rulings and the Codex position;
+**Pickup reading set** (update 2026-10-14 11:2x, after the Vercel record and codex-tui checks):
+- this file complete: position (0.183.2 released; overtone 0.10.0; Claude Code on 0.183.2, his Codex on 0.183.1, current for its package), the whole site live in the orchestra look and the continuation (Agent showing an undelivered Codex queue, proposed), rulings and the Codex position;
 - `TODO.md` `## Now`, the designated active list, one line per row with its sketchbook link (`## Backlog` is a separate section outside the set; its top row is the continuation, the rest held or out of scope);
-- `kivna/sessions/2026-10-14.md`, newest log (the Capabilities plan on phones);
+- `kivna/sessions/2026-10-14.md`, newest log (the Capabilities plan on phones; the Vercel record; codex-tui's stuck queue);
 - `notes:outside-the-repo.md`, live links outside the repo;
 Deeper: `kivna/sessions/2026-10-13.md` (0.183.2, the Slainte wording); `kivna/sessions/2026-10-12.md` (six sittings: the real-use scan, 0.183.1, the orchestra site); `notes:homepage-redesign/work.md` (the site sketchbook, finished, plus 0.183.2 at its end: his words and bans at each step, the cast, both passes, checks and reviews; where the guide finding and the phone plan came from); `notes:wait-line-rewait/work.md` (0.183.1: the 48 lines, the wording, the release); `notes:watch-scan-1012/work.md` (this scan: checked findings per watch item); `kivna/sessions/2026-10-11.md` (five sittings: the parked false alarm, the check-question rule, 0.183.0, both trims); `notes:now-trim/work.md` (the Now trim; `moved-rows.md` holds rows with no sketchbook); `notes:watch-scan-1011/work.md` (the 2026-10-11 scan: checked findings per watch item; its verdicts are in TODO.md's Now); `notes:watch-scan-1010/work.md` (the 2026-10-10 scan, the template decision, the parked guard false alarm); `notes:overtone-savvy/work.md` (the plan view: design, live trial, accepted limits; the Now watch row carries what to look for); `notes:release-0181/plan.html`; `kivna/sessions/2026-10-08.md` (ten sittings: question shape, 0.178.0 to 0.180.1, the plan view); `notes:overtone-savvy/mock.html`, `savvy-look.html`, `raster-proto-register.tsx` (the prototype); `notes:release-0179/work.md` (this sitting: 0.179.0, three review rounds, the `test_ask` race); `notes:bundle-1008/work.md` (notes save, step-list scan); `notes:sonnet-55/work.md` (medium vs high, three checks); `notes:question-shape/work.md` (recheck results, the Switch Out fix, its release); `kivna/sessions/2026-10-07.md` (twelve sittings); `notes:overtone-guard-gaps/work.md` (cut read, unreadable-working blocker, 0.8.3 refspec fix, 0.8.2, 0.8.1); `notes:codex-public-package/work.md` (0.177.2 Codex package, Codex's record); `notes:codex-update/work.md` (Codex 0.177.0 install); `notes:arrival-nothing-buildable/work.md` (0.177.0); `notes:haiku-switch/work.md` (0.176.0: diagnosis, probe, build); `notes:overtone-guard-gaps/work.md` (0.8.2 failed `cd`, and 0.8.1); `notes:opus-switch-evals/work.md` (Opus evals); `kivna/sessions/2026-10-06.md` (eight sittings: 0.172.1 to 0.175.1, the eval graders); `notes:boundary-slip/work.md` (0.175.2); `notes:switch-eval-graders/work.md`; `notes:overtone-guard-gaps/work.md`; `notes:chat-roll-window/work.md`; `notes:fixes-2026-10-06/work.md`; `notes:skills-guideline/work.md`; `docs/decisions.md`; `docs/backlog-archive.md`; `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `90ef39553584ae9209545298ed09dd1a7ee9f904` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `ac1a573a98bf59578ba2f3acf59dcc14a241fa5d` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git (2026-10-07: the vault tree also holds apple-music's unsaved notes, not Kerd's; Kerd commits only its own paths).
 
-The observed position before this save is `main` at 6362bd9c (the Capabilities phone fix, live); the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at c5439598 (the 10:1x Switch Out); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-14 10:1x, after the Capabilities phone fix: 32,986 bytes, about 8,247 tokens (estimate), 247 over the 8,000 target (CONTEXT.md carries most of it; trimming its rulings is not this sitting's work). Carried phrases (Vercel deployment, Proposed, not agreed, capabilities.js, codex-tui still answers, 6362bd9c) are all in the set. `read_args` for the next pickup:
+**Measured** 2026-10-14 11:3x, after the Vercel record and codex-tui checks: 34,844 bytes, about 8,711 tokens (estimate), 711 over the 8,000 target (CONTEXT.md carries most of it; trimming its rulings is not this sitting's work). Carried phrases (queued, not delivered; Proposed, not agreed; false alarm; codex-queue-stall; c5439598) are all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-14.md",
