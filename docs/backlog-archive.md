@@ -7,6 +7,10 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-14 (Conductor, 10:1x)
+
+**Done:** the Backlog row "Capabilities page: the hall plan opens scrolled left on phones". Evidence: `site/assets/capabilities.js` (docs.js's three lines) and its script tag, pushed on his "y" 10:12 as main 6362bd9c, page only, no bump. At 390 the plan opens at its middle (scrollLeft 0 → 186 of 186) in Chromium, Firefox and WebKit, 1440 unchanged, no console errors; a one-off Codex review said "Safe to commit" (codex-tui left the request unread). `notes:homepage-redesign/work.md`.
+
 ## Closed 2026-10-13 (Conductor and Switch Out, 09:3x)
 
 **Done:** the Backlog row "Tend and Slainte guide says Slainte runs automatically at a release". Evidence: released as 0.183.2 on his "y" 09:33 (main d6bfd6ae, CI 38405904537 green, codex-tui "Safe to push" after three should-fixes). The claim was in six live places, all corrected: Slainte's trigger description, the Tend and Slainte guide (lines 7, 25), the reference, the playbook and the state contract (the last four also dropped the retired acceptance-record trigger). `notes:homepage-redesign/work.md`. The row as it stood:
