@@ -125,8 +125,13 @@ recommends it.
 
 It will not kill an occupied terminal, resume "latest", fork a session without
 saying so, or wake an offline session to make a delivery look successful. Your
-own Codex terminal is never resumed, forked or stopped; it is queued to, and
-whether anyone is attending it is unknown until it answers.
+own Codex terminal is never resumed, forked or stopped; it is queued to. Kerd
+reads that queue without changing its messages. When it can read it, it says
+whether a request is still waiting there, and for how long when that is known;
+otherwise it says unknown. Switch In flags an established Codex partner whose
+requests have waited over ten minutes.
+A request that has left the queue may still be unanswered, and whether anyone is
+attending the terminal is unknown until it answers.
 
 An empty session list does not prove there is nothing there, and a returned
 review is not a passed outcome. Both are reported as what they are.
