@@ -377,6 +377,79 @@ def stored_thread(root, sid):
             'status': SAVED, 'reachability': 'native-thread', 'kind': 'session'}
 
 
+QUEUE_STALL_SECONDS = 600
+WAKE = ('if the session is idle, typing in its window woke a stalled one (seen 2026-10-14); '
+        'a closed one needs reopening')
+UNREADABLE = object()  # a queued row whose request could not be read
+
+
+def codex_queue(sid):
+    """What still waits in Codex's own queue for one thread, oldest first, as
+    (request id, None for a non-Kerd row or UNREADABLE, created_at seconds or
+    None). Opened read only: queue content is never written, though SQLite may
+    touch its -wal/-shm coordination files as any reader does. The schema is
+    Codex-internal and version-sensitive, so any surprise is None (unknown),
+    never an error and never proof of delivery."""
+    database = codex_home() / 'queue_1.sqlite'
+    try:
+        owned(database, stat.S_ISREG)
+        with closing(sqlite3.connect(database.as_uri() + '?mode=ro', uri=True)) as db:
+            rows = db.execute('SELECT payload_json, created_at_ms FROM queued_items '
+                              'WHERE thread_id = ? ORDER BY queue_order', (identifier(sid),)).fetchall()
+    except (OSError, Unavailable, ValueError, sqlite3.Error):
+        return None
+    items = []
+    for payload, created in rows:
+        # The id and the age are read apart: an odd timestamp must not hide a match.
+        try:
+            text = json.loads(payload)['UserInput']['content'][0]['text']
+            found = re.match(r'Kerd peer request ([0-9a-f-]{36})\.', text)
+            request = found.group(1) if found else None
+        except (ValueError, KeyError, IndexError, TypeError):
+            request = UNREADABLE
+        age = (created / 1000 if isinstance(created, (int, float)) and not isinstance(created, bool)
+               and math.isfinite(created) and 0 <= created / 1000 <= time.time() + 86400 else None)
+        items.append((request, age))
+    return items
+
+
+def queue_delivery(record):
+    """Where a `codex queue` send stands in Codex's queue: still waiting there,
+    no longer there (not proof it was taken or answered), or unknown."""
+    if (record.get('provider') != 'codex' or record.get('route') != 'codex-queue'
+            or record.get('status') != 'submitted-unconfirmed'):
+        return record
+    items = codex_queue(record['session'])
+    if items is None:
+        return {**record, 'delivery': 'unknown',
+                'delivery_note': "Codex's queue could not be read; nothing is known beyond submitted"}
+    for ahead, (request, created) in enumerate(items):
+        if request == record['request_id']:
+            waited = max(0, int(time.time() - created)) if created is not None else None
+            return {**record, 'delivery': 'queued', 'queued_seconds': waited, 'ahead': ahead,
+                    'delivery_note': "Still in Codex's queue, not delivered; " + WAKE}
+    if any(request is UNREADABLE for request, _ in items):
+        return {**record, 'delivery': 'unknown',
+                'delivery_note': "Codex's queue holds rows that could not be read; it may still be there"}
+    return {**record, 'delivery': 'not-queued',
+            'delivery_note': "Not in Codex's queue now; not proof it was taken or answered"}
+
+
+def queue_attention(sid):
+    """One line for an arrival when Kerd requests have waited in this thread's
+    queue past QUEUE_STALL_SECONDS; None when not, or when unknown."""
+    items = codex_queue(sid)
+    waiting = [created for request, created in (items or [])
+               if isinstance(request, str) and created is not None]
+    if not waiting or time.time() - min(waiting) < QUEUE_STALL_SECONDS:
+        return None
+    oldest = time.localtime(min(waiting))
+    since = time.strftime('%H:%M' if oldest[:3] == time.localtime()[:3] else '%Y-%m-%d %H:%M', oldest)
+    count = len(waiting)
+    return (f"{count} Kerd request{'s' if count != 1 else ''} waiting undelivered in Codex's "
+            f'queue since {since}; {WAKE}')
+
+
 def daemon_socket():
     return codex_home() / 'app-server-control' / 'app-server-control.sock'
 
@@ -944,6 +1017,10 @@ class Agent:
                            reused=receipt.get('reused', False), created_at=receipt['created_at'])
                 if receipt.get('error'):
                     row['error'] = receipt['error']
+                if peer['provider'] == 'codex':
+                    attention = queue_attention(peer['id'])
+                    if attention:
+                        row['attention'] = attention
             except (Unavailable, OSError, ValueError, KeyError, TypeError, subprocess.TimeoutExpired) as exc:
                 row['error'] = describe(exc)
             result['team'].append(row)
@@ -1254,12 +1331,14 @@ class Agent:
             raise Unavailable('Codex native server is not running; start it to wake this partner')
         raise Unavailable('User session went offline; leave it queued for its owner, do not resume')
 
-    def status(self, request):
+    def status(self, request, queue=True):
         path = self.folder('requests') / (identifier(request) + '.json')
         if not path.exists():  # checked before the lock, so an unknown id leaves no file behind
             raise Unavailable('No request ' + identifier(request) + ' in this project')
         with locked(path.with_suffix('.lock')):
-            return self._status(path, request)
+            record = self._status(path, request)
+        # Not stored: the queue is read fresh each time it is asked about.
+        return queue_delivery(record) if queue else record
 
     def _status(self, path, request):
         record = read_json(path)
@@ -1337,9 +1416,9 @@ class Agent:
             raise ValueError('Wait duration must be finite and nonnegative')
         deadline = time.monotonic() + seconds
         while True:
-            record = self.status(request)
+            record = self.status(request, queue=False)
             if record.get('reply_expected') is False or record['status'] == 'reply-received' or time.monotonic() >= deadline:
-                return record
+                return queue_delivery(record)
             time.sleep(min(.25, max(0, deadline - time.monotonic())))
 
 

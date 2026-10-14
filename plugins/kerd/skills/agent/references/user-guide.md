@@ -206,7 +206,10 @@ You: nothing needed.
 ```
 
 Then it reports meaningful changes: submitted or queued, an observed start
-when available, and the returned findings. A queued job is not yet running;
+when available, and the returned findings. When a Codex window has not taken a
+request from its queue, Kerd says so, with how long it has waited, instead of
+leaving it at "not confirmed". It may be waiting for a turn to finish; if the
+window is idle, typing in it woke a stalled one on 2026-10-14. A queued job is not yet running;
 a returned review is not proof that the work passes. Kerd assesses the answer
 and continues only work already authorized. A review request by itself does
 not authorize fixes, commits or publication.

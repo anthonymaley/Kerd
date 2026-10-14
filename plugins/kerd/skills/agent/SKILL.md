@@ -131,7 +131,10 @@ not shell subcommands. For execution, use the workflow below.
    dependencies or changing account/settings scope. Never request secrets in chat.
 6. Before dispatch, show the partner/model, job and edit boundary in the live
    task list when available. After dispatch, distinguish queued, unconfirmed,
-   running and returned. Do other useful work while waiting; emit useful state
+   running and returned. A Codex TUI request's `delivery` says whether it still
+   waits in Codex's own queue (`queued`: say so, with how long; typing in an idle
+   window has woken a stalled one), is `not-queued` (not proof it was taken or
+   answered) or `unknown`. Do other useful work while waiting; emit useful state
    changes. A wait timeout stops waiting, not the recipient, and never resends.
    Own retrieval through to a complete reply or an explicit blocker; dispatch is
    not completion. Use short waits during active work. If inbound approval blocks
