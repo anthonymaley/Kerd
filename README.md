@@ -325,9 +325,16 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.184.0)
+## What's New (v0.184.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.184.1
+
+**The Agent guide says Kerd reads the Codex queue.** Slainte's release pass for 0.184.0 found the Agent guide still
+saying only that your Codex terminal is queued to. It now says Kerd reads that queue without changing its messages,
+says whether a request is still waiting and for how long when known, or unknown, and that Switch In flags an
+established Codex partner whose requests have waited over ten minutes. Wording only; no skill changed.
 
 ### v0.184.0
 
