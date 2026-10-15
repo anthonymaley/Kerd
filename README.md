@@ -325,9 +325,20 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.185.0)
+## What's New (v0.185.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.185.1
+
+**Intersect diagrams now look like the sheet, not a recoloured chart.** A real diagram drawn with the 0.185.0
+theme kept its colours and fonts but lost everything else: no sheet frame, no title block, no grain, no pin tags or
+flow lines, and white boxes. The theme now makes the sheet compulsory (frame, title block inside it, legend strip,
+grain, paper-coloured boxes only), puts the project and title inside the striped barber-pole frame, carries the
+main flow between groups as a long studded line with rounded bends, says which Intersect shape stands for each
+ordinary part of a diagram, never inventing one, carries a sheet outline to draw inside, and ends with a check
+that sends a flat drawing back to be redrawn. If you made Intersect a project or machine default, switch to it again to pick up
+the new version.
 
 ### v0.185.0
 
