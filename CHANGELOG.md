@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.185.0
+
+**An opt-in diagram theme: Intersect.** Kerd now ships a second look for diagrams, beside your own: a photocopied
+engineering schematic in off-white, toner black and one red, all in capitals, with numbered pin tags, chevron
+banners and studded flow lines. Ask Visuals for it in plain words: "draw this in the intersect theme" for one
+diagram, "switch to intersect theme" for the project you are in, or "make intersect my default" for every project
+on your machine that has not chosen its own look; ask to switch back the same way, and Kerd puts back the look
+you had. It is a diagram-design profile, so it never changes anyone's
+default unless they ask, and Archify diagrams keep their own look.
+
 ## 0.184.1
 
 **The Agent guide says Kerd reads the Codex queue.** Slainte's release pass for 0.184.0 found the Agent guide still

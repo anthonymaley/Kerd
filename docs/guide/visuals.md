@@ -75,6 +75,26 @@ So a proposal in a Conductor session does not come back as a wall of prose with 
 offer to draw something if you want it. It comes back as the summary, the saved
 view, and one question about the actual decision.
 
+## A different look: the Intersect theme
+
+Diagrams normally come out in whatever look your diagram-design is set to. Kerd
+also ships one opt-in theme, Intersect: a photocopied engineering schematic in
+off-white, toner black and one red, all in capitals, with numbered pin tags,
+chevron banners and studded flow lines. Ask for it in plain words:
+
+- "Draw this in the intersect theme" changes that one diagram; no profile or setting changes.
+- "Switch to intersect theme" (or "use the intersect diagram theme") changes the
+  project you are in. Kerd saves the theme as a diagram-design profile and asks
+  before adding a one-line `.diagram-design` file to your repository.
+- "Make intersect my default" changes every project on your machine that has not
+  chosen its own look; a project with its own `.diagram-design` file keeps it.
+  Kerd first says which look you have now and offers to save it if it is not
+  saved yet. A diagram-design update puts its own default back.
+
+Switching back works the same way, at the same scope, and puts back the look you
+had, never a guess. Archify diagrams keep their
+own look.
+
 ## What it will not do
 
 It will not hand you ASCII art in a code fence and call that a diagram. If neither
