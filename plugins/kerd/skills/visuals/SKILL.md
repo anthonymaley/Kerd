@@ -1,6 +1,6 @@
 ---
 name: visuals
-description: "Create readable product, process and system diagrams that help a person understand or agree a direction. Use whenever the person asks to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change — connected-parts views, responsibility flows, scope boundaries and decision paths. Draw with diagram-design or Archify, which are required: produce a saved, rendered view, never hand-rolled ASCII in a code fence or a document made of text boxes."
+description: "Create readable product, process and system diagrams that help a person understand or agree a direction. Use whenever the person asks to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change — connected-parts views, responsibility flows, scope boundaries and decision paths. Draw with diagram-design or Archify, which are required: produce a saved, rendered view, never hand-rolled ASCII in a code fence or a document made of text boxes. Also use when the person asks for the intersect diagram theme (“use the intersect diagram theme”, “switch to intersect theme”): Kerd’s opt-in schematic look, for one diagram, a project or the whole machine, and back."
 license: MIT
 ---
 
@@ -116,6 +116,44 @@ patterns bundled here do not satisfy the rule on their own — they are neither 
 full diagram-design catalogue nor a substitute for it; they help choose the view,
 and the view itself is drawn with one of the two required tools. Disclose
 unavailable capabilities; do not silently substitute or start a preview server.
+
+## Themes: the opt-in Intersect look
+
+Kerd ships one opt-in diagram theme, [Intersect](themes/intersect.md): a
+photocopied engineering schematic in off-white, toner black and one red, all
+capitals, with pin tags, chevron banners and studded buses. It is a
+diagram-design profile; it never replaces anyone's default unless they ask.
+Archify keeps its own look; say so when an Archify view is asked for in it.
+Match the scope the person names, and say which one you used:
+
+- **One diagram** (“draw this in the intersect theme”): read the shipped theme
+  file as the style guide for that drawing only. No profile or setting is
+  changed; the next diagram is back to their default.
+- **This project** (“use the intersect diagram theme”, “switch to intersect
+  theme”): copy the shipped file to `~/.diagram-design/profiles/intersect.md`
+  (if one is already there and differs, ask before replacing it), then ask before writing
+  the project's `.diagram-design` file with exactly `profile: intersect`, which
+  is a file in their repository. If that file already names another profile, say
+  which, so it can be restored, and ask before replacing it.
+- **Projects without their own selection, on this machine** (“make intersect my
+  default”): save it as above, then copy it over diagram-design's installed style
+  guide, never through a project's `.diagram-design` file, which this scope does
+  not touch; a project that has one keeps its own selection, and a diagram-design
+  update reverts the installed copy. First say what the installed copy is now:
+  a saved profile by name; the untouched shipped default, which you snapshot as
+  `default.md` first by diagram-design's own recovery-snapshot step; or an
+  unsaved custom guide, which you offer to save as a named profile before
+  replacing it; with neither saved nor agreed, stop.
+
+Switching back follows the same scope and restores what was there, never a
+guess: nothing to undo for one diagram; for a project, put back the profile its
+`.diagram-design` named before, or remove the file Kerd added; for the machine,
+copy the profile you named before switching back over the installed style guide,
+never through a project's `.diagram-design` file. When that previous look is unknown,
+say so and ask which saved profile to load; never substitute `default` for it.
+Never delete the person's other profiles. The theme's own
+rules (one red thing, capitals, shapes rather than colours) apply only while it
+is in use.
 
 ## When a required tool is not available here
 
