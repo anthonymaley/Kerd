@@ -7,6 +7,7 @@ shipped file and the written rule, not whether a model follows it.
 from pathlib import Path
 import re
 import unittest
+from xml.etree import ElementTree
 
 REPO = Path(__file__).resolve().parents[4]
 SKILL = REPO / "skills" / "visuals" / "SKILL.md"
@@ -51,6 +52,52 @@ class IntersectThemeTests(unittest.TestCase):
         prose = flat(text)
         self.assertIn("solid `accent` border, heavier, no tinted fill", prose)
         self.assertIn("never overrides Visuals' rules for states", prose)
+
+    def test_the_sheet_is_required_not_optional(self):
+        # 2026-10-15 09:41: a real diagram drawn with the theme kept the colours and
+        # fonts but no frame, title block, grain or primitives, and white fills.
+        text = THEME.read_text(encoding="utf-8")
+        prose = flat(text)
+        self.assertIn("## The sheet (required on every Intersect diagram)", text)
+        self.assertIn("### Mapping an ordinary diagram onto the sheet", text)
+        self.assertIn("### Sheet skeleton", text)
+        self.assertIn("Recolouring a normal diagram is not this theme.", prose)
+        self.assertIn("No HTML heading, eyebrow, paragraph or legend outside the SVG", prose)
+        self.assertIn("Never `#FFFFFF`", prose)
+        self.assertIn("A sheet that fails any of these is redrawn, not delivered.", prose)
+        self.assertNotIn("The sheet may carry a faint photocopy grain", prose)
+        self.assertNotIn("Use three to five on any one sheet", prose)
+        skeleton = text[text.index("### Sheet skeleton"):text.index("### Before delivering")]
+        for part in ('filter id="grain"', 'stroke="var(--rule-solid)" stroke-width="2"',
+                     'class="title"', "LEGEND", 'filter="url(#grain)"',
+                     "@media (prefers-color-scheme: dark)"):
+            with self.subTest(part=part):
+                self.assertIn(part, skeleton)
+        self.assertNotRegex(skeleton, r"\b12px\b")
+        # codex-tui review, 09:5x: readable size, accessible text, valid XML, no
+        # invented structure, outlines by Visuals' states.
+        for part in ('<title id="sheet-title">', '<desc id="sheet-desc">',
+                     'class="eyebrow">PROJECT:', "svg{display:block;width:1440px"):
+            with self.subTest(part=part):
+                self.assertIn(part, skeleton)
+        self.assertNotIn("max-width:1440px", skeleton)
+        svg = skeleton[skeleton.index("<svg"):skeleton.index("</svg>") + 6]
+        ElementTree.fromstring(svg)
+        self.assertIn("Never invent structure", prose)
+        self.assertIn("The mapping gives shapes; Visuals' state rules decide their outlines.", prose)
+        self.assertNotIn("plus at least two more", prose)
+        # Anthony 09:55: the row-to-row run from the first 0.185.1 render, and the
+        # striped box frames the title and project, never a next step.
+        self.assertIn('fill="url(#pole)"', skeleton)
+        self.assertLess(skeleton.index('fill="url(#pole)"'), skeleton.index('class="eyebrow">PROJECT:'))
+        self.assertIn("never mark a next step or a takeaway", prose)
+        self.assertIn("Never a short straight drop between housings", prose)
+        self.assertNotIn("callout's stripes", prose)
+        # codex-tui round 3: real endpoints; the full project line wraps, never drops.
+        self.assertIn("never moved to a different endpoint for the look", prose)
+        self.assertIn("never shrink it or drop part of it", prose)
+        self.assertIn('class="eyebrow">kind · status</text>', skeleton)
+        self.assertLess(skeleton.index("LEGEND"), skeleton.index('filter="url(#grain)"'))
 
     def test_the_published_theme_names_no_tv_series(self):
         text = THEME.read_text(encoding="utf-8").lower()
