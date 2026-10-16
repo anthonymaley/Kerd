@@ -4,13 +4,13 @@ slug: intersect
 source-url: none
 created: 2026-10-15
 updated: 2026-10-15
-notes: Opt-in Kerd theme, shipped in kerd:visuals. A photocopied engineering schematic: off-white paper, toner ink, one red, capitals. Never a default unless the person makes it one.
+notes: Opt-in Kerd theme, shipped in kerd:visuals. A photocopied engineering schematic: white paper, toner ink, one red, capitals. Never a default unless the person makes it one.
 -->
 # Style Guide
 
 **The single source of truth for colors, typography, and tokens.** Every diagram draws from this — not from hex values inlined in other reference files.
 
-Skin: **the Intersect sheet**. A government engineering drawing photocopied once too often: warm off-white paper with a little grain, warm near-black ink, one hard red used on exactly one thing. Everything is capitals. Shapes carry the meaning, not colour: black pin tags, chevron banners, studded buses, dotted bead links, dashed orbit rings, a barber-pole title frame and blueprint dimension lines. The sheet itself (frame, title block, legend strip, grain) is required on every diagram: see The sheet below. Deliberate rules are listed under Intersect house rules at the end.
+Skin: **the Intersect sheet**. A government engineering drawing photocopied once too often: white paper with a little grain, warm near-black ink, one hard red used on exactly one thing. Everything is capitals. Shapes carry the meaning, not colour: black pin tags, chevron banners, studded buses, dotted bead links, dashed orbit rings, a barber-pole title frame and blueprint dimension lines. The sheet itself (frame, title block, legend strip, grain) is required on every diagram: see The sheet below. Deliberate rules are listed under Intersect house rules at the end.
 
 ---
 
@@ -20,15 +20,15 @@ Skin: **the Intersect sheet**. A government engineering drawing photocopied once
 
 | Role | Purpose | Default (light) | Default (dark) |
 |---|---|---|---|
-| `paper` | Page background, default node fill | `#ECE9E1` (photocopy bond) | `#14171A` (lightbox off) |
-| `paper-2` | Sheet frame fill, secondary fill | `#E3DFD5` | `#1C2024` |
+| `paper` | Page background, default node fill | `#FFFFFF` (white bond) | `#14171A` (lightbox off) |
+| `paper-2` | Sheet frame fill, secondary fill | `#F2F2F0` | `#1C2024` |
 | `ink` | Primary text, primary stroke, pin tags, banners | `#1F1B18` (toner black) | `#E6E2D8` |
 | `muted` | Secondary text, default arrow stroke | `#4A443E` | `#A8A296` |
 | `soft` | Sublabels, fine-print legends | `#6B645B` | `#8A857B` |
 | `rule` | Hairline borders, grid | `#C9C3B6` | `#2C3136` |
 | `rule-solid` | Sheet frame border, dimension lines | `#8F887C` | `#5A5F64` |
 | `accent` | Exactly one thing per sheet: the focal change's border, else the binder edge | `#C4161C` | `#FF4A3D` |
-| `accent-tint` | Fill for accent-bordered boxes | `#ECE9E1` (no tint: same as paper) | `#14171A` |
+| `accent-tint` | Fill for accent-bordered boxes | `#FFFFFF` (no tint: same as paper) | `#14171A` |
 | `link` | External / interface arrows | `#1F1B18` (no second hue: same as ink) | `#E6E2D8` |
 
 ### Inversion rule (light → dark)
@@ -130,7 +130,7 @@ Recolouring a normal diagram is not this theme. Every diagram drawn with this gu
 3. **Title block, in the barber-pole frame:** at the top of the title column, inside the barber-pole frame (the sheet's one striped box, always `ink` stripes): first, as the first line of text in the render, Visuals' project line (`PROJECT: subject · kind · status`, in `eyebrow`, the name in capitals and a colon); then the title in `title` type, CAPITALS, stacked on two or three short lines, in a right-hand column about a quarter of the sheet wide; then one line of `sublabel` fine print ("plan view, sheet 1 of 1"). Notes go under the frame as a short list. A diagram too wide for a column puts the same framed block in the top-right corner of the sheet instead, never as a page heading. The stripes frame the title only; they never mark a next step or a takeaway.
 4. **Legend strip:** a `rule` hairline across the bottom of the frame, then `LEGEND` in `eyebrow`, one sample of each primitive used with its meaning in fine print, and the sheet code right-aligned ("SHEET <PROJECT>-<NNNN> · <DATE>").
 5. **Grain:** the `feTurbulence` grain rectangle over the whole sheet as the very last element.
-6. **Fills:** `paper`, `paper-2` and solid `ink` only. Never `#FFFFFF`, never a tint.
+6. **Fills:** `paper`, `paper-2` and solid `ink` only. Paper is white; never a tint, never a fill outside these three, except the red binder edge (`accent`) on a sheet with no focal change.
 7. **Primitives for what is there:** draw every primitive the content gives a reason for, using the mapping below: numbered or listed items get pin tags, a flow between groups gets the studded bus, groups get housings, the title block gets the barber-pole frame. Never invent structure, numbering or a flow the diagram does not have to fit a primitive in; a small diagram may need only the sheet and one or two.
 
 ### Mapping an ordinary diagram onto the sheet
@@ -155,7 +155,7 @@ The mapping gives shapes; Visuals' state rules decide their outlines. A housing,
 
 ```html
 <style>
-:root{--paper:#ECE9E1;--paper-2:#E3DFD5;--ink:#1F1B18;--muted:#4A443E;--soft:#6B645B;--rule:#C9C3B6;--rule-solid:#8F887C;--accent:#C4161C}
+:root{--paper:#FFFFFF;--paper-2:#F2F2F0;--ink:#1F1B18;--muted:#4A443E;--soft:#6B645B;--rule:#C9C3B6;--rule-solid:#8F887C;--accent:#C4161C}
 @media (prefers-color-scheme: dark){:root{--paper:#14171A;--paper-2:#1C2024;--ink:#E6E2D8;--muted:#A8A296;--soft:#8A857B;--rule:#2C3136;--rule-solid:#5A5F64;--accent:#FF4A3D}}
 body{margin:0;background:var(--paper);overflow-x:auto;padding:24px}
 svg{display:block;width:1440px;height:auto;margin:0 auto}
@@ -196,7 +196,7 @@ A pin tag: `<polygon points="800,230 808,220 840,220 840,240 808,240" fill="var(
 
 ### Before delivering, check the sheet
 
-Frame present; the project line first and the title inside the barber-pole frame, not above the sheet; no other striped box; every line in the frame fits inside its paper box at its stated size (wrap a long project line or title onto another line; never shrink it or drop part of it); the bus between groups takes the long route between its real endpoints; SVG title and description present; drawn at full size, labels at 13px or more as rendered; legend strip and sheet code present; grain is the last element; no `#FFFFFF` or tinted fill anywhere; every part the mapping covers drawn as its primitive, nothing invented; outlines follow Visuals' states; names and codes keep their case; exactly one red thing. A sheet that fails any of these is redrawn, not delivered.
+Frame present; the project line first and the title inside the barber-pole frame, not above the sheet; no other striped box; every line in the frame fits inside its paper box at its stated size (wrap a long project line or title onto another line; never shrink it or drop part of it); the bus between groups takes the long route between its real endpoints; SVG title and description present; drawn at full size, labels at 13px or more as rendered; legend strip and sheet code present; grain is the last element; no tinted fill and no fill outside `paper`, `paper-2` and `ink` anywhere, the binder edge on a sheet with no focal change excepted; every part the mapping covers drawn as its primitive, nothing invented; outlines follow Visuals' states; names and codes keep their case; exactly one red thing. A sheet that fails any of these is redrawn, not delivered.
 
 ## Intersect primitives
 

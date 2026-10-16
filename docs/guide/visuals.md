@@ -37,9 +37,13 @@ layer, never in the main relationship.
 
 What comes back is one self-contained HTML file with the drawing inside it, saved
 beside the work, plus a short line saying what it clarifies. Where the view can be
-rendered and opened here, it is rendered, looked at, and checked at the size you
-would view it at, phone width included when that matters. Where it cannot be, you
-are told that plainly instead of being told it looks fine.
+rendered and opened here, it is rendered, looked at, and checked at desktop width,
+where you read it; a phone check, when it matters, never reshapes a themed sheet.
+It is drawn in your look: a theme you asked for on that one diagram, otherwise
+the profile your project names, otherwise the style diagram-design is set to on
+your machine, never a palette picked for the occasion.
+Where it cannot be rendered, you are told that plainly instead of being told it
+looks fine.
 
 Parts that are proposed, partial or unknown are labelled as such. The view does
 not quietly complete itself by guessing a requirement you never gave it.
@@ -79,7 +83,7 @@ view, and one question about the actual decision.
 
 Diagrams normally come out in whatever look your diagram-design is set to. Kerd
 also ships one opt-in theme, Intersect: a photocopied engineering schematic in
-off-white, toner black and one red, all in capitals, with numbered pin tags,
+white, toner black and one red, all in capitals, with numbered pin tags,
 chevron banners and studded flow lines. Ask for it in plain words:
 
 - "Draw this in the intersect theme" changes that one diagram; no profile or setting changes.
@@ -132,8 +136,10 @@ conversation.
 
 Layout rules are the ordinary ones: simple horizontal and vertical connections
 with clear endpoints, routing around unrelated nodes, no collisions between lines
-and labels, no meaning carried by colour alone, and a wide diagram reflowed or
-split for a narrow screen rather than shrunk until the text is unreadable.
+and labels, no meaning carried by colour alone, and text never shrunk until it is
+unreadable. A theme that draws a full-size sheet, like Intersect, stays full size
+and scrolls sideways on a narrow screen; otherwise a wide diagram may be split
+into readable parts.
 
 [Conductor](conductor.md) loads this skill when it draws, which is most of why
 you see views during rehearsal rather than only at the end.

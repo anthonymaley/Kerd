@@ -325,9 +325,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.185.1)
+## What's New (v0.186.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.186.0
+
+**Intersect is drawn on white, full size, and in your look.** In real use a drawer squeezed an Intersect sheet down
+to phone width, dropping its side panels and banner, and other views were drawn in a hand-picked paper look while
+Intersect was the chosen style. The theme's paper is now white (`#FFFFFF`, with `#F2F2F0` for the frame and
+secondary fills); red, capitals and shapes are unchanged. Visuals now draws for a desktop screen first: a theme's
+full-size sheet stays full size and scrolls sideways on a narrow screen, and nobody briefs a drawer to narrow it.
+Every diagram-design view takes its colours, type and shapes from the active style guide (a theme you asked for on
+that one diagram, otherwise your project's profile, otherwise the one installed on your machine) and is checked
+against it before you see it. If you made Intersect a
+project or machine default, switch to it again to pick up the white paper.
 
 ### v0.185.1
 

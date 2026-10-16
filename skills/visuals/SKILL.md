@@ -82,11 +82,16 @@ about on plain paper with a solid accent border, heavier than the rest (no tinte
 fill; the Kerd look marks the focal item by its stroke alone). Two states that
 differ only by colour, or only by dash, read as the same thing at a glance. Every box
 takes its state, including a result that exists only once the change ships: that
-result is proposed, so it is dashed. Reflow or split a wide
-diagram for narrow screens instead of shrinking its text into illegibility.
+result is proposed, so it is dashed. Draw for a desktop or laptop screen
+first: that is where Kerd's readers look. Never shrink text into illegibility to
+fit a narrower screen. A theme that draws a full-size sheet (Intersect) keeps it
+at full size and a narrow screen scrolls sideways; never stack, narrow or strip
+such a sheet for a phone, and never brief a drawer to. Only without such a theme
+may a wide diagram be split into readable parts.
 
-Render and inspect the actual output at the intended viewing size. If it is
-likely to be opened on a phone, check that too. Use an available browser or
+Render and inspect the actual output at desktop width. A phone check, when the
+view is likely to be opened on one, is secondary and never reshapes a themed
+sheet. Use an available browser or
 image-capable preview; do not require a specific test framework. If inspection
 is unavailable, disclose that limitation instead of claiming visual validation.
 Check meaning as well as layout: the project leading the top heading, states
@@ -117,10 +122,19 @@ full diagram-design catalogue nor a substitute for it; they help choose the view
 and the view itself is drawn with one of the two required tools. Disclose
 unavailable capabilities; do not silently substitute or start a preview server.
 
+A diagram-design view takes its colours, type and shapes from the active style
+guide: the profile the project's `.diagram-design` file names, otherwise
+diagram-design's installed style guide, which may be a theme the person made
+their default; a theme asked for one diagram is that diagram's guide. Read that guide before drawing, and name its path when briefing a
+drawer. Never hand-pick a palette, paper or font, or restyle the view into a
+look of your own; drawing with the tool in another look still bypasses the
+person's choice. Before delivering, check the rendered view against that guide;
+a view in another look is redrawn, not delivered.
+
 ## Themes: the opt-in Intersect look
 
 Kerd ships one opt-in diagram theme, [Intersect](themes/intersect.md): a
-photocopied engineering schematic in off-white, toner black and one red, all
+photocopied engineering schematic in white, toner black and one red, all
 capitals, with pin tags, chevron banners and studded buses. It is a
 diagram-design profile; it never replaces anyone's default unless they ask.
 Archify keeps its own look; say so when an Archify view is asked for in it.
