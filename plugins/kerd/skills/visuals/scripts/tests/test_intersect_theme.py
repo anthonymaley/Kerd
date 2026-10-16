@@ -63,7 +63,7 @@ class IntersectThemeTests(unittest.TestCase):
         self.assertIn("### Sheet skeleton", text)
         self.assertIn("Recolouring a normal diagram is not this theme.", prose)
         self.assertIn("No HTML heading, eyebrow, paragraph or legend outside the SVG", prose)
-        self.assertIn("Never `#FFFFFF`", prose)
+        self.assertIn("never a tint, never a fill outside these three", prose)
         self.assertIn("A sheet that fails any of these is redrawn, not delivered.", prose)
         self.assertNotIn("The sheet may carry a faint photocopy grain", prose)
         self.assertNotIn("Use three to five on any one sheet", prose)
@@ -98,6 +98,28 @@ class IntersectThemeTests(unittest.TestCase):
         self.assertIn("never shrink it or drop part of it", prose)
         self.assertIn('class="eyebrow">kind · status</text>', skeleton)
         self.assertLess(skeleton.index("LEGEND"), skeleton.index('filter="url(#grain)"'))
+
+    def test_the_paper_is_white_and_the_sheet_stays_full_size(self):
+        # Anthony, 2026-10-16 (3of3 sitting): "still yello paper color not white and the
+        # width is iphone?", then "yes ! perfect" for white at full width; 08:31 on
+        # white for every Kerd user: "thats not a risk its what we want".
+        text = THEME.read_text(encoding="utf-8")
+        self.assertIn("`#FFFFFF` (white bond)", text)
+        self.assertIn("--paper:#FFFFFF;--paper-2:#F2F2F0;", text)
+        self.assertNotIn("#ECE9E1", text)
+        self.assertNotIn("off-white", text)
+        skill = flat(SKILL.read_text(encoding="utf-8"))
+        self.assertIn("Draw for a desktop or laptop screen first", skill)
+        self.assertIn("never stack, narrow or strip such a sheet for a phone", skill)
+        self.assertNotIn("Reflow or split a wide diagram for narrow screens", skill)
+
+    def test_a_view_takes_its_look_from_the_active_style_guide(self):
+        # 2026-10-16: 3of3's views were drawn with hand-picked paper styling while the
+        # installed style guide was Intersect.
+        skill = flat(SKILL.read_text(encoding="utf-8"))
+        self.assertIn("A diagram-design view takes its colours, type and shapes from the active style guide", skill)
+        self.assertIn("Never hand-pick a palette, paper or font", skill)
+        self.assertIn("a view in another look is redrawn, not delivered", skill)
 
     def test_the_published_theme_names_no_tv_series(self):
         text = THEME.read_text(encoding="utf-8").lower()
