@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.187.1
+
+**Intersect draws sequence diagrams as the sheet, not a recoloured default.** A fresh drawer's sequence
+diagram kept Intersect's frame, title block and legend but drew plain lifelines and arrows inside, because the
+theme mapped no sequence parts; it also reused a step number and cut the final reply short to stay under the
+arrow limit. The theme now maps each part: actors as name plates, the call the diagram is about as the studded
+bus, returns as bead links with filled heads and async hand-offs with open ones, numbered messages with their
+own pin tags, fragments as housings with the operator on a side panel (an `alt` keeps its divider and guards),
+a dimension line for one round, a banner for the result leaving the sheet, and the focal message in red at the
+heavier weight. Too many lifelines, messages or fragments for diagram-design's limits means two sheets or a
+question, never a dropped or merged step. One redraw before and after (tested, not yet verified across drawers).
+
 ## 0.187.0
 
 **Kerd reaches a Codex thread you opened in the Codex app.** Pairing refused a Codex reviewer thread opened in

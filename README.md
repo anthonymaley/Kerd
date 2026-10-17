@@ -325,9 +325,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.187.0)
+## What's New (v0.187.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.187.1
+
+**Intersect draws sequence diagrams as the sheet, not a recoloured default.** A fresh drawer's sequence
+diagram kept Intersect's frame, title block and legend but drew plain lifelines and arrows inside, because the
+theme mapped no sequence parts; it also reused a step number and cut the final reply short to stay under the
+arrow limit. The theme now maps each part: actors as name plates, the call the diagram is about as the studded
+bus, returns as bead links with filled heads and async hand-offs with open ones, numbered messages with their
+own pin tags, fragments as housings with the operator on a side panel (an `alt` keeps its divider and guards),
+a dimension line for one round, a banner for the result leaving the sheet, and the focal message in red at the
+heavier weight. Too many lifelines, messages or fragments for diagram-design's limits means two sheets or a
+question, never a dropped or merged step. One redraw before and after (tested, not yet verified across drawers).
 
 ### v0.187.0
 
