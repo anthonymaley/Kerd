@@ -1390,7 +1390,7 @@ class OpusReviewTests(TuiRouteTests):
         every TUI as notLoaded because it never loads them.)"""
         import sqlite3
         with sqlite3.connect(self.codex.db) as c:
-            c.execute("UPDATE threads SET source='vscode' WHERE id=?", (self.sid,))
+            c.execute("UPDATE threads SET source='vscode', thread_source=NULL WHERE id=?", (self.sid,))
         self.no_daemon.stop()
         sock = self.codex.home / 'app-server-control'; sock.mkdir(exist_ok=True)
         (sock / 'app-server-control.sock').touch()
@@ -1407,6 +1407,31 @@ class OpusReviewTests(TuiRouteTests):
         self.assertEqual(record['status'], 'delivery-uncertain')
         self.assertIn('offline', record.get('error', ''))
         self.assertEqual([a for a in self.calls if a[:1] == ['codex']], [], 'no enqueue to an offline unowned thread')
+
+    def test_F1b_a_dormant_owned_app_server_partner_is_resumed_through_rpc_not_codex_queue(self):
+        """Kerd's own app-server threads are `vscode` with no thread_source in the
+        real store, so accepting `vscode/user` app threads leaves them on the RPC route."""
+        import sqlite3
+        with sqlite3.connect(self.codex.db) as c:
+            c.execute("UPDATE threads SET source='vscode', thread_source=NULL WHERE id=?", (self.sid,))
+        self.no_daemon.stop()
+        sock = self.codex.home / 'app-server-control'; sock.mkdir(exist_ok=True)
+        (sock / 'app-server-control.sock').touch()
+        from unittest.mock import MagicMock
+        rpc = MagicMock(); rpc.__enter__.return_value = rpc
+        dormant = {'thread': {'cwd': str(self.root), 'status': {'type': 'notLoaded'}}}
+        rpc.call.side_effect = [dormant, {}, {'queuedSubmission': {'id': 'q1'}}]
+        record = {}
+        try:
+            with patch.object(agent, 'RPC', return_value=rpc), \
+                 patch.object(agent, 'command', side_effect=self.fake_command):
+                self.app.send_codex(self.sid, 'Review it.', self.rid, record, owned_partner=True)
+        finally:
+            self.no_daemon.start()
+        self.assertEqual([c.args[0] for c in rpc.call.call_args_list],
+                         ['thread/read', 'thread/resume', 'thread/queue/add'])
+        self.assertEqual(record['route'], 'app-server')
+        self.assertEqual([a for a in self.calls if a[:1] == ['codex']], [], 'never codex queue for an owned partner')
 
     def test_F2_a_moved_rollout_reports_observation_unavailable_without_a_path(self):
         with patch.object(agent, 'command', side_effect=self.fake_command):
@@ -1438,6 +1463,20 @@ class OpusReviewTests(TuiRouteTests):
                     agent.live_target(self.root, 'codex', hidden)
                 with self.assertRaises(agent.Unavailable):
                     agent.stored_thread(self.root, hidden)
+
+    def test_F4b_a_codex_app_thread_a_person_opened_is_listed_selectable_and_queued(self):
+        app_thread = str(uuid.uuid4()); self.codex.thread(app_thread, source='vscode')
+        app_made = str(uuid.uuid4()); self.codex.thread(app_made, source='vscode', thread_source=None)
+        with patch.object(agent, 'command', side_effect=self.fake_command):
+            listed = {r['id'] for r in self.app.list()['sessions'] if r['provider'] == 'codex'}
+            self.assertEqual(listed, {self.sid, app_thread})
+            self.assertEqual(agent.stored_thread(self.root, app_thread)['id'], app_thread)
+            with self.assertRaises(agent.Unavailable):
+                agent.stored_thread(self.root, app_made)
+            self.app.ask('codex', app_thread, 'Review it.', 'Reviewer', self.rid)
+        args = next(a for a in self.calls if a[:1] == ['codex'])
+        self.assertEqual(args[:2], ['codex', 'queue'])
+        self.assertIn(app_thread, args)
 
     def test_F5_cd_follows_the_queue_subcommand(self):
         with patch.object(agent, 'command', side_effect=self.fake_command):
@@ -1679,7 +1718,7 @@ class FinalReviewTests(TuiRouteTests):
     def test_4_an_owned_app_server_partner_with_no_daemon_is_told_the_server_is_down(self):
         import sqlite3
         with sqlite3.connect(self.codex.db) as c:
-            c.execute("UPDATE threads SET source='vscode' WHERE id=?", (self.sid,))
+            c.execute("UPDATE threads SET source='vscode', thread_source=NULL WHERE id=?", (self.sid,))
         with patch.object(agent, 'command', side_effect=self.fake_command):
             record = self.app.ask('codex', self.sid, 'Review it.', 'Reviewer', self.rid,
                                   fresh=True, owned_partner=True)

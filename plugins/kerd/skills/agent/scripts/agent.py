@@ -316,7 +316,7 @@ def codex_sessions(root, unavailable=None):
             # Sessions a person might pair with: threads they opened, not the
             # subagents those threads spawned (thread_source = 'subagent').
             rows = db.execute("SELECT id, cwd, name FROM threads WHERE archived = 0 "
-                              "AND source = 'cli' AND thread_source = 'user' "
+                              "AND source IN ('cli', 'vscode') AND thread_source = 'user' "
                               "ORDER BY updated_at DESC LIMIT 200").fetchall()
         if len(rows) == 200 and unavailable is not None:
             note = 'Store discovery window full (200 newest sessions); older sessions are not listed but remain selectable by UUID'
@@ -344,6 +344,12 @@ def codex_sessions(root, unavailable=None):
 
 SAVED = 'saved thread \u2014 activity unknown'
 
+# Store `source` values of threads a person opens: a terminal TUI and the Codex
+# app / IDE extension. Both drain `codex queue` (an app thread answered a queued
+# message in 7 s, 2026-10-16). `exec`, subagents and app-server-created threads
+# stay out.
+PERSON_SOURCES = ('cli', 'vscode')
+
 
 def store_row(root, sid):
     """The chosen Codex thread as the local store records it, checked for
@@ -361,11 +367,11 @@ def store_row(root, sid):
     if not belongs_to_project(row[0], root):
         raise Unavailable('Chosen Codex thread belongs to another project')
     return {'cwd': row[0], 'name': row[2], 'source': row[4], 'thread_source': row[5],
-            'tui': row[4] == 'cli' and row[5] == 'user'}
+            'tui': row[4] in PERSON_SOURCES and row[5] == 'user'}
 
 
 def stored_thread(root, sid):
-    """A selectable saved thread: one a person opened (a TUI). Membership plus
+    """A selectable saved thread: one a person opened (a TUI or the Codex app). Membership plus
     a matching project is enough to *select* it, never proof anyone is at the
     keyboard: the store has no PID or heartbeat, so activity stays unknown."""
     row = store_row(root, sid)
@@ -1268,7 +1274,7 @@ class Agent:
         """One enqueue by one route, chosen before anything is sent.
 
         A daemon-loaded thread goes through the app-server queue. A thread a
-        person opened (a TUI, `cli/user` in the store) goes through
+        person opened (a TUI or app thread, `cli/user` or `vscode/user` in the store) goes through
         `codex queue` whenever the daemon does not have it loaded — a daemon
         never loads a TUI, so it reports every TUI as notLoaded, and that is
         not "offline". An app-server-created thread that is not loaded is woken

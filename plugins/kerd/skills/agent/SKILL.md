@@ -44,9 +44,11 @@ Never kill an occupied terminal, resume “latest”, fork without saying so,
 change global settings, or revive an unowned offline session to make delivery
 look successful. Kerd-created Codex partners may be dormant between requests;
 their exact native conversation is awakened on the next request. A person's own
-Codex TUI is never resumed, forked or stopped: it is queued to exactly as it
-stands, and whether it is attended is unknown until it answers. This is not
-attachment to an arbitrary app's session. Keep these distinctions visible.
+Codex TUI or Codex app thread (`vscode`/`user` in Codex's store) is never resumed,
+forked or stopped: it is queued to exactly as it stands (`codex queue`, or the
+daemon's queue when the daemon has it loaded), and whether it is attended is
+unknown until it answers. This is not attachment to an arbitrary app's session:
+an offline app-server thread that neither a person opened nor Kerd created is refused. Keep these distinctions visible.
 
 ## Help
 

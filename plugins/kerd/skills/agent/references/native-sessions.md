@@ -15,7 +15,8 @@ consumer projects. Python 3.10+ and macOS/Linux process/filesystem semantics.
 
 `sessions` lists Claude's native interactive/background sessions in this project,
 threads currently loaded in Codex's shared server, and — from Codex's local store
-— the Codex sessions a person opened in this project (the TUIs in your terminals),
+— the Codex sessions a person opened in this project (the TUIs in your terminals
+and threads opened in the Codex app or IDE),
 plus Kerd's local partner bindings. Store rows are labelled `native-thread` with
 status `saved thread — activity unknown`: the store has no PID or heartbeat, so a
 row proves a selectable conversation, never that anyone is at the keyboard.
@@ -147,9 +148,13 @@ Codex thread receives `thread/queue/add`. A saved Codex thread with no daemon �
 a TUI — receives `codex queue --cd <root> --thread <uuid> --message …`; `--cd`
 names the working root (both `codex` and `queue` accept it), it is not a
 project check, so the stored project is re-validated immediately before
-sending. A daemon never loads a TUI, so it reports every TUI as not loaded;
-that is why a session a person opened (`source = 'cli'`) always takes the
-`codex queue` route, daemon or not. The "not loaded" refusal applies only to
+sending. A session a person opened (`source = 'cli'` in a terminal, or
+`'vscode'` with `thread_source = 'user'` in the Codex app or IDE) takes the
+`codex queue` route whenever the daemon does not have it loaded; a daemon never
+loads a TUI, so it reports every TUI as not loaded. One the daemon does have
+loaded goes through `thread/queue/add` like any loaded thread. Kerd-owned
+app-server threads (no `thread_source`) are queued through the daemon, a dormant
+one resumed first, never through `codex queue`. The "not loaded" refusal applies only to
 app-server-created threads Kerd does not own: their owner's session is
 offline, and `codex queue` must never be used to find out whether it can wake
 one. The
