@@ -27,7 +27,7 @@ Skin: **the Intersect sheet**. A government engineering drawing photocopied once
 | `soft` | Sublabels, fine-print legends | `#6B645B` | `#8A857B` |
 | `rule` | Hairline borders, grid | `#C9C3B6` | `#2C3136` |
 | `rule-solid` | Sheet frame border, dimension lines | `#8F887C` | `#5A5F64` |
-| `accent` | Exactly one thing per sheet: the focal change's border, else the binder edge | `#C4161C` | `#FF4A3D` |
+| `accent` | Exactly one thing per sheet: the focal change's border (in a sequence, the focal message and its arrowhead), else the binder edge | `#C4161C` | `#FF4A3D` |
 | `accent-tint` | Fill for accent-bordered boxes | `#FFFFFF` (no tint: same as paper) | `#14171A` |
 | `link` | External / interface arrows | `#1F1B18` (no second hue: same as ink) | `#E6E2D8` |
 
@@ -130,7 +130,7 @@ Recolouring a normal diagram is not this theme. Every diagram drawn with this gu
 3. **Title block, in the barber-pole frame:** at the top of the title column, inside the barber-pole frame (the sheet's one striped box, always `ink` stripes): first, as the first line of text in the render, Visuals' project line (`PROJECT: subject · kind · status`, in `eyebrow`, the name in capitals and a colon); then the title in `title` type, CAPITALS, stacked on two or three short lines, in a right-hand column about a quarter of the sheet wide; then one line of `sublabel` fine print ("plan view, sheet 1 of 1"). Notes go under the frame as a short list. A diagram too wide for a column puts the same framed block in the top-right corner of the sheet instead, never as a page heading. The stripes frame the title only; they never mark a next step or a takeaway.
 4. **Legend strip:** a `rule` hairline across the bottom of the frame, then `LEGEND` in `eyebrow`, one sample of each primitive used with its meaning in fine print, and the sheet code right-aligned ("SHEET <PROJECT>-<NNNN> · <DATE>").
 5. **Grain:** the `feTurbulence` grain rectangle over the whole sheet as the very last element.
-6. **Fills:** `paper`, `paper-2` and solid `ink` only. Paper is white; never a tint, never a fill outside these three, except the red binder edge (`accent`) on a sheet with no focal change.
+6. **Fills:** `paper`, `paper-2` and solid `ink` only. Paper is white; never a tint, never a fill outside these three, except the red binder edge (`accent`) on a sheet with no focal change and a focal sequence message's filled `accent` arrowhead.
 7. **Primitives for what is there:** draw every primitive the content gives a reason for, using the mapping below: numbered or listed items get pin tags, a flow between groups gets the studded bus, groups get housings, the title block gets the barber-pole frame. Never invent structure, numbering or a flow the diagram does not have to fit a primitive in; a small diagram may need only the sheet and one or two.
 
 ### Mapping an ordinary diagram onto the sheet
@@ -150,6 +150,29 @@ The mapping gives shapes; Visuals' state rules decide their outlines. A housing,
 | A size, a count, an extent | A **dimension line** beside what it measures |
 | The recommended or changed thing | Visuals' focal treatment: solid `accent` border at 2.5; then nothing else is red and there is no binder edge |
 | A diagram with no focal change | The **binder edge** spends the red |
+
+### Mapping a sequence diagram onto the sheet
+
+A sequence keeps diagram-design's grammar (actors across the top, time flowing down, its lifeline and message limits) and draws each part as an Intersect primitive, so it reads as the same sheet, not a recoloured default.
+
+| Part of a sequence | Draw it as |
+|---|---|
+| An actor | A `paper` name plate: name in `node-name`, its detail in `sublabel`; outline by its state, a store in `paper-2` |
+| Actors the subject itself groups (one session, one service) | One `paper` housing around their plates, with the group's name on a rotated side panel; never a grouping the subject does not give |
+| A lifeline | A `rule-solid` 1 line dashed `4,6` from the plate down to the last message |
+| An activation | A 12-wide `paper-2` bar on the lifeline over the span its actor is in control, outlined solid `ink` for an actor that exists today or dashed `ink` for a proposed one; a nested activation sits offset on top of it. Only an activation that is itself the focal change takes the focal treatment (`paper` fill, solid `accent` border); a focal actor's other activations keep `ink` |
+| A numbered message | Its arrow with a **pin tag** carrying its own two-digit number; never two messages under one number |
+| The call the diagram is about | A **studded bus**, straight along that message between its real lifelines, large solid arrowhead; at most two per sheet. Only a call takes the bus: a return or async message keeps its own kind even when it is the answer that matters, marked by Visuals' focal treatment instead |
+| Any other call | An `ink` 1.5 line with a small solid arrowhead |
+| A return or reply to a call | A **bead link** with a small filled arrowhead |
+| An async or fire-and-forget hand-off | A **bead link** with diagram-design's open (unfilled) arrowhead; the hollow head is the async signal |
+| A self-message | An `ink` 1.5 loop on the lifeline |
+| A loop, alt or opt fragment | A `paper` housing spanning only the lifelines taking part, around the messages it holds, its operator (`LOOP`, `ALT`, `OPT`) on a rotated side panel and its guard in `sublabel` at the top; an `alt` keeps its dashed `rule` divider and a guard on each region |
+| The focal message (the reply or call the diagram is about) | Its own primitive, built as usual and only recoloured: the stroke in `accent` at no less than its normal width (an `ink` line goes to 2.5, a bead link stays 4, a bus keeps its 12-wide toothed build with `accent` for `ink`), its arrowhead in `accent` and still filled or open by its kind (an async head stays open), its label in `ink`. It is the sheet's one red thing: no focal box, no binder edge |
+| The extent of one repeated round | A **dimension line** beside the fragment |
+| The result leaving the sheet (a push, a release) | The **chevron banner** under the last message |
+
+When the content needs more lifelines, messages, fragments or `alt` regions than diagram-design allows, split it into two sheets or ask; never drop a step, merge two steps under one number or cut a message short of its real lifeline to stay under a limit.
 
 ### Sheet skeleton (copy, then draw inside the frame)
 
@@ -196,7 +219,7 @@ A pin tag: `<polygon points="800,230 808,220 840,220 840,240 808,240" fill="var(
 
 ### Before delivering, check the sheet
 
-Frame present; the project line first and the title inside the barber-pole frame, not above the sheet; no other striped box; every line in the frame fits inside its paper box at its stated size (wrap a long project line or title onto another line; never shrink it or drop part of it); the bus between groups takes the long route between its real endpoints; SVG title and description present; drawn at full size, labels at 13px or more as rendered; legend strip and sheet code present; grain is the last element; no tinted fill and no fill outside `paper`, `paper-2` and `ink` anywhere, the binder edge on a sheet with no focal change excepted; every part the mapping covers drawn as its primitive, nothing invented; outlines follow Visuals' states; names and codes keep their case; exactly one red thing. A sheet that fails any of these is redrawn, not delivered.
+Frame present; the project line first and the title inside the barber-pole frame, not above the sheet; no other striped box; every line in the frame fits inside its paper box at its stated size (wrap a long project line or title onto another line; never shrink it or drop part of it); the bus between groups takes the long route between its real endpoints; SVG title and description present; drawn at full size, labels at 13px or more as rendered; legend strip and sheet code present; grain is the last element; no tinted fill and no fill outside `paper`, `paper-2` and `ink` anywhere, the binder edge on a sheet with no focal change and a focal sequence message's arrowhead excepted; every part the mapping covers drawn as its primitive (a sequence by its own table), nothing invented; every message reaches its real lifeline and every pin-tag number is used once; outlines follow Visuals' states; names and codes keep their case; exactly one red thing. A sheet that fails any of these is redrawn, not delivered.
 
 ## Intersect primitives
 
@@ -217,9 +240,9 @@ These are what make a sheet read as the Intersect. The sheet is always present (
 
 ## Intersect house rules
 
-- **One red thing.** `accent` marks exactly one element. When the sheet shows a change (a Kerd proposal, a before → after), that element is the focal change: `paper` fill, solid `accent` border at stroke 2.5, heavier than the rest. Only a sheet with no focal change may spend the red, on the binder edge. Never two.
+- **One red thing.** `accent` marks exactly one element. When the sheet shows a change (a Kerd proposal, a before → after), that element is the focal change: `paper` fill, solid `accent` border at stroke 2.5, heavier than the rest; in a sequence it may instead be one focal message, red along its line and arrowhead. Only a sheet with no focal change may spend the red, on the binder edge. Never two.
 - **Capitals everywhere** except fine print (part legends, plan-view captions), which stays lower or mixed case like the originals; never lower-case a name or code (iPhone, plan A, TV stay as written). Titles, names and banners are full capitals, names included (IPAD, not iPAD).
-- **Shapes, not colours.** Distinguish kinds by pin tags, banners, dashing and hatching. No fills other than `paper`, `paper-2` and solid `ink`.
+- **Shapes, not colours.** Distinguish kinds by pin tags, banners, dashing and hatching. No fills other than `paper`, `paper-2` and solid `ink` (the binder edge and a focal sequence arrowhead excepted).
 - **Grain, lightly.** Every sheet carries a faint photocopy grain (`feTurbulence`, alpha ~7%) laid over everything as the last element, so label masks never show as patches against it.
 - **Orthogonal connectors.** The shipped connector rules hold, except that the studded bus may sweep in a single large arc (radius ≥ 48) around a core, as the originals do.
 - **13px floor at reading size** for every label a reader needs: names, tags, arrow labels, captions. Only texture-only fine print (legend lists, sheet codes) may drop to 12px, and nothing a reader needs may live only there.

@@ -113,6 +113,22 @@ class IntersectThemeTests(unittest.TestCase):
         self.assertIn("never stack, narrow or strip such a sheet for a phone", skill)
         self.assertNotIn("Reflow or split a wide diagram for narrow screens", skill)
 
+    def test_a_sequence_is_mapped_onto_the_sheet(self):
+        # 2026-10-17: a fresh drawer's sequence kept the sheet but drew plain recoloured
+        # lifelines and arrows inside it; the mapping had no rows for sequence parts, and
+        # the final reply reused tag 04 and stopped short of Conductor to stay under a limit.
+        text = flat(THEME.read_text(encoding="utf-8"))
+        self.assertIn("### Mapping a sequence diagram onto the sheet", text)
+        for part in ("| A lifeline |", "| An activation |", "| A numbered message |",
+                     "| A return or reply to a call | A **bead link** with a small filled arrowhead",
+                     "open (unfilled) arrowhead",
+                     "| A loop, alt or opt fragment |",
+                     "| The focal message (the reply or call the diagram is about) |"):
+            with self.subTest(part=part):
+                self.assertIn(part, text)
+        self.assertIn("never drop a step, merge two steps under one number", text)
+        self.assertIn("every pin-tag number is used once", text)
+
     def test_a_view_takes_its_look_from_the_active_style_guide(self):
         # 2026-10-16: 3of3's views were drawn with hand-picked paper styling while the
         # installed style guide was Intersect.
