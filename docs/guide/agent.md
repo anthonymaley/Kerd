@@ -82,8 +82,8 @@ are recorded beside the work. Private session IDs and raw transport records stay
 local.
 
 Sessions are reached through what already exists: native Claude sessions, the
-native Codex server, and a Codex terminal you have open, which is queued to
-exactly as it stands. Both providers use the CLI sign-in you already have. There
+native Codex server, and a Codex terminal or Codex app thread you have open,
+which is queued to exactly as it stands. Both providers use the CLI sign-in you already have. There
 is no relay to copy and paste through, no Kerd inbox, no watcher and no service.
 
 ## A short exchange
@@ -125,7 +125,8 @@ recommends it.
 
 It will not kill an occupied terminal, resume "latest", fork a session without
 saying so, or wake an offline session to make a delivery look successful. Your
-own Codex terminal is never resumed, forked or stopped; it is queued to. Kerd
+own Codex terminal or app thread is never resumed, forked or stopped; it is
+queued to. Kerd
 reads that queue without changing its messages. When it can read it, it says
 whether a request is still waiting there, and for how long when that is known;
 otherwise it says unknown. Switch In flags an established Codex partner whose

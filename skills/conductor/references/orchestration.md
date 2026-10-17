@@ -235,6 +235,18 @@ once before pushing; if the person still wants the push, or said to skip the
 review, record the waiver in the sketchbook, then push. On 3of3, three pushes
 waived this way carried a defect the partner found on its return.
 
+**A review reaches the controller on its own.** A fresh reviewer on this host's
+own models stays a native subagent ([native route first](model-jobs.md#native-route-first));
+a fresh Codex or other CLI reviewer is started through Agent (`start --kind
+worker`, read only) and its result fetched with the returned runner's `wait`, never a
+hand-typed `codex exec` in a shell or a worker's prompt. A review job does only
+the review and returns its verdict: never bundle it with a CI watch or another
+wait in one worker, and read every review a gate asked for before acting on that
+gate. In work-anthony
+(2026-10-16) a hand-typed `codex exec` hung on stdin, then refused a non-git
+folder; later a Codex HOLD sat unread behind a CI watch while the push went
+ahead on the other review.
+
 ## One visible startup view
 
 Before substantive execution, show the actual stage, intended result, owner and

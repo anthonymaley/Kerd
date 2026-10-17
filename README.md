@@ -325,9 +325,19 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.186.0)
+## What's New (v0.187.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.187.0
+
+**Kerd reaches a Codex thread you opened in the Codex app.** Pairing refused a Codex reviewer thread opened in
+the Codex app or IDE ("not a session a person opened"), so re-pairing by ID never worked; Kerd only took threads
+opened in a terminal. Agent now lists, pairs and sends to an app thread you opened, the same way as a terminal one
+(a test message was answered in 7 seconds). App-server threads no person opened are still refused, and Kerd's own
+partners still go through Codex's server. Conductor also says a fresh Codex reviewer starts through Agent, never a
+hand-typed `codex exec`, and a review job only reviews and reports, never held behind a CI watch; every review a
+step asked for is read before acting on it.
 
 ### v0.186.0
 
