@@ -10,7 +10,7 @@
 // most one task; workers no task claims and still running follow the tasks.
 
 import type { OvertonePlan, OvertoneStep, OvertoneTask, OvertoneTaskStatus, OvertoneWorker, OvertoneWorkers } from '../types'
-import { EMPTY_WORKERS, isActive, isRunning, shownText } from './logic'
+import { EMPTY_WORKERS, isActive, isRunning, revive, shownText } from './logic'
 
 export const EMPTY_PLAN: OvertonePlan = { source: 'none', tasks: [], nextN: 1 }
 
@@ -262,7 +262,8 @@ export function readStep(input: unknown): StepInput | undefined {
 }
 
 // A worker's own step report. A worker not yet known is added (the step may
-// be its first call overtone sees); one already over keeps what it had.
+// be its first call overtone sees); one already over runs again on a later
+// report (see revive). A report is activity, like a tool call.
 export function noteStep(
   w: OvertoneWorkers | null | undefined,
   s: { agentId: string; step: StepInput; nowMs: number },
@@ -278,9 +279,10 @@ export function noteStep(
     tools: 0,
     pending: {},
   }
-  if (!isActive(old)) return prev
+  const live = revive(old, s.nowMs)
+  if (!live) return prev
   const steps: OvertoneStep = { ...s.step, atMs: s.nowMs }
-  return { ...prev, byId: { ...prev.byId, [s.agentId]: { ...old, steps } } }
+  return { ...prev, byId: { ...prev.byId, [s.agentId]: { ...live, steps, lastToolMs: s.nowMs } } }
 }
 
 // What the step tool answers.

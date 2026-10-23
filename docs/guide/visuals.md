@@ -96,8 +96,10 @@ chevron banners and studded flow lines. Ask for it in plain words:
   saved yet. A diagram-design update puts its own default back.
 
 Switching back works the same way, at the same scope, and puts back the look you
-had, never a guess. Archify diagrams keep their
-own look.
+had, never a guess. Archify never reads your look, so once you have chosen one (a
+project's, or a theme you made your default, such as Intersect) Kerd draws with
+diagram-design; an Archify view comes only when you ask for one or its
+exploration is the point, and Kerd says it is in Archify's own look.
 
 ## What it will not do
 

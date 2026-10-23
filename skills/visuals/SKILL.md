@@ -116,7 +116,12 @@ static layouts — processes, timelines, responsibilities, scope, comparisons;
 Archify carries exploration, focused paths and comparing changes. These are
 tendencies, not a rigid technical/nontechnical split. Either can support user
 agreement, and a work package may use both when each view adds something. Do not
-ask the person to select a tool before understanding the outcome. The starter
+ask the person to select a tool before understanding the outcome. Archify never
+reads diagram-design's style guide, so when the active style guide (below) is a
+look the person chose (a project's profile, or a theme or profile they made the
+installed guide, Intersect included), draw with diagram-design; use Archify only
+when the person asks for it or its exploration is the point, and then say the
+view is in Archify's own look, not theirs. The starter
 patterns bundled here do not satisfy the rule on their own — they are neither the
 full diagram-design catalogue nor a substitute for it; they help choose the view,
 and the view itself is drawn with one of the two required tools. Disclose
@@ -184,8 +189,10 @@ approval does not. Once setup is approved, perform it and verify the tool can
 produce a usable view. Continue the original diagram task without
 another routine “shall I install?” turn. The offer is to do the work, not hand
 the person a list of commands. Report any genuine access or host limitation.
-If setup is declined or blocked, fall back to the other required tool; if neither
-can run here, say plainly that the view is not rendered and what that costs,
+If setup is declined or blocked, fall back to the other required tool, saying so;
+when that means Archify while a chosen look is active, say the view loses that
+look and ask before drawing it there; if neither can run here, say plainly that
+the view is not rendered and what that costs,
 rather than substituting a hand-drawn picture. Do not repeat an install question
 when the tool is already available. Record the selected tool/version beside the
 work only when it matters for reproduction.

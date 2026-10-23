@@ -70,6 +70,9 @@ export type OvertoneWorker = {
   description?: string
   // Its own last report through the `step` tool (mcp__overtone__step).
   steps?: OvertoneStep
+  // When a call showed it running again after an ending overtone saw (a
+  // SendMessage resume fires no spawn); its timing is then from that call.
+  resumedMs?: number
 }
 
 // A worker's own progress report: `done` of `total` steps, an optional short

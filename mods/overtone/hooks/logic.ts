@@ -378,8 +378,11 @@ export function noteList(w: OvertoneWorkers | null | undefined, list: readonly L
     if (!a || typeof a.id !== 'string') continue
     const old = byId[a.id] ?? blank(a.id, nowMs, false)
     const listed = typeof a.status === 'string' && a.status !== '' ? a.status : old.status
-    // An ending overtone saw stands; an inferred one gives way to the list.
-    const status = old.endedMs !== undefined && old.status !== INFERRED ? old.status : listed
+    // An ending overtone saw stands; an inferred one gives way to the list. A
+    // resumed worker with a call in flight outlives a list read still showing
+    // its earlier ending.
+    const stale = old.resumedMs !== undefined && isActive(old) && Object.keys(old.pending).length > 0 && FINAL.has(listed)
+    const status = stale ? old.status : old.endedMs !== undefined && old.status !== INFERRED ? old.status : listed
     // A guessed ending time is replaced by the time the list confirmed it.
     const ended = FINAL.has(status) ? ((old.status === INFERRED ? undefined : old.endedMs) ?? nowMs) : undefined
     const label = byId[a.id] ? old.label : clip(a.description || a.name || a.type || old.label, 56)
@@ -404,17 +407,34 @@ export function noteListError(w: OvertoneWorkers | null | undefined, reason: str
   return { ...ws(w), error: clip(reason || 'read failed', 60) }
 }
 
+// A worker's own call or report at `nowMs`: the worker as it stands, running
+// again when it had ended, or undefined when the event cannot be taken. An
+// inferred ending is simply undone. A confirmed ending followed by a later
+// event means it was resumed (SendMessage fires no spawn): it runs again,
+// timed and stepped from that event, its start only seen (`≥`). An event no
+// later than the ending belongs to the run that ended and is not taken.
+export function revive(old: OvertoneWorker, nowMs: number): OvertoneWorker | undefined {
+  if (old.status === INFERRED) {
+    const next: OvertoneWorker = { ...old, status: 'running' }
+    delete next.endedMs
+    return next
+  }
+  if (isActive(old)) return old
+  if (old.endedMs === undefined || nowMs <= old.endedMs) return undefined
+  const next: OvertoneWorker = { ...old, status: 'running', firstSeenMs: nowMs, resumedMs: nowMs, lastToolMs: nowMs, fromSpawn: false, tools: 0, pending: {} }
+  delete next.endedMs
+  delete next.steps
+  delete next.blocked
+  return next
+}
+
 export function noteToolStart(
   w: OvertoneWorkers | null | undefined,
   t: { agentId: string; toolUseId?: string; summary: string; nowMs: number },
 ): OvertoneWorkers {
   const prev = ws(w)
-  let old = prev.byId[t.agentId] ?? blank(t.agentId, t.nowMs, false)
-  if (old.status === INFERRED) {
-    // a call is fresh evidence of life: the inferred ending is undone
-    old = { ...old, status: 'running' }
-    delete old.endedMs
-  } else if (!isActive(old)) return prev
+  const old = revive(prev.byId[t.agentId] ?? blank(t.agentId, t.nowMs, false), t.nowMs)
+  if (!old) return prev
   const pending = t.toolUseId ? { ...old.pending, [t.toolUseId]: t.summary } : old.pending
   return { ...prev, byId: { ...prev.byId, [t.agentId]: { ...old, activity: t.summary, tools: old.tools + 1, pending, lastToolMs: t.nowMs } } }
 }

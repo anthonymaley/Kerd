@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.188.0
+
+**Diagrams keep your look, and overtone shows a player Conductor resumes.** In work-anthony a deploy plan came
+out in Archify's dark look on a machine whose diagrams are Intersect: Archify never reads diagram-design's
+style guide, and Visuals let a drawer pick it. When you have chosen a look (a project's, or a theme you made your
+default), Visuals now draws with diagram-design and uses Archify only when you ask for it or its exploration is
+the point, saying the view is in Archify's own look. The same sitting showed overtone's Workers card reading
+"no jobs running" while a player worked: Conductor had resumed a finished player with SendMessage, which starts
+no new agent, and overtone ignored calls from a worker it had seen finish. overtone 0.10.1 brings the row back
+on the resumed player's first call and ends it again when it finishes (four new tests; not yet seen live).
+
 ## 0.187.1
 
 **Intersect draws sequence diagrams as the sheet, not a recoloured default.** A fresh drawer's sequence

@@ -543,6 +543,45 @@ describe('workers that never reported an ending', () => {
     expect(quietCount(w, back + QUIET_AFTER_MS)).toBe(1)
   })
 
+  test('a finished worker resumed by SendMessage runs again on its next call, and ends again', () => {
+    let w = noteSpawn(EMPTY_WORKERS, { id: 'p', description: 'Live deploy Part A', type: 'kerd:opus-high', nowMs: T0 })
+    w = noteToolStart(w, { agentId: 'p', toolUseId: 'u1', summary: 'Bash podman build', nowMs: T0 + MIN })
+    w = noteToolEnd(w, { agentId: 'p', toolUseId: 'u1', nowMs: T0 + 2 * MIN })
+    w = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + 6 * MIN })
+    expect(w.byId.p?.status).toBe('completed')
+    // the resume fires no spawn; its first call is the only sign
+    w = noteToolStart(w, { agentId: 'p', toolUseId: 'u2', summary: 'Read verify.zsh', nowMs: T0 + 7 * MIN })
+    expect(w.byId.p).toMatchObject({ status: 'running', label: 'Live deploy Part A', activity: 'Read verify.zsh', firstSeenMs: T0 + 7 * MIN, resumedMs: T0 + 7 * MIN, fromSpawn: false, tools: 1 })
+    expect(w.byId.p?.endedMs).toBeUndefined()
+    // its start is only seen, so its time reads as at least
+    expect(texts(composeBand({ reading: calm, model: matched, workers: w, nowMs: T0 + 8 * MIN }, 120)).join('\n')).toContain('≥1m')
+    expect(foldWorkers(w, T0 + 8 * MIN).running.map(r => r.id)).toEqual(['p'])
+    // a list read naming it running keeps it running; an ending overtone saw no longer stands in the way
+    w = noteList(w, [listed('p', 'running')], T0 + 8 * MIN)
+    expect(w.byId.p?.status).toBe('running')
+    w = noteToolEnd(w, { agentId: 'p', toolUseId: 'u2', nowMs: T0 + 9 * MIN })
+    w = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + 13 * MIN })
+    expect(w.byId.p).toMatchObject({ status: 'completed', endedMs: T0 + 13 * MIN })
+    // a call's late end after the ending changes nothing
+    expect(noteToolEnd(w, { agentId: 'p', toolUseId: 'u2', nowMs: T0 + 14 * MIN }).byId.p?.status).toBe('completed')
+  })
+
+  test('a resume: a stale list ending does not end a call in flight; an event from before the ending is not a resume', () => {
+    let w = noteSpawn(EMPTY_WORKERS, { id: 'p', description: 'Part A', type: 'kerd:opus-high', nowMs: T0 })
+    w = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + 5 * MIN })
+    // a call stamped no later than the ending belongs to the run that ended
+    expect(noteToolStart(w, { agentId: 'p', toolUseId: 'u0', summary: 'Bash make', nowMs: T0 + 4 * MIN }).byId.p?.status).toBe('completed')
+    expect(noteToolStart(w, { agentId: 'p', toolUseId: 'u0', summary: 'Bash make', nowMs: T0 + 5 * MIN }).byId.p?.status).toBe('completed')
+    w = noteToolStart(w, { agentId: 'p', toolUseId: 'u1', summary: 'Bash make', nowMs: T0 + 6 * MIN })
+    // the list still shows the earlier ending while the call runs
+    w = noteList(w, [listed('p', 'completed')], T0 + 7 * MIN)
+    expect(w.byId.p).toMatchObject({ status: 'running', pending: { u1: 'Bash make' } })
+    // with nothing in flight, a list ending is taken; the next call revives it again
+    w = noteToolEnd(w, { agentId: 'p', toolUseId: 'u1', nowMs: T0 + 8 * MIN })
+    w = noteList(w, [listed('p', 'completed')], T0 + 9 * MIN)
+    expect(w.byId.p?.status).toBe('completed')
+  })
+
   test('a long chain of finished roots resolves in one pass', () => {
     const list = [listed('r0', 'completed')]
     for (let i = 1; i < 40; i++) list.push(listed(`r${i}`, i % 2 ? 'completed' : 'running', `r${i - 1}`))

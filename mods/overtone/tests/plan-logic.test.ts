@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'claude-code/testing'
 
 import type { OvertonePlan, OvertoneWorkers } from '../types'
-import { EMPTY_WORKERS, noteAsk, noteEnd, noteList, noteSpawn, noteToolStart } from '../hooks/logic'
+import { EMPTY_WORKERS, isQuiet, noteAsk, noteEnd, noteList, noteSpawn, noteToolStart } from '../hooks/logic'
 import {
   EMPTY_PLAN,
   PLAN_CAP,
@@ -203,14 +203,39 @@ describe('worker steps', () => {
     expect(readStep(undefined)).toBeUndefined()
   })
 
-  test('noteStep records on the worker, adds one not yet known, and leaves an ended one alone', () => {
+  test('noteStep records on the worker, adds one not yet known, and revives an ended one only on a later report', () => {
     let w = noteSpawn(EMPTY_WORKERS, { id: 'a1', description: 'Write the tests', type: 'kerd:sonnet-high', nowMs: T0 })
     w = noteStep(w, { agentId: 'a1', step: { done: 2, total: 4, note: 'folding' }, nowMs: T0 + MIN })
     expect(w.byId.a1?.steps).toEqual({ done: 2, total: 4, note: 'folding', atMs: T0 + MIN })
     w = noteStep(w, { agentId: 'zz', step: { done: 1, total: 2 }, nowMs: T0 })
     expect(w.byId.zz).toMatchObject({ status: 'running', fromSpawn: false, steps: { done: 1, total: 2, atMs: T0 } })
     const ended = noteEnd(w, { agentId: 'a1', failed: false, nowMs: T0 + 2 * MIN })
-    expect(noteStep(ended, { agentId: 'a1', step: { done: 4, total: 4 }, nowMs: T0 + 3 * MIN })).toBe(ended)
+    // a report no later than the ending belongs to the run that ended
+    expect(noteStep(ended, { agentId: 'a1', step: { done: 4, total: 4 }, nowMs: T0 + 2 * MIN })).toBe(ended)
+    // a later one is a resumed worker's first sign (SendMessage fires no spawn)
+    const resumed = noteStep(ended, { agentId: 'a1', step: { done: 1, total: 3 }, nowMs: T0 + 3 * MIN })
+    expect(resumed.byId.a1).toMatchObject({ status: 'running', resumedMs: T0 + 3 * MIN, steps: { done: 1, total: 3, atMs: T0 + 3 * MIN } })
+  })
+})
+
+describe('a resumed worker whose first sign is a step report', () => {
+  test('after a long idle unlisted, it counts as running, not quiet', () => {
+    let w = noteStep(EMPTY_WORKERS, { agentId: 'x', step: { done: 1, total: 2 }, nowMs: T0 })
+    w = noteList(w, [], T0 + MIN)
+    w = noteEnd(w, { agentId: 'x', failed: false, nowMs: T0 + 2 * MIN })
+    const back = T0 + 3 * 60 * MIN
+    w = noteStep(w, { agentId: 'x', step: { done: 1, total: 3 }, nowMs: back })
+    expect(w.byId.x).toMatchObject({ status: 'running', listed: false, lastToolMs: back })
+    expect(isQuiet(w.byId.x as never, back + MIN)).toBe(false)
+  })
+
+  test('under a parent that ended, a list read does not infer it over', () => {
+    let w = noteList(EMPTY_WORKERS, [{ id: 'p', status: 'running' }, { id: 'c', status: 'running', parentId: 'p' }], T0)
+    w = noteEnd(w, { agentId: 'c', failed: false, nowMs: T0 + MIN })
+    w = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + 2 * MIN })
+    w = noteStep(w, { agentId: 'c', step: { done: 1, total: 2 }, nowMs: T0 + 3 * MIN })
+    w = noteList(w, [{ id: 'p', status: 'completed' }], T0 + 4 * MIN)
+    expect(w.byId.c?.status).toBe('running')
   })
 })
 
