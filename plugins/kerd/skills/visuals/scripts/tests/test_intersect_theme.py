@@ -129,6 +129,18 @@ class IntersectThemeTests(unittest.TestCase):
         self.assertIn("never drop a step, merge two steps under one number", text)
         self.assertIn("every pin-tag number is used once", text)
 
+    def test_the_focal_treatment_has_one_reading(self):
+        # 2026-10-31: the node table said the focal node was ink inside an orbit ring
+        # while the mapping and house rules said a solid accent border; a drawer also had
+        # no rule for a two-hop relayed message or for the red in the legend.
+        text = flat(THEME.read_text(encoding="utf-8"))
+        self.assertIn("| `focal` (exactly one) | `paper` | solid `accent` stroke 2.5", text)
+        self.assertNotIn("`ink` stroke 2, wrapped in a dashed `ink` orbit ring", text)
+        self.assertIn("| A message relayed through an actor (A → B → C as one message) |", text)
+        self.assertIn("the pin tag on the first hop only", text)
+        self.assertIn("every hop takes the focal recolouring as one red thing", text)
+        self.assertIn("the red is explained in words, never drawn as a second red sample", text)
+
     def test_a_view_takes_its_look_from_the_active_style_guide(self):
         # 2026-10-16: 3of3's views were drawn with hand-picked paper styling while the
         # installed style guide was Intersect.
