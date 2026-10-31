@@ -180,7 +180,7 @@ The observed position before this save is `main` at 7ac0f43d (0.188.1); the boun
 **Measured** 2026-10-31 12:4x, after 0.188.1: 43,686 bytes, about 10,922 tokens (estimate), 2,922 over the 8,000 target (CONTEXT.md carries most of it; trimming is not this sitting's work). Carried phrases (0.188.1; one reading of the focal thing; publish 0.188.1 to the public; Intersect is this machine's diagram default; proposed, not agreed) are all in the set. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-23.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-31.md",
  "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
