@@ -325,9 +325,17 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.188.1)
+## What's New (v0.188.2)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.188.2
+
+**Intersect sequence sheets leave less to guess.** A drawer redrawing a relayed focal reply on 0.188.1 had to
+guess four things; each now has one reading. A message's number tag sits on its arrow at the sending end, joined by a
+short leader (tags stack down a side only on boxes). On a focal relay the diamond stays black: the red belongs to the
+message. The result banner says where the result went, never a copy of the last message's label. Every arrow that is
+a message of its own carries its own number, returns included; a relay's later hop takes none.
 
 ### v0.188.1
 
