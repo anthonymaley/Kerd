@@ -6,135 +6,66 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Position (2026-10-31 13:37):** Kerd 0.188.2 is released on `main` (ee9d826d, CI 41225282879 green) and installed in Claude Code (loads on restart); this machine's Intersect profile and both diagram-design style guides were reloaded from the shipped 0.188.2 file (backups `*.bak-pre-01882`). 0.188.2 (his "y" 13:28 to the tidy, 13:35 to release): Intersect sequence sheets leave less to guess: a message's pin tag sits on its arrow at the sending end with a short leader (stacking only on boxes), the diamond stays ink on a focal relay, the banner names where the result went, every own-message arrow is numbered (returns included, a relay's later hop untagged); four guesses a fresh drawer made on `seq-0188`; codex-tui two rounds (one should-fix: the pin-tag primitive still stacked every tag; then "Safe to push"); not yet seen in a drawing (`notes:chuck-theme/work.md`). **The public `codex` branch still reads 0.188.1 (0.188.2 not published; his go)**. Before it, 0.188.1: **the public `codex` branch reads 0.188.1 (3269ead1, published 12:5x on his "y", appended on 880fdb4f, byte-identical to the offline build) and his Codex is on 0.188.1** (relayed focal sequence redrawn on 0.188.1 2026-10-31 13:17, `seq-0188.png`: all four 0.188.1 changes drawn; his look call 13:18 "y": keep the focal red as drawn; `notes:chuck-theme/work.md`) (his update 12:58; its plugin cache holds only 0.188.1, identical to the branch, enabled; not yet seen inside a Codex turn) (`notes:codex-public-package/work.md`). 0.188.1 (his "y" 12:20 to the drawing pair, 12:32 to the fix, 12:37 to release): a second Intersect drawing pair (`seq-1031.png`, `arch-1031.png`) found the theme saying two things about the focal node; it is now the red border at 2.5 (orbit ring for a hub), a relayed sequence message keeps one tag with a diamond and is red on every hop when focal, and the legend explains the red in words; codex-tui one round "Safe to push" (`notes:chuck-theme/work.md`). The focal-message row is now seen in a drawing: it reads by colour, a red bead link light beside the black bus (his look call, not changed). The 2026-10-17 architecture nits did not recur (prompted by the brief). Before it: 0.188.0 (a21c2ffe). 0.188.0 (his "y" 08:25 to build, 08:47 to release): diagrams keep your look (with a chosen look active, Visuals draws with diagram-design; Archify only when asked or for exploration, said to be in its own look; the fallback asks before losing the look), and overtone 0.10.1 shows a player Conductor resumes with SendMessage (no spawn event): it runs again on its first later call or step report, timed `≥` from it, a stale list ending cannot end it mid-call, events at or before the ending are refused. Found from his work-anthony screenshot (Workers "no jobs running" during Part B; deploy plan drawn in Archify); codex-tui three rounds; neither seen live (`notes:overtone-resumed-worker/work.md`, `notes:visuals-theme-archify/work.md`). Before it: 0.187.1 (82ea77b1). 0.187.1 (his "y" 08:47 and 09:08): Intersect draws sequence diagrams as the sheet, not a recoloured default: a sequence mapping (name plates, the call as studded bus, bead-link returns with filled heads and async with open heads, a pin tag per message, fragment housings with the operator on a side panel and `alt` dividers, a dimension line for one round, a banner for the result leaving the sheet, the focal message in red at no less than its normal width), and split-or-ask over diagram-design's limits; found when a fresh drawer's sequence came out generic inside the sheet (architecture held, three layout nits); one before/after redraw; codex-tui five rounds; machine profile and both style guides reloaded (`notes:chuck-theme/work.md`). Before it: 0.187.0 (366dcc79). 0.187.0 (his "y" 2026-10-17 07:45): Agent pairs and sends to a Codex thread a person opened in the Codex app or IDE (store `vscode`/`user`), not only a terminal (`cli`/`user`); Kerd's own app-server threads (`thread_source` NULL) keep the daemon route; Conductor: a fresh Codex reviewer starts through Agent `start` and is read with the returned runner's `wait`, never a hand-typed `codex exec`, and a review job is never bundled with a CI watch. Found in work-anthony 2026-10-16 (its reviewer thread 01a142b6 refused; improvised `codex exec` hung, then a Codex HOLD sat unread behind a CI watch); a labelled `codex queue` probe was answered in 7 s; codex-tui three rounds (two should-fix, one blocker, then "Safe to push") (`notes:codex-app-thread/work.md`). Before it: 0.186.0 (7db6c5c5). 0.186.0 (his "y" 2026-10-16 08:36): Intersect's paper is white (`#FFFFFF`/`#F2F2F0`) for every Kerd user (his 08:31: "thats not a risk its what we want"); Visuals draws for desktop first, a themed full-size sheet stays full size and scrolls on a narrow screen, never briefed narrower; every diagram-design view takes its look from the active style guide (one-diagram theme, else project profile, else installed guide) and is checked against it; found in a 3of3 sitting the same morning (white approved there, a drawer briefed to phone width, views hand-styled); codex-tui two rounds (two should-fix, then "Safe to push"); this machine's profile and both diagram-design style guides reloaded from the shipped file (backups `*.bak-pre-0186`) (`notes:chuck-theme/work.md`). Before it: 0.185.1 (d9542a56). 0.185.1 (his "y" 10:00): the Intersect theme draws the whole sheet, not a recoloured chart: frame, title and project inside the barber-pole frame, legend strip, grain, paper fills, a part→primitive mapping that invents nothing, the main flow as a long studded line between real endpoints, a sheet skeleton and a pre-delivery check; found when OnTonight's diagram came out flat; fresh-drawer redraws before and after (one flowchart only), his "yes .1 much better" and two changes from him; codex-tui four rounds (`notes:chuck-theme/work.md`). Before it: 0.185.0 (24808670). 0.185.0 (his "y" 08:58): Visuals ships an opt-in diagram theme, Intersect (`skills/visuals/themes/intersect.md`, a diagram-design profile), for one diagram, a project (asked-for `.diagram-design` file) or the machine's installed style guide (never through a project marker), with switch-back that restores what was there; codex-tui reviewed three rounds (`notes:chuck-theme/work.md`). Before it: 0.184.1 (f6b7b79c, CI 38615171224). 0.184.1 (14:2x, his "y" 14:19): wording only, from Slainte's release pass for 0.184.0, the Agent guide (`docs/guide/agent.md`) says Kerd reads the Codex queue without changing its messages, waiting and age when known or unknown, and Switch In flags an established partner's requests over ten minutes; codex-tui reviewed three rounds (one should-fix applied). 0.184.0: Agent's status and wait say whether a request sent to a Codex window still waits in Codex's own queue (`queued`, with age and place), is `not-queued` (not proof it was taken or answered) or `unknown`, read only from `~/.codex/queue_1.sqlite`; Switch In's arrival flags a Codex partner whose Kerd requests have waited over ten minutes (`notes:codex-queue-stall/work.md`). Before it: 0.183.2 (d6bfd6ae, CI 38405904537). 0.183.2: Slainte's trigger description and five guide/playbook/state-contract lines no longer say anything runs its release pass, nor name the retired acceptance-record trigger (`notes:homepage-redesign/work.md`). His Codex reads 0.183.1 (its plugin cache holds only 0.183.1, written 2026-10-12 10:12, plugin enabled; seen 10:18, not checked inside a Codex turn). 0.183.1: a wait line's meanwhile clause is never replaced by "then <next step>", even on a re-wait (the same sentence was added to his global CLAUDE.md gate (b), backup `~/.claude/CLAUDE.md.bak-rewait-20261012`); `notes:wait-line-rewait/work.md`. Codex updates: `codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core`; a running Codex thread picks an install up on its next turn. Codex users install the four-skill core with `codex plugin marketplace add anthonymaley/Kerd --ref codex` and `codex plugin add kerd@kerd-core`; the branch is built by `tools/codex_release.py` (`--publish` appends, never force). Record `notes:codex-public-package/work.md`.
+**Position (2026-10-31 13:37):** Kerd 0.188.2 is released on `main` (ee9d826d, CI 41225282879 green) and installed in Claude Code (loads on restart); this machine's Intersect profile and both diagram-design style guides were reloaded from the shipped 0.188.2 file (backups `*.bak-pre-01882`). 0.188.2: Intersect sequence sheets leave less to guess (pin tag on its arrow at the sending end, ink diamond on a focal relay, banner names where the result went, every own-message arrow numbered); not yet seen in a drawing (`notes:chuck-theme/work.md`). **The public `codex` branch and his Codex read 0.188.1** (3269ead1, published 2026-10-31 12:5x, byte-identical to the offline build; his Codex updated 12:58, not yet seen inside a Codex turn); 0.188.2 not published there, his go (`notes:codex-public-package/work.md`). Still not seen live: 0.188.0's overtone 0.10.1 resumed-player rows and diagrams-keep-your-look (`notes:overtone-resumed-worker/work.md`, `notes:visuals-theme-archify/work.md`). Release history: README's What's New (copy in `CHANGELOG.md`) and `kivna/sessions/`.
+Codex users install with `codex plugin marketplace add anthonymaley/Kerd --ref codex` and `codex plugin add kerd@kerd-core`; update with `codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core` (a running thread picks it up next turn). The branch is built by `tools/codex_release.py` (`--publish` appends, never force).
 
-**What the newest rules are doing in real use (scan 2026-10-12 09:0x, 11 sittings, `notes:watch-scan-1012/work.md`):** check questions (0.183.0) hold, 10 of 10; literal-path git (0.182.0) a second miss, both in alapah's long session; the global wait-line template slipped to 31 of 43, bare lines mostly one-line re-waits after a worker notification, no nudges or harm (global CLAUDE.md, not Kerd); CI-to-worker 12 of 12. Hand-read 2026-10-12 09:5x: ~37 of 48 hold; the 11 misses all put "Then <next step>" where meanwhile belongs, fixed in 0.183.1. Previous scan `notes:watch-scan-1011/work.md`. Detail per release and scan: `kivna/sessions/2026-10-09.md` to `2026-10-12.md`; release notes in README's What's New.
+**Real use of the newest rules:** last scan 2026-10-12 (`notes:watch-scan-1012/work.md`); per-row verdicts live in TODO.md's Now.
 
-**Release boundary: 0.188.2 on `main`; releases stay paused apart from the ones he asks for** (ruling below; every release he lifted it for since 2026-09-28 is listed in that ruling's case in `docs/decisions.md`). Unreleased on main since 0.175.1: Switch's eval graders read tool output in the trace (`notes:switch-eval-graders/work.md`).
+**Release boundary: 0.188.2 on `main`; releases stay paused apart from the ones he asks for** (ruling below; the releases he lifted it for are in that ruling's case in `docs/decisions.md`). Unreleased on main since 0.175.1: Switch's eval graders read tool output in the trace (`notes:switch-eval-graders/work.md`).
 
-**Guard false alarm parked (2026-10-11 09:55, his "n" to "worth an hour to fix?"):** apple-music tag pushes go by hand with `!` when it fires. Backlog row.
+**Parked, on trial or dropped, each with its own condition:** the guard false alarm is parked (2026-10-11 09:55, his "n" to fixing it; apple-music tag pushes go by hand with `!` when it fires; Backlog row); guard work stopped (2026-10-07 20:31; branch `fix/guard-unreadable-working-vault` 3dbcc28 local, unpushed): the next guard change waits for a real slip; rolling by hand at ~200k is on trial, the 200k plan parked (2026-09-27: "i want more data first"): don't build the plan until he asks (he rolls by hand at a break, status line `~/.claude/statusline-command.sh`; Kerd's chat roll stays at 50%; three hand rolls, no loss; `notes:rolling-session/threshold.md`); SAM and Aubel.app work is parked (2026-09-24: "delay any sam and auble work for now"): don't raise it until he does (the team note had his "y" 2026-09-23, not confirmed sent); launch step 2 is dropped (2026-09-25: "i dont. drop this"): don't raise or recommend it unless he does.
 
-**Claude Code mods: his band is the public `overtone` from Kerd's marketplace** (`vault_path` = `~/eolas/vault`; rollback hand copy `~/.claude/mods/overtone`). Off: `claude plugin disable overtone@kerd-marketplace`. History, limits and backups: `notes:overtone/work.md`, `notes:overtone-savvy/work.md`. Laptop bells are on for both (backups `*.bak-bell`).
-
-**Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25); the 200k plan is parked (2026-09-27 13:20:
-"lets keep that plan but park for now. i want more data first.").** The Studio status line (`~/.claude/statusline-command.sh`,
-not Kerd) shows green `keep working`, yellow `switch at a break` (200k+ or 60%+), red `switch now` (80%+); he rolls by
-hand at a break; Kerd's automatic chat roll stays at 50%. Three hand rolls judged, none with loss reported (2026-09-28
-20:53 "n"). Don't build the plan until he asks. Readings, model and history: `notes:rolling-session/threshold.md`,
-`notes:rolling-session/measure.py`.
+**Claude Code mods:** his band is the public `overtone` from Kerd's marketplace (`vault_path` = `~/eolas/vault`; rollback `~/.claude/mods/overtone`; off: `claude plugin disable overtone@kerd-marketplace`; `notes:overtone/work.md`, `notes:overtone-savvy/work.md`). Laptop bells on (backups `*.bak-bell`).
 
 **Tend's stale-hook check worked once** (0.151.1, one headless run; not verified).
 
-**Kerd has an accepted launch plan** (`docs/design/launch-plan.md`). Ready to launch when
-someone other than Anthony carries a real piece of work, in their own repository, to its
-agreed result, unaided. **Step 1: 3of3 is using Kerd in its own sessions; Kerd evidence is
-read from those sittings when Anthony asks for it.** 3of3's work (its iCloud sync, its devices)
-is 3of3's, never Kerd's open work or next step (Anthony, 2026-09-25 10:49: "we are mixing work";
-he had said the same 2026-09-23). Evidence so far: local sketchbook `notes:launch-plan/work.md`.
+**Launch:** accepted plan `docs/design/launch-plan.md`; ready when someone other than Anthony carries real work in their own repo to its agreed result, unaided. Step 1: 3of3 uses Kerd in its own sessions; evidence read from them when he asks (`notes:launch-plan/work.md`). 3of3's own work is never Kerd's open work (2026-09-25: "we are mixing work"). Two teams already use Kerd: SAM and Aubel.app (2026-09-22).
 
-**The whole site is in the orchestra look, live since 2026-10-12 16:4x** (https://kerd-six.vercel.app/site/index.html; `main` a16ee817,
-CI 38305761648 green). Homepage (5ef56bee, 14:3x): the hall plan of nine seats, each with a Without it / With it card, one story through the
-hall, install. Capabilities: the nine seats in detail, each "Played by" its skill. Examples: three real programmes, seats lit only where the
-record shows them. Docs: the guides by seat, the hall plan as index. The footer on all four pages has no version number. Direction from his
-reference-board pick (Tailscale) and his 11:09 brief ("showing the orchestra as the whole project ... a real concrete why you need this
-edge"); shape agreed 15:05; published on his "like it!" 16:40 with no version bump (page only). codex-tui reviewed both passes ("Safe to
-push"). The Capabilities plan opens centred on phones since 2026-10-14 10:1x (`site/assets/capabilities.js`, like docs.js; three engines at 390/1440; one-off Codex review; live, CI 38578538162); the guide's stale Slainte line was fixed in 0.183.2. Every push
-deploys through Vercel's GitHub integration and GitHub holds each record (checked 2026-10-14 11:0x; 5ef56bee's arrived ~40 min late, which looked like none). Sketchbook `notes:homepage-redesign/work.md`.
+**Site:** the orchestra look, live since 2026-10-12 (https://kerd-six.vercel.app/site/index.html): homepage hall plan, Capabilities, Examples, Docs; no version in the footer; every push deploys through Vercel's GitHub integration (one deploy arrived ~40 min late, 2026-10-14). Sketchbook `notes:homepage-redesign/work.md`.
 
-**Two teams already use Kerd** (Anthony, 2026-09-22): SAM and Aubel.app. The team note
-(`notes:launch-plan/team-note.md`) had his "y" to send (2026-09-23 17:05); not confirmed
-sent. **Parked (Anthony, 2026-09-24 08:55): "delay any sam and auble work for now";** don't
-raise it until he does.
-
-**Launch step 2, inviting three to five people, is dropped (Anthony, 2026-09-25 11:16: "i dont.
-drop this").** Don't raise it or recommend it again unless he does.
-
-**Rulings that govern the next work (cases in `docs/decisions.md`):**
-- **A Sonnet 5.5 reader that grades or scans against a brief, with Conductor checking every finding, runs at medium; high stays where completeness is the result (Anthony, 2026-10-08 14:49; released 0.179.0).**
-- **When options are listed and the question chooses among them, the bubble asks about the recommendation; a missing fact, a pick-several choice, the arrival question and a chosen work's outcome keep their own question (Anthony, 2026-10-06 11:41; released 0.174.0).**
-- **Every question carries the options in hand: list them above it with one recommendation, even an open question; ask bare only when none are in hand (Anthony, 2026-10-06 10:40, "we should always give options to user when we have them"; 10:41, "happens a lot in other repos too"; released 0.173.0).**
-- **A worker's row shows its task; the command only when the worker waits on him (Anthony, 2026-10-05 10:59, "we can just keep the task and remove the command so the task has more room"; released overtone 0.7.1).**
-- **overtone's guard is a safety net for honest mistakes, not a lock against a deliberately disguised command (Anthony, 2026-10-04 22:18, "y" after two reviews found 8 then 9 new shell forms).** It must be sure about ordinary git and common wrappers; disguised forms are Backlog, revisited only if a real slip shows one. The README says so.
-- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00; he released 0.165.0, 0.166.0, 0.167.0 and 0.167.1 through it on
-  2026-09-29 (09:37, 11:58), 2026-10-02 23:13 and 2026-10-04 10:24, each on his own ask, the pause otherwise holds: "i would like stabalize
-  releases for a while and use it"; "yes but only if there is nothing left to fix").** The pause starts at 0.164.1, which fixed the one
-  defect the 2026-09-28 apple-music re-grade found. While it holds: grades, findings and ideas go to the Backlog, not
-  into releases; any fix found comes back to him for the release decision; he lifts the pause.
-- **Switch Out previews what Switch In will offer, and Switch In offers Conductor start with up to four options (Anthony,
-  2026-10-02 20:18; built and released as 0.167.0 on his "y" 23:13).** It replaces the "exactly two picker options, one
-  recommendation" wording; Switch In still re-weighs every open item and the saved choices stay candidates; a plain yes still
-  means the recommendation and approves no operations. Needs no mod. Case in `docs/decisions.md`.
-- **The one-line band is colour, not text: ctx, 5h and 7d as bars of what is left, coloured by the existing rules; figures live in the expanded band and Claude's usage line; cache stays a figure (Anthony, 2026-10-03 18:07: "we dont need the text, the color is enough"; live 0.5.0, 23:1x).**
-- **A mod shows only figures that drive a decision for him or Claude (Anthony, 2026-10-03 11:53, "yeah agree"); nothing repeats
-  what is already on screen (2026-10-03 10:55: "kinda pointless, already have this is status line below").**
-- **Nothing is built to show him what he can already see on screen, and nothing is counted for its own sake (Anthony, 2026-10-02
-  22:1x: "pointless though, i can see its an or question"; "seems like a waste").** The overtone turn-end check, its toast and its
-  tally were removed; nothing graded by counts any more. He wants the mod UI to be good ("up the game"): quiet when fine, loud
-  only when something needs him.
-- **Mods are Claude Code only for now; Codex is looked at separately (Anthony, 2026-10-02 20:18).**
-- **Batch the work; fewer approvals (Anthony, 2026-09-25 23:01; 2026-09-26 08:17, 08:49):** under a
-  grant like "we have tokens to use, lets build with subagents in fan out where we can unattended and
-  get fable to review", take several tasks per approval, dispatch independent work instead of
-  waiting on one job, release on the standing go, and come back only for his decisions.
-- **A question never loads its answer (Anthony, 2026-09-25 21:47 to 22:50; released 0.159.0):** a
-  consequential question comes after a decision block (Problem, Facts with evidence strength, Known
-  options, Recommendation, Why, Cost, What we lose, Input) and ends on the Recommendation sentence
-  ending "— approve?" (his words, 22:50), every operation included, or one genuine question. Small
-  or factual questions stay one line; Switch In's arrival question is exempt.
-- **A public repo's working notes live in the private vault, saved like any record** (Anthony,
-  2026-09-25 16:18 to 16:26: "we should for every project no? or we need a folder that is not
-  public somehow"; "yes"). Kerd sets `work_notes: "vault"`; sketchbooks are `notes:<work>/`.
-  Stage Kerd commits by name only: two slips today put private notes toward the public repo.
-- **Conductor rolls its own Claude chat in tmux, never the person (2026-09-24/25, 0.154.0–1):**
-  past 50% of the declared window at a safe boundary it saves, tmux restarts its pane into a
-  fresh `claude` on the same model, effort and permission mode, and `/kerd:switch roll in`
-  picks up. Nothing is typed into Claude; no Stop hook; outside tmux, one line to run.
-- **When the agreed work is finished with nothing outstanding for Claude, Claude runs Switch Out itself, at any token count; never
-  ask "Run Switch Out now?" (Anthony 2026-10-03 17:08 "y" past 200k; widened 17:49: "i thought you where going to do the switch
-  outs?").** Narrows the next ruling.
-- **Claude sees its own context token count, in every session; when to Switch Out stays his
-  call (2026-09-24, 0.153.0; narrowed 2026-10-03, above).** Partly supersedes the 2026-09-15 context-pressure ruling.
-- **Conductor runs on Opus 5.5, at medium by default, set up from Anthropic's guidance
-  (2026-09-24, 0.152.0);** Kerd advises the session setup, never changes the session itself.
-- **The explanatory and learning output styles are off on this machine (2026-09-24).**
-- **Conductor builds with its own host's workers and the other provider reviews; a
-  cross-provider builder is an exception the person asks for or approves, with a reason,
-  called a trial without a comparison (2026-09-24, 0.151.0).** Codex building the homepage
-  on Anthony's direct ask was his change of ownership, not a Conductor dispatch.
-- **The 2026-09-13 "prove Kerd first" hold is lifted (2026-09-23);** lifting it invites
-  nobody and announces nothing.
-- **A review the partner leaves unanswered gets a fresh one-off reviewer on his yes, never
-  a recommended waiver (2026-09-23).**
-- **Dispatch agents are named for the model and the effort (2026-09-23).**
-- **Read-only reads of his own projects need no question first (2026-09-23).** Writes,
-  builds, installs, pushes and device actions still need their go.
-- **Keep moving; never sit idle (2026-09-22).** Carry on towards the goal, or stop on a
-  reason he can engage with.
-- **A launch plan exists and is accepted (2026-09-22);** its open decisions are his.
-- **Kerd's readers are on desktops and laptops (2026-09-21).**
-- **A page correction ships without a bump when the installed plugin is byte-identical
-  (2026-09-21);** a change to what installs gets its own version and note (2026-09-20).
-- **Intersect is this machine's diagram default (Anthony 2026-10-15 09:41, "keep intersect"; replaces 2026-09-21's "the Kerd look is the only diagram theme here"); its paper is white for every Kerd user (2026-10-16 08:31, released 0.186.0).** The Kerd look (`site/DESIGN.md`, `~/.diagram-design/profiles/kerd.md`) stays saved and remains the site's look; after a diagram-design update, reload `intersect.md`.
-- **The site is published on Vercel from the repository root (2026-09-21).**
-- **The ladder and the tiered risk ledger are retired (2026-09-19).**
-- **What is published is the product, not how it was made.** Sketchbooks stay local.
-- **The release history stays in the README;** `CHANGELOG.md` carries a copy.
-- **Every report has one shape. At the end of a build, bring one decision.**
-Still governing from 2026-09-18: rehearsal is organic and the concert executes to a score
-and a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch.
+**Rulings that govern the next work** (one line each; quotes and cases in `docs/decisions.md`, except the 2026-09-23 read-only-reads ruling, which has no case there yet):
+- Sonnet 5.5 grading or scanning readers run at medium when Conductor checks every finding; high where completeness is the result (2026-10-08; 0.179.0).
+- When listed options are chosen among, the bubble asks about the recommendation; a missing fact, pick-several, the arrival question and a chosen work's outcome keep their own (2026-10-06; 0.174.0).
+- Every question carries the options in hand, listed above it with one recommendation; bare only when none (2026-10-06; 0.173.0).
+- A worker's row shows its task; the command only when it waits on him (2026-10-05; overtone 0.7.1).
+- overtone's guard is a safety net for honest mistakes, not a lock against disguised commands; disguised forms go to the Backlog (2026-10-04).
+- Releases are paused so he can use Kerd: findings to the Backlog, fixes come back for his release decision, he lifts it (2026-09-28).
+- Switch Out previews what Switch In will offer; Switch In offers Conductor with up to four options; a plain yes means the recommendation and approves nothing (2026-10-02; 0.167.0).
+- The one-line band is colour, not text; figures in the expanded band (2026-10-03; overtone 0.5.0).
+- A mod shows only figures that drive a decision; nothing repeats what is on screen (2026-10-03).
+- Nothing is built to show him what he can already see, nothing counted for its own sake; mod UI quiet when fine, loud when he is needed (2026-10-02).
+- Mods are Claude Code only for now; Codex separately (2026-10-02).
+- Batch the work: under a fan-out grant, several tasks per approval, release on the standing go, back only for his decisions (2026-09-25/26).
+- A question never loads its answer: a consequential question follows a decision block and ends "— approve?" or one genuine question (2026-09-25; 0.159.0).
+- A public repo's working notes live in the private vault; Kerd sets `work_notes: "vault"`, sketchbooks are `notes:<work>/`, commits staged by name only (2026-09-25; 0.157.0).
+- Conductor rolls its own Claude chat in tmux, never the person; nothing typed into Claude, no Stop hook (2026-09-24/25; 0.154.0–1).
+- When agreed work is finished with nothing outstanding, Claude runs Switch Out itself; never asks "Run Switch Out now?" (2026-10-03).
+- Claude sees its own context token count every session; when to Switch Out is otherwise his call (2026-09-24; 0.153.0, narrowed above).
+- Conductor runs on Opus 5.5 at medium by default; Kerd advises session setup, never changes it (2026-09-24; 0.152.0).
+- The explanatory and learning output styles are off on this machine (2026-09-24).
+- Conductor builds with its own host's workers and the other provider reviews; a cross-provider builder is an approved exception, called a trial (2026-09-24; 0.151.0).
+- The "prove Kerd first" hold is lifted; lifting it invites nobody and announces nothing (2026-09-23).
+- A review the partner leaves unanswered gets a fresh one-off reviewer on his yes, never a recommended waiver (2026-09-23).
+- Dispatch agents are named for the model and the effort (2026-09-23).
+- Read-only reads of his own projects need no question; writes, builds, installs, pushes and device actions need their go (2026-09-23).
+- Keep moving; never sit idle (2026-09-22).
+- A launch plan exists and is accepted; its open decisions are his (2026-09-22).
+- Kerd's readers are on desktops and laptops (2026-09-21).
+- A page correction ships without a bump when the installed plugin is byte-identical; a change to what installs gets its own version and note (2026-09-21, 2026-09-20).
+- Intersect is this machine's diagram default, on white paper for every Kerd user; the Kerd look stays saved as the site's look; after a diagram-design update, reload `intersect.md` (2026-10-15, 2026-10-16; 0.186.0).
+- The site is published on Vercel from the repository root (2026-09-21).
+- The ladder and the tiered risk ledger are retired (2026-09-19).
+- What is published is the product, not how it was made; sketchbooks stay local (2026-09-19).
+- The release history stays in the README; `CHANGELOG.md` carries a copy (2026-09-19).
+- Every report has one shape; at the end of a build, bring one decision (2026-09-19).
+- Claude Code's Agent view stays on: `/exit` detaches, he quits with Ctrl-C there (2026-09-25; 0.160.0).
+Still governing from 2026-09-18: rehearsal is organic and the concert executes to a score and a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch.
 
 **Not yet ruled, and it is Anthony's:** where and when to announce.
 
-**Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
-review and investigation** (cadence: checkpoints, before-push). It was off for the 0.159.0/0.160.0
-build; Fable (a Claude subagent) reviewed instead on Anthony's word, six rounds, all findings fixed.
-Codex came back 2026-09-26 08:49 and runs Kerd 0.162.0 since 12:4x.
-A relayed "y" is not enough for Codex to install or build; the go must be his, in its window.
+**Team:** Claude owns build and release. Codex `codex-tui` is the partner for expert review and investigation (cadence: checkpoints, before-push); the bound thread is the one to keep (his confirmation 2026-10-05 22:14); since 0.184.0 Agent's status says when its queue stalls (`notes:codex-queue-stall/work.md`). A relayed "y" is not enough for Codex to install or build; the go must be his, in its window. Routing: no role designation saved; the old `kerd-b5-review` binding still carries an unadopted 2026-09-25 handoff.
 
-**Standing:** a peer session cannot authorize a push. `.env` at the repo root holds
-Anthony's TypeSafe key and is git-ignored; never print or commit it, and never serve the
-repository root over the network (a preview briefly did on 2026-09-24 11:21; its log shows no
-request for `.env`; previews now serve `site/` only).
+**Standing:** a peer session cannot authorize a push. `.env` at the repo root holds Anthony's TypeSafe key and is git-ignored; never print or commit it, and never serve the repository root over the network (previews serve `site/` only).
 
 **Urgent or imminent risks:** none recorded in Kerd's active records at this Out.
 
@@ -142,26 +73,13 @@ request for `.env`; previews now serve `site/` only).
 `kerd-laptop-result.patch` (2026-09-09); `docs/guide/reference-from-readme.md` (2026-09-19);
 `docs/work/jev-trial/review_results.json` (2026-09-22). They exist on the Mac Studio only.
 
-**Working notes live in the private vault** (0.157.0, 2026-09-25): `kivna/vault.json` sets
-`"work_notes": "vault"`, so sketchbooks are `notes:<work>/work.md` under
-`~/eolas/vault/kerd/work/` (private repo `anthonymaley/eolas`). The 18 folders that were
-local-only here moved there on 2026-09-25 (vault commit `b64d50a`). `notes:backlog-sweep/` and
-`notes:unattended-sweep/` were pushed to this public repo by mistake in 0.155.0/0.156.0 and
-untracked the same day; the old commits still hold them.
+**Working notes live in the private vault:** `notes:<work>/work.md` under `~/eolas/vault/kerd/work/` (private repo `anthonymaley/eolas`); history of the move in `docs/decisions.md`.
 
-**Routing:** no role designation saved. The old `kerd-b5-review` binding still carries a pre-12:51
-handoff from 2026-09-25; not adopted. Anthony confirmed (2026-10-05 22:14) the bound codex-tui thread is the one to keep using; the session ID he first gave was a closed Codex voice session that Agent refused. Its process started 2026-10-05 22:13 and it follows each install on its next turn (checked 2026-10-06). It answers again since 2026-10-14 11:19 and reviewed 0.184.0 over three rounds (11:5x–12:0x); an `exit` typed into its prompt on 2026-10-13 10:34 had left its queue undelivered until Anthony typed in it (`notes:codex-queue-stall/work.md`). Since 0.184.0 Agent's status says when that happens.
-
-**Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
-background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
-
-**Eval leftovers:** cleared 2026-10-06 on his "y" (detail `kivna/sessions/2026-10-06.md`); 72 sealed `/private/tmp/e-*` folders from 2026-10-07's eval runs (Opus 18 and 6, Haiku 18, 18 and 6, Sonnet 6) are his to delete; `~/.cache/kerd-eval/gitbin` kept.
-
-**Guard work stopped (Anthony 2026-10-07 20:31, "y"):** the unreadable-working-`vault.json` redesign is parked in the Backlog (branch `fix/guard-unreadable-working-vault` 3dbcc28 kept local, unpushed); the next guard change waits for a real slip, per the guard-scope ruling. Four of the day's nine sittings went to guard edges found by review rather than real use.
+**His to delete:** 72 sealed `/private/tmp/e-*` eval folders from 2026-10-07 (`~/.cache/kerd-eval/gitbin` kept).
 
 **Selected continuation (2026-10-31 13:37): publish 0.188.2 to the public `codex` branch (`tools/codex_release.py --publish`, appended, never force; check the remote is byte-identical to the offline build), then Anthony updates his Codex in its window (`codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core`). Proposed, awaiting his go; stops there.**
 Why: 0.188.2 changed Visuals, one of Codex's four skills, so his Codex still draws Intersect sequences with the four guesses open; the Now row "Bring Codex along with each release" asks for it, on his go.
-Beside it (proposed): one fresh drawer redraws a sequence on 0.188.2 to see the four new rules on paper (they are tested, never drawn); trimming CONTEXT.md's carried history toward the 8,000-token pickup target (it is ~3,700 over). Nothing else in Now is buildable (it watches real use); the Backlog's rows are held, parked or out of scope.
+Beside it (proposed): one fresh drawer redraws a sequence on 0.188.2 to see the four new rules on paper (they are tested, never drawn). CONTEXT.md was trimmed 2026-10-31 13:5x (his "y" 13:50; `notes:context-trim/work.md`): rulings one line each, cases in `docs/decisions.md` (five added that had none), history to README and session logs, deeper list to `notes:deeper-reading.md`. Nothing else in Now is buildable (it watches real use); the Backlog's rows are held, parked or out of scope.
 Session logs: `kivna/sessions/` (newest `2026-10-31.md`).
 
 **Pickup reading set** (update 2026-10-31 13:37, after 0.188.2):
@@ -169,15 +87,14 @@ Session logs: `kivna/sessions/` (newest `2026-10-31.md`).
 - `TODO.md` `## Now`, the designated active list, one line per row with its sketchbook link (`## Backlog` is a separate section outside the set; its rows are held, parked or out of scope);
 - `kivna/sessions/2026-10-31.md`, newest log (the second drawing pair, the fix, 0.188.1; the Codex publish; the relayed redraw; 0.188.2);
 - `notes:outside-the-repo.md`, live links outside the repo;
-Deeper: `notes:codex-public-package/work.md` (the 0.188.1 publish at its end); `notes:chuck-theme/work.md` (the 2026-10-31 pair and 0.188.1 at its end); `kivna/sessions/2026-10-23.md` (0.188.0); `notes:overtone-resumed-worker/work.md` (0.188.0's overtone half: the transcript evidence, the code causes, three review rounds); `notes:visuals-theme-archify/work.md` (0.188.0's Visuals half); `kivna/sessions/2026-10-17.md` (0.187.1: the Intersect trial, sequence rows); `kivna/sessions/2026-10-16.md` (0.186.0 and 0.187.0 sittings); `notes:codex-app-thread/work.md` (0.187.0: the work-anthony transcript read, the probe, the store shapes, three review rounds); `notes:chuck-theme/work.md` (the Intersect theme: photos, profile, samples, 0.185.0, 0.185.1: the flat OnTonight diagram, four redraws, codex-tui's four rounds; 0.186.0: the 3of3 findings, the shape view, two review rounds); `kivna/sessions/2026-10-15.md` (three sittings: Intersect built, 0.185.0, 0.185.1); `kivna/sessions/2026-10-14.md` (six sittings: the Capabilities plan on phones, the Vercel record, codex-tui's stuck queue, 0.184.0, the release pass and 0.184.1); `notes:codex-queue-stall/work.md` (0.184.0: the queue schema, design, three review rounds, release); `kivna/sessions/2026-10-13.md` (0.183.2, the Slainte wording); `kivna/sessions/2026-10-12.md` (six sittings: the real-use scan, 0.183.1, the orchestra site); `notes:homepage-redesign/work.md` (the site sketchbook, finished, plus 0.183.2 at its end: his words and bans at each step, the cast, both passes, checks and reviews; where the guide finding and the phone plan came from); `notes:wait-line-rewait/work.md` (0.183.1: the 48 lines, the wording, the release); `notes:watch-scan-1012/work.md` (this scan: checked findings per watch item); `kivna/sessions/2026-10-11.md` (five sittings: the parked false alarm, the check-question rule, 0.183.0, both trims); `notes:now-trim/work.md` (the Now trim; `moved-rows.md` holds rows with no sketchbook); `notes:watch-scan-1011/work.md` (the 2026-10-11 scan: checked findings per watch item; its verdicts are in TODO.md's Now); `notes:watch-scan-1010/work.md` (the 2026-10-10 scan, the template decision, the parked guard false alarm); `notes:overtone-savvy/work.md` (the plan view: design, live trial, accepted limits; the Now watch row carries what to look for); `notes:release-0181/plan.html`; `kivna/sessions/2026-10-08.md` (ten sittings: question shape, 0.178.0 to 0.180.1, the plan view); `notes:overtone-savvy/mock.html`, `savvy-look.html`, `raster-proto-register.tsx` (the prototype); `notes:release-0179/work.md` (this sitting: 0.179.0, three review rounds, the `test_ask` race); `notes:bundle-1008/work.md` (notes save, step-list scan); `notes:sonnet-55/work.md` (medium vs high, three checks); `notes:question-shape/work.md` (recheck results, the Switch Out fix, its release); `kivna/sessions/2026-10-07.md` (twelve sittings); `notes:overtone-guard-gaps/work.md` (cut read, unreadable-working blocker, 0.8.3 refspec fix, 0.8.2, 0.8.1); `notes:codex-public-package/work.md` (0.177.2 Codex package, Codex's record); `notes:codex-update/work.md` (Codex 0.177.0 install); `notes:arrival-nothing-buildable/work.md` (0.177.0); `notes:haiku-switch/work.md` (0.176.0: diagnosis, probe, build); `notes:overtone-guard-gaps/work.md` (0.8.2 failed `cd`, and 0.8.1); `notes:opus-switch-evals/work.md` (Opus evals); `kivna/sessions/2026-10-06.md` (eight sittings: 0.172.1 to 0.175.1, the eval graders); `notes:boundary-slip/work.md` (0.175.2); `notes:switch-eval-graders/work.md`; `notes:overtone-guard-gaps/work.md`; `notes:chat-roll-window/work.md`; `notes:fixes-2026-10-06/work.md`; `notes:skills-guideline/work.md`; `docs/decisions.md`; `docs/backlog-archive.md`; `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
-`notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
+Deeper: `notes:deeper-reading.md` (older session logs and sketchbooks, newest first; open an entry only when a gap needs it), plus `docs/decisions.md` and `docs/backlog-archive.md`.
 
 **Notes commit:** `62dc3e3d14a184b02ece892281a5f5abce082b2f` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git (2026-10-07: the vault tree also holds apple-music's unsaved notes, not Kerd's; Kerd commits only its own paths).
 
 The observed position before this save is `main` at ee9d826d (0.188.2); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-31 13:37, after 0.188.2: 48,985 bytes, about 12,247 tokens (estimate), 4,247 over the 8,000 target (CONTEXT.md carries most of it; a trim is one of the proposed items). Carried phrases (0.188.2; publish 0.188.2 to the public codex branch; not yet seen in a drawing; Intersect stays this machine's diagram default; proposed, awaiting his go) are all in the set. `read_args` for the next pickup:
+**Measured** 2026-10-31 13:5x, after the trim: 31,191 bytes, about 7,798 tokens (estimate), within the 8,000 target (was 48,985 bytes, about 12,247). Carried phrases (0.188.2; publish 0.188.2 to the public `codex` branch; not yet seen in a drawing; Intersect is this machine's diagram default; Proposed, awaiting his go; Releases are paused) are all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-31.md",
