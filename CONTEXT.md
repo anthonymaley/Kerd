@@ -77,24 +77,24 @@ Still governing from 2026-09-18: rehearsal is organic and the concert executes t
 
 **His to delete:** 72 sealed `/private/tmp/e-*` eval folders from 2026-10-07 (`~/.cache/kerd-eval/gitbin` kept).
 
-**Selected continuation (2026-10-31 13:37): publish 0.188.2 to the public `codex` branch (`tools/codex_release.py --publish`, appended, never force; check the remote is byte-identical to the offline build), then Anthony updates his Codex in its window (`codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core`). Proposed, awaiting his go; stops there.**
+**Selected continuation (2026-10-31 13:5x): publish 0.188.2 to the public `codex` branch (`tools/codex_release.py --publish`, appended, never force; check the remote is byte-identical to the offline build), then Anthony updates his Codex in its window (`codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core`). Proposed, awaiting his go; stops there.**
 Why: 0.188.2 changed Visuals, one of Codex's four skills, so his Codex still draws Intersect sequences with the four guesses open; the Now row "Bring Codex along with each release" asks for it, on his go.
-Beside it (proposed): one fresh drawer redraws a sequence on 0.188.2 to see the four new rules on paper (they are tested, never drawn). CONTEXT.md was trimmed 2026-10-31 13:5x (his "y" 13:50; `notes:context-trim/work.md`): rulings one line each, cases in `docs/decisions.md` (five added that had none), history to README and session logs, deeper list to `notes:deeper-reading.md`. Nothing else in Now is buildable (it watches real use); the Backlog's rows are held, parked or out of scope.
+Beside it (proposed): one fresh drawer redraws a sequence on 0.188.2 to see the four new rules on paper (they are tested, never drawn); trim TODO.md's Now (9.6 KB of watch rows, now the largest part of the pickup read), moving each row's history to its sketchbook. Nothing else in Now is buildable (it watches real use); the Backlog's rows are held, parked or out of scope.
 Session logs: `kivna/sessions/` (newest `2026-10-31.md`).
 
-**Pickup reading set** (update 2026-10-31 13:37, after 0.188.2):
+**Pickup reading set** (update 2026-10-31 13:5x, after the CONTEXT.md trim):
 - this file complete: position (0.188.2 released; Claude Code on 0.188.2; the public codex branch and his Codex on 0.188.1), the continuation (publish 0.188.2 to the codex branch, proposed), rulings and the Codex position;
 - `TODO.md` `## Now`, the designated active list, one line per row with its sketchbook link (`## Backlog` is a separate section outside the set; its rows are held, parked or out of scope);
-- `kivna/sessions/2026-10-31.md`, newest log (the second drawing pair, the fix, 0.188.1; the Codex publish; the relayed redraw; 0.188.2);
+- `kivna/sessions/2026-10-31.md`, newest log (the second drawing pair, the fix, 0.188.1; the Codex publish; the relayed redraw; 0.188.2; the CONTEXT.md trim);
 - `notes:outside-the-repo.md`, live links outside the repo;
 Deeper: `notes:deeper-reading.md` (older session logs and sketchbooks, newest first; open an entry only when a gap needs it), plus `docs/decisions.md` and `docs/backlog-archive.md`.
 
-**Notes commit:** `62dc3e3d14a184b02ece892281a5f5abce082b2f` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `734f42b6eba59c22db044ac79ea4871f8df9e242` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git (2026-10-07: the vault tree also holds apple-music's unsaved notes, not Kerd's; Kerd commits only its own paths).
 
 The observed position before this save is `main` at ee9d826d (0.188.2); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-31 13:5x, after the trim: 31,191 bytes, about 7,798 tokens (estimate), within the 8,000 target (was 48,985 bytes, about 12,247). Carried phrases (0.188.2; publish 0.188.2 to the public `codex` branch; not yet seen in a drawing; Intersect is this machine's diagram default; Proposed, awaiting his go; Releases are paused) are all in the set. `read_args` for the next pickup:
+**Measured** 2026-10-31 13:5x, at this Out after the trim: about 32,800 bytes, about 8,200 tokens (estimate), about 200 over the 8,000 target (was 48,985 bytes, about 12,247 tokens). Over only because today's session log holds five sittings; a new day's log starts small, and the proposed TODO Now trim is the lasting fix. Carried phrases (0.188.2; publish 0.188.2 to the public `codex` branch; not yet seen in a drawing; Intersect is this machine's diagram default; Proposed, awaiting his go; Releases are paused; trim TODO.md's Now) are all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-31.md",
