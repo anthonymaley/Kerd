@@ -111,7 +111,7 @@ font-family: "Open Sans", "Gill Sans", "Helvetica Neue", sans-serif;
 
 | Type | Fill | Stroke |
 |---|---|---|
-| `focal` (exactly one) | `paper` | `ink` stroke 2, wrapped in a dashed `ink` orbit ring (dash `6,6`); the barber-pole frame belongs to the title block, never the focal node |
+| `focal` (exactly one) | `paper` | solid `accent` stroke 2.5 (Visuals' focal treatment; nothing else red, no binder edge); the orbit ring belongs to a core or hub circle, never the focal node, and the barber-pole frame to the title block |
 | `backend` | `paper` | `ink` |
 | `store` | `paper-2` | `muted` |
 | `external` | `paper` | `rule-solid` |
@@ -128,7 +128,7 @@ Recolouring a normal diagram is not this theme. Every diagram drawn with this gu
 1. **One SVG is the page, at full size.** The page body is `paper` with the SVG centred in it, drawn at its viewBox width (one SVG unit to one CSS pixel) and never scaled down; a narrower window scrolls sideways rather than shrinking labels under the 13px floor. Check the rendered text size. No HTML heading, eyebrow, paragraph or legend outside the SVG: the title, the subtitle and the notes go inside the sheet, with an SVG `<title>` and `<desc>` that explain the subject.
 2. **Sheet frame:** a `rule-solid` stroke-2 rectangle inset 24 from the SVG edge. Everything else sits inside it.
 3. **Title block, in the barber-pole frame:** at the top of the title column, inside the barber-pole frame (the sheet's one striped box, always `ink` stripes): first, as the first line of text in the render, Visuals' project line (`PROJECT: subject · kind · status`, in `eyebrow`, the name in capitals and a colon); then the title in `title` type, CAPITALS, stacked on two or three short lines, in a right-hand column about a quarter of the sheet wide; then one line of `sublabel` fine print ("plan view, sheet 1 of 1"). Notes go under the frame as a short list. A diagram too wide for a column puts the same framed block in the top-right corner of the sheet instead, never as a page heading. The stripes frame the title only; they never mark a next step or a takeaway.
-4. **Legend strip:** a `rule` hairline across the bottom of the frame, then `LEGEND` in `eyebrow`, one sample of each primitive used with its meaning in fine print, and the sheet code right-aligned ("SHEET <PROJECT>-<NNNN> · <DATE>").
+4. **Legend strip:** a `rule` hairline across the bottom of the frame, then `LEGEND` in `eyebrow`, one sample of each primitive used with its meaning in fine print (the red is explained in words, never drawn as a second red sample), and the sheet code right-aligned ("SHEET <PROJECT>-<NNNN> · <DATE>").
 5. **Grain:** the `feTurbulence` grain rectangle over the whole sheet as the very last element.
 6. **Fills:** `paper`, `paper-2` and solid `ink` only. Paper is white; never a tint, never a fill outside these three, except the red binder edge (`accent`) on a sheet with no focal change and a focal sequence message's filled `accent` arrowhead.
 7. **Primitives for what is there:** draw every primitive the content gives a reason for, using the mapping below: numbered or listed items get pin tags, a flow between groups gets the studded bus, groups get housings, the title block gets the barber-pole frame. Never invent structure, numbering or a flow the diagram does not have to fit a primitive in; a small diagram may need only the sheet and one or two.
@@ -162,6 +162,7 @@ A sequence keeps diagram-design's grammar (actors across the top, time flowing d
 | A lifeline | A `rule-solid` 1 line dashed `4,6` from the plate down to the last message |
 | An activation | A 12-wide `paper-2` bar on the lifeline over the span its actor is in control, outlined solid `ink` for an actor that exists today or dashed `ink` for a proposed one; a nested activation sits offset on top of it. Only an activation that is itself the focal change takes the focal treatment (`paper` fill, solid `accent` border); a focal actor's other activations keep `ink` |
 | A numbered message | Its arrow with a **pin tag** carrying its own two-digit number; never two messages under one number |
+| A message relayed through an actor (A → B → C as one message) | One message on two hops, each hop its own primitive and reaching its real lifeline; the pin tag on the first hop only, a **diamond junction** where it passes through the relaying actor, and, when it is the focal message, every hop takes the focal recolouring as one red thing. Each hop still counts as one arrow toward diagram-design's message limit, and each bus hop toward the two-bus limit; sharing a pin tag never lowers either count |
 | The call the diagram is about | A **studded bus**, straight along that message between its real lifelines, large solid arrowhead; at most two per sheet. Only a call takes the bus: a return or async message keeps its own kind even when it is the answer that matters, marked by Visuals' focal treatment instead |
 | Any other call | An `ink` 1.5 line with a small solid arrowhead |
 | A return or reply to a call | A **bead link** with a small filled arrowhead |

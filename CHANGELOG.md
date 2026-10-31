@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.188.1
+
+**Intersect has one reading of the focal thing.** A second drawing trial found the theme saying two things: its node
+table drew the focal node in ink inside an orbit ring, while its mapping and house rules drew it with the red border.
+The focal node is now the red border at 2.5, and the orbit ring belongs to a hub. A sequence message relayed through
+an actor (a reply passing through Agent on its way to Conductor) is one message on two hops: its number on the first
+hop, a diamond where it passes through, red on every hop when it is the focal message, each hop still counted toward
+the arrow and bus limits. The legend explains the red in words rather than drawing a second red sample.
+
 ## 0.188.0
 
 **Diagrams keep your look, and overtone shows a player Conductor resumes.** In work-anthony a deploy plan came
