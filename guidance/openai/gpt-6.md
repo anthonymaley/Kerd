@@ -44,7 +44,7 @@ changes for a GPT-6 job versus a GPT-5.6 one.
   applies_when: choosing among gpt-6-astra, gpt-6.1-sol, gpt-6.1-terra and gpt-6-luna for a GPT-6 job
   guidance: As of 2026-11-03 the models page lists four flagship models. gpt-6-astra is the most capable, for complex reasoning and coding. gpt-6.1-sol gives near-Astra performance at lower cost, for complex coding, computer use and professional work. gpt-6.1-terra is a fast, efficient model for visual reasoning, precise computer use and natural writing. gpt-6-luna is the fastest and most cost-effective, for focused, high-volume tasks. gpt-6-sol is no longer in that list; the API guide tells users already on it to review the migration guidance before switching to gpt-6.1-sol. The earlier statement that there is no GPT-6 Terra no longer holds. The guide says to compare gpt-6.1-terra with gpt-6.1-sol on the same inputs and reasoning effort, and, when moving from GPT-5.6 Terra, to compare both on representative images and workflows at the same effort.
   basis: provider-guidance
-  source: official_sources[1]
+  source: official_sources[1]; official_sources[0]; official_sources[3]
   evaluation: pending
   review_trigger: first GPT-6 pilot or source change
 - id: effort-levels-by-tier
