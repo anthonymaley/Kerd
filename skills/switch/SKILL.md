@@ -55,6 +55,11 @@ item names the guide section with its detail: open that section before the step.
   decide) is never the recommendation: with nothing buildable in Now, say so and
   weigh the saved item and the Backlog section's rows, skipping deferred or parked
   ones ([Compose the arrival](references/in.md#compose-the-arrival-in-switch)).
+- Find the newest weekly review record in its one folder, never a sweep; none, or
+  over 7 days old, adds one Open work line, “Weekly review: last one N days ago”
+  (or “never run”), a Conductor route when picked, recommended only when nothing
+  else is buildable, never a list or repeated elsewhere on the screen
+  ([Compose the arrival](references/in.md#compose-the-arrival-in-switch)).
 - Renderer: copy the `$summary` shape from the guide, never from the script, and run
   `where_we_are.py --summary - --markdown`; only if it fails or is unavailable, say so
   and give the restored facts and the question as plain text ([Welcome back](references/in.md#welcome-back-the-screen-summary)).

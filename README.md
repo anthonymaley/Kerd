@@ -10,8 +10,8 @@ is the part you are in: working it through turn by turn, in any order, shipping
 as you go, while Kerd keeps a sketchbook of what is settled. *The concert* is
 what happens once you say you are ready: the work is written down as a score,
 and a team of agents performs it: no turn-by-turn questions, because the asking
-already happened. It comes back to you only if something the score cannot answer
-turns up. You decide when rehearsal ends, and nothing is performed that
+already happened. It comes back to you only for something that costs money, cannot
+be undone or falls outside what you agreed. You decide when rehearsal ends, and nothing is performed that
 you have not agreed.
 
 **Who it is for:** people already working in Claude Code or Codex, in a project
@@ -65,8 +65,10 @@ Today everything stays turn by turn, and done is whatever the AI says it is. Wit
 Kerd, once you are ready, the work is written as a score, the plan with one step per
 part, and performed as a concert: many players, each an agent given one step and
 running alongside the others, every return checked, the result compared with your
-goals before it ends. A gap the score cannot answer stops that part and comes
-back to you in the chat for that one point, not to the start. A second AI can
+goals before it ends. Every gap still open is settled at once before it starts,
+each with a default you can change; after that only something that costs money,
+cannot be undone or falls outside what you agreed comes back to you, for that one
+point, not to the start. A second AI can
 read the work too: another Claude or Codex session, either a partner you have
 already paired with, which knows the project, or a fresh reviewer started for that
 one job and given the brief and the sources, not the builder's account of what it
@@ -325,9 +327,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.188.2)
+## What's New (v0.189.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.189.0
+
+**Conductor asks once, then works; a weekly review finds what slipped.** From Anthropic's own research on how its
+staff use Claude (human attention is the bottleneck). At Ready, Conductor lists every gap still open at once, each with
+the default it will use, so one go covers them all. During a concert only what costs money, cannot be undone or falls outside what you
+agreed stops the run; an unforeseen gap whose default stays inside what you agreed, costs nothing and can be undone takes that
+default and is reported for reversal. Every report opens with
+three lines, Found, Needs you and Unsure, and its closing question asks exactly what Needs you says. "Make this a
+skill" builds one in your own project with Anthropic's skill-creator, with how to run it and what to check. Pasted notes
+that hold decisions come back as one list to settle or drop. A weekly review, offered by Switch In when the last one is
+over 7 days old, reads the week's sessions for corrections, repeated jobs, unclear questions, unreviewed defaults and
+decisions that never reached a record, and changes nothing without your go.
 
 ### v0.188.2
 

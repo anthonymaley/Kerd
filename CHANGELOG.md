@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.189.0
+
+**Conductor asks once, then works; a weekly review finds what slipped.** From Anthropic's own research on how its
+staff use Claude (human attention is the bottleneck). At Ready, Conductor lists every gap still open at once, each with
+the default it will use, so one go covers them all. During a concert only what costs money, cannot be undone or falls outside what you
+agreed stops the run; an unforeseen gap whose default stays inside what you agreed, costs nothing and can be undone takes that
+default and is reported for reversal. Every report opens with
+three lines, Found, Needs you and Unsure, and its closing question asks exactly what Needs you says. "Make this a
+skill" builds one in your own project with Anthropic's skill-creator, with how to run it and what to check. Pasted notes
+that hold decisions come back as one list to settle or drop. A weekly review, offered by Switch In when the last one is
+over 7 days old, reads the week's sessions for corrections, repeated jobs, unclear questions, unreviewed defaults and
+decisions that never reached a record, and changes nothing without your go.
+
 ## 0.188.2
 
 **Intersect sequence sheets leave less to guess.** A drawer redrawing a relayed focal reply on 0.188.1 had to

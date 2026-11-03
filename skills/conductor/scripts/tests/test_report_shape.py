@@ -1,4 +1,7 @@
-"""Guards the shape of Conductor's reports: result first, position second, five items.
+"""Guards the shape of Conductor's reports: three opening lines, then five items.
+
+Every report opens with Found, Needs you and Unsure (agreed 2026-11-03), replacing
+the earlier result-first, position-second pair; where the work stands folds into Found.
 
 A correction of Conductor's own earlier claim is part of the result, not a sixth item.
 
@@ -39,24 +42,31 @@ class ReportShapeTests(unittest.TestCase):
     def test_the_section_states_all_six_rules(self):
         section = self.section()
         for rule in (
-            "First line: what the person has now, and where to look at it",
-            "Second line: where the work stands, in one line.",
+            "Three labelled lines open every report.",
+            "**Found:** what was found or decided, or what the person has now and where to look at it",
+            "**Needs you:** the decision or approval needed from the person, or \u201cnothing\u201d.",
+            "**Unsure:** what Conductor was not sure about in this result, in one line",
+            "The ending follows Needs you.",
             "At most five items on screen.",
             "One thing at a time.",
             "A correction of your own earlier claim never competes for those five.",
-            "Before sending, read only the first line and the last line.",
+            "Before sending, read only the three lines and the last line.",
         ):
             with self.subTest(rule=rule):
                 self.assertIn(rule, section)
 
     def test_a_single_job_restates_where_it_stands(self):
-        """The second line was missing in 10 of 10 runs (unattended-sweep evidence, report-shape.md)."""
+        """The position line was missing in 10 of 10 runs (unattended-sweep evidence,
+        report-shape.md); it now folds into Found and is still restated every time."""
         section = self.section()
         self.assertIn(
             "A single job restates it too: \u201cDone and committed locally, not pushed; "
-            "next: the output options.\u201d Evidence and the where-to-look are not this line.",
+            "next: the output options.\u201d",
             section,
         )
+        self.assertIn("with where the work stands folded in", section)
+        self.assertNotIn("Second line: where the work stands", section)
+        self.assertNotIn("read only the first line and the last line", section)
 
     def test_tidying_the_finished_item_is_not_the_next_item(self):
         """Two of two finishes offered to tidy the finished item (report-shape.md, proposal 2)."""
@@ -88,7 +98,7 @@ class ReportShapeTests(unittest.TestCase):
         self.assertIn("This governs the shape of reports, not their honesty.", section)
         self.assertIn(
             "A problem that blocks the work or risks harm is not a side finding; "
-            "it is the first line.",
+            "it goes in the three lines. It joins Found and does not replace it",
             section,
         )
 
@@ -99,8 +109,32 @@ class ReportShapeTests(unittest.TestCase):
         # The passing example itself leads with the result, not the grid.
         passing = self.journey[self.journey.index("The same return, in shape:"):]
         body = passing.split("```markdown", 1)[1].split("```", 1)[0].strip()
-        self.assertTrue(body.startswith("The README is rebuilt"))
+        lines = body.splitlines()
+        self.assertTrue(lines[0].startswith("**Found:** the README is rebuilt"))
+        self.assertIn("**Needs you:** nothing.", body)
+        self.assertIn("**Unsure:**", body)
+        self.assertLess(body.index("**Found:**"), body.index("**Needs you:**"))
+        self.assertLess(body.index("**Needs you:**"), body.index("**Unsure:**"))
         self.assertNotIn("| Task |", body)
+
+    def test_a_decision_in_needs_you_is_the_bubble(self):
+        section = self.section()
+        self.assertIn(
+            "When Needs you names a decision, the turn ends on a bubble asking exactly "
+            "what Needs you says, using only terms that already appear in the three lines",
+            section,
+        )
+        self.assertIn(
+            "When Needs you is \u201cnothing\u201d, the turn does not stop there: it keeps "
+            "working, ends on a named wait for the job",
+            section,
+        )
+        self.assertIn("Never invent work or a wait to fill it.", section)
+        example = self.journey[self.journey.index("When it names\na decision"):]
+        body = example.split("```markdown", 1)[1].split("```", 1)[0]
+        self.assertIn("**Needs you:** approve merging `concert/export-fix` into main and pushing.", body)
+        self.assertTrue(body.strip().splitlines()[-1].startswith(
+            "> \U0001f4ac **Merge `concert/export-fix` into main and push \u2014 approve?**"))
 
     def test_skill_and_finish_point_at_the_section(self):
         self.assertIn(f"references/journey.md#{ANCHOR}", SKILL.read_text(encoding="utf-8"))

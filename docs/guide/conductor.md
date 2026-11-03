@@ -39,8 +39,9 @@ that passage and hand it back. The composer writes; it never dispatches anyone.
 
 **Ready** can be called from either side. Conductor says "I think we're ready"
 when the sketchbook and score would let players perform without stopping to ask
-you, or it names the one or two things still missing: we need the constraints on
-X before this is ready. If you call it ready, Conductor tells you honestly what
+you, listing every gap still open at once, each with the default it will use, so
+you read them once; a gap only you can answer means it is not ready yet: we need
+the constraints on X before this is ready. If you call it ready, Conductor tells you honestly what
 is still open, and going ahead anyway is your call, recorded in the sketchbook.
 Ready is a judgment spoken in conversation, never a checklist handed to you. At
 Ready you get a rendered view of what will be built with a short plain summary,
@@ -66,9 +67,15 @@ which is not re-made.
 into the score, decide when the work is over. Before the loop closes, Conductor
 compares the result with them and shows you that comparison, then asks you one
 thing: merge the concert branch back. Nothing reaches `main` without your go. Work is
-not done because the steps ran out. If a gap appears that the score cannot answer, that one
-passage stops and comes back to you in the chat, for that one point, not back to
-the beginning.
+not done because the steps ran out.
+
+**Asked once, then left to work.** At Ready, Conductor lists every gap still open
+at once, each with the default it will use; you change any you disagree with, and
+one go covers the rest. During the concert only something that costs money,
+cannot be undone (a push, a merge, a release, an install, a deletion, anything sent
+to someone) or falls outside what you agreed stops the run. A gap nobody foresaw takes a default only when it
+stays inside what you agreed, costs nothing and can be undone; it is listed for you
+to reverse at the finish. Any other gap stops that passage alone and comes back to you.
 
 To start, or to resume saved work:
 
@@ -76,9 +83,19 @@ To start, or to resume saved work:
 /kerd:conductor
 ```
 
-Every report Conductor gives you has one shape: what you have now and where to look
-at it, then where the work stands, then at most five items, with the rest kept in the
-sketchbook.
+Every report Conductor gives you opens with three lines, **Found**, **Needs you**
+and **Unsure**, so you can stop reading there if they look right; the detail follows,
+at most five items, with the rest kept in the sketchbook. When Needs you names a
+decision, the closing question asks exactly that; when it says nothing, Conductor
+keeps working.
+
+Say "make this a skill" after doing a job twice and Conductor builds one in your
+own project with Anthropic's skill-creator, with how to run it and what to check.
+Paste notes that hold decisions and they come back as one list to settle or drop.
+Once a week, when Switch In offers it, a **weekly review** reads the week's
+sessions for your corrections, jobs repeated, questions that missed, defaults
+nobody looked at and decisions that never reached a record, and changes nothing
+without your go.
 
 The protocol underneath: Conductor guides Understand, Shape, Agree, Deliver and
 Complete. Rehearsal is Understand through Agree; the concert is Deliver. Before
