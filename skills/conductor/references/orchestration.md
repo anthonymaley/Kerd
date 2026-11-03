@@ -312,8 +312,11 @@ another, which is why observed evidence and not the call establishes what ran.
 ## Prepare, send and assess visibly
 
 Before an actual send, follow [model jobs](model-jobs.md) and consult applicable
-[local guidance](guidance/README.md) for the selected model and route. Reuse a
-still-applicable profile already read. Apply matching clauses and record the
+[local guidance](guidance/README.md) for the selected model and route; on
+Claude Code, read the profile that
+`python3 <Conductor skill directory>/scripts/catalogue.py profile <provider>/<model>`
+names, where the skill directory is the absolute base directory Conductor was
+loaded from. Reuse a still-applicable profile already read. Apply matching clauses and record the
 version, or disclose no matching profile and use the clear outcome-contract
 fallback. A family name or formatted headings do not establish tailored prompting.
 

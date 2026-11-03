@@ -105,7 +105,11 @@ No new permission for purchases, publishing or installation is implied.
 
 Choose an available model and effort suited to that job, not a blanket
 “cheap worker” tier. Read the relevant provider guidance and, when applicable,
-the matching model profile in [local guidance](guidance/README.md).
+the matching model profile in [local guidance](guidance/README.md); on Claude
+Code, read the file that
+`python3 <Conductor skill directory>/scripts/catalogue.py profile <provider>/<model>`
+names (the skill directory is the absolute base directory Conductor was loaded
+from), and say in one clause on the Fit line when its `source` is `shipped` or `stale-cache`.
 Check that it applies to the actual model and execution route. Guidance is
 advice, not proof of superior results. If no applicable profile is available,
 disclose that and use a clear outcome-first brief without invented tuning.
