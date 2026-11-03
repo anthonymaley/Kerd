@@ -72,8 +72,8 @@ not done because the steps ran out.
 **Asked once, then left to work.** At Ready, Conductor lists every gap still open
 at once, each with the default it will use; you change any you disagree with, and
 one go covers the rest. During the concert only something that costs money,
-cannot be undone (a push, a merge, a release, an install, a deletion, anything sent
-to someone) or falls outside what you agreed stops the run. A gap nobody foresaw takes a default only when it
+cannot be undone, goes outward (a push, a merge, a release, an install, anything
+sent to someone) or falls outside what you agreed stops the run. A gap nobody foresaw takes a default only when it
 stays inside what you agreed, costs nothing and can be undone; it is listed for you
 to reverse at the finish. Any other gap stops that passage alone and comes back to you.
 

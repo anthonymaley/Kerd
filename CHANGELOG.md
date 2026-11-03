@@ -4,8 +4,8 @@
 
 **Conductor asks once, then works; a weekly review finds what slipped.** From Anthropic's own research on how its
 staff use Claude (human attention is the bottleneck). At Ready, Conductor lists every gap still open at once, each with
-the default it will use, so one go covers them all. During a concert only what costs money, cannot be undone or falls outside what you
-agreed stops the run; an unforeseen gap whose default stays inside what you agreed, costs nothing and can be undone takes that
+the default it will use, so one go covers them all. During a concert only what costs money, cannot be undone, goes outward (a push, a
+release, anything sent) or falls outside what you agreed stops the run; an unforeseen gap whose default stays inside what you agreed, costs nothing and can be undone takes that
 default and is reported for reversal. Every report opens with
 three lines, Found, Needs you and Unsure, and its closing question asks exactly what Needs you says. "Make this a
 skill" builds one in your own project with Anthropic's skill-creator, with how to run it and what to check. Pasted notes
