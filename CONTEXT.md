@@ -6,12 +6,12 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Position (2026-10-31 13:37):** Kerd 0.188.2 is released on `main` (ee9d826d, CI 41225282879 green) and installed in Claude Code (loads on restart); this machine's Intersect profile and both diagram-design style guides were reloaded from the shipped 0.188.2 file (backups `*.bak-pre-01882`). 0.188.2: Intersect sequence sheets leave less to guess (pin tag on its arrow at the sending end, ink diamond on a focal relay, banner names where the result went, every own-message arrow numbered); not yet seen in a drawing (`notes:chuck-theme/work.md`). **The public `codex` branch and his Codex read 0.188.1** (3269ead1, published 2026-10-31 12:5x, byte-identical to the offline build; his Codex updated 12:58, not yet seen inside a Codex turn); 0.188.2 not published there, his go (`notes:codex-public-package/work.md`). Still not seen live: 0.188.0's overtone 0.10.1 resumed-player rows and diagrams-keep-your-look (`notes:overtone-resumed-worker/work.md`, `notes:visuals-theme-archify/work.md`). Release history: README's What's New (copy in `CHANGELOG.md`) and `kivna/sessions/`.
+**Position (2026-11-03 10:2x):** Kerd 0.189.0 is released on `main` (CI 41663341336 green) and installed in Claude Code (loads on restart); **the public `codex` branch reads 0.189.0** (e2baeb4d, appended, identical to the offline build); his Codex is still on 0.188.1 until he updates it in its window. 0.189.0, from Anthropic's research on how its staff use Claude (`notes:anthropic-habits/work.md`, plan sheet `notes:anthropic-habits/plan.png`): Ready lists every open gap at once with its default; a concert stops only for cost, the irreversible, the outward or what falls outside the agreement (an undoable in-scope gap takes its default and is reported under Unsure); every report opens Found / Needs you / Unsure and its question asks what Needs you says; "make this a skill" via skill-creator; pasted decisions in one list; a weekly review (Conductor route, `skills/conductor/references/weekly-review.md`) offered by Switch In after 7 days, with a decision ledger. None of it seen in real use yet. Still open from that work: C, a model-profile catalogue kept current by a weekly cloud job with an agent reviewer and no human, research step first (scoped exception to two rulings, to confirm at its go). 0.188.2's Intersect rules not yet seen in a drawing (`notes:chuck-theme/work.md`). Release history: README's What's New (copy in `CHANGELOG.md`) and `kivna/sessions/`.
 Codex users install with `codex plugin marketplace add anthonymaley/Kerd --ref codex` and `codex plugin add kerd@kerd-core`; update with `codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core` (a running thread picks it up next turn). The branch is built by `tools/codex_release.py` (`--publish` appends, never force).
 
 **Real use of the newest rules:** last scan 2026-10-12 (`notes:watch-scan-1012/work.md`); per-row verdicts live in TODO.md's Now.
 
-**Release boundary: 0.188.2 on `main`; releases stay paused apart from the ones he asks for** (ruling below; the releases he lifted it for are in that ruling's case in `docs/decisions.md`). Unreleased on main since 0.175.1: Switch's eval graders read tool output in the trace (`notes:switch-eval-graders/work.md`).
+**Release boundary: 0.189.0 on `main`; releases stay paused apart from the ones he asks for** (ruling below; the releases he lifted it for are in that ruling's case in `docs/decisions.md`). Unreleased on main since 0.175.1: Switch's eval graders read tool output in the trace (`notes:switch-eval-graders/work.md`).
 
 **Parked, on trial or dropped, each with its own condition:** the guard false alarm is parked (2026-10-11 09:55, his "n" to fixing it; apple-music tag pushes go by hand with `!` when it fires; Backlog row); guard work stopped (2026-10-07 20:31; branch `fix/guard-unreadable-working-vault` 3dbcc28 local, unpushed): the next guard change waits for a real slip; rolling by hand at ~200k is on trial, the 200k plan parked (2026-09-27: "i want more data first"): don't build the plan until he asks (he rolls by hand at a break, status line `~/.claude/statusline-command.sh`; Kerd's chat roll stays at 50%; three hand rolls, no loss; `notes:rolling-session/threshold.md`); SAM and Aubel.app work is parked (2026-09-24: "delay any sam and auble work for now"): don't raise it until he does (the team note had his "y" 2026-09-23, not confirmed sent); launch step 2 is dropped (2026-09-25: "i dont. drop this"): don't raise or recommend it unless he does.
 
@@ -77,27 +77,27 @@ Still governing from 2026-09-18: rehearsal is organic and the concert executes t
 
 **His to delete:** 72 sealed `/private/tmp/e-*` eval folders from 2026-10-07 (`~/.cache/kerd-eval/gitbin` kept).
 
-**Selected continuation (2026-10-31 13:5x): publish 0.188.2 to the public `codex` branch (`tools/codex_release.py --publish`, appended, never force; check the remote is byte-identical to the offline build), then Anthony updates his Codex in its window (`codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core`). Proposed, awaiting his go; stops there.**
-Why: 0.188.2 changed Visuals, one of Codex's four skills, so his Codex still draws Intersect sequences with the four guesses open; the Now row "Bring Codex along with each release" asks for it, on his go.
-Beside it (proposed): one fresh drawer redraws a sequence on 0.188.2 to see the four new rules on paper (they are tested, never drawn); trim TODO.md's Now (9.6 KB of watch rows, now the largest part of the pickup read), moving each row's history to its sketchbook. Nothing else in Now is buildable (it watches real use); the Backlog's rows are held, parked or out of scope.
-Session logs: `kivna/sessions/` (newest `2026-10-31.md`).
+**Selected continuation (2026-11-03 10:2x): research what the model catalogue (C) needs before it is shaped: what a Claude Code `/schedule` cloud routine can push to GitHub, whether Codex can review there (network, credentials) or a second Claude must, and what a weekly run costs; official docs first, findings into `notes:anthropic-habits/work.md`. Read-only research; proposed, awaiting his go; stops at the findings, before any shape or build.**
+Why: it is the one agreed direction from the habits work not yet built, and the only part that takes him out of keeping model profiles by hand; it cannot be shaped until those three facts are known.
+Beside it (proposed): run the first weekly review on Kerd (0.189.0's new route; Switch In will show "Weekly review: never run"), the first real use of the new rules; trim TODO.md's Now (its watch rows are the largest part of the pickup read), moving each row's history to its sketchbook. The rest of Now watches real use; the Backlog's rows are held, parked or out of scope.
+Session logs: `kivna/sessions/` (newest `2026-11-03.md`).
 
-**Pickup reading set** (update 2026-10-31 13:5x, after the CONTEXT.md trim):
-- this file complete: position (0.188.2 released; Claude Code on 0.188.2; the public codex branch and his Codex on 0.188.1), the continuation (publish 0.188.2 to the codex branch, proposed), rulings and the Codex position;
+**Pickup reading set** (update 2026-11-03 10:2x):
+- this file complete: position (0.189.0 released; Claude Code and the public codex branch on 0.189.0; his Codex on 0.188.1), the continuation (research for the model catalogue, proposed), rulings and the Codex position;
 - `TODO.md` `## Now`, the designated active list, one line per row with its sketchbook link (`## Backlog` is a separate section outside the set; its rows are held, parked or out of scope);
-- `kivna/sessions/2026-10-31.md`, newest log (the second drawing pair, the fix, 0.188.1; the Codex publish; the relayed redraw; 0.188.2; the CONTEXT.md trim);
+- `kivna/sessions/2026-11-03.md`, newest log (Anthropic's staff habits read and worked through one by one; 0.189.0 built, reviewed four rounds, released);
 - `notes:outside-the-repo.md`, live links outside the repo;
 Deeper: `notes:deeper-reading.md` (older session logs and sketchbooks, newest first; open an entry only when a gap needs it), plus `docs/decisions.md` and `docs/backlog-archive.md`.
 
-**Notes commit:** `734f42b6eba59c22db044ac79ea4871f8df9e242` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `f67c2783883383666c5c5c7433d4ca5f1c25414e` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git (2026-10-07: the vault tree also holds apple-music's unsaved notes, not Kerd's; Kerd commits only its own paths).
 
 The observed position before this save is `main` at ee9d826d (0.188.2); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-31 13:5x, at this Out after the trim: about 32,800 bytes, about 8,200 tokens (estimate), about 200 over the 8,000 target (was 48,985 bytes, about 12,247 tokens). Over only because today's session log holds five sittings; a new day's log starts small, and the proposed TODO Now trim is the lasting fix. Carried phrases (0.188.2; publish 0.188.2 to the public `codex` branch; not yet seen in a drawing; Intersect is this machine's diagram default; Proposed, awaiting his go; Releases are paused; trim TODO.md's Now) are all in the set. `read_args` for the next pickup:
+**Measured** 2026-11-03 10:2x, at this Out: 30,335 bytes, about 7,584 tokens (estimate), within the 8,000 target. Carried phrases (0.189.0; model catalogue; Weekly review; Found / Needs you / Unsure; Releases are paused; his Codex is on 0.188.1) are all in the set. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-31.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-11-03.md",
  "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
