@@ -208,6 +208,16 @@ decision in the list as what it is; do not dress it as agent work. Items
 omitted from the screen stay open behind the documents link; omission changes
 neither their status nor the saved priority.
 
+**The weekly review line.** During In, find the newest
+[weekly review record](../../conductor/references/weekly-review.md#the-review-record):
+with `kivna/vault.json` carrying `"work_notes": "vault"`, in
+`notes:weekly-review/`; otherwise in `docs/work/weekly-review/`. List that one
+folder and read the newest `<YYYY-MM-DD>.md` name; it is a bounded lookup, not a
+sweep. When none exists or the newest is over 7 days old, Open work carries one
+line, “Weekly review: last one N days ago” (or “Weekly review: never run”), which
+runs as a Conductor route when picked. It is the recommendation only when nothing
+else is buildable. One line, never a list, never repeated elsewhere on the screen.
+
 Where the restored material says where an open item stands, its line says so in
 plain words: what is settled and what is still open (“the season picker: goals
 and design settled, constraints still open”). Do not grade it or add a meter.

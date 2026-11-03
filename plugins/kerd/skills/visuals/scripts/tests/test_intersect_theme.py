@@ -141,6 +141,22 @@ class IntersectThemeTests(unittest.TestCase):
         self.assertIn("every hop takes the focal recolouring as one red thing", text)
         self.assertIn("the red is explained in words, never drawn as a second red sample", text)
 
+    def test_a_drawer_does_not_guess_tags_relay_diamonds_or_the_banner(self):
+        # 2026-10-31 13:17: a fresh drawer on seq-0188 had to guess where a message's pin tag
+        # sits, the diamond's colour on a focal relay and the banner's text (it repeated the
+        # last return), and left two returns unnumbered while numbering two others.
+        text = flat(THEME.read_text(encoding="utf-8"))
+        self.assertIn("the tag just above the arrow at its sending end and joined to the line by a short 1.5 leader", text)
+        self.assertIn("Every arrow that is a message of its own is numbered, a return or reply included", text)
+        self.assertIn("while the diamond stays `ink`", text)
+        self.assertIn("naming where the result went", text)
+        self.assertIn("never a copy of the last message's label", text)
+        self.assertIn("only a relayed message's later hop takes no tag of its own", text)
+        # Round 1 (codex-tui): the pin-tag primitive still told every tag to stack down a box.
+        self.assertIn("On a box or cluster, stack them 28 apart down one side of the box", text)
+        self.assertIn("On a sequence message, the tag sits on its arrow instead", text)
+        self.assertNotIn("Stack them 28 apart down one side of a cluster box", text)
+
     def test_a_view_takes_its_look_from_the_active_style_guide(self):
         # 2026-10-16: 3of3's views were drawn with hand-picked paper styling while the
         # installed style guide was Intersect.

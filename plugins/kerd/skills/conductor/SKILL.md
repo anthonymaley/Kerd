@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: "Use when the work is a substantial build, design or workflow, new or existing: offer Conductor, and enter it when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work, including a push, merge or skipped review on it (“just push it”, “skip the review”). Small standalone fixes and status requests stay direct; ordinary Switch In composes its own arrival and Managed Roll keeps existing authority. Guides work as rehearsal, then as a concert on its own branch performed by fanned-out players: choosing work never approves its operations, and a push or merge happens only on the person's go. Every native Claude Agent call names an explicit model and the matching Kerd model agent (kerd:opus-high or kerd:haiku-medium style agents; plain kerd:haiku only for sessions that predate them); an inherited or unnamed model is not a valid plan."
+description: "Use when the work is a substantial build, design or workflow, new or existing: offer Conductor, and enter it when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?”, explicitly selects and authorizes work, or continues established Conductor work, including a push, merge or skipped review on it (“just push it”, “skip the review”). Small standalone fixes and status requests stay direct; ordinary Switch In composes its own arrival and Managed Roll keeps existing authority. Guides work as rehearsal, then a concert on its own branch with fanned-out players: choosing work never approves its operations, and a push or merge happens only on the person's go. Every native Claude Agent call names an explicit model and the matching Kerd model agent (kerd:opus-high or kerd:haiku-medium style; plain kerd:haiku only for sessions that predate them); an inherited or unnamed model is not a valid plan. Also for “make this a skill”, pasted decision notes and the weekly review."
 ---
 
 # Conductor
@@ -249,15 +249,19 @@ names the guide section with its detail: open that section before the step.
 ### Ready and the go
 
 - Ready can come from either side. Say “I think we're ready” when the sketchbook and
-  score would let players perform without stopping to ask the person, or name the
-  one or two things still needed. When the person says they are ready, say honestly
+  score would let players perform without stopping to ask the person. At Ready, list
+  every gap still open at once, one line each with the default Conductor will use;
+  the person reads once, overrides any default, and the concert runs without
+  stopping. Rehearsal questions still come one at a time. A gap with no safe default
+  means not ready yet: name it. When the person says they are ready, say honestly
   what is still open; going ahead anyway is their call, recorded in the sketchbook.
   Ready is a judgment spoken in conversation, never a checklist shown to the person
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - At Ready, show the rendered view of what will be built, put the go as the question
   form's decision block, and ask for it with the Recommendation ending “— approve?”
-  only where it has not already been given. That decision block carries the
-  task/who/model/effort grid for the controller and every composer, player and
+  only where it has not already been given. That decision block carries the open
+  gaps with their defaults, so the one bubble approves the go with those defaults,
+  and the task/who/model/effort grid for the controller and every composer, player and
   reviewer job the go will dispatch, each with its Fit line, so the go approves the
   staffing the person has seen; the go then dispatches as shown, and a row whose
   model, effort or route changes is shown again, with its Fit line, before its dispatch
@@ -311,14 +315,28 @@ names the guide section with its detail: open that section before the step.
   that the checked-out branch is the recorded concert branch; if it is not, stop
   before committing and say so
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
-- A gap the score cannot answer stops that passage and comes back to the person in
-  the chat for that one point, not to the start
+- In a concert, Needs you is only what costs money (a paid job, a purchase, going
+  past an allowance), cannot be undone or goes outward (a push, merge, release,
+  install, deletion, anything sent to someone), or falls outside the agreed
+  authority or outcome; Ready already filled the rest. An
+  unforeseen gap takes a default only when it stays within the agreed authority,
+  keeps the agreed outcome, costs nothing, can be undone and stays inside the work
+  (nothing pushed, released, installed, deleted or sent); it keeps going and is
+  listed under Unsure in the next report, so the person can reverse it at the
+  finish. Any other gap stops that passage only, other passages carrying on, and
+  comes back as Needs you for that one point, not to the start
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - Every report of work — a return, a batch, a review, the finish — follows the
   guide's [shape of every report](references/journey.md#the-shape-of-every-report):
-  what the person has now and where to look at it first, where the work stands
-  second, at most five items on screen with the rest in the sketchbook, one thing
-  at a time, and a first-line-and-last-line check before sending.
+  three labelled lines first — **Found:** (what was found or decided, what the
+  person has now and where to look, where the work stands), **Needs you:** (the
+  decision or approval needed, or “nothing”) and **Unsure:** (one line on this
+  result, or “nothing”) — then details, at most five items on screen with the rest in
+  the sketchbook, one thing at a time, and a check of the three lines and the last
+  line before sending. When Needs you names a decision, the turn ends on a bubble
+  asking exactly that, in the three lines' own terms; when it is “nothing”, the turn
+  keeps working, ends on a named wait, or ends on one of the quiet endings (agreed
+  completion, a pause the person asked for, Switch Out's closing box).
 - For multi-step work, use the host's available native task list and update it as
   work progresses, following the guide's compact fallback when native task controls
   are unavailable. For delegation, use its task/who/model/effort/status grid and
@@ -349,6 +367,24 @@ names the guide section with its detail: open that section before the step.
   local save transferred native model sessions elsewhere
   ([Record agreement](references/work-record.md#record-agreement-and-carry-the-work-forward)).
 
+### Skills, notes and the weekly review
+
+- “Make this a skill”, said in the moment, is ordinary Conductor work. Build it in
+  the person's own project with Anthropic's skill-creator on its light path (no full
+  eval or benchmark loop unless the person wants one), and add a two-line note: how
+  to run it, and what to check after each run. On a host without skill-creator, say
+  so and follow Anthropic's published skill guidance
+  ([weekly review](references/weekly-review.md)).
+- Pasted notes the person says hold decisions become one grouped list, asked once:
+  each decision is settled, as a before → after edit into the record it belongs in
+  (the person may add detail, links or files), or dropped and never raised again
+  ([weekly review](references/weekly-review.md)).
+- The weekly review is a Conductor route Switch In offers when the project's last
+  review is over 7 days old. It reads that project's session logs and chat history
+  for the window through five lenses (corrections, repeated jobs, questions, unsure
+  items, missed decisions) and writes nothing without the person's go
+  ([weekly review](references/weekly-review.md)).
+
 ## Open this guide when
 
 - [Entry](references/entry.md): entering or resuming work, an answer to Switch In's
@@ -369,6 +405,8 @@ names the guide section with its detail: open that section before the step.
   model or an established partner to contribute.
 - [Work record](references/work-record.md): when first saving work, recording
   agreement and carrying the work forward.
+- [Weekly review](references/weekly-review.md): “make this a skill”, pasted notes
+  that hold decisions, and the weekly review Switch In offers.
 - [Managed Conductor](references/managed-conductor.md): sustained authorized work
   that must continue context automatically or run unattended.
 - [Model guidance](references/guidance/README.md): model profiles and model choice.

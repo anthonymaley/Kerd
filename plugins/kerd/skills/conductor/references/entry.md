@@ -215,14 +215,28 @@ it is sound. It returns the passage; reviewing built work stays with a reviewer.
 Where the steps are already clear, Conductor writes them itself.
 
 **Ready** can come from either side. Say “I think we're ready” when the
-sketchbook and score would let players perform without stopping to ask the person,
-or name the one or two things still needed: “we need the constraints on X
-before this is ready.” When the person says they are ready, say honestly what is
-still open; going ahead anyway is their call, recorded in the sketchbook. Ready is
-a judgment spoken in conversation, never a checklist shown to the person. At
-Ready, show the rendered view of what will be built, put the go as the question
-form's decision block, and ask for it with the Recommendation ending “— approve?” only where it has not
-already been given. That decision block carries the staffing: the
+sketchbook and score would let players perform without stopping to ask the person.
+**At Ready, every gap still open is listed at once**, one line each with the
+default Conductor will use:
+
+```markdown
+- Branch: `concert/export-fix`, from the current tip.
+- Old release notes: left as they are.
+- Review: one reviewer at the end, not after each passage.
+```
+
+The person reads the list once, overrides any default they want changed, and the
+concert then runs without stopping to ask. Questions during rehearsal still come
+one at a time; only the gaps left at Ready come together. A gap with no safe default,
+one that needs a fact only the person holds, means we are not ready yet; say so and
+name it: “we need the constraints on X before this is ready.” When the person says
+they are ready, say honestly what is still open; going ahead anyway is their call,
+recorded in the sketchbook. Ready is a judgment spoken in conversation, never a
+checklist shown to the person. At Ready, show the rendered view of what will be
+built, put the go as the question form's decision block, and ask for it with the
+Recommendation ending “— approve?” only where it has not already been given. That
+decision block carries the open-gap list with its defaults, so the one bubble
+approves the go with those defaults, and it carries the staffing: the
 [task/who/model/effort grid](orchestration.md#one-visible-startup-view), a row
 for the controller and every composer, player and reviewer job the go will
 dispatch, each with its Fit line, inside the block above the bubble. The go then approves the staffing
@@ -260,8 +274,18 @@ checks set in rehearsal and written into the score decide when it is over: befor
 leaving the loop, compare the result with them and show the person that
 comparison. Then bring one decision: merge the concert branch back into the
 branch it started from. The merge and its push need the person's go; never
-merge because the steps ran out. Work is not done because the steps ran out. A gap the score cannot
-answer stops that passage and comes back to the person in the chat for that one
+merge because the steps ran out. Work is not done because the steps ran out.
+
+**What stops a concert.** In a concert, **Needs you** is only three things: what
+costs money (a paid job, a purchase, going past an allowance), what cannot be
+undone or goes outward (a push, a merge, a release, an install, a deletion,
+anything sent to someone), and what falls outside the agreed authority or outcome. That works because Ready already filled the gaps. A gap
+nobody foresaw takes a default only when that default stays within the agreed
+authority, keeps the agreed outcome, costs nothing, can be undone and stays inside
+the work (nothing pushed, released, installed, deleted or sent to anyone). Then take
+it, keep going, and list it under **Unsure** in the next report, so the person can
+reverse it at the finish. Any other gap stops that passage only, while the other
+passages carry on, and comes back to the person as **Needs you** for that one
 point, not to the start.
 
 **The score in overtone.** When overtone's `plan` tool (`mcp__overtone__plan`) is

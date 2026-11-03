@@ -9,7 +9,7 @@ Contents:
 - [Show the direction](#show-the-direction): drawing the product view and the direction summary
 - [Make answers feel consequential](#make-answers-feel-consequential): showing what an answer changed
 - [Delivery has a working view too](#delivery-has-a-working-view-too): the working view in delivery and how a turn ends
-  - [The shape of every report](#the-shape-of-every-report): result first, position second, five items
+  - [The shape of every report](#the-shape-of-every-report): three opening lines (Found, Needs you, Unsure), then five items
   - [Keep the tasks visible while the work unfolds](#keep-the-tasks-visible-while-the-work-unfolds): the task list and the delegation grid
   - [One clear finish](#one-clear-finish): the finish format
 - [One record, no extra machinery](#one-record-no-extra-machinery): the display is a view of the record
@@ -25,10 +25,10 @@ Read [the journey presentation guide](journey.md) before the first
 substantive response. It owns the question layout, working-brief view, progress updates
 and worked examples. Use it throughout the conversation, not only at agreement.
 Every report of work — a return, a batch, a review, the finish — follows the guide's
-[shape of every report](#the-shape-of-every-report): what the
-person has now and where to look at it first, where the work stands second, at most
-five items on screen with the rest in the sketchbook, one thing at a time, and a
-first-line-and-last-line check before sending.
+[shape of every report](#the-shape-of-every-report): three labelled
+lines first (Found, Needs you, Unsure), then at most five items on screen with the
+rest in the sketchbook, one thing at a time, and a check of the three lines and the
+last line before sending.
 For multi-step work, use the host's available native task list and update it as
 work progresses, with actual work and model handoffs visible underneath. Follow
 the guide's compact fallback when native task controls are unavailable. For
@@ -341,16 +341,31 @@ insight banner or confirmation of a confirmation.
 Every message that reports work — a job returning, a batch finishing, a review
 coming back, the finish — has the same shape, top to bottom. The grid, Fit lines,
 `Change read ·` line and evidence this guide asks for still appear; they come after
-the first two lines, never before them.
+the three opening lines, never before them.
 
-1. **First line: what the person has now, and where to look at it**, in product
-   words. “The README is rebuilt, 233 lines: open `README.md`.” Not the route, the
-   model or the check that ran. Evidence follows the result; it never leads.
-2. **Second line: where the work stands, in one line.** “Batch 2 of 3, five of
-   seven parts back. Nothing needed from you.” The person cannot hold the position
-   between messages, so every report restates it, from the sketchbook. A single job
-   restates it too: “Done and committed locally, not pushed; next: the output
-   options.” Evidence and the where-to-look are not this line.
+1. **Three labelled lines open every report.** The person can stop after them; the
+   details come below. Each sits on its own line; where the host joins consecutive
+   lines into one paragraph, leave a blank line between them.
+   - **Found:** what was found or decided, or what the person has now and where to
+     look at it, in product words, with where the work stands folded in: “The
+     README is rebuilt, 233 lines: open `README.md`. Batch 2 of 3, five of seven
+     parts back.” The person cannot hold the position between messages, so every
+     report restates it, from the sketchbook. A single job restates it too: “Done
+     and committed locally, not pushed; next: the output options.” Not the route,
+     the model or the check that ran. Evidence follows the result; it never leads.
+   - **Needs you:** the decision or approval needed from the person, or “nothing”.
+   - **Unsure:** what Conductor was not sure about in this result, in one line, or
+     “nothing”. In a concert, a default taken for a gap nobody foresaw goes here, so
+     the person can reverse it at the finish. It is about this result, not a list of
+     doubts at the end of the reply.
+2. **The ending follows Needs you.** When Needs you names a decision, the turn ends
+   on a bubble asking exactly what Needs you says, using only terms that already
+   appear in the three lines; a consequential one keeps its decision block directly
+   above the bubble. When Needs you is “nothing”, the turn does not stop there: it
+   keeps working, ends on a named wait for the job, as
+   [a turn ends carrying on](#delivery-has-a-working-view-too) says, or ends on
+   one of the quiet endings that section keeps (agreed completion, a pause the
+   person asked for, Switch Out's closing box). Never invent work or a wait to fill it.
 3. **At most five items on screen.** Rank them, group them, and put everything
    else in the sketchbook with a link. This shapes what is displayed, never what is
    read, checked or recorded: nothing is dropped, and completeness wins wherever
@@ -358,20 +373,21 @@ the first two lines, never before them.
 4. **One thing at a time.** Finish reporting the thing. A side finding gets one
    line, once, at the end (“Separately: the install guide names an old version.”)
    and its detail goes in the sketchbook. A problem that blocks the work or risks
-   harm is not a side finding; it is the first line. It joins that line and does not
-   replace it: “The README is rebuilt, but the push is blocked: CI is red on the
-   version check. Open `README.md`.”
+   harm is not a side finding; it goes in the three lines. It joins Found and does
+   not replace it: “**Found:** the README is rebuilt, but the push is blocked: CI is
+   red on the version check. Open `README.md`.”, with what clears it under Needs you.
 5. **A correction of your own earlier claim never competes for those five.** When a
    report must also take back something you told the person, the retraction travels in
-   the first two lines beside the result — what they have now, then what you told them
+   the three lines, in Found beside the result — what they have now, then what you told them
    that was wrong, what is true, and what it changes — and the five places stay for the
    work. It is not a side finding, it does not wait until the end, and it is never
    dropped because the message is full. Say it plainly, in your own voice, once: "I told
    you the plan was pushed; it was committed only." A message that must deliver a result
    and retract a claim is not over budget; the retraction is part of the result.
-6. **Before sending, read only the first line and the last line.** From those two
-   alone the person must know what just happened and what to do next, or that
-   nothing is needed. If they would not, rewrite those two lines, not the middle.
+6. **Before sending, read only the three lines and the last line.** From those
+   alone the person must know what just happened, what they need to do, what
+   Conductor is unsure of, and that the last line asks what Needs you says or names
+   the wait. If they would not, rewrite those lines, not the middle.
 
 A report that fails this, from real use:
 
@@ -386,8 +402,11 @@ Change read · 2 tracked paths changed, 1 text files to read, unexpected: none
 The same return, in shape:
 
 ```markdown
-The README is rebuilt, 1,546 lines down to 151, nothing lost: open `README.md`.
-Batch 1 of 3: one of two parts back, the home page still running. Nothing needed.
+**Found:** the README is rebuilt, 1,546 lines down to 151, nothing lost: open
+`README.md`. Batch 1 of 3: one of two parts back, the home page still running.
+**Needs you:** nothing.
+**Unsure:** whether old links into the README's removed sections still land; the
+two I tried do.
 
 - The release history moved to the changelog, byte for byte (checked by script).
 - Install, first five minutes, the capability table and examples are in.
@@ -397,11 +416,25 @@ Change read · 2 tracked paths changed, unexpected: none · ran as requested (Op
 Separately: the release checklist still says release notes live in the README.
 ```
 
+Needs you is “nothing”, so that turn carries on with the home page. When it names
+a decision, the last line asks exactly that, in the same words:
+
+```markdown
+**Found:** all three parts are back and checked on `concert/export-fix`: open
+`export.py`. Every goal in the score is met.
+**Needs you:** approve merging `concert/export-fix` into main and pushing.
+**Unsure:** nothing.
+
+…the goal comparison, then the decision block…
+
+> 💬 **Merge `concert/export-fix` into main and push — approve?**
+```
+
 This governs the shape of reports, not their honesty. A limit, a failed check or an
 unverified claim still appears; it takes one of the five places. A question still
 ends the message in the [question form](#question-surface-and-host-adaptation), and
 its decision block still sits directly above it when the question is consequential. When the person asks to be walked through
-something, explain it fully under headings; the first two lines still hold.
+something, explain it fully under headings; the three lines still hold.
 
 ### Keep the tasks visible while the work unfolds
 
@@ -646,9 +679,8 @@ completion, and a finish with nothing left open.
 
 ### One clear finish
 
-The finish follows [the shape of every report](#the-shape-of-every-report): what the
-person has now and where to look, then where the work stands, then at most five
-items. Lead with what the person has now, the evidence and any consequential gap.
+The finish follows [the shape of every report](#the-shape-of-every-report): the
+three lines (Found, Needs you, Unsure), then at most five items. Lead with what the person has now, the evidence and any consequential gap.
 State where it lives and the actual delivery state. If required
 user review remains, say so; don't mark the whole package complete.
 
