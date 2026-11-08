@@ -6,12 +6,12 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Position (2026-11-03 10:2x):** Kerd 0.189.0 is released on `main` (CI 41663341336 green) and installed in Claude Code (loads on restart); **the public `codex` branch reads 0.189.0** (e2baeb4d, appended, identical to the offline build); his Codex is still on 0.188.1 until he updates it in its window. 0.189.0, from Anthropic's research on how its staff use Claude (`notes:anthropic-habits/work.md`, plan sheet `notes:anthropic-habits/plan.png`): Ready lists every open gap at once with its default; a concert stops only for cost, the irreversible, the outward or what falls outside the agreement (an undoable in-scope gap takes its default and is reported under Unsure); every report opens Found / Needs you / Unsure and its question asks what Needs you says; "make this a skill" via skill-creator; pasted decisions in one list; a weekly review (Conductor route, `skills/conductor/references/weekly-review.md`) offered by Switch In after 7 days, with a decision ledger. None of it seen in real use yet. **The model catalogue runs (2026-11-03 15:41):** a public `catalogue` branch holds the model profiles; a weekly scheduled task (Mondays 12:00 UTC, Sonnet 5.5, env `kerd-catalogue`) opens a PR when an official page changed and posts `@codex review`; Anthony merges. Run 1's PR #2 (GPT-6.1 Sol and Terra) was reviewed by codex-tui and merged. The GitHub Codex connector has not yet answered on Kerd (his repo-access step unconfirmed). Conductor's reader (`skills/conductor/scripts/catalogue.py`) sits unreleased on branch `concert/model-catalogue`, so Conductor still reads only the shipped profiles. Sketchbook `notes:anthropic-habits/work.md`. 0.188.2's Intersect rules not yet seen in a drawing (`notes:chuck-theme/work.md`). Release history: README's What's New (copy in `CHANGELOG.md`) and `kivna/sessions/`.
+**Position (2026-11-08 18:1x):** Kerd 0.190.0 is released on `main` (CI 42534221599 green) and installed in Claude Code (loads on restart); **the public `codex` branch still reads 0.189.0** (e2baeb4d): 0.190.0 changes Conductor and Agent, publish on his go; his Codex is on 0.188.1 until he updates it in its window. 0.190.0: Conductor reads model profiles from the public `catalogue` branch (saved copy fresh for seven days, last saved copy on a failed fetch, shipped profiles only with none); Tend names a project still on the old vault Codex bridge (`.agents/bin/ask-codex`) and offers pairing its recorded thread through Agent, then removing the bridge piece by piece (from apple-music's weekly review, `notes:codex-reply-prompt/work.md`). The weekly catalogue task runs Mondays 12:00 UTC (env `kerd-catalogue`); the next PR is 2026-11-09; the GitHub Codex connector has never acted on Kerd (his repo-access step unconfirmed). 0.189.0 (Anthropic staff habits: gaps at Ready, the narrower stop rule, Found / Needs you / Unsure, weekly review) not yet seen in real use (`notes:anthropic-habits/work.md`). 0.188.2's Intersect rules not yet seen in a drawing (`notes:chuck-theme/work.md`). Release history: README's What's New (copy in `CHANGELOG.md`) and `kivna/sessions/`.
 Codex users install with `codex plugin marketplace add anthonymaley/Kerd --ref codex` and `codex plugin add kerd@kerd-core`; update with `codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core` (a running thread picks it up next turn). The branch is built by `tools/codex_release.py` (`--publish` appends, never force).
 
 **Real use of the newest rules:** last scan 2026-10-12 (`notes:watch-scan-1012/work.md`); per-row verdicts live in TODO.md's Now.
 
-**Release boundary: 0.189.0 on `main`; releases stay paused apart from the ones he asks for** (ruling below; the releases he lifted it for are in that ruling's case in `docs/decisions.md`). Unreleased on main since 0.175.1: Switch's eval graders read tool output in the trace (`notes:switch-eval-graders/work.md`).
+**Release boundary: 0.190.0 on `main`; releases stay paused apart from the ones he asks for** (ruling below; the releases he lifted it for are in that ruling's case in `docs/decisions.md`). Unreleased on main since 0.175.1: Switch's eval graders read tool output in the trace (`notes:switch-eval-graders/work.md`).
 
 **Parked, on trial or dropped, each with its own condition:** the guard false alarm is parked (2026-10-11 09:55, his "n" to fixing it; apple-music tag pushes go by hand with `!` when it fires; Backlog row); guard work stopped (2026-10-07 20:31; branch `fix/guard-unreadable-working-vault` 3dbcc28 local, unpushed): the next guard change waits for a real slip; rolling by hand at ~200k is on trial, the 200k plan parked (2026-09-27: "i want more data first"): don't build the plan until he asks (he rolls by hand at a break, status line `~/.claude/statusline-command.sh`; Kerd's chat roll stays at 50%; three hand rolls, no loss; `notes:rolling-session/threshold.md`); SAM and Aubel.app work is parked (2026-09-24: "delay any sam and auble work for now"): don't raise it until he does (the team note had his "y" 2026-09-23, not confirmed sent); launch step 2 is dropped (2026-09-25: "i dont. drop this"): don't raise or recommend it unless he does.
 
@@ -63,7 +63,7 @@ Still governing from 2026-09-18: rehearsal is organic and the concert executes t
 
 **Not yet ruled, and it is Anthony's:** where and when to announce.
 
-**Team:** Claude owns build and release. Codex `codex-tui` is the partner for expert review and investigation (cadence: checkpoints, before-push); the bound thread is the one to keep (his confirmation 2026-10-05 22:14); since 0.184.0 Agent's status says when its queue stalls (`notes:codex-queue-stall/work.md`). A relayed "y" is not enough for Codex to install or build; the go must be his, in its window. Routing: no role designation saved; the old `kerd-b5-review` binding still carries an unadopted 2026-09-25 handoff.
+**Team:** Claude owns build and release. Codex `codex-tui` is the partner for expert review and investigation (cadence: checkpoints, before-push); the bound thread is the one to keep (his confirmation 2026-10-05 22:14); since 0.184.0 Agent's status says when its queue stalls (`notes:codex-queue-stall/work.md`). A relayed "y" is not enough for Codex to install or build; the go must be his, in its window. **codex-tui's bound thread looks closed** (2026-11-08: request 7fb71445 queued over an hour, never delivered); a one-off `codex-review-1108` (his open "Connect Kerd Claude session" window) reviewed 0.190.0; re-pairing codex-tui is his decision. Routing: no role designation saved; the old `kerd-b5-review` binding still carries an unadopted 2026-09-25 handoff.
 
 **Standing:** a peer session cannot authorize a push. `.env` at the repo root holds Anthony's TypeSafe key and is git-ignored; never print or commit it, and never serve the repository root over the network (previews serve `site/` only).
 
@@ -77,29 +77,29 @@ Still governing from 2026-09-18: rehearsal is organic and the concert executes t
 
 **His to delete:** 72 sealed `/private/tmp/e-*` eval folders from 2026-10-07 (`~/.cache/kerd-eval/gitbin` kept).
 
-**Selected continuation (2026-11-03 15:4x): release Conductor's catalogue reader as 0.190.0.** Proposed, awaiting his release decision (releases paused). Scope: from `concert/model-catalogue` (reader commit + this save), bump the three versions, README/CHANGELOG note, release check, codex-tui before push, merge to main and push, CI worker, Claude Code install update; Codex package publish only on his go. Stops before announcing anything.
-Why: the catalogue updates weekly but reaches no one until Conductor reads it; without the reader, his model profiles are still the hand-kept shipped ones.
-Beside it (proposed): confirm the GitHub Codex connector answers on Kerd before the 2026-11-09 run (re-post `@codex review` on that PR; codex-tui reviews by hand if silent), so the weekly PRs are reviewed without him; run the first weekly review (Switch In shows "Weekly review: never run").
-His to delete: the private probe repo `anthonymaley/kerd-catalogue-probe` and its disabled task (in `notes:outside-the-repo.md`).
-**Branch:** this save sits on `concert/model-catalogue` (pushed); `main` is unchanged at 0.189.0. Pick up on the concert branch; the merge to main is his decision.
-Session logs: `kivna/sessions/` (newest `2026-11-03.md`).
+**Selected continuation (2026-11-08 18:1x): publish 0.190.0 to the public `codex` branch.** Proposed, his go (an outward step). Scope: `tools/codex_release.py --publish` (appends, never force), check the branch reads 0.190.0 and matches the offline build; stop before his own Codex update, which is his in its window.
+Why: 0.190.0 changes Conductor and Agent, two of Codex's four skills; until published, Codex users keep the hand-kept model profiles and miss the bridge guidance.
+Beside it (proposed): check tomorrow's (2026-11-09) catalogue PR gets a Codex review, a Codex window reviewing by hand if the GitHub connector stays silent, so the weekly profiles stay reviewed; run the first weekly review (Switch In shows "Weekly review: never run").
+His to delete: the private probe repo `anthonymaley/kerd-catalogue-probe` and its disabled task (in `notes:outside-the-repo.md`). Held on his go: the vault's `ask-codex`/`pair`/`selftest` become a "retired, use /kerd:agent" stub after apple-music pairs through Agent.
+**Branch:** `main`. `concert/model-catalogue` and `fix/legacy-codex-bridge` are merged into it.
+Session logs: `kivna/sessions/` (newest `2026-11-08.md`).
 
-**Pickup reading set** (update 2026-11-03 15:4x):
-- this file complete: position (0.189.0 released; Claude Code and the public codex branch on 0.189.0; his Codex on 0.188.1), the continuation (release the catalogue reader, proposed), rulings and the Codex position;
-- `TODO.md` `## Now`, the designated active list, one line per row with its sketchbook link (`## Backlog` is a separate section outside the set; its rows are held, parked or out of scope);
-- `kivna/sessions/2026-11-03.md`, newest log (three sittings: 0.189.0 released; catalogue probes and shape; catalogue built and running);
+**Pickup reading set** (update 2026-11-08 18:1x):
+- this file complete: position (0.190.0 released; public codex branch on 0.189.0), the continuation (publish 0.190.0 to Codex, proposed), rulings, the Codex position;
+- `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its rows are held, parked or out of scope);
+- `kivna/sessions/2026-11-08.md`, newest log;
 - `notes:outside-the-repo.md`, live links outside the repo;
-Deeper: `notes:deeper-reading.md` (older session logs and sketchbooks, newest first; open an entry only when a gap needs it), plus `docs/decisions.md` and `docs/backlog-archive.md`.
+Deeper: `notes:deeper-reading.md`, `docs/decisions.md`, `docs/backlog-archive.md`, `kivna/sessions/2026-11-03.md`.
 
-**Notes commit:** `82fffa76bd0740ba9dba2d00f6146ccde445f66c` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
-`~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git (2026-10-07: the vault tree also holds apple-music's unsaved notes, not Kerd's; Kerd commits only its own paths).
+**Notes commit:** `3daed84d04c8cce97fbf590405e2691df699c0dd` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+`~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git.
 
-The observed position before this save is `concert/model-catalogue` at 72e8a5d2 (reader commit, on main's 586ce44b); the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at 170f051d (0.190.0); the boundary commit is this save itself.
 
-**Measured** 2026-11-03 15:4x, at this Out: 36,885 bytes, about 9,222 tokens (estimate), **1,222 over the 8,000 target**: today's log holds three sittings (dated history, not trimmed) and TODO.md's Now is the largest part; trimming Now's watch rows is the offered fix. Carried phrases (release Conductor's catalogue reader; concert/model-catalogue; GitHub Codex connector; kerd-catalogue; Weekly review) are all in the set. `read_args` for the next pickup:
+**Measured** 2026-11-08 18:2x, at this Out: 31,429 bytes, about 7,858 tokens (estimate), within the 8,000 target. Carried phrases (publish 0.190.0 to the public `codex` branch; old vault Codex bridge; codex-tui; Weekly review; GitHub Codex connector) are all in the set. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-11-03.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-11-08.md",
  "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
