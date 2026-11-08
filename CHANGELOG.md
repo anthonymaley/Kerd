@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.190.0
+
+**Conductor reads model profiles from a weekly catalogue; Tend moves projects off the old Codex bridge.** Model
+profiles now live on Kerd's public `catalogue` branch, which a weekly job updates when a provider's official page
+changes, through pull requests that are reviewed and merged by hand. Conductor reads that catalogue and uses its saved copy
+for seven days before fetching again; when a fetch fails it keeps using the last saved copy, and only with none falls
+back to the profiles shipped in the plugin, so its model advice no longer waits for a Kerd release. Tend now spots a project still using the old vault bridge to Codex
+(`.agents/bin/ask-codex`), whose replies were written to files and could stop for an approval every time. It offers to
+pair that project's recorded Codex thread through `/kerd:agent`, which reads Codex's answer from its own transcript,
+and then to remove the old bridge piece by piece on your go. Agent's pairing guide says the same.
+
 ## 0.189.0
 
 **Conductor asks once, then works; a weekly review finds what slipped.** From Anthropic's own research on how its
