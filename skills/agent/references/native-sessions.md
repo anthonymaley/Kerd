@@ -42,6 +42,17 @@ Bind the exact session selected from discovery:
 ```
 
 The ellipsis denotes the command prefix above, not literal shell syntax.
+A project still on the old vault bridge (`.agents/bin/ask-codex`, replies written
+to `.agents/replies/`) names its Codex thread in `.agents/codex-session`. Check that
+ID through `sessions` first; pair it with `--provider codex` only if it is listed
+for this project, and report a missing, archived or mismatched thread rather than
+pairing or resuming another. Agent asks for the answer in Codex's final message and
+reads it from Codex's transcript, so it needs no reply-file write and no approval
+for one; other approvals in that session remain possible. The project's old
+instruction to write the reply file (usually in `AGENTS.md`) can still steer a
+session that has it in context: amend it on the person's go before the first
+request, and confirm that request came back as a complete marked answer before
+retiring the bridge.
 Pairing writes a private local alias. It does not send work or change the
 session's tools, model or authority. A conflicting alias is not overwritten.
 Add `--partner-role 'Implementation partner'` to `pair` or `start --kind partner`
