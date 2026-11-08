@@ -175,6 +175,7 @@ Detect files/dirs from older Kerd versions:
 - `.slainte`: removed in v0.85.0 — targets derive from the repo; offer deletion
 - `skills/shakh/`: renamed back to `skills/switch/` in v0.14.0
 - `skills/seach/`: intermediate name, renamed to `skills/switch/` in v0.14.0
+- `.agents/bin/ask-codex`: the old vault bridge to Codex, replaced by `/kerd:agent`. Its Codex writes every reply to `.agents/replies/`, and each write can stop for an approval. Offer to pair the thread named in `.agents/codex-session` through `/kerd:agent` (provider codex), as Agent's pairing guide describes: that ID is checked through discovery first and never swapped for another session. Before the first request, offer to amend the reply-file instruction (usually in `AGENTS.md`) on the person's go. Once a request through Agent has come back as a complete answer, list what `.agents/` holds and where the bridge is referenced (`ask-codex` lines in `CLAUDE.md`, the reply-file paragraph), and offer each obsolete file or instruction for removal on its own, keeping anything still in use; never offer the whole folder at once
 
 #### Category 5: Naming consistency
 
