@@ -486,7 +486,15 @@ collaborator names. The renderer groups identical identities and displays
 providers and roles only. Use `[]` for no established pairing and `null` for
 unread/unresolved state. A team row's `attention` line (Kerd requests waiting
 undelivered in a Codex partner's queue over ten minutes) goes into `warnings`
-as it reads. A consequential routing problem belongs in `warnings`;
+as it reads. When that line's “since” date is an earlier calendar day than
+today, Open work also carries one line owned by the person, since only they can
+reach that window: “<Person>: look at the Codex <role> window (N Kerd requests
+waiting, the oldest since <date>); say which still matter before it takes them”. Typing in
+the window woke one stalled session; a closed one needs reopening. The queue
+shows those requests waiting, not that the partner has stopped everything, and
+some may still be wanted: the person decides, never a blanket “stale”. The line
+stays on each arrival while the attention line does, and is never the
+recommendation. A consequential routing problem belongs in `warnings`;
 routine unconfirmed notice delivery is not a blocker or an availability claim.
 
 Given a correctly shaped JSON object, fields are not required: a missing or null

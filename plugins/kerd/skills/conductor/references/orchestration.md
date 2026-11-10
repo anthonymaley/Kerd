@@ -247,6 +247,28 @@ gate. In work-anthony
 folder; later a Codex HOLD sat unread behind a CI watch while the push went
 ahead on the other review.
 
+**A stalled review partner is a gap said at Ready, not a quiet reroute.** When
+the arrival shows the review partner's Kerd requests waiting undelivered since an
+earlier day, Ready lists it as a gap: the partner's name and role, the count
+and the oldest request's date as the arrival gives them, and that looking at its
+window is the person's. The arrival line does not say what kind of requests wait
+(an old notice counts the same as a review), so the gap says the kinds are not
+known. The default: this work's reviews still go to the partner first, and one
+left unanswered at ten minutes takes the route the unanswered-review rule
+(“When the partner does not answer a review in time”, above) recommends: a fresh
+one-off reviewer through Agent on the partner's provider, or that rule's stated
+fallback. A go given on a Ready that showed this gap and default is the
+person's yes that rule requires, for this work's reviews only, so the
+controller says the review went unanswered and starts the fresh reviewer without
+a second question; without that gap shown at Ready, the unanswered-review rule
+stands unchanged. Reviewers on this host's own models stay native subagents, as
+“A review reaches the controller on its own” says. Any standing job the partner
+holds besides review (a scribe's documentation, say) is named as possibly not
+being done meanwhile, for the person to settle. In work-anthony
+(2026-11-05 to 2026-11-10) a stalled scribe was flagged on five arrivals and never
+put to the person; 142 hand-typed `codex exec` runs stood in, and he could not see
+the reviews from his Codex window.
+
 ## One visible startup view
 
 Before substantive execution, show the actual stage, intended result, owner and
@@ -292,6 +314,12 @@ the reason disclosed. “Per definition”, “inherited”, “the controller's
 order an omitted `model` actually follows. A Codex or established-partner row names
 that route's own model and effort evidence instead, labelled configured, requested,
 observed or unknown; it cannot carry a Kerd routing agent and is not expected to.
+A fresh Codex reviewer's row says “fresh Codex reviewer through Agent”: a row or
+status line naming `codex exec` is not a valid plan, and a go that showed one does
+not make it one. Reviews started through Agent are listed by Agent's `sessions`
+from either side; hand-typed runs are not. A reviewer started from the paired
+project can read a sibling clone or worktree named by full path in its brief
+(seen once, 2026-11-10, read only).
 
 Exactly one row per grid is the controller row: the row whose work this session
 performs itself, with no `Agent` call. It reports its own host-declared or unknown
@@ -312,8 +340,11 @@ another, which is why observed evidence and not the call establishes what ran.
 ## Prepare, send and assess visibly
 
 Before an actual send, follow [model jobs](model-jobs.md) and consult applicable
-[local guidance](guidance/README.md) for the selected model and route. Reuse a
-still-applicable profile already read. Apply matching clauses and record the
+[local guidance](guidance/README.md) for the selected model and route; on
+Claude Code, read the profile that
+`python3 <Conductor skill directory>/scripts/catalogue.py profile <provider>/<model>`
+names, where the skill directory is the absolute base directory Conductor was
+loaded from. Reuse a still-applicable profile already read. Apply matching clauses and record the
 version, or disclose no matching profile and use the clear outcome-contract
 fallback. A family name or formatted headings do not establish tailored prompting.
 
