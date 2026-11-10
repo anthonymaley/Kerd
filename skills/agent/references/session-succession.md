@@ -207,7 +207,9 @@ in Agent details, not the welcome dashboard or tracked Markdown. Repeated
 aliases for the same provider/ID are one member. Missing role means undefined,
 not inferred from the native title. Sending cannot make availability verified.
 A Codex row's `attention` line, present when Kerd requests have waited in that
-thread's own queue over ten minutes, goes to Switch's attention panel as it reads.
+thread's own queue over ten minutes, goes to Switch's attention panel as it reads;
+when its “since” date is an earlier day, Switch In also lists looking at that
+window in Open work as the person's.
 
 The notice names project, sender ID, recorded role and previous ID when known.
 It says no reply needed and no work requested; recipients do not acknowledge,
