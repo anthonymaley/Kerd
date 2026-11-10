@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.191.0
+
+**A stalled Codex partner is put to you instead of quietly routed around.** When a paired Codex window stops
+taking Kerd's requests, Switch In already flags it. Now, once the oldest request has waited since an earlier day, Open
+work also carries a line that is yours: look at that window and say which waiting requests still matter. Conductor
+names the stalled partner as a gap at Ready; its reviews still go to the partner first, and one left unanswered for ten
+minutes gets a fresh one-off reviewer started through `/kerd:agent`, which your go on that Ready approves for that work.
+A staffing row that names a hand-typed `codex exec` is no longer a valid plan: reviewers started through Agent can be
+listed from either side, hand-typed runs cannot. From one project where a partner stalled for five days and 142
+hand-typed reviews stood in, unseen from Codex. This is guide wording; it has not yet been seen in a live sitting.
+
 ## 0.190.0
 
 **Conductor reads model profiles from a weekly catalogue; Tend moves projects off the old Codex bridge.** Model
