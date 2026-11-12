@@ -15,7 +15,8 @@ No cross-provider ranking or statistically established winner exists in this pac
 ### Working shortlist, not an exhaustive model catalogue
 
 Official descriptions below were checked on 2026-09-23 and again on 2026-09-27
-(unchanged); the Sonnet 5.5 row was added on 2026-09-29. They suggest candidates
+(unchanged); the Sonnet 5.5 row was added on 2026-09-29, and the Fable 5.2 row
+replaced Fable 5.1's on 2026-11-12 (Fable 5.1 is now under Older). They suggest candidates
 to consider, not exclusive jobs or automatic assignments. Availability in an API
 catalogue is not proof of access through this user's CLI/account. Other models,
 including an explicitly requested older model, can be considered on the same basis.
@@ -26,7 +27,7 @@ including an explicitly requested older model, can be considered on the same bas
 | GPT-6 Sol · `gpt-6-sol` | Complex coding and agentic workflows, with stronger factual reliability | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; the GPT-5.6 Sol evidence below is not credited to it |
 | GPT-6 Luna · `gpt-6-luna` | Most efficient, for focused high-volume work | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; price is not eligibility |
 | Claude Opus 5.5 · `claude-opus-5-5` | Long-running agentic coding and knowledge work; Anthropic's default starting point | [Opus 5.5](anthropic/opus-5-5.md) | One matched composer trial (2026-09-27, one brief, blind-graded first over Fable 5.1 and Codex; see [task evidence](task-evidence.md#matched-composer-trial-2026-09-27)); the Opus 5 review evidence is not credited to it |
-| Claude Fable 5.1 · `claude-fable-5-1` | Demanding reasoning and long-horizon agentic work, after Opus 5.5 still falls short at xhigh or max | [Fable 5.1](anthropic/fable-5-1.md) | Do not credit the earlier Fable 5 drafting trial to 5.1 |
+| Claude Fable 5.2 · `claude-fable-5-2` | Demanding reasoning and long-horizon agentic work, when Opus 5.5 at higher effort still falls short; agent sessions that run for hours, multistep deep research, analysis carried through to a finished document | [Fable 5.2](anthropic/fable-5-2.md) | From Anthropic's docs (retrieved 2026-11-12); no matched Kerd comparison yet; do not credit Fable 5.1 or Fable 5 results to it |
 | Claude Sonnet 5.5 · `claude-sonnet-5-5` | A faster, lower-cost complement to Opus 5.5; Opus 5.5 stays clearly stronger at complex, open-ended work | [Sonnet 5.5](anthropic/sonnet-5-5.md) | No matched selection comparison recorded here; Kerd's Sonnet readers ran on it from 2026-09-29 (observed); three effort checks on grading readers (2026-10-03, 2026-10-08 x2) found medium caught the same hard failures and core findings as high, a little less complete ([profile](anthropic/sonnet-5-5.md) `grading-reader-at-medium`) |
 | Claude Sonnet 5 · `claude-sonnet-5` | The previous Sonnet; `sonnet` no longer points to it on the Anthropic API | [Sonnet 5](anthropic/sonnet-5.md) | No matched selection comparison recorded here; do not credit Sonnet 5.5 results to it, or its results to 5.5 |
 | Claude Haiku 5.5 · `claude-haiku-5-5` | Built for high-volume, latency-sensitive work such as classification, routing, extraction and subagent tasks; adaptive thinking with effort levels; 1M context, 128K output | [Haiku 5.5](anthropic/haiku-5-5.md) | From Anthropic's docs (retrieved 2026-10-09); no matched Kerd comparison yet |
@@ -36,6 +37,8 @@ including an explicitly requested older model, can be considered on the same bas
 
 Haiku 4.5, the previous Haiku, works differently from the other Claude models: it uses extended (manual, budgeted) thinking rather than adaptive thinking, does not support the effort parameter, and has a 200K-token context window and 64K max output against the others' 1M and 128K ([Anthropic models overview](https://platform.claude.com/docs/en/models/overview), retrieved 2026-09-27). Haiku 5.5 is the first Haiku with effort levels. Which Haiku `haiku` runs depends on the provider ([Claude Code model configuration](https://code.claude.com/docs/en/model-config), retrieved 2026-10-09): on the Anthropic API it is Haiku 5.5 (Claude Code 2.1.293 or later); on Claude Platform on AWS, Bedrock, Google Cloud and Foundry it is still Haiku 4.5, unless `ANTHROPIC_DEFAULT_HAIKU_MODEL` points it elsewhere. Kerd routes Haiku as `kerd:haiku-low`, `kerd:haiku-medium` or `kerd:haiku-high` (Kerd ships no Haiku xhigh or max agent; the provider supports them, but its guide keeps them for cases evals justify); plain `kerd:haiku` (no effort level) stays only for sessions that predate those agents. As with Sonnet, report the observed model, never the alias, and apply the [Haiku 5.5 profile](anthropic/haiku-5-5.md) only when Haiku 5.5 is what ran; on Haiku 4.5 the effort a `kerd:haiku-<effort>` agent names does not apply.
 
+**Which Fable `fable` runs** ([Claude Code model configuration](https://code.claude.com/docs/en/model-config), [Fable 5.2 overview](https://platform.claude.com/docs/en/models/fable-5-2/overview), retrieved 2026-11-12): Kerd's `kerd:fable-<effort>` agents ask for the `fable` alias. The alias follows the Claude Code version: Fable 5.2 from 2.1.321 (Fable 5.2 released 2026-11-09), Fable 5.1 from 2.1.257 to 2.1.320, Fable 5 before that, and Fable 5 in Claude apps gateway sessions throughout, unless `ANTHROPIC_DEFAULT_FABLE_MODEL` points it elsewhere. So without an override a `kerd:fable-*` job runs Fable 5.2 only once Claude Code is 2.1.321 or later, and an `availableModels` allowlist can substitute the newest permitted Fable, or, when it blocks the subagent's model, run the subagent on a fallback model instead; report the observed model from `job_evidence.py`, never the alias, and read the profile for the model that ran. Fable 5.1 stays reachable by its full ID. Fable 5.2 costs $8 / $40 per million input / output tokens (Fable 5.1 $10 / $50, Opus 5.5 $4 / $20), defaults to high effort where Opus 5.5 defaults to medium, and on some plans and seat tiers Fable usage bills to usage credits rather than the plan's included limits, without a consent prompt in non-interactive runs; a Fable dispatch that would bill credits is a cost the person decides, named on its Fit line. A classifier-flagged Fable request can rerun on Opus 4.8 (cyber) or Opus 5 (biology), unless the fallback model is not allowed. With `switchModelsOnFlag` set to ask, the main session pauses to ask, but a Kerd player (a subagent) fails instead of switching, and a non-interactive run ends with the refusal. A separate fallback chain covers an overloaded or unavailable model. An observed model other than Fable can come from a fallback, that chain, an allowlist substitution or an alias override, or from a job that ran on Fable before switching, so check the transcript notice, its timing and the settings before naming the cause. Early testers found Fable 5.2 a good planner and orchestrator for other models; that is a provider observation, not a change to the conducting-session advice below.
+
 **The conducting session:** Kerd recommends Opus 5.5 for the session that
 conducts, at medium effort by default, for its efficiency on long agentic work
 (the person's direction, 2026-09-24). This is advice for the person's own session
@@ -43,7 +46,10 @@ setup: Conductor never changes the current session's model or effort itself, and
 it reports that session's active effort as unverified unless read from the session.
 
 **Older:** Claude Opus 5 (`claude-opus-5`, [profile](anthropic/opus-5.md)),
-which Anthropic now lists as a legacy model, still available. **Previous OpenAI
+which Anthropic now lists as a legacy model, still available. Claude Fable 5.1
+(`claude-fable-5-1`, [profile](anthropic/fable-5-1.md)), the previous Fable, still
+available by its full ID; do not credit the earlier Fable 5 drafting trial or its
+own results to Fable 5.2. **Previous OpenAI
 line:** GPT-5.6 Sol, Terra and Luna ([profile](openai/gpt-5-6.md)) are no longer in the
 API catalogue's general-model list (2026-09-23), while the Codex models page says they
 remain available during the GPT-6 rollout. GPT-6 has no Terra tier. Use either when a person asks for it
@@ -51,7 +57,8 @@ or a run is being reproduced; their evidence below stays theirs.
 
 The three OpenAI descriptions come from the [official model catalogue](https://developers.openai.com/api/docs/models),
 except Sol's "stronger factual reliability", which is from the [Codex models page](https://learn.chatgpt.com/docs/models).
-The five Claude descriptions come from [Anthropic's selection guide](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model).
+The Claude descriptions come from [Anthropic's selection guide](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model),
+except Fable 5.2's, which is from its [model page](https://platform.claude.com/docs/en/models/fable-5-2/overview) and the [models overview](https://platform.claude.com/docs/en/models/overview).
 These descriptions do not establish that one provider is better at writing or
 coding than the other. Broad text/image capability does not establish audio,
 video, live browsing or native document editing in a particular job route.
@@ -115,8 +122,8 @@ the tools it requires, then ask which kind of evidence speaks to that.
    point, state the uncertainty and assess its first useful result. Missing
    historical evaluation is not a universal ban on trying a model.
 4. **Choose supported effort, then prepare the prompt.** Use task evidence and
-   current model/route guidance. Opus 5.5 defaults to medium and Fable 5.1 to
-   high; the documented default is a starting point, not a proved optimum. For other models, use an evidenced
+   current model/route guidance. Opus 5.5 defaults to medium and Fable 5.2 (like
+   Fable 5.1) to high, with its effort levels re-tuned, so a 5.1 setting does not carry over; the documented default is a starting point, not a proved optimum. For other models, use an evidenced
    supported setting or disclose the native default; never copy effort labels
    between providers as though equal. Apply the level through the route's control
    in the [route table](../model-jobs.md#prepare-work-the-chosen-model-can-do-well):
