@@ -2,15 +2,17 @@
 profile:
   provider: anthropic
   family: shared-current-claude
-  version: 2026-09
-  applicable_models: [claude-fable-5, claude-fable-5-1, claude-sonnet-5-5, claude-sonnet-5, claude-opus-5-5, claude-opus-5, claude-opus-4-8]
+  version: 2026-11-12
+  applicable_models: [claude-fable-5, claude-fable-5-1, claude-fable-5-2, claude-sonnet-5-5, claude-sonnet-5, claude-opus-5-5, claude-opus-5, claude-opus-4-8]
   official_sources:
     - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
       retrieved: 2026-09-23
     - url: https://platform.claude.com/docs/en/build-with-claude/effort
       retrieved: 2026-09-04
+    - url: https://platform.claude.com/docs/en/models/fable-5-2/overview
+      retrieved: 2026-11-12
   last_evaluated: null
-  supersedes: null
+  supersedes: shared-current-claude@2026-09
 ---
 
 # Shared current-Claude guidance
