@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.193.1
+
+**A Codex partner Kerd starts can be asked again on current Codex.** codex-cli 0.167 makes its daemon's control
+socket a link into a private temporary folder, and Agent refused every link, so no Kerd-started partner, and no
+request through the daemon's queue, could get through. Agent now follows that link one step, only to your own socket
+in a folder you own that grants
+no permission bits to anyone else, connects to exactly what it checked, and talks to it only after the system confirms
+the process serving it runs as you. On this Mac, a thread Kerd
+had just started was missing from Codex's local store before its first turn (a second one was there right after
+its first turn; when it was written is not known), and Agent checked the store before sending that turn, so the
+first ask to a new partner was refused. A partner Kerd started itself (and only that) is now reached through the daemon until
+its first turn lands; every other route keeps the store check. Tried live on this Mac: a read-only partner answered
+its first ask in 5 seconds, and again after 21 minutes idle, woken in the same session without a fork. One
+idle gap is not proof the route never stalls.
+
 ## 0.193.0
 
 **Reviews go to a fresh reviewer by default.** A Codex window takes a queued request only when it takes

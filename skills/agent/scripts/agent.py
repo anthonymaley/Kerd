@@ -164,6 +164,106 @@ def owned(path, kind):
     return info
 
 
+def secure_ancestors(folder):
+    """Every folder above `folder`, up to /, as OpenSSH checks a secure path:
+    a real folder (a symlinked one is refused) owned by root or this account,
+    writable by group or others only when sticky. /private/tmp passes: root's,
+    sticky, so no other account can rename the entries in it it does not own."""
+    for ancestor in folder.parents:
+        try:
+            info = ancestor.lstat()
+        except OSError as exc:
+            raise Unavailable(os.strerror(exc.errno or 0) + ': ' + (ancestor.name or '/')) from None
+        if (not stat.S_ISDIR(info.st_mode) or info.st_uid not in (0, os.getuid())
+                or (info.st_mode & 0o022 and not info.st_mode & stat.S_ISVTX)):
+            raise Unavailable('Socket path runs through a folder other accounts can change: '
+                              + (ancestor.name or '/'))
+
+
+def owned_socket(path):
+    """The socket to connect to for `path`, and the (path, st_dev, st_ino) pins
+    of its folder and itself to compare after connecting (see `unchanged`).
+
+    Path itself when it is this account's socket, checked as always.
+    codex-cli 0.167.2 makes the control socket a symlink into
+    /private/tmp/codex-daemon-<uid>/; such a link is followed one level only
+    (a chain is refused, not walked), and only to this account's socket in a
+    folder this account owns with no group or other permission bits, under
+    ancestors no other account can change (`secure_ancestors`). Callers connect
+    to the returned path and never re-read the link."""
+    folder = owned(path.parent, stat.S_ISDIR)
+    try:
+        info = path.lstat()
+    except OSError as exc:
+        raise Unavailable(os.strerror(exc.errno or 0) + ': ' + path.name) from None
+    if not stat.S_ISLNK(info.st_mode):
+        found = owned(path, stat.S_ISSOCK)
+        return path, ((path.parent, folder.st_dev, folder.st_ino), (path, found.st_dev, found.st_ino))
+    if info.st_uid != os.getuid():
+        raise Unavailable('Expected a real, locally owned path: ' + path.name)
+    try:
+        # Normalized: the path connected to is exactly the one checked, with
+        # no `..` for the kernel to resolve through an unchecked folder.
+        target = Path(os.path.normpath(path.parent / os.readlink(path)))
+    except OSError as exc:
+        raise Unavailable(os.strerror(exc.errno or 0) + ': ' + path.name) from None
+    secure_ancestors(target.parent)
+    folder = owned(target.parent, stat.S_ISDIR)
+    if stat.S_IMODE(folder.st_mode) & 0o077:
+        raise Unavailable('Socket folder is open to other accounts: ' + target.parent.name)
+    found = owned(target, stat.S_ISSOCK)
+    return target, ((target.parent, folder.st_dev, folder.st_ino), (target, found.st_dev, found.st_ino))
+
+
+def unchanged(pins):
+    """True when each pinned path is still the same file (device and inode)."""
+    for path, device, inode in pins:
+        try:
+            info = path.lstat()
+        except OSError:
+            return False
+        if (info.st_dev, info.st_ino) != (device, inode):
+            return False
+    return True
+
+
+XUCRED_SIZE = 76  # macOS struct xucred: u_int version, uid_t uid, short ngroups, gid_t groups[16]
+
+
+def peer_uid(raw, platform):
+    """The uid in a peer-credential struct as the kernel returned it: macOS
+    `xucred` (version 0, XUCRED_VERSION, then uid) or Linux `ucred` (pid, uid,
+    gid). Anything short, malformed or unknown is refused, never guessed."""
+    if platform == 'darwin':
+        if len(raw) < 8:
+            raise Unavailable('Socket peer credentials are malformed')
+        version, uid = struct.unpack_from('=II', raw)
+        if version != 0:
+            raise Unavailable('Socket peer credentials have an unknown version')
+        return uid
+    if platform.startswith('linux'):
+        if len(raw) != struct.calcsize('=iII'):
+            raise Unavailable('Socket peer credentials are malformed')
+        return struct.unpack('=iII', raw)[1]
+    raise Unavailable('Socket peer identity is unavailable on this platform')
+
+
+def socket_peer_uid(channel, platform=None):
+    """The uid of the account holding the other end of a connected Unix socket."""
+    platform = platform or sys.platform
+    if platform == 'darwin':
+        option = (0, 1, XUCRED_SIZE)  # SOL_LOCAL, LOCAL_PEERCRED
+    elif platform.startswith('linux'):
+        option = (socket.SOL_SOCKET, getattr(socket, 'SO_PEERCRED', 17), struct.calcsize('=iII'))
+    else:
+        raise Unavailable('Socket peer identity is unavailable on this platform')
+    try:
+        raw = channel.getsockopt(*option)
+    except OSError:
+        raise Unavailable('Socket peer could not be identified') from None
+    return peer_uid(raw, platform)
+
+
 def read_json(path):
     owned(path, stat.S_ISREG)
     return json.loads(path.read_text())
@@ -224,18 +324,38 @@ class RPC:
             from websockets.exceptions import WebSocketException
         except ImportError:
             raise Unavailable('Codex discovery needs the optional websockets dependency; see native-sessions.md setup') from None
-        path = codex_home() / 'app-server-control' / 'app-server-control.sock'
+        path = daemon_socket()
         if not path.exists():
             raise Unavailable('Codex native server is not running')
-        owned(path.parent, stat.S_ISDIR)
-        owned(path, stat.S_ISSOCK)
+        path, pins = owned_socket(path)
         self.native_errors = (WebSocketException, OSError)
         self.deadline = deadline
+        def opening():
+            return min(3, max(.01, deadline - time.monotonic())) if deadline is not None else 3
+        # Connected here, not by websockets, so the listener is identified
+        # before anything at all is sent — the WebSocket handshake included.
+        # The connection holds whichever listener was at the path when it was
+        # made; its owner is what counts, whatever mode bits or ACLs allowed.
+        raw = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         try:
-            opening = min(3, max(.01, deadline - time.monotonic())) if deadline is not None else 3
-            self.channel = unix_connect(str(path), compression=None, open_timeout=opening,
+            raw.settimeout(opening())
+            raw.connect(str(path))
+            if socket_peer_uid(raw) != os.getuid():
+                raise Unavailable('Codex native socket is served by another account; not used')
+            if not unchanged(pins):
+                raise Unavailable('Codex native socket changed while connecting; not used')
+            raw.settimeout(None)  # as websockets leaves a socket it connected itself
+        except OSError as exc:
+            raw.close()
+            raise Unavailable('Codex native connection failed: ' + str(exc)) from None
+        except Unavailable:
+            raw.close()
+            raise
+        try:
+            self.channel = unix_connect(sock=raw, compression=None, open_timeout=opening(),
                                         close_timeout=1, max_size=16 * 1024 * 1024)
         except self.native_errors as exc:
+            raw.close()
             raise Unavailable('Codex native connection failed: ' + str(exc)) from None
         self.counter = 0
         try:
@@ -382,9 +502,14 @@ SAVED = 'saved thread \u2014 activity unknown'
 PERSON_SOURCES = ('cli', 'vscode')
 
 
-def store_row(root, sid):
+NOT_STORED = 'Chosen Codex thread is not in the local store'
+
+
+def store_row(root, sid, missing_ok=False):
     """The chosen Codex thread as the local store records it, checked for
-    project and archive state — the two refusals every route shares."""
+    project and archive state — the two refusals every route shares. With
+    missing_ok, a thread the store has no row for is None, not a refusal; a
+    row that is there is still checked."""
     identifier(sid)
     database = codex_home() / 'state_5.sqlite'
     owned(database, stat.S_ISREG)
@@ -392,7 +517,9 @@ def store_row(root, sid):
         row = db.execute('SELECT cwd, rollout_path, name, archived, source, thread_source '
                          'FROM threads WHERE id = ?', (sid,)).fetchone()
     if not row:
-        raise Unavailable('Chosen Codex thread is not in the local store')
+        if missing_ok:
+            return None
+        raise Unavailable(NOT_STORED)
     if row[3]:
         raise Unavailable('Chosen Codex thread is archived; not revived')
     if not belongs_to_project(row[0], root):
@@ -1419,7 +1546,7 @@ class Agent:
         if review_cadence is not None:
             record['review_cadence'] = review_cadence
         if provider == 'codex':
-            native_socket = codex_home() / 'app-server-control/app-server-control.sock'
+            native_socket = daemon_socket()
             if not native_socket.exists():
                 command(['codex', 'app-server', 'daemon', 'start'], self.root)
             params = {'cwd': str(self.root), 'sandbox': 'workspace-write' if writable else 'read-only',
@@ -1512,7 +1639,11 @@ class Agent:
             target = None if provider == 'codex' and owned_partner else live_target(self.root, provider, sid)
             framed = framed_prompt(self.root, request, role, prompt)
             frame = claude_frame(sid, request, framed) if provider == 'claude' else None
-            log = None if fresh else transcript(self.root, provider, sid)
+            # A partner Kerd started that the store has no row for yet has no
+            # rollout either; its log is found on a later status, as after a
+            # fresh first ask, once its first turn writes one.
+            unstored = not fresh and self.unstored_launch(provider, sid, owned_partner)
+            log = None if fresh or unstored else transcript(self.root, provider, sid)
             record = self.new_request(provider, sid, prompt, role, request, log)
             try:
                 if provider == 'claude':
@@ -1523,6 +1654,41 @@ class Agent:
                 record['error'] = describe(exc)
             atomic_json(path, record)
         return record
+
+    def owned_launch(self, sid):
+        """True only when this project's partner store binds `sid` as a Codex
+        partner Kerd started itself (`kind` partner, `owned` true). Reads only;
+        never creates the store."""
+        folder = self.state / 'partners'
+        try:
+            owned(self.state, stat.S_ISDIR)
+            owned(folder, stat.S_ISDIR)
+        except Unavailable:
+            return False
+        for path in folder.glob('*.json'):
+            try:
+                binding = read_json(path)
+            except (Unavailable, OSError, ValueError):
+                continue
+            if (isinstance(binding, dict) and binding.get('provider') == 'codex'
+                    and binding.get('id') == sid and binding.get('kind') == 'partner'
+                    and binding.get('owned') is True and isinstance(binding.get('project'), str)
+                    and self.stored_project_matches(binding['project'])):
+                return True
+        return False
+
+    def unstored_launch(self, provider, sid, owned_partner):
+        """True only for an owned Codex partner Kerd started (`owned_launch`)
+        that the store has no row for yet. A row, or any trouble reading the
+        store, is False: those take the ordinary route and its refusals."""
+        if provider != 'codex' or not owned_partner:
+            return False
+        try:
+            if store_row(self.root, sid, missing_ok=True) is not None:
+                return False
+        except (Unavailable, OSError, sqlite3.Error):
+            return False
+        return self.owned_launch(sid)
 
     def send_codex(self, sid, framed, request, record, owned_partner, before_send=None):
         """One enqueue by one route, chosen before anything is sent.
@@ -1535,9 +1701,18 @@ class Agent:
         only if this adapter created it; otherwise its owner's session is
         offline and it is refused. Only a failure to SEE the thread falls
         through; a failure while SENDING stops, retained as uncertain, so one
-        request can never be enqueued twice.
+        request can never be enqueued twice. A partner Kerd started itself
+        that the store has no row for yet is reached only through the daemon,
+        which must see it in this project; nothing else skips the store.
         """
-        row = store_row(self.root, sid)  # project and archive refusals for every route
+        # Project and archive refusals for every route. A partner Kerd started
+        # itself has no store row until its first turn starts (inferred from one
+        # just-started thread with no trace on disk, codex-cli 0.167.2), so for
+        # that binding alone the daemon's view of the thread stands in for it.
+        row = store_row(self.root, sid, missing_ok=owned_partner)
+        if row is None and not self.owned_launch(sid):
+            raise Unavailable(NOT_STORED)
+        tui = row is not None and row['tui']
         if daemon_socket().exists():
             try:
                 rpc = RPC(self.root)
@@ -1553,7 +1728,7 @@ class Agent:
                         if not belongs_to_project(current['cwd'], self.root):
                             raise Unavailable('Codex project identity changed')
                         loaded = status_name(current.get('status')) != 'notLoaded'
-                        if loaded or (owned_partner and not row['tui']):
+                        if loaded or (owned_partner and not tui):
                             # From here on, any error is an attempted daemon
                             # send and propagates to be retained — never a
                             # fall-through to a second enqueue elsewhere.
@@ -1568,7 +1743,9 @@ class Agent:
                                 'clientUserMessageId': request, 'input': [{'type': 'text', 'text': framed}]})
                             record.update(queue_id=result['queuedSubmission']['id'], status='queued')
                             return
-        if row['tui']:
+        if row is None:
+            raise Unavailable(NOT_STORED)  # no store row and no daemon view
+        if tui:
             record['route'] = 'codex-queue'
             # Written before anything is attempted: a failed write sends nothing.
             pointer = self.prompt_pointer(request, framed,

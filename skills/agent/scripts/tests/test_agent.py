@@ -1,6 +1,7 @@
 import json
 import os
 import stat
+import struct
 from pathlib import Path
 import socket
 import subprocess
@@ -2092,6 +2093,443 @@ class LaunchWindowTests(unittest.TestCase):
             self.assertEqual(saved.get('native_short_id'), 'abcdef12')
         finally:
             tmp.cleanup()
+
+
+class SymlinkedDaemonSocketTests(unittest.TestCase):
+    """codex-cli 0.167.2 makes the control socket a symlink into
+    /private/tmp/codex-daemon-<uid>/ (seen 2026-11-12). It is followed one level,
+    only to this account's socket in a folder this account owns with no group or
+    other bits, and the connection goes to the checked target."""
+
+    def setUp(self):
+        temp = tempfile.TemporaryDirectory(dir='/tmp')  # short: AF_UNIX paths are capped
+        self.addCleanup(temp.cleanup)
+        base = Path(temp.name).resolve()
+        self.home = base / 'c'
+        self.control = self.home / 'app-server-control'
+        self.control.mkdir(parents=True, mode=0o700)
+        self.daemon = base / 'd'
+        self.daemon.mkdir(mode=0o700)
+        self.target = self.daemon / 's'
+        self.listener = self.bind(self.target)
+        self.link = self.control / 'app-server-control.sock'
+        self.link.symlink_to(self.target)
+        env = patch.dict(os.environ, {'CODEX_HOME': str(self.home)})
+        env.start()
+        self.addCleanup(env.stop)
+
+    def bind(self, path):
+        listener = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        listener.bind(str(path))
+        listener.listen(4)
+        self.addCleanup(listener.close)
+        return listener
+
+    def connect_attempt(self, on_connect=None, during=None, uid=None):
+        """Construct the real RPC against a stand-in websockets module and
+        return the path its socket connected to (None if it never connected)
+        and its refusal (None if it connected). `during` runs after the
+        connect and before the checks, as a racing replacement would; `uid`
+        stands in for the peer's account. self.handshakes lists each
+        websockets handshake begun: the first bytes anything sends."""
+        import types
+        from unittest.mock import MagicMock
+        tried, self.handshakes = [], []
+        self.channel = MagicMock()
+        self.channel.recv.return_value = json.dumps({'id': 1, 'result': {}})
+        def unix_connect(path=None, sock=None, **kwargs):
+            self.assertIsNone(path, 'websockets must be handed the checked socket, not a path')
+            self.handshakes.append(sock)
+            if on_connect is None:
+                raise OSError('stand-in: no websocket here')
+            on_connect()
+            return self.channel
+        real_peer_uid = agent.socket_peer_uid
+        def peer(channel, platform=None):
+            tried.append(channel.getpeername())
+            if during:
+                during()
+            return real_peer_uid(channel, platform) if uid is None else uid
+        client = types.ModuleType('websockets.sync.client'); client.unix_connect = unix_connect
+        exceptions = types.ModuleType('websockets.exceptions')
+        exceptions.WebSocketException = type('WebSocketException', (Exception,), {})
+        modules = {'websockets': types.ModuleType('websockets'),
+                   'websockets.sync': types.ModuleType('websockets.sync'),
+                   'websockets.sync.client': client, 'websockets.exceptions': exceptions}
+        with patch.dict(sys.modules, modules), patch.object(agent, 'socket_peer_uid', side_effect=peer):
+            try:
+                REAL_RPC(self.home).close()
+            except agent.Unavailable as exc:
+                return (tried[0] if tried else None), str(exc)
+        return (tried[0] if tried else None), None
+
+    def test_a_link_to_own_socket_in_a_private_folder_is_followed_and_connected_to(self):
+        self.assertEqual(agent.owned_socket(agent.daemon_socket())[0], self.target)
+        tried, error = self.connect_attempt()
+        self.assertEqual(tried, str(self.target))
+        self.assertIn('connection failed', error)
+
+    def test_a_relative_link_resolves_against_its_own_folder(self):
+        self.link.unlink()
+        self.link.symlink_to(os.path.relpath(self.target, self.control))
+        self.assertEqual(agent.owned_socket(self.link)[0], self.target)
+
+    def test_a_plain_socket_is_unchanged(self):
+        self.link.unlink()
+        self.bind(self.link)
+        self.assertEqual(agent.owned_socket(self.link)[0], self.link)
+        self.assertEqual(self.connect_attempt()[0], str(self.link))
+
+    def test_a_dangling_link_is_refused(self):
+        self.listener.close(); self.target.unlink()
+        with self.assertRaises(agent.Unavailable):
+            agent.owned_socket(self.link)
+        tried, error = self.connect_attempt()
+        self.assertIsNone(tried)
+        self.assertIn('not running', error)
+
+    def test_a_folder_open_to_group_or_other_is_refused(self):
+        for mode in (0o750, 0o705, 0o770):
+            self.daemon.chmod(mode)
+            with self.assertRaisesRegex(agent.Unavailable, 'other accounts'):
+                agent.owned_socket(self.link)
+            self.assertIsNone(self.connect_attempt()[0])
+        self.daemon.chmod(0o700)
+
+    def test_a_socket_or_folder_owned_by_another_account_is_refused(self):
+        actual = Path.lstat
+        for foreign in (self.target, self.daemon, self.link):
+            def lstat(path, *args, **kwargs):
+                info = actual(path, *args, **kwargs)
+                if Path(path) == foreign:
+                    fields = list(info[:10]); fields[4] = info.st_uid + 1
+                    return os.stat_result(fields)
+                return info
+            with patch.object(Path, 'lstat', autospec=True, side_effect=lstat):
+                with self.assertRaises(agent.Unavailable, msg=str(foreign)):
+                    agent.owned_socket(self.link)
+                self.assertIsNone(self.connect_attempt()[0], str(foreign))
+
+    def test_a_non_socket_target_is_refused(self):
+        regular = self.daemon / 'f'; regular.write_text('not a socket')
+        self.link.unlink(); self.link.symlink_to(regular)
+        with self.assertRaises(agent.Unavailable):
+            agent.owned_socket(self.link)
+        self.assertIsNone(self.connect_attempt()[0])
+
+    def test_a_chain_of_links_is_not_walked(self):
+        hop = self.daemon / 'hop'; hop.symlink_to(self.target)
+        self.link.unlink(); self.link.symlink_to(hop)
+        with self.assertRaises(agent.Unavailable):
+            agent.owned_socket(self.link)
+
+
+    # Review r1 (2026-11-12): the folders above the target, and a replacement
+    # racing the connect.
+    def relink(self, target):
+        self.link.unlink(); self.link.symlink_to(target)
+
+    def nested(self, mode, name='a'):
+        """A socket two folders down, under an ancestor with `mode` (the owner
+        keeps rwx in every mode used, so the temporary folder still cleans up)."""
+        middle = self.daemon.parent / name; middle.mkdir()
+        inner = middle / 'd'; inner.mkdir(mode=0o700)
+        self.bind(inner / 's')
+        middle.chmod(mode)
+        self.relink(inner / 's')
+        return inner / 's'
+
+    def test_an_ancestor_others_can_write_without_sticky_is_refused(self):
+        for mode in (0o770, 0o707, 0o777):
+            with self.subTest(mode=oct(mode)):
+                self.nested(mode, name=oct(mode))
+                with self.assertRaisesRegex(agent.Unavailable, 'other accounts can change'):
+                    agent.owned_socket(self.link)
+                self.assertIsNone(self.connect_attempt()[0])
+
+    def test_a_sticky_world_writable_ancestor_is_accepted(self):
+        target = self.nested(0o1777)
+        self.assertEqual(agent.owned_socket(self.link)[0], target)
+        self.assertEqual(self.connect_attempt(lambda: None), (str(target), None))
+
+    def test_an_ancestor_owned_by_another_account_is_refused(self):
+        actual = Path.lstat
+        def lstat(path, *args, **kwargs):
+            info = actual(path, *args, **kwargs)
+            if Path(path) == self.daemon.parent:
+                fields = list(info[:10]); fields[4] = os.getuid() + 1
+                return os.stat_result(fields)
+            return info
+        with patch.object(Path, 'lstat', autospec=True, side_effect=lstat):
+            with self.assertRaisesRegex(agent.Unavailable, 'other accounts can change'):
+                agent.owned_socket(self.link)
+
+    def test_a_symlinked_ancestor_is_refused(self):
+        real = self.daemon.parent / 'real'; real.mkdir(mode=0o700)
+        inner = real / 'd'; inner.mkdir(mode=0o700); self.bind(inner / 's')
+        alias = self.daemon.parent / 'alias'; alias.symlink_to(real)
+        self.relink(alias / 'd' / 's')
+        with self.assertRaisesRegex(agent.Unavailable, 'other accounts can change'):
+            agent.owned_socket(self.link)
+        self.assertIsNone(self.connect_attempt()[0])
+
+    def test_a_dotdot_link_is_checked_and_connected_as_the_normalized_path(self):
+        self.relink(os.path.relpath(self.target, self.control))  # ../../d/s
+        target, _ = agent.owned_socket(self.link)
+        self.assertNotIn('..', str(target))
+        self.assertEqual(self.connect_attempt()[0], str(self.target))
+
+    def test_an_unchanged_socket_connects(self):
+        self.assertEqual(self.connect_attempt(lambda: None), (str(self.target), None))
+
+    def swap_socket(self, path):
+        def swap():
+            path.unlink(); self.bind(path)  # same name, new inode
+        return swap
+
+    def swap_folder(self):
+        def swap():
+            # The socket keeps its inode (a rename); only the folder is new.
+            old = self.daemon.with_name('old'); self.daemon.rename(old)
+            self.daemon.mkdir(mode=0o700); (old / 's').rename(self.target)
+        return swap
+
+    def test_a_socket_or_folder_replaced_during_the_connect_is_refused(self):
+        for name, swap in (('socket', self.swap_socket(self.target)), ('folder', self.swap_folder())):
+            with self.subTest(name):
+                tried, error = self.connect_attempt(during=swap)
+                self.assertEqual(tried, str(self.target))
+                self.assertIn('changed while connecting', error or '')
+                self.assertEqual(self.handshakes, [], 'nothing sent')
+
+    def test_a_plain_socket_replaced_during_the_connect_is_refused(self):
+        self.link.unlink(); self.bind(self.link)
+        tried, error = self.connect_attempt(during=self.swap_socket(self.link))
+        self.assertEqual(tried, str(self.link))
+        self.assertIn('changed while connecting', error or '')
+        self.assertEqual(self.handshakes, [])
+
+    # Review r2 (2026-11-12): mode bits miss macOS ACLs, so the listener's
+    # account is read from the connection itself, before anything is sent.
+    def test_a_listener_of_this_account_is_accepted_on_either_path(self):
+        self.assertEqual(self.connect_attempt(lambda: None), (str(self.target), None))
+        self.assertEqual(len(self.handshakes), 1)
+        self.link.unlink(); self.bind(self.link)
+        self.assertEqual(self.connect_attempt(lambda: None), (str(self.link), None))
+
+    def test_a_listener_of_another_account_is_refused_before_anything_is_sent(self):
+        for name in ('link', 'plain'):
+            with self.subTest(name):
+                if name == 'plain':
+                    self.link.unlink(); self.listener = self.bind(self.link)
+                tried, error = self.connect_attempt(lambda: None, uid=os.getuid() + 1)
+                self.assertIsNotNone(tried)
+                self.assertEqual(error, 'Codex native socket is served by another account; not used')
+                self.assertEqual(self.handshakes, [], 'no handshake begun')
+                connection, _ = self.listener.accept()
+                with connection:
+                    connection.settimeout(2)
+                    self.assertEqual(connection.recv(1), b'', 'closed with no byte sent')
+
+    def test_an_unreadable_peer_is_refused_before_anything_is_sent(self):
+        def unreadable(channel, platform=None):
+            raise agent.Unavailable('Socket peer could not be identified')
+        with patch.object(agent, 'socket_peer_uid', side_effect=unreadable):
+            self.assertIn('could not be identified', self.connect_attempt(lambda: None)[1])
+        self.assertEqual(self.handshakes, [])
+
+
+class PeerCredentialTests(unittest.TestCase):
+    """The peer-credential struct is parsed in one place, and every odd reading
+    is a refusal: the Codex socket is used only when its listener is this account's."""
+
+    def xucred(self, uid, version=0):
+        return struct.pack('=IIh2x16I', version, uid, 1, *([20] * 16))
+
+    def test_macos_xucred_gives_the_uid(self):
+        self.assertEqual(agent.peer_uid(self.xucred(501), 'darwin'), 501)
+
+    def test_macos_wrong_version_or_short_struct_is_refused(self):
+        for raw in (self.xucred(501, version=1), b'', b'\0' * 7):
+            with self.assertRaises(agent.Unavailable):
+                agent.peer_uid(raw, 'darwin')
+
+    def test_linux_ucred_gives_the_uid_and_a_wrong_size_is_refused(self):
+        self.assertEqual(agent.peer_uid(struct.pack('=iII', 42, 1000, 1000), 'linux'), 1000)
+        for raw in (b'', struct.pack('=iII', 42, 1000, 1000) + b'\0', b'\0' * 8):
+            with self.assertRaises(agent.Unavailable):
+                agent.peer_uid(raw, 'linux')
+
+    def test_an_unsupported_platform_is_refused(self):
+        from unittest.mock import Mock
+        channel = Mock()
+        with self.assertRaisesRegex(agent.Unavailable, 'this platform'):
+            agent.socket_peer_uid(channel, 'freebsd14')
+        channel.getsockopt.assert_not_called()
+        with self.assertRaisesRegex(agent.Unavailable, 'this platform'):
+            agent.peer_uid(self.xucred(501), 'win32')
+
+    def test_the_socket_option_read_and_its_failure(self):
+        from unittest.mock import Mock
+        channel = Mock(); channel.getsockopt.return_value = self.xucred(501)
+        self.assertEqual(agent.socket_peer_uid(channel, 'darwin'), 501)
+        self.assertEqual(channel.getsockopt.call_args.args, (0, 1, agent.XUCRED_SIZE))
+        channel.getsockopt.side_effect = OSError(22, 'Invalid argument')
+        for platform in ('darwin', 'linux'):
+            with self.assertRaisesRegex(agent.Unavailable, 'could not be identified'):
+                agent.socket_peer_uid(channel, platform)
+
+    def test_a_real_connection_reads_this_account(self):
+        a, b = socket.socketpair(socket.AF_UNIX)
+        with a, b:
+            self.assertEqual(agent.socket_peer_uid(a), os.getuid())
+
+
+class UnstoredOwnedPartnerTests(unittest.TestCase):
+    """A thread Kerd starts with thread/start has no store row until its first
+    turn starts (inferred 2026-11-12), so the first ask to an owned partner
+    takes its project from the daemon; nothing else loses the store check."""
+
+    def setUp(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        self.root = Path(temp.name).resolve()
+        subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
+        self.codex = FakeCodexHome(self.root)
+        self.addCleanup(self.codex.close)
+        self.app = agent.Agent(self.root)
+        self.sid, self.rid = str(uuid.uuid4()), str(uuid.uuid4())
+        self.bind(self.sid)
+        sock = self.codex.home / 'app-server-control'; sock.mkdir()
+        (sock / 'app-server-control.sock').touch()  # existence is all daemon_socket() checks
+        self.calls = []
+
+    def bind(self, sid, **changes):
+        agent.atomic_json(self.app.folder('partners') / 'route-test.json',
+                          {'alias': 'route-test', 'provider': 'codex', 'project': str(self.root),
+                           'kind': 'partner', 'owned': True, 'id': sid, 'status': 'started', **changes})
+
+    def fake_command(self, args, cwd=None, timeout=30):
+        self.calls.append(args)
+        return str(self.root) + '\n' if args[:2] == ['git', '-C'] else ''
+
+    def ask(self, *responses, owned_partner=True, sid=None, fresh=True):
+        from unittest.mock import MagicMock
+        rpc = MagicMock(); rpc.__enter__.return_value = rpc
+        rpc.call.side_effect = list(responses)
+        with patch.object(agent, 'RPC', return_value=rpc) as ctor, \
+             patch.object(agent, 'command', side_effect=self.fake_command):
+            record = self.app.ask('codex', sid or self.sid, 'Review it.', 'Reviewer', self.rid,
+                                  fresh=fresh, owned_partner=owned_partner)
+        return record, ctor, [c.args[0] for c in rpc.call.call_args_list]
+
+    def view(self, cwd=None, status='notLoaded'):
+        return {'thread': {'cwd': cwd or str(self.root), 'status': {'type': status}}}
+
+    def test_an_owned_partner_with_no_store_row_is_queued_through_the_daemon(self):
+        record, _, methods = self.ask(self.view(), {}, {'queuedSubmission': {'id': 'q1'}})
+        self.assertEqual((record['status'], record['route']), ('queued', 'app-server'))
+        self.assertEqual(methods, ['thread/read', 'thread/resume', 'thread/queue/add'])
+        self.assertEqual([a for a in self.calls if a[:1] == ['codex']], [], 'never codex queue')
+
+    def test_a_loaded_unstored_owned_partner_is_queued_without_a_resume(self):
+        record, _, methods = self.ask(self.view(status='idle'), {'queuedSubmission': {'id': 'q1'}})
+        self.assertEqual(record['status'], 'queued')
+        self.assertEqual(methods, ['thread/read', 'thread/queue/add'])
+
+    def test_a_daemon_view_in_another_project_is_refused(self):
+        record, _, methods = self.ask(self.view(cwd='/tmp'))
+        self.assertIn('project identity changed', record['error'])
+        self.assertEqual(methods, ['thread/read'])
+
+    def test_no_daemon_view_is_refused_as_not_in_the_store(self):
+        record, _, methods = self.ask(agent.Unavailable('no such thread'))
+        self.assertIn('not in the local store', record['error'])
+        self.assertEqual(methods, ['thread/read'])
+        (self.codex.home / 'app-server-control' / 'app-server-control.sock').unlink()
+        self.rid = str(uuid.uuid4())
+        record, ctor, _ = self.ask()
+        self.assertIn('not in the local store', record['error'])
+        ctor.assert_not_called()
+
+    def test_an_unusable_daemon_is_refused_as_not_in_the_store(self):
+        with patch.object(agent, 'RPC', side_effect=agent.Unavailable('no socket')), \
+             patch.object(agent, 'command', side_effect=self.fake_command):
+            record = self.app.ask('codex', self.sid, 'Review it.', 'Reviewer', self.rid,
+                                  fresh=True, owned_partner=True)
+        self.assertIn('not in the local store', record['error'])
+
+    def test_a_route_that_is_not_an_owned_partner_keeps_the_store_refusal(self):
+        # live_target reads the daemon's view first; send_codex still refuses
+        # before any send, as it did before this change.
+        record, _, methods = self.ask(self.view(), {}, {'queuedSubmission': {'id': 'q1'}},
+                                      owned_partner=False)
+        self.assertIn('not in the local store', record['error'])
+        self.assertEqual(methods, ['thread/read'])
+
+    def test_owned_partner_without_a_binding_kerd_started_keeps_the_store_refusal(self):
+        stranger = str(uuid.uuid4())
+        for changes in ({'id': stranger}, {'owned': False}, {'kind': 'worker'},
+                        {'provider': 'claude'}, {'project': '/tmp'}):
+            self.bind(self.sid, **changes)
+            self.rid = str(uuid.uuid4())
+            record, ctor, _ = self.ask(self.view(), {}, {'queuedSubmission': {'id': 'q1'}})
+            self.assertIn('not in the local store', record['error'], changes)
+            ctor.assert_not_called()
+
+    def test_an_owned_partner_with_an_archived_store_row_is_refused(self):
+        self.codex.thread(self.sid, archived=1, source='vscode', thread_source=None)
+        record, ctor, _ = self.ask(self.view(), {}, {'queuedSubmission': {'id': 'q1'}})
+        self.assertIn('archived', record['error'])
+        ctor.assert_not_called()
+
+    def test_an_owned_partner_with_a_store_row_in_another_project_is_refused(self):
+        self.codex.thread(self.sid, cwd='/tmp', source='vscode', thread_source=None)
+        record, ctor, _ = self.ask(self.view(), {}, {'queuedSubmission': {'id': 'q1'}})
+        self.assertIn('another project', record['error'])
+        ctor.assert_not_called()
+
+
+class LaterAskUnstoredPartnerTests(UnstoredOwnedPartnerTests):
+    """Review r3 (2026-11-12): a later, non-fresh ask to the same unstored
+    partner reaches the daemon too, and its reply is found once a rollout exists."""
+
+    def later(self, *responses, **kwargs):
+        return self.ask(*responses, fresh=False, **kwargs)
+
+    def test_a_later_ask_to_an_unstored_owned_partner_is_queued_and_its_reply_found(self):
+        record, _, methods = self.later(self.view(), {}, {'queuedSubmission': {'id': 'q1'}})
+        self.assertEqual((record['status'], record['route']), ('queued', 'app-server'))
+        self.assertEqual(methods, ['thread/read', 'thread/resume', 'thread/queue/add'])
+        self.assertIsNone(record['log'])
+        with patch.object(agent, 'command', side_effect=self.fake_command):
+            self.assertEqual(self.app.status(self.rid)['status'], 'queued')  # no rollout yet
+            log = self.codex.thread(self.sid, source='vscode', thread_source=None)
+            begin, end = agent.markers(self.rid)
+            with log.open('a') as f:
+                f.write(json.dumps(codex_event(begin + '\nFinding: keep it.\n' + end)) + '\n')
+            done = self.app.status(self.rid)
+        self.assertEqual((done['status'], done['reply']), ('reply-received', 'Finding: keep it.'))
+
+    def test_a_later_ask_to_a_sid_with_no_binding_still_fails_at_the_transcript(self):
+        for owned_partner, changes in ((False, {}), (True, {'owned': False}), (True, {'id': str(uuid.uuid4())})):
+            with self.subTest(owned_partner=owned_partner, **changes):
+                self.bind(self.sid, **changes)
+                self.rid = str(uuid.uuid4())
+                with self.assertRaisesRegex(agent.Unavailable, 'transcript'):
+                    self.later(self.view(), self.view(), {}, {'queuedSubmission': {'id': 'q1'}},
+                               owned_partner=owned_partner)
+                self.assertFalse((self.app.folder('requests') / (self.rid + '.json')).exists())
+
+    def test_a_later_ask_to_an_owned_partner_with_a_row_reads_the_transcript(self):
+        log = self.codex.thread(self.sid, source='vscode', thread_source=None)
+        log.write_text(json.dumps(codex_event('earlier turn')) + '\n')
+        real = agent.transcript
+        with patch.object(agent, 'transcript', side_effect=real) as seen:
+            record, _, methods = self.later(self.view(status='idle'), {'queuedSubmission': {'id': 'q1'}})
+        seen.assert_called_once()
+        self.assertEqual((record['log'], record['offset']), (str(log), log.stat().st_size))
+        self.assertEqual(methods, ['thread/read', 'thread/queue/add'])
 
 
 class FixtureIsolationTests(unittest.TestCase):
