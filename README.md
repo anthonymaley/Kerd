@@ -327,9 +327,23 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.191.0)
+## What's New (v0.192.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.192.0
+
+**Conductor knows how to brief Claude Fable 5.2.** Claude Code's `fable` alias now means Fable 5.2 (released
+9 November) from Claude Code 2.1.321, so Kerd's `kerd:fable-*` agents run it there, unless a gateway session,
+an alias override or a model allowlist says otherwise. A new prompt profile, from full
+reads of Anthropic's 5.2 prompting guide, what's new page, migration guide and effort notes, tells Conductor what
+changed: start at high effort and don't reuse 5.1 settings; a "don't deliberate" line no longer cuts thinking; at low
+and medium a job can stop before it is done, so the brief says to finish; leave out the "you own this codebase"
+sentence on your code (with it, output rose 70 to 80 percent and unrequested changes appeared); name the exact actions
+that need approval and write rules with their scope instead of "never"; test leaving a large budget out of briefs, while keeping limits a job must observe; check a player's
+diff, not only its summary. The model guide lists Fable 5.2 in place of 5.1 (still reachable by its full ID) with its
+price, its high default effort, usage-credit billing on some plans and its safety fallbacks. Every clause comes from
+Anthropic's guidance; none has yet been tried on Kerd work.
 
 ### v0.191.0
 
