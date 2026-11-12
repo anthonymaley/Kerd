@@ -74,7 +74,12 @@ same way an omitted role is preserved. `start` refuses the flag for
 `partners` (no arguments) reads this project's private bindings only — no
 native discovery, socket or contact — and returns `{"partners": [...]}`
 ordered by alias. Each row has `alias`, `provider`, `kind` (`partner` when
-absent), `role` (or null), `review_cadence` (list or null) and `valid`. A row
+absent), `role` (or null), `review_cadence` (list or null), `valid`, `last_request_at`
+and `last_reply_at` (epoch seconds or null, from this binding's requests,
+arrival notices excluded), and `stale` with its `stale_reason` (no reply in 14
+days, or never and the binding is older than 14 days; or a contribution request
+sent since the last reply unconfirmed for over a day). `retire --alias ALIAS`
+moves a binding to `partners-retired/` with `retired_at`, never deleting it. A row
 can be invalid for more reasons than these: its JSON is unreadable, provider
 or alias is missing, the provider is not `claude` or `codex`, the alias does
 not match its file, the project does not match, the binding has no confirmed

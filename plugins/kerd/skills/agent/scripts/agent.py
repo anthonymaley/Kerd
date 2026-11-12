@@ -77,6 +77,37 @@ def alias_name(value):
 
 REVIEW_CADENCES = ('checkpoints', 'before-push', 'end', 'on-request')
 
+# A partner binding is stale when no reply has come in this long (judged by the
+# binding file's age when it has never replied), or when a contribution request
+# to it has sat unconfirmed this long. Stale bindings are not greeted by
+# default and Switch In offers to retire them; nothing is deleted.
+STALE_REPLY_SECONDS = 14 * 24 * 3600
+STALE_UNCONFIRMED_SECONDS = 24 * 3600
+
+# `start --kind partner` writes its binding in these states before `started`,
+# releasing the lock between writes. A binding this young in one of them may
+# still be mid-launch, so `retire` leaves it alone until it is older.
+LAUNCH_STATES = ('start-uncertain', 'launched-unconfirmed')
+LAUNCH_SETTLE_SECONDS = 3600
+NOT_A_PARTNER = 'Binding is not a valid partner'
+
+# What this helper writes into kerd-agent/requests: a contribution has no
+# `kind`, a notice is `arrival-notice`; statuses are those `new_request`,
+# `ask`, `send_claude`, `send_codex`, `arrival_notice`, `start` and `_status`
+# store. (`observation-unavailable` is returned, never stored; Conductor's
+# ask.py keeps its own records in .git/cross-llm, not here.) Anything else
+# makes staleness incomplete.
+REQUEST_KINDS = ('arrival-notice',)
+REQUEST_STATUSES = ('delivery-uncertain', 'submitted-unconfirmed', 'queued',
+                    'reply-received', 'notice-unavailable')
+
+
+def epoch(value):
+    """A stored timestamp in epoch seconds, or None when absent or malformed."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+        return None
+    return value
+
 
 def validate_review_cadence(value):
     """The one check for a partner's review cadence, from the CLI or a stored
@@ -841,34 +872,139 @@ class Agent:
                 raise ValueError('Invalid review cadence: ' + str(exc)) from None
         return peer
 
-    def partners(self):
+    def partners(self, now=None):
         """This project's partner bindings from private metadata only.
 
         No native discovery, session probe, socket, provider CLI or network.
         One unreadable or malformed binding is its own invalid row, never a
         hidden partner or a failed listing. Session IDs are not returned.
+        Each valid row carries its last request and reply times and whether
+        it is stale (see STALE_REPLY_SECONDS and STALE_UNCONFIRMED_SECONDS).
+        When any request record is unreadable or malformed, valid rows also
+        carry `stale_incomplete: true`: their staleness may be wrong.
         """
+        return {'partners': [row for row, _ in self.partner_entries(now)]}
+
+    def partner_entries(self, now=None):
+        """(row, session ID or None) per binding, sorted by alias. The ID stays
+        private to callers in this module; it is never part of a row."""
         folder = self.state / 'partners'
         for path in (self.state, folder):
             try:
                 path.lstat()
             except FileNotFoundError:
-                return {'partners': []}  # never paired here; nothing to report
+                return []  # never paired here; nothing to report
             owned(path, stat.S_ISDIR)  # a symlinked or foreign store is a store failure
         # iterdir, not glob: an unreadable directory must fail, not list nothing.
         paths = [path for path in folder.iterdir() if path.name.endswith('.json')]
-        rows = [self.partner_row(path) for path in paths]
-        return {'partners': sorted(rows, key=lambda row: row['alias'])}
+        activity, incomplete = self.request_activity()  # read once for every binding
+        now = time.time() if now is None else now
+        entries = [self.partner_entry(path, activity, now, incomplete) for path in paths]
+        return sorted(entries, key=lambda entry: entry[0]['alias'])
 
-    def partner_row(self, path):
+    def request_activity(self):
+        """(provider, session) -> latest request time, latest reply time and
+        the creation times of contributions still unconfirmed, from private
+        request records.
+
+        Returns (activity, incomplete). Arrival notices expect no reply and
+        are not counted; a record from another project is skipped. An
+        unreadable or malformed record is skipped too, but sets incomplete:
+        the reply it may hold is unknown, so staleness may be wrong. Nothing
+        is written and no store is created.
+        """
+        folder = self.state / 'requests'
+        try:
+            folder.lstat()
+        except FileNotFoundError:
+            return {}, False
+        owned(folder, stat.S_ISDIR)
+        activity, projects, incomplete = {}, {}, False
+        for path in folder.iterdir():
+            if not path.name.endswith('.json'):
+                continue
+            try:
+                record = read_json(path)
+            except (Unavailable, OSError, ValueError):
+                incomplete = True
+                continue
+            if not isinstance(record, dict):
+                incomplete = True
+                continue
+            provider, session, project = (record.get('provider'), record.get('session'),
+                                          record.get('project'))
+            if (('kind' in record and record['kind'] not in REQUEST_KINDS)
+                    or not all(isinstance(value, str) for value in (provider, session, project))
+                    or record.get('status') not in REQUEST_STATUSES):
+                incomplete = True
+                continue
+            created = epoch(record.get('created_at'))
+            if created is None:
+                incomplete = True
+            if 'kind' in record:
+                continue  # a well-formed notice: no reply expected, not contact
+            if project not in projects:
+                projects[project] = self.stored_project_matches(project)
+            if not projects[project]:
+                continue
+            entry = activity.setdefault((provider, session),
+                                        {'request': None, 'reply': None, 'unconfirmed': []})
+            def keep(key, value):
+                if value is not None:
+                    entry[key] = value if entry[key] is None else max(entry[key], value)
+            keep('request', created)
+            if record.get('status') == 'reply-received':
+                received = epoch(record.get('received_at'))
+                if received is None:
+                    incomplete = True
+                keep('reply', received)
+            elif record.get('status') == 'submitted-unconfirmed' and created is not None:
+                entry['unconfirmed'].append(created)
+        return activity, incomplete
+
+    @staticmethod
+    def staleness(path, provider, sid, activity, now):
+        entry = activity.get((provider, sid)) or {}
+        last_request, last_reply = entry.get('request'), entry.get('reply')
+        reasons = []
+        # A stored status stays submitted-unconfirmed until someone polls it, so
+        # only requests sent after the last reply count; a later reply clears
+        # older ones. With no reply ever, every unconfirmed request counts.
+        if any(now - created > STALE_UNCONFIRMED_SECONDS
+               and (last_reply is None or created > last_reply)
+               for created in entry.get('unconfirmed', ())):
+            reasons.append('a request has gone unconfirmed for over '
+                           f'{STALE_UNCONFIRMED_SECONDS // 3600} hours')
+        days = STALE_REPLY_SECONDS // 86400
+        if last_reply is not None:
+            if now - last_reply > STALE_REPLY_SECONDS:
+                reasons.append(f'no reply in over {days} days')
+        else:
+            try:
+                age = now - path.lstat().st_mtime
+            except OSError:
+                age = None  # removed since it was read: no age to judge by
+            if age is not None and age > STALE_REPLY_SECONDS:
+                reasons.append(f'never replied; binding over {days} days old')
+        return {'last_request_at': last_request, 'last_reply_at': last_reply,
+                'stale': bool(reasons), 'stale_reason': '; '.join(reasons) or None}
+
+    def partner_row(self, path, activity=None, now=None):
+        incomplete = False
+        if activity is None:
+            activity, incomplete = self.request_activity()
+        return self.partner_entry(path, activity, time.time() if now is None else now, incomplete)[0]
+
+    def partner_entry(self, path, activity, now, incomplete=False):
         row = {'alias': path.stem, 'provider': None, 'kind': 'partner', 'role': None,
-               'review_cadence': None, 'valid': False}
+               'review_cadence': None, 'valid': False, 'last_request_at': None,
+               'last_reply_at': None, 'stale': None, 'stale_reason': None}
         try:
             raw = read_json(path)
         except (Unavailable, OSError, ValueError) as exc:
-            return {**row, 'error': 'Unreadable binding: ' + describe(exc)}
+            return {**row, 'error': 'Unreadable binding: ' + describe(exc)}, None
         if not isinstance(raw, dict):
-            return {**row, 'error': 'Invalid binding object'}
+            return {**row, 'error': 'Invalid binding object'}, None
         if isinstance(raw.get('provider'), str):
             row['provider'] = raw['provider']
         if isinstance(raw.get('kind', 'partner'), str):
@@ -906,8 +1042,24 @@ class Agent:
             except ValueError as exc:
                 error = 'Invalid review cadence: ' + str(exc)
         if error:
-            return {**row, 'review_cadence': None, 'error': error}
-        return {**row, 'valid': True}
+            return {**row, 'review_cadence': None, 'error': error}, None
+        row = {**row, 'valid': True, **self.staleness(path, raw['provider'], raw['id'], activity, now)}
+        if incomplete:
+            row['stale_incomplete'] = True
+        return row, raw['id']
+
+    def unconfirmed_launch(self, alias, now):
+        """A launch reservation never confirmed: a pre-`started` state, no
+        session, and older than LAUNCH_SETTLE_SECONDS. Only called for a row
+        partner_entry already found project-valid with no confirmed session."""
+        path = self.state / 'partners' / (alias + '.json')
+        try:
+            raw = read_json(path)
+            age = now - path.lstat().st_mtime
+        except (Unavailable, OSError, ValueError):
+            return False
+        return (isinstance(raw, dict) and raw.get('status') in LAUNCH_STATES
+                and raw.get('id') in (None, '') and age > LAUNCH_SETTLE_SECONDS)
 
     @staticmethod
     def canonical_session(value):
@@ -926,30 +1078,44 @@ class Agent:
         except (OSError, ValueError, RuntimeError):
             return False  # e.g. an embedded NUL or a symlink loop: not this project
 
-    def arrival_peers(self, provider, excluded):
+    def arrival_peers(self, provider, excluded, stale=(), valid=None):
         """Prefer an explicitly recorded role, otherwise a unique external peer.
 
-        No native discovery, historical requests or binding changes. Multiple
-        identities remain a choice, never a newest-session heuristic.
+        No native discovery or binding changes. Stale aliases are skipped
+        before identities are counted, so a stale binding never makes the
+        choice ambiguous. With `valid` given, a binding outside it (one
+        `partners` rejects) is never a candidate. Each invalid binding is its
+        own error row; it does not stop the others. Multiple identities remain
+        a choice, never a newest-session heuristic.
         """
         folder = self.state / 'partners'
         if not folder.exists():
             return [], []
-        candidates = []
+        candidates, unresolved = [], []
         try:
-            for path in sorted(folder.glob('*.json')):
+            paths = sorted(folder.glob('*.json'))
+        except OSError as exc:
+            return [], [{'status': 'notice-unavailable', 'error': describe(exc)}]
+        for path in paths:
+            if path.stem in stale:
+                continue
+            try:
                 peer = self.notice_binding(self.binding_path(path.stem))
                 if (peer['provider'], peer['id']) in excluded or peer.get('kind') == 'worker':
                     continue
                 role = bool((peer.get('partner_role') or '').strip())
                 if peer.get('owned') and not (peer.get('kind') == 'partner' and role):
                     continue
-                # Same-provider contact aliases alone do not select teammates.
-                if peer['provider'] != provider or role:
-                    candidates.append(peer)
-        except (Unavailable, OSError, ValueError, KeyError, TypeError) as exc:
-            return [], [{'status': 'notice-unavailable', 'error': describe(exc)}]
-        aliases, unresolved = [], []
+                if valid is not None and path.stem not in valid:
+                    raise Unavailable(NOT_A_PARTNER)
+            except (Unavailable, OSError, ValueError, KeyError, TypeError) as exc:
+                unresolved.append({'alias': path.stem, 'status': 'notice-unavailable',
+                                   'error': describe(exc)})
+                continue
+            # Same-provider contact aliases alone do not select teammates.
+            if peer['provider'] != provider or role:
+                candidates.append(peer)
+        aliases = []
         for target_provider in ('claude', 'codex'):
             rows = [peer for peer in candidates if peer['provider'] == target_provider]
             roles = [peer for peer in rows if (peer.get('partner_role') or '').strip()]
@@ -964,11 +1130,17 @@ class Agent:
                                    'error': 'Multiple established identities; no notice recipient selected. Use Agent to choose when needed.'})
         return aliases, unresolved
 
-    def arrival(self, provider, peers=None, self_alias=None):
+    def arrival(self, provider, peers=None, self_alias=None, now=None):
         """One informational notice per exact sender/recipient identity pair.
 
         Explicit restored aliases or an unambiguous private pairing are recipients.
         Receipts reuse requests, but have no reply protocol or transcript reads.
+        Every recipient must be a valid, non-stale `partners` entry. Stale
+        bindings, and launch reservations never confirmed, are listed under
+        `stale` for Switch In to offer retirement and are never greeted,
+        chosen or named. If staleness cannot be read, or any request record is
+        unreadable or malformed, no notice is sent to anyone: each peer gets a
+        skipped row.
         """
         current = self.identity(provider)
         sender = {'provider': provider, 'id': current['id'], 'role': 'current session'}
@@ -996,13 +1168,43 @@ class Agent:
                 sender['previous_id'] = identifier(previous['id'])
                 excluded.add((provider, sender['previous_id']))
         result = {'team': [{**sender, 'self': True, 'status': 'identity verified'}],
-                  'availability': 'unverified; notices do not check availability'}
+                  'availability': 'unverified; notices do not check availability',
+                  'stale': []}
+        now = time.time() if now is None else now
+        stale, valid = {}, set()
+        try:
+            entries = self.partner_entries(now)
+            if any(row.get('stale_incomplete') for row, _ in entries):
+                raise Unavailable('Some request records are unreadable or malformed; staleness is incomplete')
+            for row, sid in entries:
+                if row['valid'] and not row['stale']:
+                    valid.add(row['alias'])
+                # The verified current session is alive; never offer it for retirement.
+                if row['stale'] and (row['provider'], sid) != (provider, current['id']):
+                    stale[row['alias']] = {'alias': row['alias'], 'provider': row['provider'],
+                                           'role': row['role'], 'reason': row['stale_reason']}
+                elif (row.get('error') == 'Binding has no confirmed session yet'
+                        and self.unconfirmed_launch(row['alias'], now)):
+                    stale[row['alias']] = {'alias': row['alias'], 'provider': row['provider'],
+                                           'role': row['role'], 'reason': 'launch never confirmed'}
+            result['stale'] = list(stale.values())
+        except (Unavailable, OSError, ValueError) as exc:
+            # Fail closed: unknown staleness could greet a stale partner.
+            result['stale_unavailable'] = describe(exc)
+            stale = None
         if peers is None:
-            peers, unresolved = self.arrival_peers(provider, excluded)
+            peers, unresolved = self.arrival_peers(provider, excluded, stale or (),
+                                                   None if stale is None else valid)
             result['team'].extend(unresolved)
         seen = {(provider, current['id'])}
         for alias in dict.fromkeys(peers):
             row = {'alias': alias, 'status': 'notice-unavailable'}
+            if stale is None:
+                result['team'].append({**row, 'error': 'Notice skipped: staleness could not be read'})
+                continue
+            if alias in stale:
+                result['team'].append({**stale[alias], 'status': 'notice-skipped-stale'})
+                continue
             try:
                 path = self.binding_path(alias)
                 with locked(path.with_suffix('.lock')):
@@ -1015,6 +1217,8 @@ class Agent:
                 if peer.get('kind') == 'worker' or (peer.get('owned') and not
                         (peer.get('kind') == 'partner' and (peer.get('partner_role') or '').strip())):
                     raise Unavailable('Worker or unassigned owned launch is not an arrival peer')
+                if alias not in valid:
+                    raise Unavailable(NOT_A_PARTNER)
                 seen.add(key)
                 row.update(provider=peer['provider'], id=peer['id'],
                            role=peer.get('partner_role') or 'established partner (role not defined)')
@@ -1105,6 +1309,56 @@ class Agent:
             atomic_json(path, record)
             return record
 
+    def retire(self, alias, now=None):
+        """Move a binding aside to partners-retired/, never delete it.
+
+        The retired copy is written (private, fsynced) before the original is
+        removed, so a failure leaves the data in at least one place. Its lock
+        file stays: removing a lock another process may be waiting on would let
+        two writers in at once, and the store never removes locks.
+        """
+        alias = alias_name(alias)
+        source = self.state / 'partners' / (alias + '.json')
+        if os.path.lexists(self.state / 'partners-retired' / (alias + '.json')):
+            raise ValueError('Alias already retired: ' + alias)
+        if not os.path.lexists(source):
+            raise ValueError('No partner binding named ' + alias)
+        path = self.binding_path(alias)
+        with locked(path.with_suffix('.lock')):
+            raw = read_json(path)
+            if not isinstance(raw, dict) or not isinstance(raw.get('project'), str):
+                raise ValueError('Invalid binding metadata; not retired')
+            if not self.stored_project_matches(raw['project']):
+                raise ValueError('Binding belongs to another project')
+            now = time.time() if now is None else now
+            if (raw.get('status') in LAUNCH_STATES
+                    and now - path.lstat().st_mtime < LAUNCH_SETTLE_SECONDS):
+                raise ValueError('Launch may still be in progress; retry after an hour')
+            target = self.folder('partners-retired') / (alias + '.json')
+            if os.path.lexists(target):
+                raise ValueError('Alias already retired: ' + alias)
+            atomic_json(target, {**raw, 'retired_at': now})
+            path.unlink()
+        return {'retired': alias, 'path': 'partners-retired/' + alias + '.json'}
+
+    def launch_write(self, path, record):
+        """A partner launch's binding write after its reservation, under the
+        binding's lock: it never recreates a binding retired since then.
+
+        A retired copy carrying this launch's request ID, or one that cannot be
+        read to tell, stops the launch; a copy from an earlier launch does not.
+        """
+        with locked(path.with_suffix('.lock')):
+            retired = self.state / 'partners-retired' / path.name
+            if os.path.lexists(retired):
+                try:
+                    prior = read_json(retired)
+                except (Unavailable, OSError, ValueError):
+                    prior = None
+                if not isinstance(prior, dict) or prior.get('request_id') == record.get('request_id'):
+                    raise Unavailable('Partner binding was retired during its launch; not recreated')
+            atomic_json(path, record)
+
     def start(self, provider, kind, alias, prompt_file, role, model=None, effort=None, writable=False,
               partner_role=None, review_cadence=None):
         if partner_role is not None:
@@ -1177,12 +1431,12 @@ class Agent:
             with RPC(self.root) as rpc:
                 started = rpc.call('thread/start', params)
             record.update(id=identifier(started['thread']['id']), observed_model=started.get('model'), status='started')
-            atomic_json(path, record)
+            self.launch_write(path, record)
             result = self.ask(provider, record['id'], prompt, role, request, fresh=True, owned_partner=True)
         else:
             sid = str(uuid.uuid4())
             record.update(id=sid, status='start-uncertain', observed_model=None)
-            atomic_json(path, record)
+            self.launch_write(path, record)
             framed = framed_prompt(self.root, request, role, prompt)
             self.new_request(provider, sid, prompt, role, request, None)
             tools = 'Read,Glob,Grep' + (',Edit,Write' if writable else '')
@@ -1197,14 +1451,14 @@ class Agent:
                     args.extend([flag, value])
             record['native_launch'] = command(args, self.root).strip()
             record['status'] = 'launched-unconfirmed'
-            atomic_json(path, record)
+            self.launch_write(path, record)
             # --bg assigns its own ID (even when --session-id was supplied).
             # Resolve the launcher's exact short ID, never "latest" or cwd alone.
             match = re.search(r'^backgrounded\s+\S+\s+([0-9a-f]{8})\s*$', record['native_launch'], re.M)
             if not match:
                 raise Unavailable('Claude launched but its native ID could not be resolved; do not launch again')
             record['native_short_id'] = match[1]
-            atomic_json(path, record)  # the short id survives a slow launch
+            self.launch_write(path, record)  # the short id survives a slow launch
             deadline = time.monotonic() + 15
             found = []
             while time.monotonic() < deadline:
@@ -1217,7 +1471,7 @@ class Agent:
                 raise Unavailable('Claude launched (short id ' + match[1] + ') but was not listed within '
                                   '15s; it holds the prompt. Pair it by its full id once listed; do not launch again')
             record.update(id=found[0]['id'], status='started')
-            atomic_json(path, record)
+            self.launch_write(path, record)
             pending = self.folder('requests') / (request + '.json')
             initial = read_json(pending)
             initial.update(session=record['id'], status='submitted-unconfirmed')
@@ -1444,7 +1698,8 @@ def main():
     arrival = sub.add_parser('arrival', help='Show verified self and restored peers; send deduplicated no-reply arrival notices')
     arrival.add_argument('--provider', choices=['claude', 'codex'], required=True)
     arrival.add_argument('--self-alias', help='Already-restored role held by this verified session')
-    arrival.add_argument('--peer', action='append', help='Explicit established peer alias; otherwise use unambiguous private pairing (recorded role preferred)')
+    arrival.add_argument('--peer', action='append', help='Explicit established peer alias (a stale one is skipped and listed); otherwise use '
+                         'unambiguous private pairing (recorded role preferred)')
     handoff = sub.add_parser('handoff', help='Prepare or revoke this bound session\'s private role handoff')
     handoff.add_argument('--provider', choices=['claude', 'codex'], required=True)
     handoff.add_argument('--alias', required=True)
@@ -1480,6 +1735,9 @@ def main():
     pair.add_argument('--review-cadence', action='append', help=cadence_help)
     sub.add_parser('partners', help='List this project\'s partner bindings with role and review cadence; '
                    'private metadata only, no discovery or contact')
+    retire = sub.add_parser('retire', help='Move a stale partner binding aside to partners-retired/; '
+                            'keeps its data, sends nothing')
+    retire.add_argument('--alias', required=True)
     ask = sub.add_parser('ask', help='Send one contribution request to a saved partner')
     ask.add_argument('--alias', required=True)
     ask.add_argument('--prompt-file', required=True)
@@ -1515,6 +1773,8 @@ def main():
                                 args.review_cadence)
         elif args.action == 'partners':
             result = agent.partners()
+        elif args.action == 'retire':
+            result = agent.retire(args.alias)
         elif args.action == 'ask':
             partner = read_json(agent.folder('partners') / (alias_name(args.alias) + '.json'))
             result = agent.ask(partner['provider'], partner['id'], Path(args.prompt_file).read_text(),

@@ -336,5 +336,189 @@ class ArrivalTests(unittest.TestCase):
         self.assertIn('Multiple established identities', result['team'][1]['error'])
 
 
+    def age(self, alias, days):
+        path = self.app.state / 'partners' / (alias + '.json')
+        then = agent.time.time() - days * 24 * 3600
+        os.utime(path, (then, then))
+
+    def test_fresh_context_skips_a_stale_role_before_counting_identities(self):
+        # Two roles would be ambiguous; the stale one is not counted, so the live one is greeted.
+        self.bind('old-build', 'codex', str(uuid.uuid4()), 'Designer')
+        self.age('old-build', 15)
+        with patch.object(self.app, 'send_codex', side_effect=self.send) as send:
+            result = self.app.arrival('claude', None, 'self-role')
+        self.assertEqual(send.call_count, 1)
+        self.assertEqual(result['team'][1]['id'], self.peer)
+        self.assertNotIn('error', result['team'][1])
+        self.assertEqual(result['stale'], [{'alias': 'old-build', 'provider': 'codex', 'role': 'Designer',
+                                            'reason': 'never replied; binding over 14 days old'}])
+        self.assertNotIn('Multiple established identities', json.dumps(result))
+
+    def test_only_stale_partners_means_no_default_recipient_and_no_request(self):
+        self.age('build', 20)
+        with patch.object(self.app, 'send_codex') as send:
+            result = self.app.arrival('claude', None, 'self-role')
+        send.assert_not_called()
+        self.assertEqual(len(result['team']), 1)
+        self.assertEqual([row['alias'] for row in result['stale']], ['build'])
+        self.assertEqual(result['stale'][0]['role'], 'Implementation partner')
+        self.assertFalse((self.app.state / 'requests').exists())
+
+    def test_an_explicit_stale_peer_is_skipped_and_listed(self):
+        self.age('build', 20)
+        with patch.object(self.app, 'send_codex') as send, \
+             patch.object(agent, 'send_claude') as claude:
+            result = self.arrive('build')
+        send.assert_not_called()
+        claude.assert_not_called()
+        self.assertEqual(result['team'][1], {'alias': 'build', 'provider': 'codex',
+                                             'role': 'Implementation partner',
+                                             'reason': 'never replied; binding over 14 days old',
+                                             'status': 'notice-skipped-stale'})
+        self.assertEqual([row['alias'] for row in result['stale']], ['build'])
+        self.assertFalse((self.app.state / 'requests').exists())
+
+    def test_a_fresh_explicit_peer_is_greeted_beside_a_skipped_stale_one(self):
+        self.bind('old-review', 'claude', str(uuid.uuid4()), 'Reviewer')
+        self.age('old-review', 20)
+        with patch.object(self.app, 'send_codex', side_effect=self.send) as send, \
+             patch.object(agent, 'send_claude') as claude:
+            result = self.arrive('old-review', 'build')
+        claude.assert_not_called()
+        self.assertEqual(send.call_count, 1)
+        self.assertEqual([(row['alias'], row['status']) for row in result['team'][1:]],
+                         [('old-review', 'notice-skipped-stale'), ('build', 'submitted-unconfirmed')])
+
+    def test_unreadable_staleness_sends_no_notice_on_either_path(self):
+        failure = agent.Unavailable('Expected a real, locally owned path: requests')
+        for peers in (['build'], None):
+            with self.subTest(peers=peers), \
+                 patch.object(self.app, 'partner_entries', side_effect=failure), \
+                 patch.object(self.app, 'send_codex') as send, \
+                 patch.object(agent, 'send_claude') as claude:
+                result = self.app.arrival('claude', peers, 'self-role')
+                send.assert_not_called()
+                claude.assert_not_called()
+                self.assertEqual(result['stale'], [])
+                self.assertIn('locally owned', result['stale_unavailable'])
+                self.assertEqual(result['team'][1:], [{'alias': 'build', 'status': 'notice-unavailable',
+                                                       'error': 'Notice skipped: staleness could not be read'}])
+        self.assertFalse((self.app.state / 'requests').exists())
+
+    def test_stale_list_keeps_session_ids_private_and_never_offers_the_current_session(self):
+        self.age('self-role', 30)
+        self.age('build', 30)
+        self.bind('old-self', 'claude', str(uuid.uuid4()))
+        self.age('old-self', 30)
+        with patch.object(self.app, 'send_codex', side_effect=self.send):
+            result = self.arrive('build')
+        self.assertEqual(sorted(row['alias'] for row in result['stale']), ['build', 'old-self'])
+        self.assertEqual(set(result['stale'][0]), {'alias', 'provider', 'role', 'reason'})
+        self.assertNotIn(self.peer, json.dumps(result['stale']))
+        self.assertNotIn(self.me, json.dumps(result['stale']))
+
+    def test_a_recent_reply_keeps_an_old_binding_a_default_recipient(self):
+        self.age('build', 30)
+        request = str(uuid.uuid4())
+        agent.atomic_json(self.app.folder('requests') / (request + '.json'), {
+            'request_id': request, 'provider': 'codex', 'session': self.peer,
+            'project': str(self.app.root), 'status': 'reply-received',
+            'created_at': agent.time.time() - 7200, 'received_at': agent.time.time() - 3600})
+        with patch.object(self.app, 'send_codex', side_effect=self.send) as send:
+            result = self.app.arrival('claude', None, 'self-role')
+        self.assertEqual(send.call_count, 1)
+        self.assertEqual(result['stale'], [])
+
+    def test_injected_now_makes_every_unreplied_binding_stale(self):
+        later = agent.time.time() + 15 * 24 * 3600
+        with patch.object(self.app, 'send_codex') as send:
+            result = self.app.arrival('claude', None, 'self-role', now=later)
+        send.assert_not_called()
+        self.assertEqual([row['alias'] for row in result['stale']], ['build'])
+
+    def test_an_unreadable_or_malformed_request_record_sends_no_notice_on_either_path(self):
+        folder = self.app.folder('requests')
+        well = {'provider': 'codex', 'session': self.peer, 'project': str(self.app.root),
+                'created_at': agent.time.time() - 60}
+        for case, text in (('unreadable', '{not json'),
+                           ('malformed', json.dumps({'provider': 'codex', 'project': str(self.app.root),
+                                                     'status': 'queued', 'created_at': 1})),
+                           ('unknown status', json.dumps({**well, 'status': 'answered'})),
+                           ('notice-claimed and malformed', json.dumps(
+                               {**well, 'kind': 'arrival-notice', 'session': None,
+                                'status': 'submitted-unconfirmed'}))):
+            path = folder / (str(uuid.uuid4()) + '.json')
+            path.write_text(text)
+            for peers in (['build'], None):
+                with self.subTest(case=case, peers=peers), \
+                     patch.object(self.app, 'send_codex') as send, \
+                     patch.object(agent, 'send_claude') as claude:
+                    result = self.app.arrival('claude', peers, 'self-role')
+                    send.assert_not_called()
+                    claude.assert_not_called()
+                    self.assertEqual(result['stale'], [])
+                    self.assertIn('unreadable or malformed', result['stale_unavailable'])
+                    self.assertEqual(result['team'][1:], [{'alias': 'build', 'status': 'notice-unavailable',
+                                                           'error': 'Notice skipped: staleness could not be read'}])
+            path.unlink()
+        self.assertEqual([p.name for p in folder.iterdir()], [])
+
+    def test_a_binding_partners_rejects_is_never_greeted(self):
+        # notice_binding accepts any kind string; partners accepts only partner (and worker is handled apart).
+        path = self.app.state / 'partners/build.json'
+        value = agent.read_json(path)
+        value['kind'] = 'observer'
+        agent.atomic_json(path, value)
+        self.app.notice_binding(path)  # accepted by the notice reader
+        for peers in (['build'], None):
+            with self.subTest(peers=peers), patch.object(self.app, 'send_codex') as send:
+                result = self.app.arrival('claude', peers, 'self-role')
+                send.assert_not_called()
+                self.assertEqual(result['team'][1:], [{'alias': 'build', 'status': 'notice-unavailable',
+                                                       'error': 'Binding is not a valid partner'}])
+        self.assertFalse((self.app.state / 'requests').exists())
+
+    def test_a_rejected_binding_does_not_make_default_selection_ambiguous(self):
+        path = self.bind('observer', 'codex', str(uuid.uuid4()), 'Designer')
+        value = agent.read_json(path)
+        value['kind'] = 'observer'
+        agent.atomic_json(path, value)
+        with patch.object(self.app, 'send_codex', side_effect=self.send) as send:
+            result = self.app.arrival('claude', None, 'self-role')
+        self.assertEqual(send.call_count, 1)
+        self.assertNotIn('Multiple established identities', json.dumps(result))
+        rows = {row['alias']: row for row in result['team'][1:]}
+        self.assertEqual(rows['observer']['error'], 'Binding is not a valid partner')
+        self.assertEqual(rows['build']['status'], 'submitted-unconfirmed')
+
+    def reserve(self, alias, minutes, status='start-uncertain'):
+        path = self.app.folder('partners') / (alias + '.json')
+        agent.atomic_json(path, {'alias': alias, 'provider': 'codex', 'project': str(self.app.root),
+                                 'status': status, 'request_id': str(uuid.uuid4()),
+                                 'partner_role': 'Independent reviewer', 'review_cadence': None})
+        then = agent.time.time() - minutes * 60
+        os.utime(path, (then, then))
+
+    def test_an_old_unconfirmed_launch_is_listed_and_a_fresh_partner_still_greeted(self):
+        self.reserve('pending', 120)
+        self.reserve('pending-claude', 90, 'launched-unconfirmed')
+        self.reserve('launching', 10)  # may still be mid-launch: not listed, not greeted
+        with patch.object(self.app, 'send_codex', side_effect=self.send) as send:
+            result = self.app.arrival('claude', None, 'self-role')
+        self.assertEqual(send.call_count, 1)
+        greeted = [row for row in result['team'][1:] if row.get('request_id')]
+        self.assertEqual([row['alias'] for row in greeted], ['build'])
+        self.assertEqual(result['stale'], [
+            {'alias': 'pending', 'provider': 'codex', 'role': 'Independent reviewer',
+             'reason': 'launch never confirmed'},
+            {'alias': 'pending-claude', 'provider': 'codex', 'role': 'Independent reviewer',
+             'reason': 'launch never confirmed'}])
+        skipped = [row for row in result['team'][1:] if row['alias'] == 'launching']
+        self.assertEqual(skipped[0]['status'], 'notice-unavailable')
+        with patch.object(self.app, 'send_codex') as send:
+            named = self.arrive('pending')
+        send.assert_not_called()
+        self.assertEqual(named['team'][1]['status'], 'notice-skipped-stale')
+
 if __name__ == '__main__':
     unittest.main()

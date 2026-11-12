@@ -25,12 +25,18 @@ import agent
 # Fixed there and held by FixtureIsolationTests below.
 REAL_RPC = agent.RPC
 
+# Staleness fields every `partners` row carries: an invalid row judges nothing,
+# a freshly paired valid row with no requests is not stale.
+INVALID_ACTIVITY = {'last_request_at': None, 'last_reply_at': None, 'stale': None, 'stale_reason': None}
+FRESH_ACTIVITY = {'last_request_at': None, 'last_reply_at': None, 'stale': False, 'stale_reason': None}
+
 
 class HelpTests(unittest.TestCase):
     def test_all_help_routes_work_without_project_or_provider_tools(self):
         with tempfile.TemporaryDirectory() as directory:
             for command in ([], ['sessions'], ['pair'], ['start'], ['ask'], ['status'], ['wait'],
-                            ['identity'], ['handoff'], ['adopt'], ['arrival'], ['partners']):
+                            ['identity'], ['handoff'], ['adopt'], ['arrival'], ['partners'],
+                            ['retire']):
                 with self.subTest(command=command):
                     result = subprocess.run(
                         [sys.executable, '-B', agent.__file__, *command, '--help'],
@@ -704,9 +710,9 @@ class PartnersReaderTests(unittest.TestCase):
         self.assertEqual((code, err), (0, ''))
         self.assertEqual(json.loads(out), {'partners': [
             {'alias': 'alpha-build', 'provider': 'claude', 'kind': 'partner', 'role': None,
-             'review_cadence': None, 'valid': True},
+             'review_cadence': None, 'valid': True, **FRESH_ACTIVITY},
             {'alias': 'zeta-review', 'provider': 'codex', 'kind': 'partner', 'role': 'Independent reviewer',
-             'review_cadence': ['before-push', 'end'], 'valid': True}]})
+             'review_cadence': ['before-push', 'end'], 'valid': True, **FRESH_ACTIVITY}]})
         self.assertNotIn(review, out)
         self.assertNotIn(build, out)
         self.assertEqual(sorted((p.name, p.read_bytes()) for p in folder.iterdir()), before)
@@ -720,8 +726,11 @@ class PartnersReaderTests(unittest.TestCase):
         self.assertEqual((code, err), (0, ''))
         build, review = json.loads(out)['partners']
         self.assertEqual(build, {'alias': 'build', 'provider': 'codex', 'kind': 'partner',
-                                 'role': 'Implementation partner', 'review_cadence': ['end'], 'valid': True})
-        self.assertEqual(set(review), {'alias', 'provider', 'kind', 'role', 'review_cadence', 'valid', 'error'})
+                                 'role': 'Implementation partner', 'review_cadence': ['end'], 'valid': True,
+                                 **FRESH_ACTIVITY})
+        self.assertEqual(set(review), {'alias', 'provider', 'kind', 'role', 'review_cadence', 'valid', 'error',
+                                       *INVALID_ACTIVITY})
+        self.assertEqual({key: review[key] for key in INVALID_ACTIVITY}, INVALID_ACTIVITY)
         self.assertEqual((review['alias'], review['provider'], review['role']), ('review', 'claude', 'Reviewer'))
         self.assertFalse(review['valid'])
         self.assertIsNone(review['review_cadence'])
@@ -765,7 +774,8 @@ class PartnersReaderTests(unittest.TestCase):
         self.assertEqual((code, err), (0, ''))
         self.assertEqual(json.loads(out), {'partners': [
             {'alias': 'pending', 'provider': 'codex', 'kind': 'partner', 'role': 'Independent reviewer',
-             'review_cadence': None, 'valid': False, 'error': 'Binding has no confirmed session yet'}]})
+             'review_cadence': None, 'valid': False, 'error': 'Binding has no confirmed session yet',
+             **INVALID_ACTIVITY}]})
         self.assertNotIn(request, out)
         self.assertNotIn('"id"', out)
 
@@ -786,7 +796,8 @@ class PartnersReaderTests(unittest.TestCase):
         for alias, (provider, kind, role, error) in expected.items():
             with self.subTest(alias=alias):
                 self.assertEqual(rows[alias], {'alias': alias, 'provider': provider, 'kind': kind, 'role': role,
-                                               'review_cadence': None, 'valid': False, 'error': error})
+                                               'review_cadence': None, 'valid': False, 'error': error,
+                                               **INVALID_ACTIVITY})
         self.assertNotIn(sid, out.lower())
 
     def test_store_failures_are_nonzero_and_an_unpaired_project_is_empty(self):
@@ -851,6 +862,294 @@ class PartnersReaderTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(json.loads(out.getvalue()), {'request_id': 'r1', 'status': 'reply-received'})
         self.assertNotIn('6c6f672062797465', out.getvalue())
+
+
+DAY = 24 * 3600
+
+
+class StaleFixture(unittest.TestCase):
+    """Bindings with set ages and request records with set times; no tests of its own."""
+
+    def setUp(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        subprocess.run(['git', 'init', '-q', temp.name], check=True)
+        self.app = agent.Agent(temp.name)
+        self.now = 2_000_000_000.0
+        self.sid = str(uuid.uuid4())
+
+    def bind(self, alias='build', provider='codex', sid=None, age=0, **fields):
+        path = self.app.folder('partners') / (alias + '.json')
+        agent.atomic_json(path, {'alias': alias, 'provider': provider, 'id': sid or self.sid,
+                                 'project': str(self.app.root), **fields})
+        os.utime(path, (self.now - age, self.now - age))
+        return path
+
+    def request(self, status, created, received=None, provider='codex', sid=None, **fields):
+        request = str(uuid.uuid4())
+        record = {'request_id': request, 'provider': provider, 'session': sid or self.sid,
+                  'project': str(self.app.root), 'status': status, 'created_at': self.now - created,
+                  **fields}
+        if received is not None:
+            record['received_at'] = self.now - received
+        agent.atomic_json(self.app.folder('requests') / (request + '.json'), record)
+        return request
+
+    def row(self, alias='build'):
+        rows = {row['alias']: row for row in self.app.partners(now=self.now)['partners']}
+        return rows[alias]
+
+
+class StalenessTests(StaleFixture):
+    """`partners` rows say when a binding last asked and heard back, and whether it is stale."""
+
+    def test_last_request_and_reply_come_from_matching_requests_and_exclude_notices(self):
+        self.bind(age=30 * DAY)
+        self.request('reply-received', 3 * DAY, received=2 * DAY)
+        self.request('reply-received', 5 * DAY, received=4 * DAY)
+        self.request('queued', 3600)
+        # A notice is not contact: newer, and even marked replied, it changes nothing.
+        self.request('reply-received', 60, received=30, kind='arrival-notice')
+        self.request('submitted-unconfirmed', 3 * DAY, kind='arrival-notice', reply_expected=False)
+        # Other sessions, providers and projects are not this binding's activity.
+        self.request('reply-received', 10, received=5, sid=str(uuid.uuid4()))
+        self.request('reply-received', 10, received=5, provider='claude')
+        self.request('reply-received', 10, received=5, project=str(self.app.root / 'elsewhere'))
+        row = self.row()
+        self.assertEqual(row, {'alias': 'build', 'provider': 'codex', 'kind': 'partner', 'role': None,
+                               'review_cadence': None, 'valid': True,
+                               'last_request_at': self.now - 3600, 'last_reply_at': self.now - 2 * DAY,
+                               'stale': False, 'stale_reason': None})
+        self.assertNotIn(self.sid, json.dumps(self.app.partners(now=self.now)))
+
+    def test_an_unreadable_or_malformed_record_marks_staleness_incomplete(self):
+        self.bind(age=30 * DAY)
+        self.bind('broken', sid=str(uuid.uuid4())).write_text('{not json')
+        self.request('reply-received', 3 * DAY, received=2 * DAY)
+        folder = self.app.state / 'requests'
+        bad = {'unreadable': lambda path: path.write_text('{not json'),
+               'symlink': lambda path: path.symlink_to(folder / 'missing'),
+               'not an object': lambda path: path.write_text('[]'),
+               'no session': lambda path: path.write_text(json.dumps(
+                   {'provider': 'codex', 'project': str(self.app.root), 'status': 'queued', 'created_at': 1})),
+               'bad times': lambda path: path.write_text(json.dumps(
+                   {'provider': 'codex', 'session': self.sid, 'project': str(self.app.root),
+                    'status': 'reply-received', 'created_at': 'yesterday', 'received_at': True})),
+               'unknown status': lambda path: path.write_text(json.dumps(
+                   {'provider': 'codex', 'session': self.sid, 'project': str(self.app.root),
+                    'status': 'answered', 'created_at': self.now - 60})),
+               'unknown kind': lambda path: path.write_text(json.dumps(
+                   {'kind': 'reminder', 'provider': 'codex', 'session': self.sid,
+                    'project': str(self.app.root), 'status': 'queued', 'created_at': self.now - 60})),
+               'notice without session': lambda path: path.write_text(json.dumps(
+                   {'kind': 'arrival-notice', 'provider': 'codex', 'project': str(self.app.root),
+                    'status': 'submitted-unconfirmed', 'created_at': self.now - 60})),
+               'notice without time': lambda path: path.write_text(json.dumps(
+                   {'kind': 'arrival-notice', 'provider': 'codex', 'session': self.sid,
+                    'project': str(self.app.root), 'status': 'submitted-unconfirmed'}))}
+        for case, write in bad.items():
+            with self.subTest(case=case):
+                path = folder / (str(uuid.uuid4()) + '.json')
+                write(path)
+                row = self.row()
+                # Computed fields stay; the flag says they may be wrong.
+                self.assertEqual((row['stale'], row['last_reply_at'], row['stale_incomplete']),
+                                 (False, self.now - 2 * DAY, True))
+                self.assertNotIn('stale_incomplete', self.row('broken'))
+                path.unlink()
+        self.assertNotIn('stale_incomplete', self.row())
+
+    def test_every_written_status_and_a_well_formed_notice_are_complete(self):
+        self.bind()
+        for status in agent.REQUEST_STATUSES:
+            self.request(status, 60, received=30)
+            self.request(status, 60, kind='arrival-notice', reply_expected=False)
+        self.assertNotIn('stale_incomplete', self.row())
+
+    def test_stale_when_the_last_reply_is_older_than_fourteen_days(self):
+        self.bind()  # a freshly written binding does not excuse an old reply
+        self.request('reply-received', 20 * DAY, received=15 * DAY)
+        row = self.row()
+        self.assertTrue(row['stale'])
+        self.assertEqual(row['stale_reason'], 'no reply in over 14 days')
+        self.assertEqual(row['last_reply_at'], self.now - 15 * DAY)
+
+    def test_never_replied_is_judged_by_the_binding_age(self):
+        self.bind('old', age=15 * DAY)
+        self.bind('young', sid=str(uuid.uuid4()), age=13 * DAY)
+        self.bind('asked-old', sid=str(uuid.uuid4()), age=15 * DAY)
+        self.request('delivery-uncertain', DAY, sid=agent.read_json(
+            self.app.state / 'partners/asked-old.json')['id'])
+        old, young, asked = self.row('old'), self.row('young'), self.row('asked-old')
+        self.assertEqual((old['stale'], old['stale_reason']),
+                         (True, 'never replied; binding over 14 days old'))
+        self.assertIsNone(old['last_request_at'])
+        self.assertEqual((young['stale'], young['stale_reason']), (False, None))
+        self.assertTrue(asked['stale'])
+        self.assertEqual(asked['last_request_at'], self.now - DAY)
+        self.assertIsNone(asked['last_reply_at'])
+
+    def test_a_contribution_unconfirmed_over_twenty_four_hours_after_the_last_reply_is_stale(self):
+        self.bind()
+        self.request('reply-received', 31 * 3600, received=30 * 3600)
+        self.request('submitted-unconfirmed', 23 * 3600)
+        self.assertEqual((self.row()['stale'], self.row()['stale_reason']), (False, None))
+        self.request('submitted-unconfirmed', 25 * 3600)
+        row = self.row()
+        self.assertTrue(row['stale'])
+        self.assertEqual(row['stale_reason'], 'a request has gone unconfirmed for over 24 hours')
+
+    def test_a_reply_after_an_old_unconfirmed_request_clears_it(self):
+        # Stored status is never repolled; a later reply shows the partner answers.
+        self.bind()
+        self.request('submitted-unconfirmed', 3 * DAY)
+        row = self.row()
+        self.assertEqual((row['stale'], row['stale_reason']),
+                         (True, 'a request has gone unconfirmed for over 24 hours'))
+        self.request('reply-received', 2 * 3600, received=3600)
+        row = self.row()
+        self.assertEqual((row['stale'], row['stale_reason']), (False, None))
+        self.assertEqual(row['last_reply_at'], self.now - 3600)
+
+    def test_both_reasons_are_named_together(self):
+        self.bind(age=20 * DAY)
+        self.request('submitted-unconfirmed', 2 * DAY)
+        self.assertEqual(self.row()['stale_reason'],
+                         'a request has gone unconfirmed for over 24 hours; '
+                         'never replied; binding over 14 days old')
+
+    def test_a_recent_reply_keeps_an_old_binding_fresh(self):
+        self.bind(age=60 * DAY)
+        self.request('reply-received', 13 * DAY + 3600, received=13 * DAY)
+        row = self.row()
+        self.assertEqual((row['stale'], row['stale_reason']), (False, None))
+
+    def test_thresholds_are_module_constants(self):
+        self.bind(age=3 * DAY)
+        with patch.object(agent, 'STALE_REPLY_SECONDS', 2 * DAY):
+            self.assertTrue(self.row()['stale'])
+        self.assertFalse(self.row()['stale'])
+
+    def test_invalid_rows_judge_nothing(self):
+        self.bind('elsewhere', age=30 * DAY, project='/tmp')
+        self.request('reply-received', 30 * DAY, received=30 * DAY)
+        row = self.row('elsewhere')
+        self.assertFalse(row['valid'])
+        self.assertEqual({key: row[key] for key in INVALID_ACTIVITY}, INVALID_ACTIVITY)
+
+    def test_listing_writes_nothing_and_creates_no_request_store(self):
+        self.bind(age=30 * DAY)
+        self.assertTrue(self.row()['stale'])
+        self.assertFalse((self.app.state / 'requests').exists())
+
+
+class RetireTests(StaleFixture):
+    """`retire` moves a binding aside; it never deletes binding data."""
+
+    def test_retire_moves_the_binding_with_retired_at_and_keeps_every_field(self):
+        path = self.bind(partner_role='Reviewer', review_cadence=['end'])
+        before = agent.read_json(path)
+        result = self.app.retire('build', now=self.now)
+        self.assertEqual(result, {'retired': 'build', 'path': 'partners-retired/build.json'})
+        self.assertFalse(path.exists())
+        target = self.app.state / 'partners-retired/build.json'
+        self.assertEqual(agent.read_json(target), {**before, 'retired_at': self.now})
+        self.assertEqual(stat.S_IMODE(target.stat().st_mode), 0o600)
+        self.assertEqual(stat.S_IMODE(target.parent.stat().st_mode), 0o700)
+        self.assertEqual(self.app.partners(now=self.now), {'partners': []})
+
+    def test_repeat_missing_and_foreign_retirements_are_refused_without_changes(self):
+        self.bind()
+        self.app.retire('build', now=self.now)
+        with self.assertRaisesRegex(ValueError, 'already retired'):
+            self.app.retire('build')
+        # Re-paired under the same name: the retired copy is never overwritten.
+        again = self.bind()
+        retired = (self.app.state / 'partners-retired/build.json').read_bytes()
+        with self.assertRaisesRegex(ValueError, 'already retired'):
+            self.app.retire('build')
+        self.assertTrue(again.exists())
+        self.assertEqual((self.app.state / 'partners-retired/build.json').read_bytes(), retired)
+        with self.assertRaisesRegex(ValueError, 'No partner binding'):
+            self.app.retire('missing')
+        with self.assertRaisesRegex(ValueError, 'Alias must'):
+            self.app.retire('../build')
+        foreign = self.bind('foreign', project=str(self.app.root / 'elsewhere'))
+        before = foreign.read_bytes()
+        with self.assertRaisesRegex(ValueError, 'another project'):
+            self.app.retire('foreign')
+        self.assertEqual(foreign.read_bytes(), before)
+        self.assertFalse((self.app.state / 'partners-retired/foreign.json').exists())
+
+    def test_missing_alias_in_an_unpaired_project_creates_no_store(self):
+        with self.assertRaisesRegex(ValueError, 'No partner binding'):
+            self.app.retire('build')
+        self.assertFalse(self.app.state.exists())
+
+    def test_a_young_launch_in_progress_is_not_retired_but_an_old_one_is(self):
+        for status in agent.LAUNCH_STATES:
+            with self.subTest(status=status):
+                path = self.bind('launching', age=600, status=status, request_id=str(uuid.uuid4()))
+                before = path.read_bytes()
+                with self.assertRaisesRegex(ValueError, '^Launch may still be in progress; retry after an hour$'):
+                    self.app.retire('launching', now=self.now)
+                self.assertEqual(path.read_bytes(), before)
+                self.assertFalse((self.app.state / 'partners-retired/launching.json').exists())
+        self.bind('settled', age=2 * 3600, status='start-uncertain', request_id=str(uuid.uuid4()))
+        self.assertEqual(self.app.retire('settled', now=self.now)['retired'], 'settled')
+        self.bind('started', age=60, status='started')
+        self.assertEqual(self.app.retire('started', now=self.now)['retired'], 'started')
+
+    def launch(self, listing):
+        prompt = Path(self.app.root) / 'prompt.md'
+        prompt.write_text('Review the change, no edits.')
+        sid = str(uuid.uuid4())
+        rows = iter([[], [{'id': sid, 'provider': 'claude', 'pid': 321, 'cwd': str(self.app.root)}]])
+        def sessions(root):
+            listing()
+            return next(rows)
+        with patch.object(agent, 'claude_sessions', side_effect=sessions), \
+             patch.object(agent, 'command', return_value='backgrounded \u00b7 ' + sid[:8]), \
+             patch.object(self.app, 'status', return_value={'status': 'submitted-unconfirmed'}):
+            return self.app.start('claude', 'partner', 'partner', prompt, 'Reviewer')
+
+    def test_a_binding_retired_during_its_launch_is_not_recreated(self):
+        path = self.app.state / 'partners/partner.json'
+        def retire_once():
+            if path.exists() and not (self.app.state / 'partners-retired/partner.json').exists():
+                old = agent.time.time() - 2 * 3600  # past the launch guard, as a slow launch would be
+                os.utime(path, (old, old))
+                self.app.retire('partner')
+        with self.assertRaisesRegex(agent.Unavailable, 'retired during its launch'):
+            self.launch(retire_once)
+        self.assertFalse(path.exists())
+        retired = agent.read_json(self.app.state / 'partners-retired/partner.json')
+        self.assertEqual(retired['status'], 'start-uncertain')
+
+    def test_an_earlier_retired_copy_does_not_block_a_new_launch_but_an_unreadable_one_does(self):
+        folder = self.app.folder('partners-retired')
+        agent.atomic_json(folder / 'partner.json', {'alias': 'partner', 'request_id': str(uuid.uuid4()),
+                                                    'project': str(self.app.root), 'retired_at': self.now})
+        result = self.launch(lambda: None)
+        self.assertEqual(result['partner']['status'], 'started')
+        self.assertEqual(agent.read_json(self.app.state / 'partners/partner.json')['status'], 'started')
+        (self.app.state / 'partners/partner.json').unlink()
+        (folder / 'partner.json').write_text('{not json')
+        with self.assertRaisesRegex(agent.Unavailable, 'retired during its launch'):
+            self.launch(lambda: None)
+
+    def test_cli_retire_reports_a_store_relative_path_only(self):
+        import contextlib, io
+        self.bind()
+        out = io.StringIO()
+        argv = ['agent.py', '--project', str(self.app.root), 'retire', '--alias', 'build']
+        with patch.object(sys, 'argv', argv), contextlib.redirect_stdout(out):
+            code = agent.main()
+        self.assertEqual(code, 0)
+        self.assertEqual(json.loads(out.getvalue()),
+                         {'retired': 'build', 'path': 'partners-retired/build.json'})
+        self.assertNotIn(str(self.app.state), out.getvalue())
+        self.assertNotIn(self.sid, out.getvalue())
 
 
 class QueueTests(unittest.TestCase):

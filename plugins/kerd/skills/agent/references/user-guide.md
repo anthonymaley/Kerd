@@ -31,6 +31,7 @@ the Agent skill loaded; the Claude slash command is not a universal Codex comman
 | Define an ongoing role | “Use Claude as the implementation partner and Codex as reviewer”; “Pair Codex as reviewer before push” |
 | Continue a role in a new session | “This session takes over the Claude reviewer role” |
 | Get a fresh perspective | “Start a fresh Claude reviewer” |
+| Set aside a stale pairing | “Retire the stale Codex pairing” |
 | Start an ongoing conversation | “Start a Codex pairing partner” |
 | Follow up | “Ask Claude to recheck the fix” |
 | Check progress | “Anything back from Codex?” |
@@ -39,7 +40,9 @@ the Agent skill loaded; the Claude slash command is not a universal Codex comman
 These are examples, not exact phrases you must memorize. Help does not start
 work. Pairing alone remembers a session; it does not send it a job.
 
-Once a partner is established for this project, Kerd uses it by default. You
+Once a partner is established for this project, Kerd uses it by default, except
+for reviews, which go to a fresh reviewer unless you name the partner (see
+[Which kind of session?](#which-kind-of-session)). You
 can say “ask it to recheck” or “anything back?” when the conversation makes the
 target clear. “RO” means read-only.
 
@@ -120,9 +123,32 @@ asking for work or a reply. It does not mean the recipient is online. Repeating
 pickup with the same pair of IDs does not resend; unavailable delivery stays
 visible. No session census or setup question is added to an unpaired project.
 
+Which route Kerd uses, by the work:
+
+- **A review** (a checkpoint, before a push, a pull request) goes to a fresh,
+  record-briefed reviewer from the other provider that Kerd starts through
+  Agent, read only: a Codex reviewer when Claude builds, which is the usual
+  case in Claude Code, and a Claude reviewer when Codex builds. If the other
+  provider can't start, Kerd uses a different model of the same provider and
+  tells you so. Its
+  brief names the records to read (the sketchbook, the decisions, the diff),
+  and its verdict is written to the sketchbook. This is the default.
+- **Multi-turn Codex work**, where Codex builds or investigates over several
+  turns, goes to a standing Codex partner Kerd starts for it, where Agent can
+  start one and its first ask is delivered. When the start or the delivery
+  fails, Kerd uses a fresh Codex worker for each turn, briefed from the
+  records, and tells you so. A standing partner also reviews when you ask it to.
+- **Your own `codex` window** is used only while you are at it, to watch or
+  steer live.
+
+Why: a Codex window takes a queued request only when it takes its next turn, so
+one left unattended holds a review until someone types in it. Fresh reviewers
+do not wait on a window.
+
 **Existing partner:** use when its earlier conversation matters. Kerd finds
 matching local sessions and asks which one only if the choice is ambiguous.
-It does not silently send a fresh reviewer instead. If the partner has not
+When you name it for a review, Kerd does not silently send a fresh reviewer
+instead. If the partner has not
 answered a review after ten minutes, Kerd tells you and recommends a fresh one-off
 reviewer, which starts only if you say yes; your partner's request stays queued.
 Skipping the review is your call, and Kerd never recommends it.
@@ -192,7 +218,19 @@ answer, never gates it, and never narrows it. Record the answers with
 and the person changes either by saying so. A cadence schedules this
 partner's review only inside authorized work and grants no work, contact
 beyond it, commit, push or release. Conductor reads bindings through
-`agent.py partners`.
+`agent.py partners`. The cadence says when reviews happen; who reviews is
+fresh by default, as [Which kind of session?](#which-kind-of-session) says.
+
+**Stale pairings.** `partners` marks a binding `stale`, with a `stale_reason`,
+when it has not replied in 14 days (or never has, and the binding is older than
+14 days), or when a contribution request sent to it since its last reply has
+gone unconfirmed for over a day. Its rows also show `last_request_at` and `last_reply_at`. A stale partner
+is not greeted at Switch In and is not offered as reviewer. Switch In offers to
+retire stale pairings; Kerd retires one only when you say yes, with
+`agent.py retire --alias ALIAS`, which moves the binding to
+`kerd-agent/partners-retired/`. Nothing is deleted: moving the file back
+restores the pairing. A partner that answers you some other way (you read it in
+its window) can look stale to Kerd, which is why retiring is only offered.
 
 ## A typical exchange
 
@@ -303,7 +341,8 @@ has them, not label an unrun test as passed.
 ## Commands for people who want the terminal details
 
 The skill is the conversational interface. Its Python helper provides
-`sessions`, `pair`, `start`, `ask`, `status` and `wait`; each accepts `--help`.
+`sessions`, `pair`, `partners`, `retire`, `start`, `ask`, `status` and `wait`;
+each accepts `--help`.
 From the Kerd checkout:
 
 ```sh
