@@ -7,7 +7,7 @@ Contents:
   - [Choose who writes the steps](#choose-who-writes-the-steps): the composer routes
   - [Make every score step independently executable](#make-every-score-step-independently-executable): what a score step states
   - [Size roles and advise the controller by the work](#size-roles-and-advise-the-controller-by-the-work): controller sizing
-  - [Plan independent review from the pairing](#plan-independent-review-from-the-pairing): partners, review cadence and an unanswered review
+  - [Plan independent review from the pairing](#plan-independent-review-from-the-pairing): fresh reviewers by default, partners' review cadence and an unanswered review
 - [One visible startup view](#one-visible-startup-view): the startup view, Fit lines and grid rows for every dispatch
 - [Prepare, send and assess visibly](#prepare-send-and-assess-visibly): sending, local guidance and assessing returns
 
@@ -186,24 +186,49 @@ research/review request can itself be the task, authorizing its permitted contri
 
 At startup, read this project's established partners with Agent's read-only
 `agent.py --project /PROJECT partners`; do not parse its private binding files.
-It returns each binding's role, `review_cadence` and validity without contacting
-any session. Select the reviewer by recorded role and task fit; when several
-remain materially plausible, show that choice once. Never schedule every binding
-or choose by recency. An invalid row is a routing gap to show, not a partner.
+It returns each binding's role, `review_cadence`, validity and whether it is
+`stale` (with its `stale_reason`) without contacting any session. An invalid row
+is a routing gap to show, not a partner.
 
-Plan that partner's reviews from its cadence and show them as rows in the startup
-grid, with the gate each protects:
+**Reviews go to a fresh reviewer by default.** A checkpoint, before-push or pull
+request review goes to a fresh, record-briefed reviewer from the other provider,
+started through Agent (`start --kind worker`, read only): a fresh Codex reviewer
+when Claude builds (the usual case in Claude Code), a fresh Claude reviewer when
+Codex builds. When the other provider can't start, it goes to a fresh reviewer
+on a different model of the same provider, said as such. Its brief names the records to read
+rather than retelling them: the sketchbook, the governing decisions, the diff and
+the rules that apply. Its verdict, and the route it took, are written to the
+sketchbook. A standing Codex partner is for multi-turn Codex work, where Codex
+builds or investigates across several turns; it takes a review only when the
+person asks for one. That work uses a Kerd-started Codex partner where Agent can
+start one and its first ask is delivered; when start or delivery fails, it uses
+a fresh Codex worker per turn, briefed from the records, and says so. The
+partner route is not proven to work on every machine. The person's own `codex`
+window takes work only while they are at it, paired through Agent. A stale or
+stalled partner is never planned as reviewer by default. The person's explicit
+choice stands: a review they send to a named partner goes to that partner. When
+the person asks for a standing reviewer, select it by recorded role and task fit; when several remain
+materially plausible, show that choice once. Never schedule every binding or
+choose by recency. Why: a Codex window takes a queued request only when it takes
+its next turn, so an unattended one holds it; reviews stalled that way on
+2026-10-14, 2026-11-05 (work-anthony's scribe) and 2026-11-08 (Kerd's
+`codex-tui`), while every fresh reviewer since 2026-11-08 returned.
+
+A partner's recorded cadence still says when reviews happen; the route stays
+fresh unless the person chose that partner as reviewer. Plan the review gates
+from the cadence and show them as rows in the startup grid, with the gate each
+protects:
 
 - `checkpoints`: at the risk points this plan names;
 - `before-push`: the full change set before commit, push or release;
 - `end`: once when the work completes;
-- `on-request`: no automatic partner review.
+- `on-request`: no automatic review gate.
 
 With an established partner and no recorded cadence, propose one grounded in this
 task's risk, ask once, and record the answer through Agent (`pair` with
 `--review-cadence`); do not ask again. The person can change it by telling any
-session. With no established partner, plan independent review from the other
-available routes as before.
+session. With no established partner, plan the review gates from this task's
+risk.
 
 A cadence schedules review only inside authorized work. It grants no work,
 contact beyond that work, commit, push or release, and a review never approves
@@ -219,7 +244,8 @@ every gate that review satisfied: repeat that gate before its protected effect,
 unless another coincident gate necessarily runs first and reviews the current
 tree and evidence.
 
-**When the partner does not answer a review in time.** Ten minutes after a
+**When the partner does not answer a review in time.** This applies when the
+person chose a standing partner as reviewer. Ten minutes after a
 checkpoint or before-push request with no reply, say so, with how long it has
 waited; a queued request is not a reply. Then recommend one route: a fresh one-off
 reviewer through Agent, read only, on the same provider as the partner, or a fresh
@@ -247,27 +273,23 @@ gate. In work-anthony
 folder; later a Codex HOLD sat unread behind a CI watch while the push went
 ahead on the other review.
 
-**A stalled review partner is a gap said at Ready, not a quiet reroute.** When
-the arrival shows the review partner's Kerd requests waiting undelivered since an
-earlier day, Ready lists it as a gap: the partner's name and role, the count
-and the oldest request's date as the arrival gives them, and that looking at its
-window is the person's. The arrival line does not say what kind of requests wait
-(an old notice counts the same as a review), so the gap says the kinds are not
-known. The default: this work's reviews still go to the partner first, and one
-left unanswered at ten minutes takes the route the unanswered-review rule
-(“When the partner does not answer a review in time”, above) recommends: a fresh
-one-off reviewer through Agent on the partner's provider, or that rule's stated
-fallback. A go given on a Ready that showed this gap and default is the
-person's yes that rule requires, for this work's reviews only, so the
-controller says the review went unanswered and starts the fresh reviewer without
-a second question; without that gap shown at Ready, the unanswered-review rule
-stands unchanged. Reviewers on this host's own models stay native subagents, as
-“A review reaches the controller on its own” says. Any standing job the partner
-holds besides review (a scribe's documentation, say) is named as possibly not
-being done meanwhile, for the person to settle. In work-anthony
-(2026-11-05 to 2026-11-10) a stalled scribe was flagged on five arrivals and never
-put to the person; 142 hand-typed `codex exec` runs stood in, and he could not see
-the reviews from his Codex window.
+**A stalled partner is a gap said at Ready, never a silent reroute.** When the arrival
+shows a partner's Kerd requests waiting undelivered since an earlier day, Ready
+lists it as a gap: the partner's name and role, the count and the oldest
+request's date as the arrival gives them, and that looking at its window is the
+person's. The arrival line does not say what kind of requests wait (an old
+notice counts the same as a review), so the gap says the kinds are not known.
+When the person named that partner, or has chosen it as reviewer, Ready lists the
+gap and recommends the fresh reviewer for this work's reviews. A go given on that
+Ready is their consent for this work's reviews; without it, the review goes to the
+partner they named and the unanswered-review rule applies. Never substitute
+silently. The same holds for a partner `partners` marks `stale`. Reviewers on this host's own
+models stay native subagents, as “A review reaches the controller on its own”
+says. Any standing job the partner holds besides review (a scribe's
+documentation, say) is named as possibly not being done meanwhile, for the
+person to settle. In work-anthony (2026-11-05 to 2026-11-10) a stalled scribe was
+flagged on five arrivals and never put to the person; 142 hand-typed `codex exec`
+runs stood in, and he could not see the reviews from his Codex window.
 
 ## One visible startup view
 

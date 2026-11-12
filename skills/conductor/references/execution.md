@@ -56,7 +56,8 @@ decisions, integration and assessment; useful independent research, implementati
 and checking belong with contributors when the route and authority permit it.
 Don't reserve delegation for the final review. Use relevant context already held
 by an established partner when that is the right contribution, not a fresh worker
-by default.
+by default; reviews are the exception, going to a fresh, record-briefed reviewer
+by default ([plan independent review](orchestration.md#plan-independent-review-from-the-pairing)).
 
 When a useful bounded job has independent inputs, a checkable result and an
 authorized available route, assign it before doing that same work yourself.

@@ -1,6 +1,6 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, “show Codex this screenshot”, or “start a reviewer”. Keeps the chosen session and native queue, shows a partner an image by its file path, says a Codex it starts can't reach the network from its commands by default (reviews never) and offers the person's own open `codex` session instead, and never substitutes a fresh reviewer for a named partner; when that partner leaves a review unanswered, recommends a fresh one-off reviewer on the person's yes, never a waiver.
+description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, retire a stale pairing, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, “show Codex this screenshot”, or “start a reviewer”. Keeps the chosen session and native queue, shows a partner an image by its file path, says a Codex it starts can't reach the network from its commands by default (reviews never) and offers the person's own open `codex` session instead, sends reviews to a fresh, record-briefed reviewer from the other provider by default but never substitutes one for a named partner; when that partner leaves a review unanswered, recommends a fresh one-off reviewer on the person's yes, never a waiver.
 ---
 
 # Agent
@@ -63,7 +63,8 @@ not shell subcommands. For execution, use the workflow below.
 1. Establish the current project and requested contribution. Reuse the agreement
    and relevant context. A review request is not authority to edit or publish.
 2. Use the established partner for this project and requested provider when no
-   other session is specified. Resolve short follow-ups from the current exchange;
+   other session is specified; a review is the exception, fresh by default
+   (step 3). Resolve short follow-ups from the current exchange;
    do not ask the person to select the same partner again. If none is established
    or the target is ambiguous, discover with
    `scripts/agent.py --project ABSOLUTE_PROJECT sessions` and show the matching
@@ -95,6 +96,22 @@ not shell subcommands. For execution, use the workflow below.
 3. Choose deliberately: **existing partner**, **new persistent partner**, or
    **fresh bounded worker**. Do not silently replace one with another. A fresh
    independent review and a contextual pairing conversation serve different jobs.
+   Say this routing when offering routes: a review (checkpoint, before-push, pull
+   request) goes by default to a fresh, record-briefed reviewer from the other
+   provider (`start --kind worker`, read only): Codex when Claude builds, Claude
+   when Codex builds, or a different model of the same provider, said as such,
+   when the other can't start; briefed with record paths (sketchbook,
+   decisions, diff) and its verdict written to the sketchbook; a standing Codex
+   partner is for multi-turn Codex work, or when the person asks for one; the
+   person's own `codex` window only while they are at it. Multi-turn work uses a
+   Kerd-started Codex partner where Agent can start one and its first ask is
+   delivered; when start or delivery fails, use a fresh Codex worker per turn,
+   briefed from the records, and say so. Don't promise the partner route works. A review the person sends to a named partner goes to that partner. A
+   partner `partners` marks `stale` is not offered as reviewer by default; if the
+   person names it, say it is stale and recommend a fresh reviewer, never
+   substituting silently. `retire --alias`
+   sets its binding aside, recoverably, only on the person's yes. See
+   [the user guide](references/user-guide.md#which-kind-of-session).
    A Codex that Kerd starts, new partner or fresh worker, runs with native approval
    prompts disabled, and its shell commands cannot reach the network by default:
    read-only for a review, workspace-write for an editing job. It can't install

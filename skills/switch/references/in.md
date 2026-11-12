@@ -4,7 +4,7 @@ Contents:
 
 - [In](#in): named handoffs first, a managed Roll record, Git synchronization, the pickup reading set and the coverage check
   - [Compose the arrival in Switch](#compose-the-arrival-in-switch): weigh every open item, one recommendation
-  - [Restore the existing team](#restore-the-existing-team): pairing, succession and the arrival notice
+  - [Restore the existing team](#restore-the-existing-team): pairing, succession, the arrival notice and stale pairings
   - [Enter Conductor from the answer](#enter-conductor-from-the-answer): what each answer to the arrival question opens
   - [Welcome back: the screen summary](#welcome-back-the-screen-summary): the renderer, its JSON shape, the question and picker
 
@@ -274,7 +274,15 @@ After identity and any required adoption, run Agent's bounded
 for the selected established partners, or the helper's unambiguous private
 pairing default when the restored context names none. The caller does not
 enumerate aliases as recipients; the helper reads private binding metadata and
-selects only an unambiguous partner, never by title or recency. Show the team
+selects only an unambiguous partner, never by title or recency. It skips stale
+bindings (no reply in 14 days, or a contribution request sent since its last
+reply and unconfirmed for over a day), even when they are passed explicitly, so
+no notice goes to a stale partner, and returns them in a top-level `stale` list. When that list is not empty, Open work
+carries one line owned by the person: “<Person>: retire N stale pairings
+(<aliases or count>), set aside, recoverable”. It is one line for all of them,
+never repeated and never the recommendation. Retirement runs through Agent
+(`retire --alias`) only on the person's yes; it moves each binding aside, never
+deletes it. Show the team
 in the arrival grid's TEAM cell: `Claude (role) + Codex (role)`. Use brief faithful role labels,
 not new assignments; a missing role stays unassigned. IDs and routine notice status
 remain in Agent details, not the dashboard or project records. Surface a routing
@@ -494,7 +502,9 @@ the window woke one stalled session; a closed one needs reopening. The queue
 shows those requests waiting, not that the partner has stopped everything, and
 some may still be wanted: the person decides, never a blanket “stale”. The line
 stays on each arrival while the attention line does, and is never the
-recommendation. A consequential routing problem belongs in `warnings`;
+recommendation. The arrival's `stale` list never fills `team`; it becomes the
+one retire line in Open work ([Restore the existing team](#restore-the-existing-team)).
+A consequential routing problem belongs in `warnings`;
 routine unconfirmed notice delivery is not a blocker or an availability claim.
 
 Given a correctly shaped JSON object, fields are not required: a missing or null

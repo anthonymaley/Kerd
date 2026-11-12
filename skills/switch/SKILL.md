@@ -48,7 +48,9 @@ item names the guide section with its detail: open that section before the step.
   [succession guide](../agent/references/session-succession.md) when an ID matches or
   continuity evidence exists, then, after identity and any required adoption, send its arrival notice to established partners
   (or, when none is named, the helper's unambiguous default); TEAM shows provider and
-  role only; no binding, no setup question ([Restore the existing team](references/in.md#restore-the-existing-team)).
+  role only; stale bindings are not greeted, and a non-empty `stale` list becomes one
+  person-owned Open work line offering to retire them, retired only on their yes;
+  no binding, no setup question ([Restore the existing team](references/in.md#restore-the-existing-team)).
 - Weigh every open item, the saved one included, and recommend exactly one with its
   Why, or say nothing is actionable rather than invent work, without loading
   Conductor; an item that only waits (to watch real use, or for the person to

@@ -83,8 +83,13 @@ task, or the person's own reason (spare capacity on the other provider, for exam
 Name the reason in the Fit line. Where no comparative evidence backs it, call the
 exception a reasonable trial, not a claim that one model is better. Conductor may
 propose an exception; it never assigns one on its own reading. The other provider reviewing
-is the default; the existing rules for an established partner, its review cadence
-and the fresh-reviewer fallback are unchanged.
+is the default, through a fresh, record-briefed reviewer from the other provider,
+started through Agent (`start --kind worker`, read only): a fresh Codex reviewer
+when Claude builds (the usual case in Claude Code), a fresh Claude reviewer when
+Codex builds. When the other provider can't start, it goes to a fresh reviewer
+on a different model of the same provider, said as such. A standing partner
+reviews only when the person chooses it; see
+[plan independent review from the pairing](../orchestration.md#plan-independent-review-from-the-pairing).
 
 ### Task fit: what each kind of evidence supports
 

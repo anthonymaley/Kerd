@@ -63,6 +63,12 @@ The review reads the window through five lenses:
 5. **Missed decisions.** Decisions the person stated in chat or in pasted
    material that never reached a record. These follow the rules below.
 
+Alongside the lenses, the review counts review routes in the window: reviews
+that stalled waiting on a standing partner (a queued request unanswered past ten
+minutes) against fresh reviewers that returned, and how many of each caught a
+real issue. Both counts go under **Found**. Fresh reviewers are the default
+route, so a stall means a standing partner held a review: name which one.
+
 ## Missed decisions without nagging
 
 Only a decision whose subject is still live in open work survives. A decision

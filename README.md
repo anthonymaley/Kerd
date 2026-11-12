@@ -327,9 +327,25 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.192.0)
+## What's New (v0.193.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.193.0
+
+**Reviews go to a fresh reviewer by default.** A Codex window takes a queued request only when it takes
+its next turn, so a review sent to an unattended one waits; that happened in every repo Kerd works in. Now Conductor
+sends checkpoint, before-push and pull-request reviews to a fresh reviewer from the other provider, started through
+Agent: a fresh Codex reviewer when Claude builds, a fresh Claude reviewer when Codex builds (a different model of the
+same provider, said as such, when the other can't start). It is briefed with the records to read (the work's notes,
+the decisions, the diff) and its verdict is written back to the notes. A standing
+Codex partner is for multi-turn Codex work, or when you ask for one; your own `codex` window takes work while you are
+at it. A partner's review cadence still sets when reviews happen. Agent now shows when each pairing last replied and
+marks one stale after 14 days without a reply, or when a request sent since its last reply has gone unconfirmed for
+over a day. Switch In no longer greets stale pairings: it lists them as one line for you, and `agent.py retire`
+moves a binding aside, never deleting it, only on your yes. A Kerd-started Codex partner is not yet proven: on the
+test machine it could not be reached (a symlinked daemon socket, and a new thread missing from Codex's own store),
+so multi-turn work falls back to a fresh Codex worker per turn and says so.
 
 ### v0.192.0
 
