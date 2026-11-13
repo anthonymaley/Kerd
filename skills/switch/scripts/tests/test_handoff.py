@@ -283,6 +283,68 @@ class HandoffTests(unittest.TestCase):
             with self.assertRaisesRegex(handoff.HandoffError, "Project changed"):
                 handoff.pickup(self.dest, self.branch, "record.md", expected_commit=self.original)
 
+    def test_edit_during_plain_record_read_does_not_return_a_pickup(self):
+        original = handoff.source_text
+        def changed(path):
+            content = original(path)
+            path.write_text("Concurrent edit")
+            return content
+        with patch.object(handoff, "source_text", side_effect=changed):
+            with self.assertRaisesRegex(handoff.HandoffError, "Project changed"):
+                handoff.pickup(self.dest, self.branch, "record.md")
+
+    def test_commit_during_plain_record_read_does_not_return_a_pickup(self):
+        original = handoff.source_text
+        calls = []
+        def committed(path):
+            content = original(path)
+            if not calls:
+                path.write_text("Newly committed state")
+                self.commit(self.dest, "concurrent commit")
+            calls.append(path)
+            return content
+        with patch.object(handoff, "source_text", side_effect=committed):
+            with self.assertRaisesRegex(handoff.HandoffError, "Project changed"):
+                handoff.pickup(self.dest, self.branch, "record.md")
+        self.assertEqual(self.git(self.dest, "status", "--porcelain"), "")
+
+    def test_edit_during_read_of_a_preserved_record_does_not_return_a_pickup(self):
+        (self.dest / "local-record.md").write_text("Local only record")
+        original = handoff.source_text
+        calls = []
+        def changed(path):
+            content = original(path)
+            if not calls:
+                path.write_text("Concurrent edit")
+            calls.append(path)
+            return content
+        for commit in (None, self.original):
+            calls.clear()
+            (self.dest / "local-record.md").write_text("Local only record")
+            with self.subTest(expected_commit=commit):
+                with patch.object(handoff, "source_text", side_effect=changed):
+                    with self.assertRaisesRegex(handoff.HandoffError, "Project changed"):
+                        handoff.pickup(self.dest, self.branch, "local-record.md",
+                                       preserve=["local-record.md"], expected_commit=commit)
+        (self.dest / "local-record.md").write_text("Local only record")
+        result = handoff.pickup(self.dest, self.branch, "local-record.md", preserve=["local-record.md"])
+        self.assertEqual(result["content"], "Local only record")
+
+    def test_commit_during_the_second_record_read_does_not_return_a_pickup(self):
+        original = handoff.source_text
+        calls = []
+        def second_read_commits(path):
+            content = original(path)
+            calls.append(path)
+            if len(calls) == 2:
+                (self.dest / "result.txt").write_text("committed during the second read")
+                self.commit(self.dest, "concurrent commit on the second read")
+            return content
+        with patch.object(handoff, "source_text", side_effect=second_read_commits):
+            with self.assertRaisesRegex(handoff.HandoffError, "Project changed"):
+                handoff.pickup(self.dest, self.branch, "record.md")
+        self.assertEqual(len(calls), 2)
+
     def test_ahead_pickup_does_not_reset_local_commit(self):
         (self.dest / "result.txt").write_text("destination local commit")
         ahead = self.commit(self.dest, "destination ahead")

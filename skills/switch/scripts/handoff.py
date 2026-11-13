@@ -485,10 +485,15 @@ def pickup(root, branch, record, sync=False, expected_commit=None, preserve=(), 
     content = source_text(path)
     if not content.strip():
         raise HandoffError("Saved handoff record is empty; no fallback pickup performed")
-    if expected_commit is not None:
-        require_branch(root, branch)
-        if git(root, "rev-parse", "HEAD") != commit or unsaved(root, keep, folders):
-            raise HandoffError("Project changed while reading the saved handoff; no pickup returned")
+    # Every pickup, with or without a saved revision: an edit that lands while the
+    # record is read must not acquire the earlier clean check. A record named with
+    # --preserve is invisible to the unsaved check, so its own bytes are read again
+    # first; the project checks come last, after every read.
+    if not path.is_file() or source_text(path) != content:
+        raise HandoffError("Project changed while reading the saved handoff; no pickup returned")
+    require_branch(root, branch)
+    if git(root, "rev-parse", "HEAD") != commit or unsaved(root, keep, folders):
+        raise HandoffError("Project changed while reading the saved handoff; no pickup returned")
     if notes_head:
         notes_unchanged(location, notes_head)
     if folders and notes_wanted:

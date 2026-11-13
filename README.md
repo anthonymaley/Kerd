@@ -327,9 +327,18 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.194.0)
+## What's New (v0.194.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.194.1
+
+**A plain Switch pickup checks the project again after reading its record.** A pickup given a saved revision, and
+`prepare`, already confirmed after reading that the branch, the commit and the project's unsaved changes were as
+before; a plain pickup checked only before reading, so an edit landing while the record was read came back as the
+saved record. Every pickup now checks the branch, the commit and unsaved changes again after the read, and reads the
+record a second time, so a record kept out of Git with `--preserve` is covered too; a change refuses the pickup.
+These are checks at two moments, not a snapshot. Found by a fresh Codex reviewer of 0.194.0.
 
 ### v0.194.0
 
