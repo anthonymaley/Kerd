@@ -642,7 +642,10 @@ handed to a worker subagent launched in the background (on Claude Code a
 `kerd:haiku-low` Agent call, model haiku, which suits a short tool task; on another
 host, a worker that has the access the job needs, or else the blocker is disclosed
 without widening permissions) that runs or watches the job and returns pass/fail,
-the run's ID, and on failure the failing lines or why they could not be retrieved. The controller never runs a
+the run's ID, and on failure the failing lines or why they could not be retrieved.
+A pass is read from the run's own exit code (redirect output to a file and report
+`$?`), never from a command piped through `tail`, `head` or `grep`, whose exit code
+is the pipe's, not the run's. The controller never runs a
 watcher such as `gh run watch`, a `sleep` or a wait loop itself, foreground or
 polled in the background, so nothing else is held up. Short checks (a single test
 file, `release_check`, a quick command) stay inline. A step that needs its result
