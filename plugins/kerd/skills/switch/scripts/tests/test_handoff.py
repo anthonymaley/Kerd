@@ -495,6 +495,211 @@ class HandoffTests(unittest.TestCase):
         with self.assertRaisesRegex(handoff.HandoffError, "Local changes"):
             handoff.prepare(self.dest, self.branch, "record.md")
 
+    def shared_vault(self):
+        """The destination as a repo shared by two projects: ours in mine/, another's in theirs/."""
+        (self.source / "mine").mkdir()
+        (self.source / "mine" / "rec.md").write_text("Our saved place.\n")
+        (self.source / "theirs").mkdir()
+        (self.source / "theirs" / "notes.md").write_text("Another project's notes.\n")
+        self.publish(files=["mine/rec.md", "theirs/notes.md"], push=True)
+        self.git(self.dest, "pull", "-q", "--ff-only")
+        (self.dest / "theirs" / "work").mkdir()
+        (self.dest / "theirs" / "work" / "draft.md").write_text("unsaved, someone else's\n")
+
+    def test_another_projects_unsaved_folder_blocks_an_unscoped_prepare(self):
+        self.shared_vault()  # the 2026-11-08 apple-music refusal, reproduced
+        with self.assertRaisesRegex(handoff.HandoffError, "Local changes exist"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md")
+        with self.assertRaises(handoff.HandoffError):  # --preserve takes files, never a folder
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", preserve=["theirs/work"])
+
+    def test_scoped_prepare_ignores_unsaved_work_outside_its_folder(self):
+        self.shared_vault()
+        packet = handoff.prepare(self.dest, self.branch, "mine/rec.md", scope=["mine"])
+        self.assertEqual(packet["status"], "pickup_prepared")
+        self.assertEqual(packet["scope"], ["mine"])
+        self.assertEqual(packet["sources"][0]["content"], "Our saved place.\n")
+        self.assertEqual((self.dest / "theirs" / "work" / "draft.md").read_text(), "unsaved, someone else's\n")
+
+    def test_scoped_prepare_still_refuses_unsaved_work_inside_its_folder(self):
+        self.shared_vault()
+        (self.dest / "mine" / "rec.md").write_text("edited, not saved\n")
+        with self.assertRaisesRegex(handoff.HandoffError, "inside the scope"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", scope=["mine"])
+        (self.dest / "mine" / "rec.md").write_text("Our saved place.\n")
+        (self.dest / "mine" / "new.md").write_text("untracked in our folder\n")
+        with self.assertRaisesRegex(handoff.HandoffError, "inside the scope"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", scope=["mine"])
+
+    def test_scoped_prepare_refuses_a_source_outside_its_folder(self):
+        self.shared_vault()
+        with self.assertRaisesRegex(handoff.HandoffError, "outside the scope"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", files=["theirs/notes.md"], scope=["mine"])
+        with self.assertRaisesRegex(handoff.HandoffError, "outside the scope"):
+            handoff.pickup(self.dest, self.branch, "theirs/notes.md", scope=["mine"])
+        with self.assertRaisesRegex(handoff.HandoffError, "outside the scope"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", files=["record.md"], scope=["mine"])
+
+    def test_scope_must_be_an_existing_folder_inside_the_project(self):
+        self.shared_vault()
+        (self.dest / "link").symlink_to(self.dest / "mine")
+        for value, message in (("mine/rec.md", "existing folder"), ("absent", "existing folder"),
+                               ("../outside", "inside the project"), ("/tmp", "inside the project"),
+                               (".git", "inside the project"), (".", "project root"),
+                               ("link", "symlink")):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(handoff.HandoffError, message):
+                    handoff.prepare(self.dest, self.branch, "mine/rec.md", scope=[value])
+        with self.assertRaisesRegex(handoff.HandoffError, "once"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", scope=["mine", "mine/"])
+
+    def test_scoped_sync_fast_forwards_but_never_overwrites_unsaved_work_outside(self):
+        self.shared_vault()
+        (self.source / "mine" / "rec.md").write_text("Our next saved place.\n")
+        latest = self.publish(files=["mine/rec.md"], push=True)["commit"]
+        packet = handoff.prepare(self.dest, self.branch, "mine/rec.md", sync=True, scope=["mine"])
+        self.assertEqual(packet["commit"], latest)
+        self.assertEqual(packet["sources"][0]["content"], "Our next saved place.\n")
+        before = self.git(self.dest, "rev-parse", "HEAD")
+        (self.source / "theirs" / "work").mkdir()
+        (self.source / "theirs" / "work" / "draft.md").write_text("their saved copy\n")
+        self.publish(files=["theirs/work/draft.md"], push=True)
+        with self.assertRaises(handoff.HandoffError):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", sync=True, scope=["mine"])
+        self.assertEqual(self.git(self.dest, "rev-parse", "HEAD"), before)
+        self.assertEqual((self.dest / "theirs" / "work" / "draft.md").read_text(), "unsaved, someone else's\n")
+
+    def test_measure_carries_the_scope_into_read_args_for_prepare(self):
+        self.shared_vault()
+        measured = handoff.measure(self.dest, "mine/rec.md", scope=["mine"])
+        self.assertEqual(measured["read_args"], ["--record", "mine/rec.md", "--scope", "mine"])
+        with self.assertRaisesRegex(handoff.HandoffError, "outside the scope"):
+            handoff.measure(self.dest, "mine/rec.md", files=["theirs/notes.md"], scope=["mine"])
+        result = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest), "prepare",
+                                 "--branch", self.branch, *measured["read_args"]], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_staged_changes_block_even_on_a_preserved_path(self):
+        self.shared_vault()
+        self.git(self.dest, "rm", "-q", "--cached", "mine/rec.md")  # staged deletion; the file stays on disk
+        for scope in ((), ("mine",)):
+            with self.subTest(scope=scope):
+                with self.assertRaisesRegex(handoff.HandoffError, "Local changes"):
+                    handoff.pickup(self.dest, self.branch, "mine/rec.md", preserve=["mine/rec.md"], scope=scope)
+
+    def test_scope_spelled_in_another_case_is_refused(self):
+        self.shared_vault()
+        if not (self.dest / "MINE").is_dir():
+            self.skipTest("case-sensitive filesystem: a differently cased folder does not exist here")
+        with self.assertRaisesRegex(handoff.HandoffError, "exactly as the folder is named"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", scope=["MINE"])
+
+    def test_scoped_sync_never_overwrites_an_ignored_file_outside(self):
+        self.shared_vault()
+        (self.dest / ".git" / "info" / "exclude").write_text("theirs/local.cfg\n")
+        (self.dest / "theirs" / "local.cfg").write_text("ignored, local only\n")
+        (self.dest / "theirs" / "work" / "draft.md").unlink()
+        before = self.git(self.dest, "rev-parse", "HEAD")
+        (self.source / "theirs" / "local.cfg").write_text("their tracked copy\n")
+        self.publish(files=["theirs/local.cfg"], push=True)
+        with self.assertRaises(handoff.HandoffError):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", sync=True, scope=["mine"])
+        self.assertEqual(self.git(self.dest, "rev-parse", "HEAD"), before)
+        self.assertEqual((self.dest / "theirs" / "local.cfg").read_text(), "ignored, local only\n")
+
+    def test_scoped_notes_pickup_trusts_only_a_saved_vault_config(self):
+        self.shared_vault()
+        self.notes()  # commits a tracked kivna/vault.json in dest
+        (self.dest / "mine" / "rec.md").write_text("Our saved place.\n")
+        packet = handoff.prepare(self.dest, self.branch, "mine/rec.md", files=["notes:plan.md"], scope=["mine"])
+        self.assertEqual(packet["status"], "pickup_prepared")
+        config = self.dest / "kivna" / "vault.json"
+        saved = config.read_text()
+        config.write_text(saved.replace("proj", "elsewhere"))
+        with self.assertRaisesRegex(handoff.HandoffError, "must be saved, unchanged"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", files=["notes:plan.md"], scope=["mine"])
+        config.write_text(saved)
+        self.git(self.dest, "rm", "-q", "--cached", "kivna/vault.json")  # untracked, then "preserved"
+        with self.assertRaisesRegex(handoff.HandoffError, "must be saved, unchanged"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", files=["notes:plan.md"], scope=["mine"],
+                            preserve=["kivna/vault.json"])
+
+    def test_scoped_config_refusal_comes_before_any_fast_forward(self):
+        self.shared_vault()
+        self.notes()
+        self.git(self.dest, "push", "-q", "origin", self.branch)
+        self.git(self.source, "pull", "-q", "--ff-only")
+        (self.source / "mine" / "rec.md").write_text("Our next saved place.\n")
+        self.publish(files=["mine/rec.md"], push=True)
+        (self.dest / "kivna" / "vault.json").write_text('{"vault": "/elsewhere", "folder": "x", "work_notes": "vault"}')
+        before = self.git(self.dest, "rev-parse", "HEAD")
+        with self.assertRaisesRegex(handoff.HandoffError, "must be saved, unchanged"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", files=["notes:plan.md"], sync=True,
+                            scope=["mine"])
+        self.assertEqual(self.git(self.dest, "rev-parse", "HEAD"), before)
+
+    def test_scoped_pickup_refuses_a_deleted_config_before_any_fast_forward(self):
+        self.shared_vault()
+        self.notes()
+        self.git(self.dest, "push", "-q", "origin", self.branch)
+        self.git(self.source, "pull", "-q", "--ff-only")
+        (self.source / "mine" / "rec.md").write_text("Our next saved place.\n")
+        self.publish(files=["mine/rec.md"], push=True)
+        (self.dest / "kivna" / "vault.json").unlink()
+        before = self.git(self.dest, "rev-parse", "HEAD")
+        with self.assertRaisesRegex(handoff.HandoffError, "deleted here"):
+            handoff.prepare(self.dest, self.branch, "mine/rec.md", files=["notes:plan.md"], sync=True,
+                            scope=["mine"])
+        self.assertEqual(self.git(self.dest, "rev-parse", "HEAD"), before)
+
+    def test_scoped_source_paths_are_validated_whole_before_any_fast_forward(self):
+        self.shared_vault()
+        (self.dest / "mine" / "link").symlink_to(self.dest / "theirs")
+        (self.source / "mine" / "rec.md").write_text("Our next saved place.\n")
+        self.publish(files=["mine/rec.md"], push=True)
+        before = self.git(self.dest, "rev-parse", "HEAD")
+        for value in ("mine/../theirs/notes.md", "mine/link/notes.md"):
+            with self.subTest(value=value):
+                with self.assertRaises(handoff.HandoffError):
+                    handoff.prepare(self.dest, self.branch, "mine/rec.md", files=[value], sync=True,
+                                    scope=["mine"])
+                self.assertEqual(self.git(self.dest, "rev-parse", "HEAD"), before)
+
+    def test_notes_sync_never_overwrites_an_ignored_file_in_the_vault(self):
+        vault = self.notes()
+        self.git(self.dest, "push", "-q", "origin", self.branch)
+        (vault / ".git" / "info" / "exclude").write_text("other/local.cfg\n")
+        (vault / "other").mkdir()
+        (vault / "other" / "local.cfg").write_text("ignored, local only\n")
+        clone = self.folder / "vault-clone"
+        self.git(self.folder, "clone", "-q", "--branch", "main", str(self.notes_remote), str(clone))
+        self.configure(clone)
+        (clone / "other").mkdir()
+        (clone / "other" / "local.cfg").write_text("their tracked copy\n")
+        self.commit(clone, "tracked at the ignored path")
+        self.git(clone, "push", "-q", "origin", "main")
+        with self.assertRaises(handoff.HandoffError):
+            handoff.pickup(self.dest, self.branch, "notes:plan.md", sync=True)
+        self.assertEqual((vault / "other" / "local.cfg").read_text(), "ignored, local only\n")
+
+    def test_measure_refuses_outside_sources_before_reading_them(self):
+        self.shared_vault()
+        with patch.object(handoff, "tracked_source", side_effect=AssertionError("read before refusal")), \
+                patch.object(handoff, "notes_location", side_effect=AssertionError("config read before refusal")):
+            with self.assertRaisesRegex(handoff.HandoffError, "outside the scope"):
+                handoff.measure(self.dest, "mine/rec.md", files=["theirs/notes.md", "notes:plan.md"],
+                                scope=["mine"])
+
+    def test_scope_is_supported_by_the_cli(self):
+        self.shared_vault()
+        for command in (["prepare", "--branch", self.branch, "--record", "mine/rec.md", "--scope", "mine"],
+                        ["pickup", "--branch", self.branch, "--record", "mine/rec.md", "--scope", "mine"]):
+            with self.subTest(command=command[0]):
+                result = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest), *command],
+                                        capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertEqual(json.loads(result.stdout)["scope"], ["mine"])
+
     def test_prepare_reads_utf8_bytes_and_preserves_crlf_through_pipeline(self):
         content = "# Tasks\r\n## Now\r\nCafé 東京.\r\n### Owed\r\nKeep this.\r\n## Later\r\nStop.\r\n"
         (self.dest / "tasks.md").write_bytes(content.encode("utf-8"))
