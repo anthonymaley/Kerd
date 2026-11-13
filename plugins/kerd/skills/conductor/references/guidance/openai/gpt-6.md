@@ -2,17 +2,19 @@
 profile:
   provider: openai
   family: gpt-6
-  version: 2026-09
-  applicable_models: [gpt-6-astra, gpt-6-sol, gpt-6-luna]
+  version: 2026-11-03
+  applicable_models: [gpt-6-astra, gpt-6-sol, gpt-6.1-sol, gpt-6.1-terra, gpt-6-luna]
   official_sources:
     - url: https://developers.openai.com/api/docs/guides/latest-model
-      retrieved: 2026-09-23
+      retrieved: 2026-11-03
     - url: https://developers.openai.com/api/docs/models
-      retrieved: 2026-09-23
+      retrieved: 2026-11-03
     - url: https://learn.chatgpt.com/docs/models
-      retrieved: 2026-09-23
+      retrieved: 2026-11-03
+    - url: https://developers.openai.com/api/docs/guides/model-selection
+      retrieved: 2026-11-03
   last_evaluated: null
-  supersedes: null
+  supersedes: gpt-6@2026-09
 ---
 
 # OpenAI GPT-6 family profile
@@ -27,6 +29,10 @@ The third source above, `https://learn.chatgpt.com/docs/models`, is where
 Redirect) on 2026-09-23. It is the Codex CLI's own model/effort reference and
 is distinct from the API guide at `official_sources[0]`.
 
+The 2026-11-03 revision rewrites `tier-roles` and `effort-levels-by-tier` for
+`gpt-6.1-sol` and `gpt-6.1-terra`, which the models page and the API guide now list. The
+prior version is preserved in `archive/gpt-6-2026-09.md`. No other clause changed.
+
 Clauses already covered by `openai/gpt-5-6.md` or `openai/shared.md` and not
 contradicted by what the fetched pages say — model suitability over cost,
 using native tool/schema mechanisms instead of prompt-prose schemas, and
@@ -35,15 +41,15 @@ changes for a GPT-6 job versus a GPT-5.6 one.
 
 ```yaml
 - id: tier-roles
-  applies_when: choosing Astra, Sol, or Luna for a GPT-6 job
-  guidance: Astra is positioned as the most capable model, for the hardest end-to-end work; Sol for complex coding and agentic workflows; Luna as the most efficient tier for focused, high-volume work (summarization, extraction, focused coding). This replaces the GPT-5.6 Sol/Terra/Luna positioning Kerd used before, and there is no GPT-6 Terra — do not carry the Terra role over.
+  applies_when: choosing among gpt-6-astra, gpt-6.1-sol, gpt-6.1-terra and gpt-6-luna for a GPT-6 job
+  guidance: As of 2026-11-03 the models page lists four flagship models. gpt-6-astra is the most capable, for complex reasoning and coding. gpt-6.1-sol gives near-Astra performance at lower cost, for complex coding, computer use and professional work. gpt-6.1-terra is a fast, efficient model for visual reasoning, precise computer use and natural writing. gpt-6-luna is the fastest and most cost-effective, for focused, high-volume tasks. gpt-6-sol is no longer in that list; the API guide tells users already on it to review the migration guidance before switching to gpt-6.1-sol. The earlier statement that there is no GPT-6 Terra no longer holds. The guide says to compare gpt-6.1-terra with gpt-6.1-sol on the same inputs and reasoning effort, and, when moving from GPT-5.6 Terra, to compare both on representative images and workflows at the same effort.
   basis: provider-guidance
-  source: official_sources[1]
+  source: official_sources[1]; official_sources[0]; official_sources[3]
   evaluation: pending
   review_trigger: first GPT-6 pilot or source change
 - id: effort-levels-by-tier
-  applies_when: setting reasoning effort for gpt-6-astra, gpt-6-sol, or gpt-6-luna through the API
-  guidance: Astra has no none setting; where a brief used none, use low. Sol and Luna support none. For each tier's upper levels, check the models page at dispatch rather than assuming a fixed ladder; two fetches on 2026-09-23 summarized them differently. A brief carried over from a GPT-5.6 job that used a minimal-equivalent effort should start at low on GPT-6 and compare results on representative tasks, rather than assume minimal maps onto low.
+  applies_when: setting reasoning effort for a GPT-6 model through the API
+  guidance: gpt-6-astra and gpt-6.1-sol do not support none; use low instead. gpt-6.1-sol supports low, medium (the default), high, xhigh and max. gpt-6.1-terra supports none, low, medium (the default), high, xhigh and max, and the guide says to start it at medium and raise it only if the quality gain justifies the extra time and tokens. gpt-6-sol and gpt-6-luna support none. The guide gives no upper-level list for gpt-6-astra or gpt-6-luna, so check the models page at dispatch for those. A request that used minimal should start at low, and the results should be compared rather than assuming minimal maps onto low.
   basis: provider-guidance
   source: official_sources[0]
   evaluation: pending

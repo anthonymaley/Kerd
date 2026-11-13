@@ -136,7 +136,8 @@ class ReviewDefaultPointersTests(unittest.TestCase):
     def test_model_choice_keeps_cross_provider_and_points_at_the_rule(self):
         text = flat(REPO / "skills" / "conductor" / "references" / "guidance" / "model-choice.md")
         self.assertIn("through a fresh, record-briefed reviewer from the other provider", text)
-        self.assertIn("(../orchestration.md#plan-independent-review-from-the-pairing)", text)
+        # 0.193.2: named in words, since the page is also read from the catalogue copy.
+        self.assertIn("“Plan independent review from the pairing” in Conductor's orchestration guide", text)
         self.assertNotIn("the fresh-reviewer fallback are unchanged", text)
 
     def test_orchestration_and_model_choice_state_the_same_reviewer(self):
