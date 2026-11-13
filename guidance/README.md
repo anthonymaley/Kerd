@@ -7,6 +7,15 @@ capability shortlist, evidence and selection method; then read the applicable
 prompt profile. Use local guidance first and refresh only relevant stale or
 missing facts, not a vendor-documentation tour during every task.
 
+On Claude Code, get a profile's path from the shared catalogue with
+`python3 <Conductor skill directory>/scripts/catalogue.py profile <provider>/<model>`
+(for example `anthropic/opus-5-5`), where the skill directory is the absolute base
+directory Conductor was loaded from, and read the file it names. It prints `path`, `source` and
+`reason`: a copy from the catalogue's `catalogue` branch, kept for seven days, or
+the profile shipped here when the catalogue can't be read. When `source` is
+`shipped` or `stale-cache`, say so in one clause on the startup view's Fit line.
+Hosts without network (Codex by default) read the shipped profile here directly.
+
 Current model-specific files live directly under the provider folder. Files in
 `archive/` preserve prior run guidance; don't load them for new work unless
 reproducing that run. The GPT-5.6 profile's 2026-09-05 revision removes the older
@@ -25,6 +34,11 @@ full read of its prompting guide, beside the unchanged Sonnet 5 profile, because
 Code's `sonnet` alias moved to Sonnet 5.5 on 2026-09-28.
 The 2026-10-09 addition is a Haiku 5.5 profile (`anthropic/haiku-5-5.md`), from Anthropic's
 docs only, with no matched Kerd comparison yet.
+The 2026-11-12 addition is a Fable 5.2 profile (`anthropic/fable-5-2.md`), from full reads
+of its prompting guide, what's new page, migration guide and effort section, beside the
+unchanged Fable 5.1 profile, because Claude Code's `fable` alias moved to Fable 5.2
+(released 2026-11-09). It is a new family file, not a revision: several 5.1 clauses point
+the other way on 5.2. No Kerd comparison yet.
 No model default, pricing, native permission or account setting changed.
 
 ## What is stored
