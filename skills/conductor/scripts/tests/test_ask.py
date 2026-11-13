@@ -38,6 +38,20 @@ class TransportTests(unittest.TestCase):
                 self.assertLess(time.monotonic(), deadline)
                 time.sleep(0.01)
 
+    def wait_for_group_gone(self, group, seconds):
+        # macOS can deny the existence probe while a killed group is reaped; as in
+        # ask.stop(), denial is not disappearance: keep polling within the deadline.
+        deadline = time.monotonic() + seconds
+        while True:
+            try:
+                os.killpg(group, 0)
+            except ProcessLookupError:
+                return
+            except PermissionError:
+                pass
+            self.assertLess(time.monotonic(), deadline, "process group still present")
+            time.sleep(0.02)
+
     def run_job(self, provider="codex", prompt="Review this", **kwargs):
         return self.bridge.run(provider, prompt, kwargs.pop("role", "reviewer"),
                                kwargs.pop("session", provider), **kwargs)
@@ -205,19 +219,14 @@ class TransportTests(unittest.TestCase):
                 os.killpg(group, signal.SIGKILL)
             except ProcessLookupError:
                 pass
+            except PermissionError:  # macOS denies while reaping; a live group still fails here
+                self.wait_for_group_gone(group, 3)
         self.addCleanup(cleanup_group)
         self.bridge.cancel("descendant")
         thread.join(7)
         self.assertFalse(thread.is_alive())
         self.assertEqual(output[0]["status"], "cancelled")
-        deadline = time.monotonic() + 2
-        while True:
-            try:
-                os.killpg(group, 0)
-            except ProcessLookupError:
-                break
-            self.assertLess(time.monotonic(), deadline)
-            time.sleep(0.02)
+        self.wait_for_group_gone(group, 2)
 
     def test_background_returns_and_retains_session_lock_and_result(self):
         started = time.monotonic()
@@ -312,6 +321,8 @@ class TransportTests(unittest.TestCase):
                 os.killpg(group, signal.SIGKILL)
             except ProcessLookupError:
                 pass
+            except PermissionError:  # macOS denies while reaping; a live group still fails here
+                self.wait_for_group_gone(group, 3)
         self.addCleanup(cleanup_group)
         return runner, group
 
@@ -326,14 +337,7 @@ class TransportTests(unittest.TestCase):
                 runner.send_signal(signal.SIGINT)
                 runner.communicate(timeout=8)
                 self.assertEqual(self.bridge.status(request_id)["status"], "cancelled")
-                deadline = time.monotonic() + 2
-                while True:
-                    try:
-                        os.killpg(group, 0)
-                    except ProcessLookupError:
-                        break
-                    self.assertLess(time.monotonic(), deadline)
-                    time.sleep(0.02)
+                self.wait_for_group_gone(group, 2)
                 self.assertEqual(self.run_job()["status"], "completed")
 
     def test_uncatchable_runner_death_blocks_session_reuse_and_close(self):
@@ -352,14 +356,7 @@ class TransportTests(unittest.TestCase):
             self.bridge.resolve("killed-runner")
         self.assertEqual(self.run_job(session="other")["status"], "completed")
         os.killpg(group, signal.SIGKILL)  # only this test's deliberately orphaned fixture
-        deadline = time.monotonic() + 3
-        while True:
-            try:
-                os.killpg(group, 0)
-            except ProcessLookupError:
-                break
-            self.assertLess(time.monotonic(), deadline)
-            time.sleep(0.02)
+        self.wait_for_group_gone(group, 3)
         resolved = self.bridge.resolve("killed-runner")
         self.assertEqual(resolved["status"], "abandoned")
         self.assertIn("outcome not proven", resolved["error"])
@@ -422,6 +419,8 @@ class TransportTests(unittest.TestCase):
                 os.killpg(group, signal.SIGKILL)
             except ProcessLookupError:
                 pass
+            except PermissionError:  # macOS denies while reaping; a live group still fails here
+                self.wait_for_group_gone(group, 3)
         self.addCleanup(cleanup_detached_fixture)
         self.bridge.cancel("detached")
         thread.join(5)

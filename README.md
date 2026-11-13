@@ -327,9 +327,17 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.194.1)
+## What's New (v0.194.2)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.194.2
+
+**Conductor's `ask` tests no longer fail at random on macOS.** After a test kills a process group it waits for
+the group to disappear, and it counted only "no such process" as gone; macOS can briefly answer "permission denied"
+while a killed group is cleared away, and that one answer failed a full run on 2026-11-13. The tests now treat a denied
+check as "not gone yet" within the same deadline, as `ask`'s own `stop()` already does, and their cleanup tolerates it
+too. Tests only; no change to what Kerd does.
 
 ### v0.194.1
 
