@@ -23,9 +23,10 @@ including an explicitly requested older model, can be considered on the same bas
 
 | Model | Provider-described fit | Local prompt guidance | Evidence qualification |
 | --- | --- | --- | --- |
-| GPT-6 Astra · `gpt-6-astra` | Most capable model for complex work across code, apps and research | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here |
-| GPT-6 Sol · `gpt-6-sol` | Complex coding and agentic workflows, with stronger factual reliability | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; the GPT-5.6 Sol evidence below is not credited to it |
-| GPT-6 Luna · `gpt-6-luna` | Most efficient, for focused high-volume work | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; price is not eligibility |
+| GPT-6 Astra · `gpt-6-astra` | Most capable, for complex reasoning and coding | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here |
+| GPT-6.1 Sol · `gpt-6.1-sol` | Near-Astra performance at lower cost, for complex coding, computer use and professional work | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; the GPT-5.6 Sol evidence below is not credited to it |
+| GPT-6.1 Terra · `gpt-6.1-terra` | Fast and efficient, for visual reasoning, precise computer use and natural writing | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; the GPT-5.6 Terra evidence below is not credited to it |
+| GPT-6 Luna · `gpt-6-luna` | Fastest and most cost-effective, for focused, high-volume tasks | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; price is not eligibility |
 | Claude Opus 5.5 · `claude-opus-5-5` | Long-running agentic coding and knowledge work; Anthropic's default starting point | [Opus 5.5](anthropic/opus-5-5.md) | One matched composer trial (2026-09-27, one brief, blind-graded first over Fable 5.1 and Codex; see [task evidence](task-evidence.md#matched-composer-trial-2026-09-27)); the Opus 5 review evidence is not credited to it |
 | Claude Fable 5.2 · `claude-fable-5-2` | Demanding reasoning and long-horizon agentic work, when Opus 5.5 at higher effort still falls short; agent sessions that run for hours, multistep deep research, analysis carried through to a finished document | [Fable 5.2](anthropic/fable-5-2.md) | From Anthropic's docs (retrieved 2026-11-12); no matched Kerd comparison yet; do not credit Fable 5.1 or Fable 5 results to it |
 | Claude Sonnet 5.5 · `claude-sonnet-5-5` | A faster, lower-cost complement to Opus 5.5; Opus 5.5 stays clearly stronger at complex, open-ended work | [Sonnet 5.5](anthropic/sonnet-5-5.md) | No matched selection comparison recorded here; Kerd's Sonnet readers ran on it from 2026-09-29 (observed); three effort checks on grading readers (2026-10-03, 2026-10-08 x2) found medium caught the same hard failures and core findings as high, a little less complete ([profile](anthropic/sonnet-5-5.md) `grading-reader-at-medium`) |
@@ -52,11 +53,13 @@ available by its full ID; do not credit the earlier Fable 5 drafting trial or it
 own results to Fable 5.2. **Previous OpenAI
 line:** GPT-5.6 Sol, Terra and Luna ([profile](openai/gpt-5-6.md)) are no longer in the
 API catalogue's general-model list (2026-09-23), while the Codex models page says they
-remain available during the GPT-6 rollout. GPT-6 has no Terra tier. Use either when a person asks for it
+remain available during the GPT-6 rollout. GPT-6 Sol (`gpt-6-sol`) is no longer on the
+models page (2026-11-03); the API guide tells anyone already on it to read the migration
+guidance before moving to GPT-6.1 Sol. Use any of these when a person asks for it
 or a run is being reproduced; their evidence below stays theirs.
 
-The three OpenAI descriptions come from the [official model catalogue](https://developers.openai.com/api/docs/models),
-except Sol's "stronger factual reliability", which is from the [Codex models page](https://learn.chatgpt.com/docs/models).
+The four GPT-6 descriptions come from the [official model catalogue](https://developers.openai.com/api/docs/models)
+as the [GPT-6 profile](openai/gpt-6.md) records it on 2026-11-03.
 The Claude descriptions come from [Anthropic's selection guide](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model),
 except Fable 5.2's, which is from its [model page](https://platform.claude.com/docs/en/models/fable-5-2/overview) and the [models overview](https://platform.claude.com/docs/en/models/overview).
 These descriptions do not establish that one provider is better at writing or
@@ -89,7 +92,8 @@ when Claude builds (the usual case in Claude Code), a fresh Claude reviewer when
 Codex builds. When the other provider can't start, it goes to a fresh reviewer
 on a different model of the same provider, said as such. A standing partner
 reviews only when the person chooses it; see
-[plan independent review from the pairing](../orchestration.md#plan-independent-review-from-the-pairing).
+“Plan independent review from the pairing” in Conductor's orchestration guide
+(`references/orchestration.md` in the Conductor skill).
 
 ### Task fit: what each kind of evidence supports
 
@@ -131,14 +135,16 @@ the tools it requires, then ask which kind of evidence speaks to that.
    Fable 5.1) to high, with its effort levels re-tuned, so a 5.1 setting does not carry over; the documented default is a starting point, not a proved optimum. For other models, use an evidenced
    supported setting or disclose the native default; never copy effort labels
    between providers as though equal. Apply the level through the route's control
-   in the [route table](../model-jobs.md#prepare-work-the-chosen-model-can-do-well):
+   in the route table (“Prepare work the chosen model can do well” in Conductor's
+   `references/model-jobs.md`):
    for a native Claude job that is the matching `kerd:<model>-<effort>`, `kerd:haiku-<low|medium|high>` for Haiku 5.5, or plain `kerd:haiku` only in a session that predates them, then confirm what ran
    with `job_evidence.py`. Load only applicable prompt guidance and
    keep the same outcome, proof and boundaries whatever the model.
 5. **Explain briefly, run, learn.** Record the chosen model/route, requested
    effort, profile version, reason, relevant alternative and uncertainty in the
    existing job note. Show the person a short useful explanation as the Fit line
-   under the work grid ([startup contract](../orchestration.md#one-visible-startup-view)),
+   under the work grid (the startup contract, “One visible startup view” in Conductor's
+   `references/orchestration.md`),
    not a selection approval form. Assess actual artifacts and feed findings into future choices.
 
 Quality remains the agreed bar. Among routes with evidence they meet it, use

@@ -327,9 +327,18 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.193.1)
+## What's New (v0.193.2)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.193.2
+
+**Conductor's advice for OpenAI work knows GPT-6.1 Terra.** Its model-choice page said GPT-6 has no Terra tier, while
+the shared catalogue's GPT-6 profile, revised 2026-11-03 from OpenAI's pages, lists GPT-6.1 Sol and GPT-6.1 Terra,
+and Kerd still shipped the September profile. Kerd now ships that revised profile (the September one archived), and the
+page's OpenAI rows read Astra, GPT-6.1 Sol, GPT-6.1 Terra and Luna, with GPT-6 Sol noted as gone from the models page.
+The page's pointers to Conductor's orchestration and model-jobs guides now name them in words, so they still make
+sense when Conductor reads the page from the catalogue copy, where the old links led nowhere. Wording only.
 
 ### v0.193.1
 
