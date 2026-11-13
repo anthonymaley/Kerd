@@ -7,6 +7,10 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-11-13 (Switch Out, 17:1x)
+
+**Done, released in 0.194.2** (his "y" 16:58 to build, 17:08 to release; main a82b2706, entry-gate CI 43516743011 green, `codex` 7b8d85c2): the Backlog row "Flaky test: `test_ask … test_uncatchable_runner_death_blocks_session_reuse_and_close`". Evidence: the tests' wait loops counted only `ProcessLookupError` as gone; a shared `wait_for_group_gone` treats macOS's EPERM as not-yet-gone within the deadline (three loops), cleanup kills on EPERM wait and fail loudly; 200 of 200 repeated runs, full suite 1,238 OK, two fresh Codex rounds (Hold 1, Safe). A 1-in-~1,200 flake cannot be proven gone; its cause is closed. `notes:flaky-ask-test/work.md`.
+
 ## Closed 2026-11-13 (Switch Out, 16:1x)
 
 **Done, released in 0.194.1** (his "y" 15:46 to build, 16:12 to release; main 3ea20a03, entry-gate CI 43508627295 green, `codex` 4e1cf7ca): the Backlog row "A plain pickup does not recheck unsaved changes after reading its record". Evidence: `pickup()` ran its after-read check only with `--commit`; every pickup now reads the record a second time (covering `--preserve` records) and then checks branch, HEAD and in-scope unsaved changes; four new tests fail on the old code and pass; three fresh Codex rounds Hold, Hold, Safe. `notes:pickup-recheck/work.md`.
