@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.193.3
+
+**The user guides for Switch, Conductor and Agent describe 0.193.2.** They were last changed at 0.189.0, so they
+still told a new reader that the paired partner does the reviews. They now say that reviews go by default to a fresh
+reviewer from the other provider, started through Agent and briefed with the records, with a standing Codex partner
+for multi-turn Codex work or when you name one; that a stalled partner is a gap at Ready; that pairings show when they
+last replied, are marked stale and can be retired (set aside, recoverable, on your yes); that a Codex partner Kerd
+starts can be asked again (tried live once); and that Switch In offers lines for stale pairings and a Codex window
+whose requests have waited since an earlier day. Wording only.
+
 ## 0.193.2
 
 **Conductor's advice for OpenAI work knows GPT-6.1 Terra.** Its model-choice page said GPT-6 has no Terra tier, while

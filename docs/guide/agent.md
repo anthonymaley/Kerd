@@ -3,16 +3,18 @@
 Agent gets a contribution from another AI session and brings its answer back:
 Claude asking Codex, Codex asking Claude, or either one asking a session that
 already has the context you need. It keeps track of which session is which, so
-"ask Codex to review this" reaches the partner you paired with rather than a
-stranger who has never seen the work.
+"ask Codex to recheck this" reaches the partner you paired with rather than a
+stranger who has never seen the work. Reviews are the exception: they go to a
+fresh reviewer by default, unless you name the partner.
 
 ## When you would reach for it
 
 When you want a second opinion on something before it ships, from a model that
 has not spent the last hour convincing itself. When the session that holds the
 history of a piece of work is not the session you are typing into. When you want
-a standing arrangement, a partner with a role and a review rhythm, instead of
-asking for a review each time. And when a job is bounded enough to hand to a
+a standing arrangement: a partner with a role for multi-turn work, and a
+recorded review cadence that sets when reviews happen without asking each time
+(the reviewer is still a fresh one unless you choose that partner). And when a job is bounded enough to hand to a
 fresh worker that needs no context at all.
 
 It can show your partner a picture, too: a screenshot, a mockup, a diagram. Say
@@ -36,7 +38,8 @@ You ask in words:
 Those are conversational examples rather than fixed subcommands. `/kerd:agent
 help` shows a short list first and expands only the part you asked about.
 
-If a partner is already established for this project, that partner is used. No
+If a partner is already established for this project, that partner is used,
+except for reviews, which go to a fresh reviewer unless you name the partner. No
 question, no picking from a list again. If none is established, or which session
 you mean is genuinely unclear, you get the sessions that match, led by provider,
 whether each is an established partner, its alias and a short ID. The saved native
@@ -48,6 +51,39 @@ Then a deliberate choice between three things: the existing partner, a new
 ongoing partner, or a fresh bounded worker. One is never silently swapped for
 another, because an independent read by a fresh worker and a conversation with a
 partner who knows the work are different jobs.
+
+Which route Kerd uses depends on the work. A review (a checkpoint, before a
+push, a pull request) goes to a fresh, record-briefed reviewer from the other
+provider that Kerd starts through Agent, read only: a Codex reviewer when Claude
+builds, a Claude reviewer when Codex builds. If the other provider can't start,
+Kerd uses a different model of the same provider, as its own native subagent,
+and tells you so. Its brief
+names the records to read (the work's notes, the decisions, the diff), and its
+verdict is written back to the notes. A standing Codex partner is for multi-turn
+Codex work, or when you ask for one. Your own `codex` window is used only while
+you are at it. A review you send to a named partner goes to that partner. The
+reason: a Codex window takes a queued request only when it takes its next turn,
+so one left unattended holds a review until someone types in it.
+
+Multi-turn Codex work uses a Codex partner Kerd starts for it, where Agent can
+start one and its first ask is delivered. When the start or the delivery fails,
+Kerd uses a fresh Codex worker for each turn, briefed from the records, and
+tells you so. Since 0.193.1 a Codex partner Kerd starts can be asked again on
+current Codex: Agent follows the daemon's linked control socket one step, only
+to your own socket in a folder you own. Tried live once on one Mac: a read-only
+partner answered its first ask in 5 seconds, and again after 21 minutes idle in
+4 seconds. One idle gap is not proof the route never stalls.
+
+`partners` shows when each pairing last sent a request and last replied. It
+marks a pairing stale when it has not replied in 14 days (or never has, and the binding is older than 14
+days), or when a request sent
+since its last reply has gone unconfirmed for over a day. A stale partner is not
+offered as reviewer by default; if you name it, you are told it is stale and a
+fresh reviewer is recommended. Switch In no longer greets stale pairings: it
+lists them as one line for you. Retiring one moves its binding aside, never
+deleting it, and happens only when you say yes. Moving the file back restores
+the pairing. A partner that answers you some other way, say in its own window,
+can look stale to Kerd, which is why retiring is only offered.
 
 A Codex that Kerd starts, fresh worker or new partner, runs with native approval
 prompts disabled, and its shell commands can't reach the network by default:
@@ -63,13 +99,14 @@ review's commands never do, and a managed Codex Roll refuses to run whenever the
 setting gives it effective network access.
 
 When you set up an ongoing partner, you are asked once for two things and then
-never again: the role that partner holds, in your own words, and how it reviews.
+never again: the role that partner holds, in your own words, and the review
+cadence recorded with it, which sets when reviews happen.
 Four role shortcuts are offered, pairing partner, implementation partner,
 independent reviewer, specialist adviser, and any responsibility you name instead
 is recorded as you said it. The review cadence has four values: `checkpoints`,
 `before-push`, `end`, and `on-request`, which stands alone. You can pick several
-of the first three. [Conductor](conductor.md) reads that cadence and plans the
-partner's reviews from it.
+of the first three. [Conductor](conductor.md) reads that cadence to plan when
+reviews happen; the reviewer is still a fresh one unless you chose that partner.
 
 Underneath, the job is prepared with the relevant source paths, the outcome, the
 contribution wanted, the checks, the authority and the stopping point. Before it
@@ -93,13 +130,13 @@ meanings and the question comes last, in a speech bubble, the same form every
 Kerd question takes. This is the shape, not a transcript:
 
 ```markdown
-How Codex reviews this work, one or more of:
+When reviews happen on this work, recorded with the Codex pairing, one or more of:
 - checkpoints
 - before-push
 - end, at the end
 - on-request, only when you ask, and on its own
 
-> 💬 **Which review cadence should Codex hold on this project?**
+> 💬 **Which review cadence should this Codex pairing record?**
 ```
 
 Answer in words, or use the picker where your host has one. The picker carries

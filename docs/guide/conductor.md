@@ -105,8 +105,20 @@ who does it, model, effort and status, with a Fit line giving the reason for eac
 selection, and it reports the model and effort each job was observed to run with,
 because naming a model in a call is a request rather than a guarantee. After each
 returned edit it reads the actual change set against a baseline taken before
-dispatch. Where you have an established review partner, it plans that partner's
-reviews from the cadence recorded with the pairing. See [Agent](agent.md).
+dispatch.
+
+Checkpoint, before-push and pull-request reviews go by default to a fresh
+reviewer from the other provider, started through Agent: a fresh Codex reviewer
+when Claude builds, a fresh Claude reviewer when Codex builds. When the other
+provider can't start, it uses a different model of the same provider, as a native
+subagent rather than through Agent, and says so. The reviewer is briefed with the records to read (the work's notes, the
+decisions, the diff), and its verdict is written back to the notes. A standing
+Codex partner is for multi-turn Codex work, or when you ask for one. Where you
+have an established partner, the review cadence recorded with the pairing still
+sets when reviews happen. A stalled partner is named as a gap at Ready rather
+than quietly routed around. A staffing row that names a hand-typed `codex exec`
+is not a valid plan: reviewers started through Agent can be listed from either
+side, hand-typed runs cannot. See [Agent](agent.md).
 
 ## A short exchange
 
@@ -148,7 +160,8 @@ their own yes for that actual task. Discussion is not authorization.
 
 Conductor does not review its own players independently. It checks every return
 against the score, which is a different job from an independent read, and that
-second read comes from a partner. A returned review is not a passed outcome.
+second read comes from a fresh reviewer, or from the partner you name for it. A
+returned review is not a passed outcome.
 
 It will not drag a small change through an intake, and it will not stop at a
 document when implementation is authorized and possible. A build that has to run

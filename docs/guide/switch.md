@@ -69,8 +69,16 @@ where to look. Rulings stay in the pointer; the full case moves to a decisions
 record. Closed rows move to a backlog archive with their verdict and date.
 
 If you already have a Claude and Codex pairing for the project, In restores the
-routing too and shows it in the TEAM cell as provider and role. See
-[Agent](agent.md).
+routing too and shows it in the TEAM cell as provider and role. A stale pairing
+is not greeted and does not appear in TEAM: one with no reply in 14 days (or
+none ever, once it is older than 14 days), or with a request sent since its last
+reply and unconfirmed for over a day. Open work carries one line for you offering
+to retire stale pairings, set aside and recoverable. It is never the
+recommendation, and a pairing is retired through Agent only on your yes. When
+Kerd's requests to a Codex partner have waited since an earlier day, Open work
+also carries a line for you to look at that Codex window and say which requests
+still matter; the queue shows requests waiting, not that the partner has
+stopped. See [Agent](agent.md).
 
 ## A short exchange
 

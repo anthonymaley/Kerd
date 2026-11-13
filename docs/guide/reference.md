@@ -68,7 +68,14 @@ Connects Claude and Codex sessions so one can contribute to the other's work.
 - `scripts/agent.py --project ABSOLUTE_PROJECT sessions` lists the sessions Kerd
   can see, when no partner is established or the target is ambiguous.
 - `agent.py partners` reads the private pairing bindings; Conductor uses it to
-  find a partner's recorded review cadence.
+  find a partner's recorded review cadence. Each row also shows when that
+  pairing last sent a request and last replied, and marks it stale after 14
+  days without a reply (or, if it never replied, once the binding is older than
+  14 days), or when a request sent since its last reply has gone
+  unconfirmed for over a day.
+- `agent.py retire --alias <alias>` moves a stale pairing's binding aside to
+  `kerd-agent/partners-retired/`, keeping its data and sending nothing. Kerd runs
+  it only when you say yes; moving the file back restores the pairing.
 - `agent.py pair` and `agent.py start --kind partner` accept `--partner-role` and
   `--review-cadence`, which is how a role and a cadence get recorded.
 
