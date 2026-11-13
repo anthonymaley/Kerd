@@ -7,6 +7,10 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-11-13 (Switch Out, 09:5x)
+
+**Done, released in 0.194.0** (his "y" 09:25 to build, 09:45 to release; main c187079f, gate CI 43445752918 green, `codex` 63334c77): the Backlog row "`prepare` refused another project's pickup over Kerd's untracked vault folder". Evidence: apple-music runs `handoff.py --project ~/eolas`, and pickup's clean-tree check covered the whole vault (its 2026-11-08 23:04Z transcript: "Local changes exist"); `--scope <folder>` now limits it; the refusal is reproduced in `test_handoff.py`, then passes scoped. `notes:prepare-shared-vault/work.md`.
+
 ## Closed 2026-11-12 (Switch Out, 22:5x)
 
 **Done, released in 0.193.2** (his "y" 22:11 and 22:52; main 88d290c2, gate CI 43361818648 green, `codex` f641d091): the Backlog row "Conductor's OpenAI advice corrected, waiting on his release and merge" (before that, "`model-choice.md` says GPT-6 has no Terra tier"). Evidence: the catalogue's 2026-11-03 GPT-6 profile now ships on main with the September copy archived; the OpenAI rows read Astra, GPT-6.1 Sol, GPT-6.1 Terra and Luna; the three cross-tree links are named in words; `test_openai_advice_wording.py`; three fresh Codex review rounds (Hold, Hold, Safe). The first push failed gate CI 43357252298 on an older test asserting the old link, fixed by 88d290c2. The catalogue copy rides on PR #3 (8ffdf162), whose merge is his and is tracked in Now. `notes:openai-advice/work.md`.
