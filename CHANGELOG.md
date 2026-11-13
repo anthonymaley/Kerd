@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.194.3
+
+**Kerd's own releases run from one script, and a test run is read from its own exit code.** Kerd's first weekly
+review found the release typed by hand about ten times in a week, and once a suite read through `| tail` reported a
+pass that CI then failed. `tools/release.py` now does the steps: `check` runs the steps CI's workflow lists, each with
+its own exit code; `prep` bumps the version and writes the note into README and CHANGELOG; `ship`, on the go only, pushes,
+waits for the CI run of that exact commit and publishes on green, otherwise printing the failing lines or saying they could not be fetched. Conductor's
+guide now says a pass is read from the run's own exit code, never through a pipe. For Kerd's maintainers; no change to
+what the skills do for you.
+
 ## 0.194.2
 
 **Conductor's `ask` tests no longer fail at random on macOS.** After a test kills a process group it waits for

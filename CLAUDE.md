@@ -28,6 +28,8 @@ Every change to a skill (new skill, modified behavior, renamed command, changed 
 
 5. **Namespace references**: all slash-command references in docs and skills must use the `kerd:` prefix (e.g., `/kerd:tend`, `/kerd:conductor`). The only exception is within README.md examples showing shorthand usage, which may omit the prefix for readability.
 
+Run the release with `tools/release.py`: `prep VERSION --note FILE` bumps the three version fields, writes the note into README and CHANGELOG and runs `check`; `check` runs the named steps `.github/workflows/gate.yml` lists, each with its own exit code, and stops on a step form it cannot read; `ship [--codex] [--plugin]`, on Anthony's go only, pushes, waits for the `entry-gate` run of that exact commit, and publishes on green (it waits, so a background worker runs it). Report a suite as passing only from the runner's own exit code, never from output read through `| tail`.
+
 CI enforces the mechanical subset of this checklist on every push: `python3 tools/release_check.py` refuses version drift (item 1), capability-list drift (item 3), bare slash references (item 5), a release note that reads differently in `README.md` and `CHANGELOG.md`, and skill or agent frontmatter that breaks Anthropic's limits (must parse as YAML; `description` at most 1,024 characters with no `<` or `>`; SKILL.md body at most 500 lines). The changelog may keep older entries the README has trimmed; that is the decided shape, not drift.
 
 ## Version Strategy
@@ -44,6 +46,7 @@ skills/           # skill definitions (each skill in its own folder with SKILL.m
 agents/           # kerd:<model>-<effort> subagent definitions: model and effort for delegated native Claude jobs (older kerd:effort-<level> kept for sessions that predate them)
 tools/release_check.py # standalone release rules check (version drift, capability-list drift, bare slash references)
 tools/run_tests.py # runs every skill's scripts/tests/ wording tests
+tools/release.py  # the release steps: check (CI's steps, real exit codes), prep (version + note), ship (push, CI by exact commit, publish)
 docs/product/     # the funnel board from the retired ladder — unpoliced history, one <slug>.md per work item
 docs/work/question-sets/ # seed question sets, one <work-type>.md, copied into a work record at intake
 docs/design/      # living design docs (undated filenames)

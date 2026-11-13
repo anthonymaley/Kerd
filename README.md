@@ -327,9 +327,19 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.194.2)
+## What's New (v0.194.3)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.194.3
+
+**Kerd's own releases run from one script, and a test run is read from its own exit code.** Kerd's first weekly
+review found the release typed by hand about ten times in a week, and once a suite read through `| tail` reported a
+pass that CI then failed. `tools/release.py` now does the steps: `check` runs the steps CI's workflow lists, each with
+its own exit code; `prep` bumps the version and writes the note into README and CHANGELOG; `ship`, on the go only, pushes,
+waits for the CI run of that exact commit and publishes on green, otherwise printing the failing lines or saying they could not be fetched. Conductor's
+guide now says a pass is read from the run's own exit code, never through a pipe. For Kerd's maintainers; no change to
+what the skills do for you.
 
 ### v0.194.2
 
