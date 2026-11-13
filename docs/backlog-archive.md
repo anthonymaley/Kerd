@@ -7,6 +7,10 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-11-13 (Switch Out, 16:1x)
+
+**Done, released in 0.194.1** (his "y" 15:46 to build, 16:12 to release; main 3ea20a03, entry-gate CI 43508627295 green, `codex` 4e1cf7ca): the Backlog row "A plain pickup does not recheck unsaved changes after reading its record". Evidence: `pickup()` ran its after-read check only with `--commit`; every pickup now reads the record a second time (covering `--preserve` records) and then checks branch, HEAD and in-scope unsaved changes; four new tests fail on the old code and pass; three fresh Codex rounds Hold, Hold, Safe. `notes:pickup-recheck/work.md`.
+
 ## Closed 2026-11-13 (Switch Out, 09:5x)
 
 **Done, released in 0.194.0** (his "y" 09:25 to build, 09:45 to release; main c187079f, gate CI 43445752918 green, `codex` 63334c77): the Backlog row "`prepare` refused another project's pickup over Kerd's untracked vault folder". Evidence: apple-music runs `handoff.py --project ~/eolas`, and pickup's clean-tree check covered the whole vault (its 2026-11-08 23:04Z transcript: "Local changes exist"); `--scope <folder>` now limits it; the refusal is reproduced in `test_handoff.py`, then passes scoped. `notes:prepare-shared-vault/work.md`.
