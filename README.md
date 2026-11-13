@@ -327,9 +327,18 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.193.3)
+## What's New (v0.194.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.194.0
+
+**A project that shares its records' Git repo with other projects can be picked up again.** apple-music keeps its
+records in the vault, a repo several projects write to, so Switch In's `prepare` checked the whole vault for unsaved
+work, and on 2026-11-08 Kerd's unsaved notes folder stopped apple-music's pickup. `prepare`, `pickup` and `measure`
+now take `--scope <folder>`, saved in the project's `read_args`: only unsaved changes inside that folder stop the
+pickup, every project source must lie inside it, and the notes config must be saved. For every pickup, scoped or
+not, a fast-forward now refuses rather than overwrite an ignored local file.
 
 ### v0.193.3
 

@@ -85,6 +85,10 @@ Local files a project has deliberately kept out of Git do not block a pickup.
 Name those exact paths with `--preserve` and the helper proceeds, reporting them
 as local only; it stops, untouched, if the incoming revision carries one of them,
 because that collision is a real decision. Unnamed changes still stop a pickup.
+A project whose records sit in a repo shared with other projects passes its own
+folder as `--scope` (saved in its `read_args`): only unsaved changes inside that
+folder stop the pickup, and a source outside it is refused. Without `--scope`, the
+whole project is checked.
 
 The start point names a **pickup reading set** — the exact files and complete
 sections Out chose for this next action and wider active-work orientation (see

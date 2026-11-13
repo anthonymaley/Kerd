@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.194.0
+
+**A project that shares its records' Git repo with other projects can be picked up again.** apple-music keeps its
+records in the vault, a repo several projects write to, so Switch In's `prepare` checked the whole vault for unsaved
+work, and on 2026-11-08 Kerd's unsaved notes folder stopped apple-music's pickup. `prepare`, `pickup` and `measure`
+now take `--scope <folder>`, saved in the project's `read_args`: only unsaved changes inside that folder stop the
+pickup, every project source must lie inside it, and the notes config must be saved. For every pickup, scoped or
+not, a fast-forward now refuses rather than overwrite an ignored local file.
+
 ## 0.193.3
 
 **The user guides for Switch, Conductor and Agent describe 0.193.2.** They were last changed at 0.189.0, so they

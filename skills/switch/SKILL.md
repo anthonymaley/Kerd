@@ -289,7 +289,9 @@ of the reading set's size against the pickup target (bytes exact, tokens
 estimated; never blocking; warns rather than refuses a file Git does not
 track — `prepare` refuses an untracked source and a `notes:` source must be
 tracked in the vault, while pickup can still read a project record the project
-deliberately keeps out of Git, named with `--preserve`), and the `boundary`
+deliberately keeps out of Git, named with `--preserve`; a project whose records
+sit in a repo shared with other projects names its folder with `--scope`, and
+only unsaved changes there stop its pickup), and the `boundary`
 check Out must pass before its ✓
 (fetch now, HEAD on a remote branch, clean tree; stashes counted, not refused).
 When a project keeps its working notes in the vault (`kivna/vault.json`'s

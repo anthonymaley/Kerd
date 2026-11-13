@@ -285,6 +285,13 @@ order, each leaving a reachable link behind:
    start point. It is the exact selection to reuse at In, not another manifest.
    For the example above it is:
    `["--record", "CONTEXT.md", "--file", "kivna/sessions/<date>.md", "--section", "TODO.md", "## Now"]`.
+   When the project's records sit in a Git repo it shares with other projects
+   (a vault holding several projects' folders, the project run as that repo),
+   add `"--scope", "<its folder>"` to the saved `read_args`: `prepare` and
+   `pickup` then refuse only unsaved changes inside that folder, so another
+   project's unsaved notes elsewhere in the repo no longer stop this pickup,
+   and every project source must lie inside it. Pass it to `measure` too, which
+   carries it into the `read_args` it returns.
    Measure and prepare resolve these arguments through the same selector. Never
    measure an excerpt then hand off its containing file or section. Each source
    reports its byte count and `reaches_eof`. Complete files always reach EOF;
