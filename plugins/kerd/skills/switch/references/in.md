@@ -28,10 +28,16 @@ project notes cannot expand a read-only trial into probes, builds or deployment.
 Resolve the current project and branch. When the restored work is a concert on
 its own branch, a checked-out branch other than the one its sketchbook records is
 a consequential contradiction for ATTENTION, not a place to continue or save.
+Each command is one plain call: one helper or git command on its own, with absolute paths (`--project /abs/project`, `git -C /abs/project …`) instead of `cd`, never `cd … &&`, `; echo`, `| head` or another command chained on, so the person can allow it once; read files with the host's file reader, not `cat` or `head`, and edit prose with the host's file-edit tool, never `python3 - <<EOF`.
+
 Before any fast-forward or work proposal,
-check whether `git rev-parse --git-path roll/run.json` names an existing managed
-Roll record in this worktree. If present, use the packaged `roll_status.py
---project /absolute/project` read-only. Recorded running/held, blocked/failed/uncertain
+check for a managed Roll record in this worktree with one read-only call,
+`python3 /path/to/switch/scripts/roll_status.py --project /absolute/project`,
+its output read whole: it looks up `roll/run.json` and the chat roll marker
+itself, so In needs no `git rev-parse --git-path` probe first. Exit 0 prints the
+recorded run; exit 3 means a successful read found none (“No Roll status record
+was found”), and only that is no run; any other exit is unknown state. A
+`Chat roll marker:` line, with any exit, is the unclaimed chat roll below. Recorded running/held, blocked/failed/uncertain
 or handed_off/awaiting_destination state is not permission to adopt a controller, change
 its checkout or propose competing work. Keep restoration local/read-only, show
 the recorded ownership issue in ATTENTION, and make the next action inspection
@@ -191,13 +197,18 @@ only proves the project's own mechanics (a self-check, a record tidy, evidence
 bookkeeping) does not lead unless it blocks the product work or the person asked
 for it. If evidence shows the saved selection stale or completed, say so plainly.
 
-**Watching is not buildable.** An item that only waits for behaviour to be seen
+**Watching is not work that can move.** An item that only waits for behaviour to be seen
 in real use (“watch X in real use”, “keep using it”) or only waits for the person
-to decide is open work, never the recommendation: nothing can be built on it now.
+to decide is open work, never the recommendation: nothing moves on it now.
+An item the person does themselves (a call to make, an answer to chase, a section
+to write) is not waiting: it is their next move and a candidate like any other.
+When every open item that can move is the person's own, recommend the first of
+them plainly (“You: call the venue about the date”), never “nothing actionable”.
 Proposing a grounded route to resolve a saved unresolved choice (below) is not
-waiting; it stays a candidate. When no item in the active list is buildable,
-**Where things stand** says so plainly (“nothing in Now can be built; it holds
-things to watch and your decisions”). Weigh the saved selection as above; when
+waiting; it stays a candidate. When no item in the active list can move,
+**Where things stand** says so plainly (“nothing on the list can move yet; it holds
+things to watch and your decisions”). In words the person reads, say “can move”,
+never “can be built” or “buildable”. Weigh the saved selection as above; when
 it too only waits or is missing, read the project's Backlog section (that one
 section, not the archive) and weigh its rows the same way. A row the records
 defer, park or hold until something happens is not eligible. Recommend one
@@ -435,7 +446,9 @@ or imminent, even outside the recommendation, unless already resolved by
 available evidence. Keep each brief and distinguish the dated saved observation
 from a fresh check; this is not permission to relabel every owed item urgent or
 re-audit them at pickup. Open items that are merely owed belong in Open work,
-not ATTENTION.
+not ATTENTION. A risk the record does not mark urgent or imminent (“unanswered
+FAQ items could make sales improvise”) stays in the sketchbook, or in Open work
+when it names an action, never in ATTENTION.
 
 An **Insight** is optional: one source-grounded learning, implication or tradeoff
 in its own callout — never compulsory, never a hidden question.
@@ -534,8 +547,14 @@ coherent sitting. Use `null` or `[]` for anything the work has nothing for.
 }
 ```
 
-`project` is the project already restored, never inferred from the renderer's
-installation path. `phase` is the recommended item's rung, or the start point's
+`project` is the project already restored, by its display name: the text of
+the first heading in its `README.md` when there is one (markup removed); with no
+README, or a README with no heading, the first heading of the project's main notes
+file at its root (the first `.md` file there by name); else the folder name; and
+when that name is itself a placeholder word (`project`, `app`, `work`), “Your
+project”. Never the literal word “project” on its own, and never inferred from the renderer's installation path. A folder
+called `project`, `app` or `work` would otherwise head the arrival with a word
+that reads as a placeholder. `phase` is the recommended item's rung, or the start point's
 recorded `Phase:` line when the item has none, shown in the grid;
 `first_arrival` is `true` only for a project with no Kerd records (above);
 `where` is the position sentence; `open_work` a list of plain

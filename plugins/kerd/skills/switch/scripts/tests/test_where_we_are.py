@@ -958,7 +958,9 @@ class DocumentedExampleTests(unittest.TestCase):
                 summary = self.example()
                 summary["recommendation"] = {"text": None, "why": "orphan reason"}
                 out = view.render_dashboard(summary, NOW, 78, False, markdown=markdown)
-                self.assertIn("No recommendation: nothing actionable is open.", out)
+                # Open items are on screen, so the line says they cannot move yet
+                # rather than "nothing actionable" (first-user round 3, #4).
+                self.assertIn("No recommendation: nothing on the list can move yet.", " ".join(out.split()))
                 self.assertNotIn("orphan reason", out)
 
     def test_long_team_and_project_name_fit_the_width_without_being_cut(self):
@@ -1024,7 +1026,7 @@ class ClosingBoxTests(unittest.TestCase):
             with self.subTest(markdown=markdown):
                 out = flatten(self.render(markdown))
                 self.assertIn("SESSION SAVED", out)
-                for value in ("Pushed to main", "Launch: 2 of 5 done", "0.136.0 → 0.138.0",
+                for value in ("Saved and copied to your remote (pushed to main)", "Launch: 2 of 5 done", "0.136.0 → 0.138.0",
                               "Start the diagnostic pilot.",
                               "The risk-rating change was accepted.",
                               "Conductor checks where your work stands in your own project.",
@@ -1035,7 +1037,7 @@ class ClosingBoxTests(unittest.TestCase):
     def test_the_grid_leads_the_markdown_box(self):
         out = self.render(True)
         self.assertEqual(out.split("\n")[2], "| PROJECT | SAVED | PHASE | RELEASED |")
-        self.assertIn("| Kerd | Pushed to main | Launch: 2 of 5 done | 0.136.0 → 0.138.0 |", out)
+        self.assertIn("| Kerd | Saved and copied to your remote (pushed to main) | Launch: 2 of 5 done | 0.136.0 → 0.138.0 |", out)
 
     def test_the_next_step_appears_once(self):
         for markdown in (False, True):
@@ -1078,7 +1080,7 @@ class ClosingBoxTests(unittest.TestCase):
 
     def test_a_pushed_save_without_a_branch_does_not_say_not_recorded(self):
         out = self.render(True, branch=None)
-        self.assertIn("| Pushed |", out)
+        self.assertIn("| Saved and copied to your remote (pushed) |", out)
 
     def test_save_mechanics_stay_off_the_screen(self):
         out = self.render(True, commit="2e59ab7", files=15, remote="origin/main",
@@ -1090,12 +1092,15 @@ class ClosingBoxTests(unittest.TestCase):
             self.assertNotIn(gone, out)
 
     def test_the_save_states_are_told_apart_and_never_confused_with_exit(self):
-        for saved, banner, cell, absent in (("remote-verified", "SESSION SAVED", "Pushed to main", "NOT SAVED"),
-                                            ("committed", "SAVED LOCALLY", "Committed, not pushed", "SESSION SAVED"),
+        for saved, banner, cell, absent in (("remote-verified", "SESSION SAVED", "Saved and copied to your remote (pushed to main)",
+                                             "NOT SAVED"),
+                                            ("committed", "SAVED LOCALLY",
+                                             "Saved on this computer, not yet copied to your remote "
+                                             "(committed, not pushed)", "SESSION SAVED"),
                                             ("not-saved", "NOT SAVED", "Not saved", "SESSION SAVED")):
             for markdown in (False, True):
                 with self.subTest(saved=saved, markdown=markdown):
-                    out = self.render(markdown, saved=saved)
+                    out = flatten(self.render(markdown, saved=saved))
                     self.assertIn(banner, out)
                     self.assertIn(cell, out)
                     self.assertNotIn(absent, out)
@@ -1103,8 +1108,8 @@ class ClosingBoxTests(unittest.TestCase):
                     self.assertNotIn("cleared", out.lower().replace("before clearing", ""))
 
     def test_a_save_problem_is_named_under_attention(self):
-        for saved, words in (("committed", "not verified on the remote"),
-                             ("not-saved", "Nothing was committed"),
+        for saved, words in (("committed", "not yet confirmed on your remote"),
+                             ("not-saved", "Nothing was saved (nothing committed)"),
                              (None, "save status was not recorded")):
             for markdown in (False, True):
                 with self.subTest(saved=saved, markdown=markdown):
@@ -1157,7 +1162,7 @@ class ClosingBoxTests(unittest.TestCase):
             with self.subTest(summary=summary):
                 out = view.render_closing(summary, NOW, 80, False)
                 self.assertIn("SAVE STATUS NOT RECORDED", out)
-                self.assertNotIn("Nothing was committed", out)
+                self.assertNotIn("Nothing was saved", out)
                 self.assertNotIn("NOT SAVED", out)
                 self.assertNotIn("SESSION SAVED", out)
 

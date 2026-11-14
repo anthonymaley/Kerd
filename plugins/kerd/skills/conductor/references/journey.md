@@ -720,7 +720,8 @@ Switch Out terms above apply to this Out too. Out's own saves and pushes keep th
 existing authority.
 
 **A newcomer learns where Out lives.** When the agreed goal is met and nothing is
-outstanding, a next item that waits for later (“next week”, someone else's
+outstanding, a finished revision or requested change to delivered work included,
+a next item that waits for later (“next week”, someone else's
 answer) does not hold the Out back: name that item, then run Out. Say it in plain
 words and name the command, so a newcomer knows how to put work down another time:
 “That's done. I'm putting this down for today with `/kerd:switch out`, so
@@ -728,7 +729,20 @@ words and name the command, so a newcomer knows how to put work down another tim
 skill from the session, the turn ends on the one question that hands it over,
 `> 💬 **Put this down for today with /kerd:switch out?**`. (First-user
 walkthrough, 2026-11-13: a finished export ended on “tell me next week”, with no
-Out and no mention of it.)
+Out and no mention of it. Round 3, 2026-11-14: a finished revision of a brief
+ended on “in your working tree, not committed; nothing was pushed”, with no Out.)
+
+**A draft for review is done when it is accepted.** When the work is a draft the
+person will review, the goal is met when they accept it, not when it is first
+written: show it, ask for their reaction, and put the work down after they accept.
+Items an accepted draft still marks to confirm (TO CONFIRM, a date to check, an
+answer someone owes) don't hold the Out back: they become open work, named at the
+finish and saved as the next step. **One question per ask.** A fact Conductor can
+default (the year of a date, a file name) is stated under Unsure as the default it
+took, not bundled into the put-down question. (Round 4, 2026-11-14: the put-down
+was asked right after the first draft, before the person had read it; a revision
+said “I haven't run Switch Out because the brief still has open items”; one ask
+read “Is February 10, 2027 the right date, and should I put this down for today…?”)
 Avoid a report of internal instruction-following, repeated setup disclosures
 or an insight banner merely because a tool ran. Link deeper evidence instead.
 
@@ -768,11 +782,24 @@ rehearsal, has a sketchbook or goes to a concert, name that word once with its
 plain gloss, then let it stand alone:
 
 “This is rehearsal: we work out what you want.”
-“I keep our notes, the sketchbook, at docs/work/<work>/work.md.”
-“The concert: I build what we agreed on its own branch.”
+“I keep our notes, the sketchbook, at <where the record actually lives>.”
+“The concert: I build what we agreed apart from your files, and it joins them
+when you say.” (To someone who uses git's words: “on its own branch”.)
+
+For a person who asked to keep technical detail out of the way, or is plainly not
+technical, the words wait until they matter to something the person does, and the
+entry update is [one plain line](entry.md#enter-work-not-another-pickup).
 
 The stage names (Understand, Shape, Agree, Deliver, Complete) stay as they are;
 rehearsal is Understand through Agree and the concert is Deliver.
+
+**Saved, not git words.** To a person who has not used git's words in this work,
+say what the state means for their files, “saved on this computer”, “not saved
+yet”, “there is no copy anywhere else”, never commit, uncommitted, “saved to
+git”, push, branch, remote or working tree. Someone who uses those words gets them back. (First-user round 3,
+2026-11-14: a finished revision ended on “in your working tree, not committed;
+nothing was pushed” to a person who had not used git, and at Out “no remote” made
+him ask whether his work was safe.)
 
 “That's enough to draft. I'll mark the missing location for confirmation.”
 “Two options fit. I'd choose the simpler one because it meets the stated need.”

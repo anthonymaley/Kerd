@@ -320,9 +320,27 @@ the controller, any composer call and each assigned step (Conductor- or
 composer-written) in the same view. Show only real
 assignments; inline composition need not become a separate row. The controller
 row stays in that grid beside the dispatched rows. The go shows the grid for every
-job it will dispatch, as before. A go whose staffing for this work is not on screen
-(for example a go in the opening message) still shows that grid, in a reply, before
-the first `Agent` call, without asking again
+job it will dispatch, as before.
+
+**Where the grid goes once work starts.** Each row is chosen before its call
+and shown after it. In the response that sends the jobs, every dispatch the go
+covers starts on a background route the person can stop: `Agent` with
+`run_in_background`, the Agent helper's `start` (it returns at once), or `ask.py
+run … --background` for a CLI worker. That response then ends with the grid, its
+Fit lines and one line saying the players can be stopped, with no tool call after
+them. A foreground call can finish before the response ends, putting its row after
+its result: a route, CLI or partner, that cannot run in the background has its row
+shown as the turn's first text, before any tool call of that turn, or the response
+says plainly that its row could not be shown first. Why the end of the response:
+in 15 `conductor-go` traces and 4 probes on Claude Code 2.1.319 (Sonnet and Opus),
+multi-line text written after a tool result and before another tool call reached
+the trace only as a one-sentence summary, while text that ended a response, or
+came before the turn's first tool call, came back whole; other hosts and versions
+are untested. A one-line note before the calls is fine (“Starting two players
+on the larder parts.”), as is Agent's one-line session note: a single line before a
+tool call came through as written in all 66 cases in those traces. Only the grid
+and Fit lines wait for the end. A go whose staffing for this work is not on screen (for example a go in the opening
+message) still shows that grid this way, without asking again
 ([the go](entry.md#rehearsal-then-the-concert)).
 
 Directly under the grid, give a **Fit** line for the controller and for every
@@ -331,12 +349,14 @@ newly selected model job — composer, player and reviewer — as
 share one line. Add `; consider <alternative>` only when the pair materially
 exceeds or misses the need; do not manufacture alternatives. Write another Fit
 line whenever a job's model, effort or route differs from its plan or changes on
-retry, before dispatching it. A grid row naming a model without its Fit line is
+retry, shown at the end of the response that dispatches it. A grid row naming a model without its Fit line is
 incomplete.
 
 **Every native Claude dispatch row names both cells concretely before dispatch**,
 matching the call that will be sent: the model as Haiku, Sonnet, Opus or Fable, and
-the effort as low, medium, high, xhigh or max. The call carries that `model` and the
+the effort as low, medium, high, xhigh or max. Those choices are made, and match
+the call, before it is sent; the row itself is shown at the end of the response
+that sends it ([where the grid goes](#one-visible-startup-view)). The call carries that `model` and the
 matching `kerd:<model>-<effort>` agent (`kerd:sonnet-high`, `kerd:haiku-medium`), or plain `kerd:haiku` only in a session
 that predates them, whose effort cell reads unset and unverified; the grid shows the plain level and says who does the
 work in plain words, never the routing label. This covers composer, player and reviewer alike — anything

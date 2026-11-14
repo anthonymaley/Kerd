@@ -152,7 +152,10 @@ When `kivna/vault.json` sets `work_notes`, start it instead at
 `<notes root>/<slug>/work.md` in the private vault repo and point to it as
 `notes:<slug>/work.md`.
 Add only what the sitting actually settled: the person's words as theirs,
-proposals as proposals, nothing invented. Ask the person nothing to fill it, and
+proposals as proposals, nothing invented. When what it adds resolves a header or
+position line (stage, what is or is not yet approved) or a field marked pending or
+asked, rewrite that line too, never only append below it: a fresh reader trusts the
+header first. Ask the person nothing to fill it, and
 add no step to their closeout. Link it from the active list.
 
 ### Keep the outside-the-repo list
@@ -200,7 +203,17 @@ make the handoff neater.
 
 Before saving, check that the pointer/current record and the log's next-action
 account agree on that scope and stopping point; a fresh reader should not have
-to assemble them from competing lists. Include this selection in the measured
+to assemble them from competing lists. Then confirm that every file or section the
+next step names as already there (to read, change or follow) exists: run the
+helper's `measure` on those targets alone, `--record` the start point, `--file`
+each named whole file and `--section FILE HEADING` each named section. Only
+`status: "measured"` with exit 0 confirms them. A blocked result (exit 2: a
+missing file, a heading not found exactly once, an empty section) or a check
+that could not run or be read is not "exists": point the step at the real file
+or heading, or word it as something to create, and check again before saving.
+A target reported `tracked: false` exists only on this computer, so it is saved
+with Out's records or the step says so. A file the step says to create is not
+checked. Include this selection in the measured
 reading set and carry it into the closing box's `next`, with its reason in
 `why`, and up to two other open items worth offering beside it into `next_in`,
 each with its reason; save those beside the selection as proposed choices for
@@ -291,6 +304,8 @@ order, each leaving a reachable link behind:
    an estimate; the target is the trial's 8,000 unless the work agreement sets
    another (`--target`). Over target is information: prune further under the
    rules above, or record why the set must stay larger. It never blocks a save.
+   The measurement is for the record only: never tell the person the token or
+   byte figures, the target or the reading set's size.
    `measure` now warns when a source is not tracked: `prepare` refuses an
    untracked source and a `notes:` source must be tracked in the vault, while
    pickup can still read a project record the project deliberately keeps out
@@ -307,8 +322,11 @@ order, each leaving a reachable link behind:
    or by adding its source to the set, then measuring again. This never blocks
    the save and asks the person nothing.
 
-   Save the returned `read_args` array beside that measurement in the existing
-   start point. It is the exact selection to reuse at In, not another manifest.
+   The measurement and `read_args` are for Kerd, not the person, who may open
+   `CONTEXT.md`: keep them in it, under its last heading,
+   `## For Kerd's next pickup (you can ignore this)`, which Out creates when
+   missing and keeps last. Save the returned `read_args` array beside that measurement
+   under that heading. It is the exact selection to reuse at In, not another manifest.
    For the example above (both files present) it is:
    `["--record", "CONTEXT.md", "--file", "kivna/sessions/<date>.md", "--section", "TODO.md", "## Now"]`.
    When the project's records sit in a Git repo it shares with other projects
@@ -354,6 +372,8 @@ Inspect pending jobs before ending a sitting. A running job is not saved merely
 because its task name appears in a file. Respect existing direction on whether
 it continues; a genuine unresolved ownership issue needs a decision.
 
+Each command is one plain call: one helper or git command on its own, with absolute paths (`--project /abs/project`, `git -C /abs/project …`) instead of `cd`, never `cd … &&`, `; echo`, `| head` or another command chained on, so the person can allow it once; read files with the host's file reader, not `cat` or `head`, and edit prose with the host's file-edit tool, never `python3 - <<EOF`.
+
 Under the agreed Git authority, commit the relevant work/session files by name
 and push to the intended branch. A project with no remote configured
 (`git remote` succeeds and prints nothing; a failed read is not “no remote”) has
@@ -372,11 +392,30 @@ there and does not merge it back; the merge is the person's decision at the
 concert's end. A save commits only the named files. Out names its own records:
 the start point, `TODO.md`, the session log, any sketchbook it wrote and, with
 `work_notes`, `notes:outside-the-repo.md`. Other
-files the sitting changed and left uncommitted (code, or a generated output
-such as an export) do not join Out's save on its own judgement: name each one to
-the person in one question, saying which look like generated output, and
-include only those they say to keep in the project history. One they want left
-out stays local through `--preserve`, recorded as below. Exact paths
+files the sitting created or changed and left uncommitted, tracked or untracked
+(code, or a generated output such as an export; `git status --untracked-files=all`
+lists them), do not join Out's save on its own judgement: name each one to
+the person in one question, saying which a tool made (an export, a report), and
+include only those they say to keep in the project history. Never leave one
+unmentioned either. Ask it once, in Kerd's speech-bubble form and plain words, for example
+`> 💬 **These files of yours changed and aren't saved yet: tally.py, and requests-2026-11-14.csv, which the export made. Which should I save too?**`.
+To the person, Out “saves”: it does not “commit by name”, and a project with no
+remote is “saved on this computer only”, never “no remote”. Git words reach the
+person only when they use git words themselves; the helper calls and records keep them.
+Files the project already ignores are not in the question: the project chose
+to ignore them. When that list cannot be read (`git status` fails), say the
+other files are unknown, never that there is nothing else. An untracked file
+they want left out stays local through `--preserve`, recorded as below, and is
+not asked about again. A tracked file they want left out cannot be preserved
+(the helper refuses tracked paths) and is never stashed: say plainly, before
+saving, that the save will be marked incomplete because that change stays
+unsaved, save Out's records, and name it in the box's `tree`, so the boundary
+check refuses and the box shows it. When they say an untracked generated file
+should never be saved, add one anchored, escaped rule for exactly its path to
+`.gitignore` (a leading `/`; `*`, `?`, `[`, `!`, `#` and trailing spaces
+escaped with `\`), check with `git check-ignore -v -- <path>` that this rule,
+and no wider one, matches it, and save `.gitignore` with Out's records; a
+tracked file never gets an ignore rule. Exact paths
 the project has already decided to keep locally — a scratch patch, a stray build
 artifact — are acknowledged with `--preserve`: they stay untouched and are reported
 as local only, not saved. Keep that acknowledgement in the project's existing
@@ -475,10 +514,11 @@ of that call's own result, both together:
 - `status: "boundary_ok"` with exit 0 → `passed`: the ✓ and the restart line.
 - `status: "boundary_local_only"` with exit 0 (every repo committed and clean,
   at least one with no Git remote configured) → `local_only`: no ✓, an
-  attention line for each repo the check's `verdicts` mark `local_only`, and the
-  restart line. For the project that line is “Saved on this computer; no Git
-  remote is configured.”; for the notes repo it says the notes are saved on this
-  computer only. Copy the check's `verdicts` object into the box as it reads
+  restart line. For the project the SAVED cell reads “Saved on this computer
+  only.”, said once and not repeated under ATTENTION; it never claims no backup
+  exists. A local-only notes repo gets one attention line, “Your notes are saved
+  on this computer only.”. Neither the box nor Out's words say “no remote” to the
+  person unless they use git words themselves. Copy the check's `verdicts` object into the box as it reads
   (`{"project": "local_only"}`, or `{"project": "ok", "notes": "local_only"}`);
   the renderer picks the lines from it, not from `saved`. Without a complete
   `verdicts` (missing, malformed or without the project's verdict) a local-only
@@ -496,7 +536,16 @@ recovery action in `next`. `phase` is where the wider work stands, in the
 project's own terms; write the same words into the start point's current section
 as one line, `Phase: <phase>`, before the last commit, so the next arrival can
 show it rather than “not recorded”. `released` is what this sitting released
-("0.136.0 → 0.138.0"), or `null` for "Nothing released"; the next step appears
+("0.136.0 → 0.138.0"), or `null` for "Nothing released". `releases` is `false`
+only when successful reads show the project has no release process: `git tag
+--list` succeeded and printed nothing, no CHANGELOG or release notes exist, no
+version field the project bumps (`package.json`, `pyproject.toml`,
+`plugin.json`), and no record mentions a release; the box then has no RELEASED
+cell. A failed read or any doubt leaves it `null` and the cell shows as before.
+`first_out` is `true` only when a successful read found no earlier session log
+in `kivna/sessions/` before this Out; the box then says once what Kerd's own
+files are and that the person can ignore them. The renderer writes that line:
+do not say it in `this_session` or anywhere else. Anything else is `false`; the next step appears
 once, in Next time or first in Switch In will offer. `this_session` is what changed, in product language, not
 the files touched. `next` is the exact next action the start point names; `why`
 is the reason it comes first. `next_in` is up to two other open items the next
@@ -538,6 +587,8 @@ routing. No session is ended by preparing its handoff.
   "verdicts": {"project": "ok"},
   "phase": "Launch outcomes 0 of 5; sequence steps 1–2 done",
   "released": "0.136.0 → 0.138.0",
+  "releases": true,
+  "first_out": false,
   "this_session": [
     "The risk-rating change was accepted: launch sequence step 1 done.",
     "Conductor now checks where your work stands in your own project: step 2 done."

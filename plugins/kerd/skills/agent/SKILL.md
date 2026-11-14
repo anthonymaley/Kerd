@@ -154,7 +154,11 @@ not shell subcommands. For execution, use the workflow below.
    which session it is (a fresh one-off, or which partner by alias), its model,
    effort and access, labelled requested, configured or unknown (“Fresh one-off
    Codex reviewer, <model> at high (requested), read only”), never a bare “the
-   reviewer is running”. After dispatch, distinguish queued, unconfirmed,
+   reviewer is running”. That one line can come before the dispatch, since a single
+   line before a tool call is shown as written; under Conductor, the grid and Fit
+   lines end the response that sends the job
+   ([where the grid goes](../conductor/references/orchestration.md#one-visible-startup-view)).
+   After dispatch, distinguish queued, unconfirmed,
    running and returned. A Codex TUI request's `delivery` says whether it still
    waits in Codex's own queue (`queued`: say so, with how long; typing in an idle
    window has woken a stalled one), is `not-queued` (not proof it was taken or

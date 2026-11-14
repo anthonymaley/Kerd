@@ -361,7 +361,16 @@ FIRST_ARRIVAL_QUESTION = "What do you want to work on?"
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
 CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "boundary", "verdicts", "phase", "released",
-                "this_session", "next", "why", "next_in", "tree", "warnings", "host")
+                "this_session", "next", "why", "next_in", "tree", "warnings", "host", "releases",
+                "first_out")
+# Plain words for a local-only save (first-user rounds 3 and 4): accurate,
+# and nothing that reads as a skipped check. It is the SAVED cell, said once;
+# ATTENTION does not repeat it, since a confirmed local save needs nothing.
+LOCAL_ONLY_LINE = "Saved on this computer only."
+LOCAL_NOTES_LINE = "Your notes are saved on this computer only."
+# The first Out's one line on Kerd's own files (first-user round 3, #17).
+FIRST_OUT_LINE = ("Kerd keeps its notes for next time in CONTEXT.md, TODO.md and the kivna/ folder; "
+                  "you can ignore them.")
 # Switch In's picker offers the recommendation, at most two other open items and
 # "Something else"; the closing box's preview matches it.
 NEXT_IN_LIMIT = 2
@@ -799,7 +808,10 @@ def open_work_head(summary, width, color, markdown):
     recommendation = get("recommendation") or {}
     if isinstance(recommendation, str):
         recommendation = {"text": recommendation}
-    nothing = "No recommendation: nothing actionable is open."
+    # With open items on screen, "nothing actionable" reads as "nothing to do"
+    # (first-user round 3, #4): say the list cannot move yet instead.
+    nothing = ("No recommendation: nothing on the list can move yet." if items else
+               "No recommendation: nothing actionable is open.")
     if get("first_arrival") is True:
         # A project with no Kerd records: one line that says what to do,
         # instead of a grid of empty cells and a pairing nobody has set up.
@@ -813,7 +825,8 @@ def open_work_head(summary, width, color, markdown):
     blocks = (("Where things stand", get("where"), "not recorded"),
               ("Last session", get("last_session"), "no completed job is recorded"))
     grid = (("PROJECT", project), ("PHASE", str(get("phase") or UNRECORDED)),
-            ("NEXT", str(recommendation.get("text") or "Nothing actionable is open")),
+            ("NEXT", str(recommendation.get("text") or ("Nothing on the list can move yet" if items
+                                                  else "Nothing actionable is open"))),
             *((label, value) for label, value, _ in team_rows(get("team"))))
     if markdown:
         lines = [f"**{md(project.upper())} \u00b7 {status}**", "",
@@ -995,9 +1008,10 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     saved = get("saved")
     branch = get("branch")
     if saved == "remote-verified":
-        badge, tone, cell = "SESSION SAVED \u2713", "green", f"Pushed to {branch}" if branch else "Pushed"
+        badge, tone, cell = "SESSION SAVED \u2713", "green", (f"Saved and copied to your remote (pushed to {branch})" if branch
+                                                   else "Saved and copied to your remote (pushed)")
     elif saved == "committed":
-        badge, tone, cell = "SAVED LOCALLY", "amber", "Committed, not pushed"
+        badge, tone, cell = "SAVED LOCALLY", "amber", "Saved on this computer, not yet copied to your remote (committed, not pushed)"
     elif saved == "not-saved":
         badge, tone, cell = "NOT SAVED", "red", "Not saved"
     else:  # absent or unrecognised: unknown is not evidence that nothing was saved
@@ -1026,7 +1040,7 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     proven = get("boundary") == "passed" or (local and consistent
                                              and saved in ("committed", "remote-verified"))
     if local and saved == "committed" and local_repos and "project" in local_repos:
-        cell = "Committed on this computer"
+        cell = LOCAL_ONLY_LINE if consistent else "Saved on this computer"
     if get("boundary") != "passed":
         badge, tone = badge.replace(" \u2713", ""), ("amber" if tone == "green" else tone)
     attention = []
@@ -1036,19 +1050,17 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
                          "so which repo is saved only on this computer is unknown and the save is not "
                          "confirmed.")
     elif local and saved_somewhere:
-        if "project" in local_repos:
-            attention.append("Saved on this computer; no Git remote is configured.")
         if "notes" in local_repos:
-            attention.append("The notes repo has no Git remote configured, so the notes are saved on "
-                             "this computer only.")
+            attention.append(LOCAL_NOTES_LINE)
     if local and saved_somewhere and local_repos is not None and not consistent:
         attention.append("The boundary check's per-repo verdicts do not match this save; "
                          "check which is true.")
     if saved == "committed" and not local:
-        attention.append("The save is committed on this machine but not verified on the remote; "
-                         "push before switching devices.")
+        attention.append("Saved on this computer, not yet confirmed on your remote (committed, not "
+                         "verified there): push before switching devices.")
     elif saved == "not-saved":
-        attention.append("Nothing was committed: this session's work is only in the working tree.")
+        attention.append("Nothing was saved (nothing committed): this session's work is only unsaved changes in "
+                         "your project folder.")
     elif saved == "unknown":
         attention.append("The save status was not recorded, so it cannot be treated as saved.")
     if ready is False:
@@ -1057,7 +1069,7 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
         attention.append("Whether memory is ready for the next session was not recorded.")
     tree = get("tree")
     if tree and str(tree).strip().rstrip(".").lower() != "clean":
-        attention.append(f"Left in the working tree: {tree}")
+        attention.append(f"Unsaved changes in your project folder: {tree}")
     if not proven and not local:
         failed = get("boundary")
         if isinstance(failed, str):
@@ -1092,12 +1104,19 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     project = str(get("project") or "Kerd")
     # The next step lives once, in "Next time" with its reason; the grid's
     # fourth cell says what this sitting released.
-    grid = (("PROJECT", project), ("SAVED", cell), ("PHASE", str(get("phase") or UNRECORDED)),
-            ("RELEASED", str(get("released") or "Nothing released")))
+    grid = (("PROJECT", project), ("SAVED", cell), ("PHASE", str(get("phase") or UNRECORDED)))
+    # RELEASED is hidden only when the caller recorded `releases: false` (the
+    # project has no release process) and nothing was released; absent or any
+    # other value shows it as before, so an unread project keeps the cell.
+    if get("releases") is not False or get("released"):
+        grid += (("RELEASED", str(get("released") or "Nothing released")),)
     changes = get("this_session")
     if isinstance(changes, str):  # one change written as prose, not a list of letters
         changes = [changes]
     changes = [str(item) for item in (changes or []) if item]
+    # `first_out: true` only when Out found no earlier session log: say once
+    # what Kerd's own files are. Anything else, absent included, adds nothing.
+    first_out = get("first_out") is True
     why = get("why")
     # `next_in`: up to two other open items the next Switch In will offer beside
     # the recommended step, each with its reason. With any present, "Next time"
@@ -1114,11 +1133,13 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     if markdown:
         lines = [f"**{md(project.upper())} \u00b7 {badge}**", "",
                  "| " + " | ".join(label for label, _ in grid) + " |",
-                 "| --- | --- | --- | --- |",
+                 "|" + " --- |" * len(grid),
                  "| " + " | ".join(md(value) for _, value in grid) + " |", "",
                  "**This session**", ""]
         lines += [f"- {md(item)}" for item in changes] or ["Nothing recorded."]
         lines.append("")
+        if first_out:
+            lines += [md(FIRST_OUT_LINE), ""]
         if offer:
             lines += ["**Switch In will offer** (proposed, not agreed)", ""]
             lines += [f"{index}. {md(text)}" + (f" **Why:** {md(reason)}" if reason else "")
@@ -1146,6 +1167,8 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     for item in changes or ["Nothing recorded."]:
         lines += ["   \u00b7 " + line if index == 0 else "     " + line
                   for index, line in enumerate(wrap(item, width - 5))]
+    if first_out:
+        lines += [""] + ["   " + line for line in wrap(FIRST_OUT_LINE, width - 3)]
     if offer:
         lines += ["", ink(" SWITCH IN WILL OFFER (proposed, not agreed)", "dim", on=color)]
         for index, (text, reason) in enumerate(offer, 1):

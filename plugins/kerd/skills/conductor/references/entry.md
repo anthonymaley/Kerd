@@ -75,13 +75,26 @@ work already scoped by Switch, the order is:
 2. Give the entry update as the first work response, with the actual split:
    reuse settled assignments or decide independent research/checks as well as
    implementation. When contributors are dispatched, show the grid with current
-   model/effort evidence and a Fit line for each job. When the work is one task
+   model/effort evidence and a Fit line for each job, at the end of the response
+   that dispatches them ([where the grid goes](orchestration.md#one-visible-startup-view)).
+   When the work is one task
    Conductor does itself, the update is
    [one plain line](orchestration.md#one-visible-startup-view): what it will do
    and where it stops, with no grid, Fit line, model/effort evidence or journey
    line.
 3. Then do the substantive project reads, dispatches or edits and continue the
    authorized job. No second pickup or approval.
+
+**A person who wants the technical detail kept out of the way** (they said so, or
+are plainly not technical) gets the entry update as one plain line in their own
+terms: who does it, what they will have, where it stops and where the notes live
+(“I'll write the brief myself and stop when it's ready for you to read; our notes
+are in docs/work/harbor-hours-launch-brief/.”). No stage label
+(“Conductor · Shape”), no mention of agents or helpers unless one is started, and
+no rehearsal or sketchbook words until they matter to something the person does.
+(First-user round 4, 2026-11-14: after “keep the technical stuff out of my way”,
+the first turn opened with a stage label, “not handing any of it to other agents”,
+“rehearsal” and “the sketchbook”.)
 
 With missing context, bounded local orientation may establish the stage and job
 boundaries first; do not guess an agreement or settled split. State that limited
@@ -245,21 +258,26 @@ approves the go with those defaults, and it carries the staffing: the
 for the controller and every composer, player and reviewer job the go will
 dispatch, each with its Fit line, inside the block above the bubble (a go that
 dispatches nothing carries the one plain line instead). The go then approves the staffing
-the person has seen; dispatch as shown, and show a row again, with its Fit line,
-before dispatching it if its model, effort or route has changed since Ready.
+the person has seen; dispatch as shown, and if a row's model, effort or route has
+changed since Ready, show it again, with its Fit line, at the end of the response
+that dispatches it.
 
 **A go whose staffing for this work is not on screen** (a go in the opening
 message, or a Ready shown for other work) approves the work, not a staffing the
-person has not seen. Before the first `Agent` call, put that same grid, with a
-row for the controller and every job about to be dispatched and a Fit line for
-each, into a reply message, then dispatch in the same turn. It is shown, not
-asked: the go is not put to the person again. Work that dispatches nothing gives
-the one plain line instead. A rolled or managed continuation dispatches the
-assignments its sketchbook already records under that go without showing them
-again; a job not in that record gets its row and Fit line first, as any changed
-row does. Behaviour eval `conductor-go` found this gap: in 4 of 4 runs (two
-before 0.196.0, two after), a go in the opening prompt showed no grid or Fit
-line, and three of them dispatched players anyway.
+person has not seen. In the same turn, start every dispatch on a background route
+the person can stop (`Agent` with `run_in_background`), then end that response
+with that same grid, a row for the controller and every
+job just dispatched and a Fit line for each, and one line saying the players can
+be stopped, with no tool call after it. It is shown, not asked: the go is not
+put to the person again. Put the grid there, not before the calls: on Claude Code
+2.1.319, multi-line text after a tool result and before another call reached the
+person only as a one-sentence summary (15 traces, 4 probes); a route that cannot
+run in the background shows its row first instead
+([where the grid goes](orchestration.md#one-visible-startup-view)). Work that
+dispatches nothing gives the one plain line instead. A rolled or managed
+continuation dispatches the assignments its sketchbook already records under that
+go without showing them again; a job not in that record gets its row and Fit line
+at the end of the response that dispatches it, as any changed row does.
 
 A concert performs on **its own branch**. At the go, start `concert/<work>` from
 the current tip, as part of that same go and not a second question, and record the

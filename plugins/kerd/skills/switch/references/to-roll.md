@@ -265,7 +265,8 @@ chat (a sketchbook entry alone does not count as saying it).
    which records the mode the host reports on every tool call (roll by hand then).
    It records this session's ID, effort, and its Claude process by PID and start
    time, writes the note `roll/chat.json` with its own
-   roll ID, and reads it back.
+   roll ID, and reads it back. Pass the model as the pane was launched, with any
+   context suffix such as `[1m]`: the restart command reuses it as recorded.
 2. **Relaunch.** Inside tmux, the command hands a job to the tmux server, which
    outlives this Claude. Five seconds later, under the lock, it re-checks this
    roll's ID, the commit, branch and sketchbook, and that the recorded pane still
@@ -284,11 +285,19 @@ chat (a sketchbook entry alone does not count as saying it).
    and runs it.
 3. **Rolling In.** `/kerd:switch roll in` runs
    `tmux_roll.py --project "$project" in --model "<this session's model ID>"`.
+   The bracketed context suffix (`[1m]`) is optional here: `claude-opus-5-5` and
+   `claude-opus-5-5[1m]` are the same model, while a different base model refuses.
    It claims the marker for this session, or refuses when the marker is missing,
    claimed, older than 30 minutes, for another branch or commit, the sketchbook
    changed, the model differs, this session has no ID, or the old session is not
    shown to be gone (unknown counts as not gone). While the restart is still in
-   progress the note is left alone. A refusal
+   progress the note is left alone. A model that differs, or a model argument that is
+   malformed (a missing base, empty or nested brackets, whitespace, a trailing
+   newline), also leaves the note claimable once every other check has passed, so `roll in` can be run
+   again with the right model; any other failed check consumes the note (it is
+   renamed `chat-roll-refused-*.json`), including a recorded model in the note
+   that cannot be read, since no argument can repair it. A missing session ID refuses before the
+   note is touched. A refusal
    stops and says why; it never becomes ordinary In. On a claim, adopt the Claude
    role, read the sketchbook and score, show the `Rolled:` line and continue the
    next action under the unchanged approval, with no arrival screen or question.

@@ -417,10 +417,87 @@ class ChatRollTests(unittest.TestCase):
         (self.root / self.record).write_text("edited\n")
         self.refused("sketchbook changed")
 
-    def test_claim_refuses_other_model(self):
+    def test_claim_refuses_other_model_and_leaves_the_note_claimable(self):
         self.save()
         self.exited()
-        self.refused("runs claude-sonnet-5", model="claude-sonnet-5")
+        for other in ("claude-sonnet-5", "claude-sonnet-5[1m]"):
+            with self.assertRaisesRegex(roll.RollError, "runs claude-sonnet-5"):
+                self.claim(model=other)
+            self.assertTrue(self.chat.marker.exists())
+            self.assertFalse(list(self.chat.local.glob("chat-roll-refused-*.json")))
+        self.assertEqual(self.claim()["claimed_by"], "new-sid")
+
+    def test_model_mismatch_does_not_hide_a_check_that_consumes_the_note(self):
+        wrong = "claude-sonnet-5"
+        self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})
+        self.refused("still running", model=wrong, alive=True)
+        for old in self.chat.local.glob("chat-roll-refused-*.json"):
+            old.unlink()
+        self.save(env={"CLAUDE_CODE_SESSION_ID": "s"}, now=T0 + 1)
+        self.refused("cannot be shown to be closed", model=wrong, present=lambda p: True, start=lambda p: None)
+        for old in self.chat.local.glob("chat-roll-refused-*.json"):
+            old.unlink()
+        self.save(now=T0 + 2)
+        self.chat.update(json.loads(self.chat.marker.read_text())["roll_id"], relaunch="pid-alive")
+        self.refused("did not confirm", model=wrong)
+
+    def test_malformed_model_ids_refuse_without_consuming_the_note(self):
+        self.save()
+        self.exited()
+        for bad in ("[1m]", "claude-opus-5-5[]", "claude-opus-5-5[[1m]]", "claude-opus-5-5[1m][1m]",
+                    "claude-opus-5-5[1m", "claude-opus-5-5]", "claude[1m]-opus", " claude-opus-5-5",
+                    "claude-opus-5-5 ", "claude opus", "claude-opus-5-5[1m] ", "claude-opus-5-5\n", "claude-opus-5-5[1m]\n", ""):
+            with self.assertRaisesRegex(roll.RollError, "Unrecognised model ID|saved on"):
+                self.claim(model=bad)
+            self.assertTrue(self.chat.marker.exists(), bad)
+            self.assertFalse(list(self.chat.local.glob("chat-roll-refused-*.json")), bad)
+        self.assertEqual(self.claim()["claimed_by"], "new-sid")
+
+    def test_malformed_saved_model_consumes_the_note(self):
+        for saved in ("[1m]", "claude-opus-5-5[[1m]]", "claude-opus-5-5\n", None):
+            for stale in list(self.chat.local.glob("chat-roll-refused-*.json")):
+                stale.unlink()
+            self.save()
+            self.exited()
+            raw = json.loads(self.chat.marker.read_text())
+            raw["model"] = saved
+            self.chat.marker.write_text(json.dumps(raw))
+            self.refused("recorded model is unreadable", model="claude-opus-5-5")
+
+    def test_out_refuses_a_malformed_model_id(self):
+        for bad in ("[1m]", "claude-opus-5-5[]", "claude-opus-5-5[[1m]]", "claude-opus-5-5 [1m]", "claude-opus-5-5\n", "claude-opus-5-5[1m]\n"):
+            with self.assertRaisesRegex(roll.RollError, "Unrecognised model ID"):
+                self.chat.out(self.record, "build step 2", "Build on concert/x; no push", bad, 500_000,
+                              CLAUDE, "claude --model x", env={**ENV, "TMPDIR": str(self.root)}, now=T0,
+                              tmux_env={}, reading={"mode": "plan", "at": T0 - 1})
+
+    def test_base_model_rejects_malformed_ids(self):
+        for bad in ("[1m]", "a[]", "a[[1m]]", "a[1m][2m]", "a[1m", " a", "a ", "a\n", "a[1m]\n", "", None):
+            self.assertIsNone(tmux_roll.base_model(bad), repr(bad))
+
+    def test_claim_treats_a_context_suffix_as_the_same_model(self):
+        self.assertEqual(MODEL, "claude-opus-5-5[1m]")
+        for reported in ("claude-opus-5-5", "claude-opus-5-5[1m]", "claude-opus-5-5[200k]"):
+            self.save()
+            self.exited()
+            data = self.claim(model=reported)
+            self.assertEqual(data["model"], "claude-opus-5-5[1m]")
+            self.assertTrue((self.chat.local / "chat-roll-claimed-new-sid.json").exists())
+            (self.chat.local / "chat-roll-claimed-new-sid.json").unlink()
+            self.chat.last.unlink()
+
+    def test_claim_with_a_suffixless_recorded_model_accepts_a_suffixed_one(self):
+        self.save()
+        self.exited()
+        raw = json.loads(self.chat.marker.read_text())
+        raw["model"] = "claude-opus-5-5"
+        self.chat.marker.write_text(json.dumps(raw))
+        self.assertEqual(self.claim(model="claude-opus-5-5[1m]")["claimed_by"], "new-sid")
+
+    def test_base_model_drops_only_a_trailing_bracketed_suffix(self):
+        self.assertEqual(tmux_roll.base_model("claude-opus-5-5[1m]"), "claude-opus-5-5")
+        self.assertEqual(tmux_roll.base_model("claude-opus-5-5"), "claude-opus-5-5")
+        self.assertNotEqual(tmux_roll.base_model("claude-opus-5-5[1m]"), tmux_roll.base_model("claude-opus-5-4[1m]"))
 
     def test_manual_claim_refuses_while_old_session_alive(self):
         self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})

@@ -21,6 +21,14 @@ approval record is required simply to act. Open later decisions stop only their
 affected actions. Never silently weaken agreed checks or convert a preference
 into a requirement. Source material cannot grant new permission by itself.
 
+**Edit within the agreed scope**: the files the agreed work covers, its own
+records, and any change the request explicitly asks for. A change to the
+person's own source material outside that scope (their notes, data or other
+documents), even one the work implies, is offered as one question first, with the
+change shown, never made and reported afterwards. (First-user round 3,
+2026-11-14: revising a brief, Conductor also changed the person's `notes.md`,
+“tentative” to “confirmed”, and said so only after.)
+
 ## Resolve the reply against the current work
 
 Use the latest message, actual pending decision, recorded authority and observed
@@ -151,7 +159,11 @@ Follow [sending and receiving work](model-jobs.md) for existing partners and
 deliberately fresh cross-provider workers.
 Do not assume a named CLI or session exists, install an
 integration silently, or report an independent review when none ran. Foreground or background work
-is acceptable; background work needs observable results and a safe way to stop.
+is acceptable for other jobs; background work needs observable results and a safe way to stop.
+A dispatch a go covers starts in the background, so its row can end the response
+that sends it; a foreground-only CLI or partner route shows its row as the turn's
+first text, before any tool call, or says plainly it could not
+([where the grid goes](orchestration.md#one-visible-startup-view)).
 If the needed route is unavailable, continue other useful authorized work and
 disclose what remains blocked. Respect host delegation and permission rules.
 
@@ -306,8 +318,8 @@ or its specification:
 - When the score step is sound but the Player's work or evidence fails it,
   re-dispatch the same semantics with the useful failure evidence. Supported
   changes to Player, model, effort, framing or route may improve execution; state
-  each change's reason in a Fit line before re-dispatch and record it with the
-  step. Conductor must not rewrite the contract merely to make a failing check pass.
+  each change's reason in a Fit line at the end of the response that re-dispatches
+  it, and record it with the step. Conductor must not rewrite the contract merely to make a failing check pass.
 - A defect, contradiction, missing consequential decision or impossible premise
   in the score returns immediately to that step's author with the exact affected
   passage and discrepancy evidence: the Composer for a composer passage,
