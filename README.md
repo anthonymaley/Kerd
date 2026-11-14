@@ -99,6 +99,9 @@ Type these in a terminal, not inside a Claude Code session. If the first prints
 "SSH clone failed, retrying with HTTPS", that is normal without a GitHub key; it
 succeeds on the retry.
 
+Installing copies about 1.5 MB of plugin files (skills, agents and hooks), not
+the whole repository.
+
 **Try a version before adopting it**, without installing it:
 
 ```
@@ -361,9 +364,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.198.0)
+## What's New (v0.199.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.199.0
+
+**0.199.0: Kerd's installed plugin is 1.6 MB, not 39 MB.** Claude Code now installs Kerd from a generated `plugin` branch that holds only what runs: skills, agents, hooks, the plugin manifest, README and licence. Before, it copied the whole repository, docs, site and evals included, about 39 MB. The install command is unchanged; the marketplace's own copy of the repository is unchanged too. `tools/release.py ship` keeps the branch in step: it creates it the first time, appends each release after CI passes and never force-pushes.
 
 ### v0.198.0
 
