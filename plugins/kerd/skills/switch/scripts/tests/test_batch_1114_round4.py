@@ -58,12 +58,13 @@ class ProjectNameWithoutReadme(unittest.TestCase):
 
     def test_the_notes_file_heading_comes_before_the_folder_name(self):
         text = " ".join(guide("references/in.md").split())
-        self.assertIn("with no README, or a README with no heading, the first heading of the project's main "
-                      "notes file at its root (the first `.md` file there by name); else the folder name; and "
-                      "when that name is itself a placeholder word (`project`, `app`, `work`), “Your project”. "
-                      "Never the literal word “project” on its own", text)
-        self.assertIn("else the first heading of the main notes file at the root, else the folder name "
-                      "(“Your project” for a placeholder name), never the word “project” alone", guide("SKILL.md"))
+        # Round 5 replaced "the first `.md` file there by name" with a root notes.md; see round5 tests.
+        self.assertIn("with no README, or a README with no heading, the first heading of a `notes.md` at its "
+                      "root", text)
+        self.assertIn("else the folder name; and when that name is itself a placeholder word (`project`, "
+                      "`app`, `work`), “Your project”.", text)
+        self.assertIn("Never the literal word “project” on its own", text)
+        self.assertIn("else the folder name (“Your project” for a placeholder name)", guide("SKILL.md"))
 
 
 class LocalOnlySaidOnce(unittest.TestCase):

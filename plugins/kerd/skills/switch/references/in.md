@@ -353,7 +353,8 @@ way in:
   job-split/work-view sections if not already loaded, then begin with Conductor ·
   Shape: owner, intended design result, stopping boundary and work split, with
   current model/effort evidence only for jobs dispatched to contributors (one
-  task Conductor does itself gets one plain line instead). Only then start
+  task Conductor does itself gets one plain line instead; a saved preference
+  for less technical detail drops the stage label too). Only then start
   substantive project research.” For underway work, say resume.
 - **Asks for guidance without choosing** (“Something else” from the picker,
   “not sure”, “help me decide”): invoke
@@ -369,7 +370,12 @@ way in:
   that simply names work; naming work is **Chooses work** above.
 
 Pass the restored project, full open-work context, the chosen work and pointer,
-known authority, exclusions and unresolved questions. Resolve Conductor from this
+known authority, exclusions and unresolved questions, and any saved preference
+about technical detail (the whole `Person's preference (<date>): …` line in the project's
+current-context pointer, CONTEXT.md by convention, a `none; they took back “…”` line
+included, so Conductor clears an older sketchbook line),
+quoted in the person's words, so Conductor's first lines follow it (no stage
+label or Kerd terms when they asked to keep the technical stuff out of the way). Resolve Conductor from this
 distribution, not another cache's file. Do not ask a second time what to move
 forward, and do not substitute related backlog work for an excluded item. When
 native invocation is unavailable, read Conductor's work-entry section and the
@@ -466,8 +472,11 @@ printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary 
 
 Pipe the summary on stdin as shown. Do not write it, or any other Switch input,
 to a file with a fixed name in a shared folder such as `/tmp`: another project's
-run can read or overwrite it. When a step needs a file, make one with `mktemp`
-and remove it afterward.
+run can read or overwrite it. Every Switch input that accepts `-` goes on stdin,
+never through a temporary file: `mktemp`, a write and an `rm` outside the project
+are prompts a new user cannot judge. Only when a tool cannot read stdin, or Out's
+carry phrases on a machine shared with other accounts ([out.md](out.md#leave-a-lean-start-point)),
+make the file with `mktemp`, remove it afterward, and say so.
 
 The complete stdout from this call **is the final assistant message**. Return
 it unchanged: no paraphrasing, added intro or second question. The screen is reply text: paste the rendered output into the message itself, before the picker in the same message; output left in a tool result has not been shown, since the host folds it away. Rendering is the
@@ -549,10 +558,12 @@ coherent sitting. Use `null` or `[]` for anything the work has nothing for.
 
 `project` is the project already restored, by its display name: the text of
 the first heading in its `README.md` when there is one (markup removed); with no
-README, or a README with no heading, the first heading of the project's main notes
-file at its root (the first `.md` file there by name); else the folder name; and
+README, or a README with no heading, the first heading of a `notes.md` at its
+root (any case: `Notes.md`, `NOTES.md`) when there is one; else the folder name; and
 when that name is itself a placeholder word (`project`, `app`, `work`), “Your
-project”. Never the literal word “project” on its own, and never inferred from the renderer's installation path. A folder
+project”. Never a file picked by alphabetical order: with no README and no
+`notes.md`, another `.md` at the root (`customer-quotes.md`) is the person's
+material, not the project's name. Never the literal word “project” on its own, and never inferred from the renderer's installation path. A folder
 called `project`, `app` or `work` would otherwise head the arrival with a word
 that reads as a placeholder. `phase` is the recommended item's rung, or the start point's
 recorded `Phase:` line when the item has none, shown in the grid;
