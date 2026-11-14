@@ -188,23 +188,29 @@ commit; a remote is optional. And the Obsidian vault is opt in: no
 
 Claude Code may ask before it runs commands, depending on your permission
 settings, and Kerd runs some. In normal permission mode, the first `/kerd:switch in`
-in a project typically asks for three kinds of thing. In plain words:
+in a project usually asks a few times, in this order. In plain words:
 
 - **Reading Kerd's own guide for Switch In.** Switch In may stop to ask to read a
   file in the plugin's folder (a path under `~/.claude/plugins/cache/kerd-marketplace/`,
   ending in `references/in.md`). That is Kerd's written instructions for itself,
   and it sits outside your project, which is why Claude Code asks. Approve it.
-- **Git checks.** Short read-only questions to git about your project: whether the
-  folder is a git repository, what has changed, what was saved last. They change
-  nothing.
+- **A quick status check.** A small Kerd script that looks at what the project
+  already knows about where you left off. It changes nothing.
 - **The arrival script.** Kerd's helper that gathers what the project knows and
-  draws the arrival screen. It looks like this, with a long path through the plugin
-  folder (a partial shape; the real command has more in it):
+  draws the arrival screen.
+
+Both scripts look like this, with a long path through the plugin folder (a partial
+shape; the real commands have more in them, and the arrival one may start with
+`printf ... |`, which hands it the details to show):
 
 ```
+python3 /Users/you/.claude/plugins/cache/kerd-marketplace/kerd/<version>/skills/switch/scripts/roll_status.py --project ...
 python3 /Users/you/.claude/plugins/cache/kerd-marketplace/kerd/<version>/skills/switch/scripts/where_we_are.py ...
-python3 /Users/you/.claude/plugins/cache/kerd-marketplace/kerd/<version>/skills/switch/scripts/handoff.py ...
 ```
+
+Kerd also asks git a few short read-only questions about your project (whether
+it is a git repository, what has changed). Those usually run without a prompt; if
+one does ask, it only looks.
 
 Putting a sitting down (`/kerd:switch out`) asks for the save script and for git
 commands that record the save.

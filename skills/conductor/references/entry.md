@@ -95,6 +95,11 @@ no rehearsal or sketchbook words until they matter to something the person does.
 (First-user round 4, 2026-11-14: after “keep the technical stuff out of my way”,
 the first turn opened with a stage label, “not handing any of it to other agents”,
 “rehearsal” and “the sketchbook”.)
+Save that preference in their words on the sketchbook's `How they want it:` line
+([the record](work-record.md)). On entering existing work, read that line before
+the first reply: if it is there, this paragraph applies from the first word, even
+in a fresh session that never heard them say it. (First-user round 5: the second
+sitting opened “Conductor · Shape” because nothing had saved it.)
 
 With missing context, bounded local orientation may establish the stage and job
 boundaries first; do not guess an agreement or settled split. State that limited
