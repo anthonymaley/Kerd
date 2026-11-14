@@ -143,11 +143,14 @@ Open the project folder you want to work in and say:
 
 Kerd reads the project and tells you where things stand in plain English. The very
 first time, in a project that has never used Kerd, there is nothing to restore;
-the arrival says so, and you tell it what you want to work on. When you come back
-for a second sitting it looks like this. This is an illustration for an invented
+the arrival is one line ("Kerd has nothing saved here yet. Tell me what you want to
+work on and Conductor will shape it with you.") and you answer with what you want
+to work on. When you come back for a second sitting it looks like this. The grid
+has no TEAM cell when there is no Claude or Codex pairing, as here; it says "not
+recorded" if the team could not be read. This is an illustration for an invented
 project, shortened, not output from a real one:
 
-> **KERD · SWITCH IN COMPLETE ✓**
+> **TALLY · SWITCH IN COMPLETE ✓ · Kerd 0.196.0**
 >
 > | PROJECT | PHASE | NEXT |
 > | --- | --- | --- |
@@ -373,7 +376,7 @@ the staffing grid only when it starts helpers, and it names rehearsal, the sketc
 words. Tend gives a project not yet set up a plain report with nothing marked failing, and asks for git, not a remote;
 Kivna no longer defaults to its author's vault, and setting up a vault keeps the files already there. The README, getting
 started and the site start with Switch In, say what to do when your work isn't in Git yet, explain the permission
-prompts, move Codex under "Codex (early)", and a new Known limits page says what has not been seen in real use. A
+prompts, move Codex under "Codex (early)", and a new Known limits page says what has not been seen in real use. Switch Out saves only its own records and asks before including anything else, and its restart line is one plain instruction. A
 flaky Conductor test that failed under load now waits for its child process. Unseen with a real person: the invited
 round is still the test.
 

@@ -57,6 +57,6 @@ Tend never touches content, only structure: it will tell you a file is missing, 
 
 ## For the curious
 
-Tend delegates vault setup to `/kerd:kivna scaffold` rather than reimplementing it, and it is idempotent, running it twice changes nothing the second time. Slainte's release pass leaves the mechanical checks, version sync, capability-list sync, namespace prefixes, to CI, and owns only the judgment layer CI cannot: skill-count claims, cross-doc claim verification, marketplace URL, hook currency. Full command reference: [reference](reference.md).
+Tend delegates vault setup to `/kerd:kivna scaffold` rather than reimplementing it, and once all its fixes are applied and nothing has changed since, running it again changes nothing. Slainte's release pass leaves the mechanical checks, version sync, capability-list sync, namespace prefixes, to CI, and owns only the judgment layer CI cannot: skill-count claims, cross-doc claim verification, marketplace URL, hook currency. Full command reference: [reference](reference.md).
 
 ![Tend and Slainte](../pictures/guide-tend-and-slainte.svg)

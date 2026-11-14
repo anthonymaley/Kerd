@@ -356,6 +356,8 @@ OPEN_WORK_KEYS = ("project", "phase", "where", "open_work", "recommendation", "l
 # grid and its empty blocks with this one line; the question still ends the screen.
 FIRST_ARRIVAL = ("Kerd has nothing saved here yet. Tell me what you want to work on and "
                  "Conductor will shape it with you.")
+# ...and the question under that line asks for the work, not a yes or no.
+FIRST_ARRIVAL_QUESTION = "What do you want to work on?"
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
 CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "boundary", "verdicts", "phase", "released",
@@ -621,8 +623,12 @@ def team_rows(team):
     """Compact roster only; identity and delivery details remain in Agent."""
     if team is None:
         return [("TEAM", "not recorded", None)]
-    if not team:
-        return [("TEAM", "No established pairing", None)]
+    if not isinstance(team, list):
+        return [("TEAM", "not recorded", None)]
+    if team == []:
+        # No pairing: no TEAM cell at all, rather than a line a newcomer has
+        # to ask about. None (unread) still says "not recorded".
+        return []
     members = {}
     for index, member in enumerate(team):
         key = (member.get("provider"), member.get("id") or index)
@@ -684,12 +690,12 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
         state = str(get("state") or UNRECORDED)
         if get("state_reason"):
             state += " — " + str(get("state_reason"))
-        cells = [get("project") or UNRECORDED, get("phase") or UNRECORDED,
-                 state, team_rows(get("team"))[0][1]]
+        cells = [("PROJECT", get("project") or UNRECORDED), ("PHASE", get("phase") or UNRECORDED),
+                 ("STATE", state)] + [(label, value) for label, value, _ in team_rows(get("team"))]
         lines = [f"**KERD · {status}**", "",
-                 "| PROJECT | PHASE | STATE | TEAM |",
-                 "| --- | --- | --- | --- |",
-                 "| " + " | ".join(md(value) for value in cells) + " |", ""]
+                 "| " + " | ".join(label for label, _ in cells) + " |",
+                 "|" + " --- |" * len(cells),
+                 "| " + " | ".join(md(value) for _, value in cells) + " |", ""]
         for label, value, empty in (("LAST SESSION", get("last_session"), "no completed job is recorded"),
                                    ("THIS SESSION", get("this_session"), "Nothing agreed yet.")):
             lines += [f"- **{label}**", "", f"  {md(value or empty)}", ""]
@@ -808,11 +814,11 @@ def open_work_head(summary, width, color, markdown):
               ("Last session", get("last_session"), "no completed job is recorded"))
     grid = (("PROJECT", project), ("PHASE", str(get("phase") or UNRECORDED)),
             ("NEXT", str(recommendation.get("text") or "Nothing actionable is open")),
-            ("TEAM", team_rows(get("team"))[0][1]))
+            *((label, value) for label, value, _ in team_rows(get("team"))))
     if markdown:
         lines = [f"**{md(project.upper())} \u00b7 {status}**", "",
                  "| " + " | ".join(label for label, _ in grid) + " |",
-                 "| --- | --- | --- | --- |",
+                 "|" + " --- |" * len(grid),
                  "| " + " | ".join(md(value) for _, value in grid) + " |", ""]
         for label, value, empty in blocks:
             lines += [f"**{label}:** {md(value or empty)}", ""]
@@ -873,6 +879,10 @@ def dashboard_tail(summary, now, width, color, markdown, arrival=False):
     arrival ends on its question, with documents on one line."""
     get = summary.get
     question = get("question")
+    if arrival and get("first_arrival") is True:
+        # Whatever question the caller passed, a first arrival asks for the
+        # work its one line just invited.
+        question = dict(question or {}, text=FIRST_ARRIVAL_QUESTION)
     restored = get("restored")
     lines = []
     warnings = list(get("warnings") or [])
@@ -1062,8 +1072,7 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
         # Only Claude has /clear; any other or unrecognised host gets the
         # host-neutral line, and an unrecorded host is taken as Claude.
         host = str(get("host") or "claude").strip().lower()
-        closing = ("Exit (with Agent view on, Ctrl-C in the session list) and restart, "
-                   "or /clear and /kerd:switch in to pick up from here."
+        closing = ("Run /clear, then /kerd:switch in to pick up from here."
                    if host == "claude" else
                    "Exit and restart, then switch in to pick up from here.")
     elif saved not in ("remote-verified", "committed"):

@@ -154,7 +154,7 @@ For existing repos, only report missing files. Don't create them with templates.
 Check:
 - `kivna/vault.json` exists and is valid JSON with `vault`, `folder`, `name` fields
 - The vault folder at the resolved path exists on disk
-- **Spine complete**: the spine is `[Name].md` (MOC) + `[Name] Status.md` + `[Name] Weekly.md`. Flag any missing spine file. The fix for a missing spine file is `/kerd:kivna scaffold` (which is idempotent — it fills gaps without clobbering existing files); kivna owns vault writes, tend only detects. (Spine convention: `docs/vault-spec.md`.)
+- **Spine complete**: the spine is `[Name].md` (MOC) + `[Name] Status.md` + `[Name] Weekly.md`. Flag any missing spine file. The fix for a missing spine file is `/kerd:kivna scaffold` (it fills gaps and does not overwrite existing files); kivna owns vault writes, tend only detects. (Spine convention: `docs/vault-spec.md`.)
 - **No vault-side session history**: flag a `sessions/`, `sessions-of-record/`, or similar dated-log folder inside the vault folder. Session history lives in the repo (`kivna/sessions/`), never in the vault. The fix is to remove it from the vault (the repo is the system of record).
 - **No symlinks**: scan the vault folder for symlinks pointing to the repo. Each symlink is a violation.
 - **No banned files**: check for files that don't belong in the vault: `CLAUDE.md`, `README.md`, `TODO.md`, `Context.md`, `[Name] Context.md`, `[Name] Log.md`, `Log.md`, session export files, any file whose name doesn't start with the project/company name (generic names like `Decisions.md`, `Notes.md`)
@@ -259,7 +259,7 @@ Do not use `✓ ✗ ⚠`, category numbers, or counts like "3 failing". A new re
 2. **Optional, your call.** List each of these that is missing with one line on what it is for, never as a failure: `CLAUDE.md` (standing instructions for Claude in this repo), `docs/playbook.md` (how to rebuild the project), `TODO.md` (open work; Switch Out creates it when missing), a vault under `kivna/vault.json` (an Obsidian knowledge base; set up later with `/kerd:kivna scaffold`). These are reported and not created: no templates, and the vault is not scaffolded on this path.
 3. **Left alone.** Say that every file not named in item 1 is not changed.
 
-End with the decision block and one approval question, as below. Approval covers only the item 1 list, and the fix flow applies only those entries, checking each path again immediately before writing it and stopping if a path has changed or cannot be inspected. The summary line is plain too: "Will add 2 folders and 3 lines to your .gitignore. 4 optional files left for you."
+End with one approval question, as below. On this path write the ask in plain sentences for someone who is not a developer: say what you will add and why, what you recommend, and that nothing is committed, without the labels Problem, Facts, Known options, Cost, What we lose or Input, and without words like "idempotent"; call a `.gitkeep` "an empty placeholder file that keeps the folder in Git" the first time you name it. Approval covers only the item 1 list, and the fix flow applies only those entries, checking each path again immediately before writing it and stopping if a path has changed or cannot be inspected. The summary line is plain too: "Will add 2 folders and 3 lines to your .gitignore. 4 optional files left for you."
 
 #### Repo already set up
 
@@ -359,7 +359,7 @@ Tend does NOT commit or push. It makes structural changes and stops. Unlike cond
 
 ## Notes
 
-- Tend is idempotent. Running it twice produces the same result.
+- Once every fix from a run has been applied and nothing has changed since, running Tend again finds nothing left to change.
 - Tend is optional. `/kerd:switch in` is the first step on any repo; tend covers one-pass setup and later convergence.
 - For vault operations (scaffold, vault setup), tend delegates to `/kerd:kivna scaffold` rather than reimplementing vault logic.
 - The vault spec at `docs/vault-spec.md` defines what belongs in the vault. Tend checks structure against this spec.

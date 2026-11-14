@@ -22,8 +22,7 @@ view = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(view)
 
 NOW = "2026-11-13 22:00 EST"
-RESTART = ("Exit (with Agent view on, Ctrl-C in the session list) and restart, "
-           "or /clear and /kerd:switch in to pick up from here.")
+RESTART = "Run /clear, then /kerd:switch in to pick up from here."
 LOCAL_LINE = "Saved on this computer; no Git remote is configured."
 FIRST_LINE = ("Kerd has nothing saved here yet. Tell me what you want to work on and "
               "Conductor will shape it with you.")
@@ -282,7 +281,8 @@ class FirstArrivalTests(unittest.TestCase):
                 out = view.render_dashboard(dict(self.SUMMARY), NOW, 80, False, markdown=markdown)
                 text = flat(out)
                 self.assertIn(FIRST_LINE, text)
-                self.assertTrue(text.rstrip("*").endswith("Start a Conductor session?"))
+                self.assertTrue(text.rstrip("*").endswith("What do you want to work on?"))
+                self.assertNotIn("Start a Conductor session?", out)
                 for gone in ("PHASE", "NEXT", "TEAM", "No established pairing", "not recorded",
                              "No open work is recorded", "No recommendation"):
                     self.assertNotIn(gone, out)
@@ -298,7 +298,7 @@ class FirstArrivalTests(unittest.TestCase):
             with self.subTest(value=value):
                 out = view.render_dashboard(dict(self.SUMMARY, first_arrival=value), NOW, 80, False,
                                             markdown=True)
-                self.assertIn("| PROJECT | PHASE | NEXT | TEAM |", out)
+                self.assertIn("| PROJECT | PHASE | NEXT |", out)
                 self.assertNotIn(FIRST_LINE, flat(out))
 
     def test_the_skill_description_names_the_exception(self):

@@ -18,7 +18,9 @@ Picking up is in [In](in.md).
 Read the active state and inspect what actually changed. Preserve the current
 agreement, decisions, exact next action, unresolved jobs and important findings.
 After the contribution checkpoint below, append an evidence-backed session
-account to the existing history; read the clock
+account to the existing history, under its own heading for this sitting even
+when that day's log already holds an earlier one, so the next In's Last session
+reads the newest sitting; read the clock
 for dates/times written now. Unknown start time stays unknown. Do not retain the
 whole native conversation or private session IDs as project history.
 
@@ -78,7 +80,8 @@ claiming the job done.
 Show the checkpoint in one short line, for example: “Contributions captured:
 Claude (review) + Codex (implementation); missing: none.” Name actual contributors
 and roles, not private IDs; this is an accountable coverage statement, not a
-machine proof. An unavailable participant is not itself missing necessary memory:
+machine proof. When this session is the only contributor there is nothing to
+reconcile, so show no checkpoint line. An unavailable participant is not itself missing necessary memory:
 if other evidence restores the scope, authority, known outcomes, limits and next
 action, record any residual gap and why it does not prevent safe continuation.
 Never turn an unresolved observation into a verified result. If necessary memory
@@ -297,7 +300,9 @@ order, each leaving a reachable link behind:
    line each, and pass them on the same call as `--carry-file <path>`, a file
    with one phrase per line that only its owner can read, or `--carry-file -`
    to pipe them on stdin. Never pass a phrase as a bare argument: argv is
-   visible to other local accounts on the machine. A phrase `measure` reports
+   visible to other local accounts on the machine. A carry file is made with `mktemp`
+   and removed after the call, never a fixed name in a shared folder such as
+   `/tmp`, where another project's run can read or overwrite it. A phrase `measure` reports
    as not in the reading set is fixed by writing it into CONTEXT.md or TODO.md,
    or by adding its source to the set, then measuring again. This never blocks
    the save and asks the person nothing.
@@ -364,7 +369,14 @@ git guard cannot read where it points and refuses it. During a concert on its ow
 branch, that is the concert branch its sketchbook records: before committing, check the checked-out
 branch matches it, and stop without saving if it does not. Out saves and pushes
 there and does not merge it back; the merge is the person's decision at the
-concert's end. A save commits only the named files. Exact paths
+concert's end. A save commits only the named files. Out names its own records:
+the start point, `TODO.md`, the session log, any sketchbook it wrote and, with
+`work_notes`, `notes:outside-the-repo.md`. Other
+files the sitting changed and left uncommitted (code, or a generated output
+such as an export) do not join Out's save on its own judgement: name each one to
+the person in one question, saying which look like generated output, and
+include only those they say to keep in the project history. One they want left
+out stays local through `--preserve`, recorded as below. Exact paths
 the project has already decided to keep locally — a scratch patch, a stray build
 artifact — are acknowledged with `--preserve`: they stay untouched and are reported
 as local only, not saved. Keep that acknowledgement in the project's existing
@@ -430,6 +442,8 @@ End Out on one box, rendered with the same packaged renderer:
 ```sh
 printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing - --markdown
 ```
+
+Pipe the JSON on stdin as shown, not through a fixed-name file in `/tmp`.
 
 The box is the last thing in the message: its closing line ends Out, and nothing
 follows it: no note, footer, commit trailer or remark about a preserved file.
@@ -498,9 +512,8 @@ for; a missing field renders as "not recorded", never as a claim.
 
 The closing line offers a restart only after a remote-verified or committed save,
 `handoff_ready: true` **and** `boundary: "passed"`, or after a committed or
-remote-verified save with `handoff_ready: true` and `boundary: "local_only"`: under Claude, "Exit (with Agent view on,
-Ctrl-C in the session list) and restart, or /clear and /kerd:switch in to pick up
-from here."; under Codex, "Exit and restart, then switch in to pick up from here."
+remote-verified save with `handoff_ready: true` and `boundary: "local_only"`: under Claude, "Run /clear, then
+/kerd:switch in to pick up from here."; under Codex, "Exit and restart, then switch in to pick up from here."
 Otherwise it asks to keep the session open and
 resolve the save or the missing handoff first, because clearing context then
 would lose the very work that is unsaved. It never says the session exited or

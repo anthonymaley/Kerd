@@ -15,7 +15,7 @@ the staffing grid only when it starts helpers, and it names rehearsal, the sketc
 words. Tend gives a project not yet set up a plain report with nothing marked failing, and asks for git, not a remote;
 Kivna no longer defaults to its author's vault, and setting up a vault keeps the files already there. The README, getting
 started and the site start with Switch In, say what to do when your work isn't in Git yet, explain the permission
-prompts, move Codex under "Codex (early)", and a new Known limits page says what has not been seen in real use. A
+prompts, move Codex under "Codex (early)", and a new Known limits page says what has not been seen in real use. Switch Out saves only its own records and asks before including anything else, and its restart line is one plain instruction. A
 flaky Conductor test that failed under load now waits for its child process. Unseen with a real person: the invited
 round is still the test.
 

@@ -22,11 +22,12 @@ You open the repo you want to work in and say:
 ```
 
 Kerd reads the project and answers on one screen, in plain product English: a
-one-row grid (project, phase, next, team), where things stand, what changed last
+one-row grid (project, phase, next, and team when a partner was restored, or "not recorded" when the team could not be read), where things stand, what changed last
 session, the open work one line each, and one recommendation with the reason it
 comes first. Anything material about the restore, a failed sync or a contradiction
 in the records, appears under ATTENTION. Then it stops on a single question,
-"Start a Conductor session?", and waits.
+"Start a Conductor session?", and waits. On a project with nothing saved yet, it shows one
+plain line instead of the grid and asks "What do you want to work on?"
 
 Where your host shows a picker it offers up to four choices: yes to the
 recommendation, up to two other open items each with a one-line why, and
@@ -69,7 +70,7 @@ where to look. Rulings stay in the pointer; the full case moves to a decisions
 record. Closed rows move to a backlog archive with their verdict and date.
 
 If you already have a Claude and Codex pairing for the project, In restores the
-routing too and shows it in the TEAM cell as provider and role. A stale pairing
+routing too and shows it in the TEAM cell as provider and role. With no pairing there is no TEAM cell. A stale pairing
 is not greeted and does not appear in TEAM: one with no reply in 14 days (or
 none ever, once it is older than 14 days), or with a request sent since its last
 reply and unconfirmed for over a day. Open work carries one line for you offering

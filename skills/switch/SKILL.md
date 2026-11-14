@@ -74,7 +74,8 @@ item names the guide section with its detail: open that section before the step.
 - The screen is pasted as reply text, unchanged, before any picker in the same message;
   output left in a tool result has not been shown.
 - One question: `> 💬 **Start a Conductor session?**`, placed by the renderer, is the
-  last line of the message. Only the host's native picker may follow it (up to four
+  last line of the message (a first arrival asks “What do you want to work on?”
+  instead, with no picker). Only the host's native picker may follow it (up to four
   options); without one, nothing follows: never a written list of options. In does
   not execute the restored plan or other project work (no drafted replies, reviews, repairs or
   backlog investigation); requested safe Git sync and private Agent succession and
@@ -90,7 +91,8 @@ item names the guide section with its detail: open that section before the step.
   pairing-role continuity with Agent's Out ownership check before editing the
   handoff; no binding, no setup stop ([One coordinated closeout](references/out.md#one-coordinated-closeout)).
 - Contribution checkpoint before drafting closeout records, shown in one line
-  (“Contributions captured: …; missing: …”). A residual gap is recorded with why it
+  (“Contributions captured: …; missing: …”), and no line when this session is the
+  only contributor. A residual gap is recorded with why it
   is safe when other evidence restores scope, authority, known outcomes, limits and
   next action; only unavailable necessary memory is reported as incomplete coverage,
   with its recovery step, and sets `handoff_ready: false` ([One coordinated closeout](references/out.md#one-coordinated-closeout)).
@@ -108,7 +110,9 @@ item names the guide section with its detail: open that section before the step.
   their reason, the reading set is named, `handoff.py measure` runs with `--carry-file`
   (never a phrase as a bare argument), and its reading and `read_args` are saved beside
   the set ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
-- Save named files only, under the agreed Git authority; on a concert branch, stop if
+- Save named files only, under the agreed Git authority: Out's own records, and
+  other files the sitting left uncommitted (code, generated output) only after
+  naming each to the person and hearing yes; on a concert branch, stop if
   the checked-out branch is not its sketchbook's; acknowledged local paths are passed
   with `--preserve`; with `work_notes`, the vault repo is saved the same way, by its
   literal path with `git -C`; `save … --push` when pushing is authorized ([Default verified save](references/out.md#default-verified-save-when-pushing-is-authorized)).
@@ -243,7 +247,8 @@ and verified work. Don't claim a file save exited a session, moved a process or
 proved full restoration. No fake activity or progress percentages.
 
 For In, use the guide's [welcome-back summary](references/in.md#welcome-back-the-screen-summary):
-explicit completion heading naming the Kerd version it loaded, the PROJECT · PHASE · NEXT · TEAM grid, Where
+explicit completion heading naming the Kerd version it loaded, the PROJECT · PHASE · NEXT grid (TEAM added
+when a partner was restored or the team could not be read; none with no pairing), Where
 things stand, Last session, Open work, Recommended with its Why, attention and a
 real link to the open-work page, all in plain product English. No footer or end
 marker. The single question ends the screen as a bold speech-bubble blockquote.

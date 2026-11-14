@@ -260,7 +260,8 @@ behind its link. An unresolved design is not permission to build; a project name
 supplies a target, not permission to install or launch.
 
 This arrival stops at one question: **“Start a Conductor session?”**, with the
-recommendation as its proposed answer. Every answer that chooses work goes
+recommendation as its proposed answer (a first arrival asks “What do you want to
+work on?” instead; see [the summary](#welcome-back-the-screen-summary)). Every answer that chooses work goes
 through Conductor; only a deferral or the person's explicit refusal of Conductor leaves it. It does not
 select work, create a native session, execute project work, launch workers or
 grant permission. Private Agent routing maintenance below is not work
@@ -381,7 +382,9 @@ its heading, then a one-row grid, then the text:
   project's own stage names); when the item has none, the `Phase:` line the
   start point records (Out writes it there), and `null` only when neither
   exists; a start point that cannot be read is a restoration gap
-  (`restored: "partial"`), not a missing phase; NEXT, the recommendation; TEAM, the restored pairing.
+  (`restored: "partial"`), not a missing phase; NEXT, the recommendation; TEAM, the restored pairing
+  when a partner was restored, or “not recorded” when the team could not be read
+  (`null`); only with no pairing (`team: []`) does the grid have no TEAM cell.
 - **A project with no Kerd records:** set `first_arrival: true` and
   `restored: "yes"` (there was nothing to recover) only when successful reads
   confirm that `CONTEXT.md`, `TODO.md` and `kivna/sessions/` are all absent and
@@ -391,11 +394,18 @@ its heading, then a one-row grid, then the text:
   heading and one line, “Kerd has nothing saved here yet. Tell me what you want
   to work on and Conductor will shape it with you.”, in place of the grid and
   the empty blocks below it, so there is no empty PHASE, NEXT or TEAM cell. The
-  arrival question still ends the screen. Otherwise `first_arrival` is `false`.
+  question under that line is “What do you want to work on?”: the renderer puts
+  it in place of the summary's question, since there is no recommendation to say
+  yes to, and no picker follows it. The answer, the work in the person's own
+  words, opens Conductor at Shape like any other work choice. Otherwise
+  `first_arrival` is `false`.
 - **Where things stand:** one or two sentences on position in the wider work, in
   product terms: what the product does now and what is left before its next
   milestone. Not the agent's activity.
-- **Last session:** what changed for the person, one sentence.
+- **Last session:** what changed for the person in the most recent sitting, one
+  sentence: the newest account in the newest session log, which is its last
+  sitting heading when one day's log holds several, not an earlier sitting
+  that day.
 - **Open work:** the items that move the work, one line each, in recommended
   order (see [weighing](#compose-the-arrival-in-switch)).
 - **Recommended** and **Why:** one item and the reason it comes first.
@@ -441,6 +451,11 @@ and composing **before** this call:
 printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary - --markdown
 ```
 
+Pipe the summary on stdin as shown. Do not write it, or any other Switch input,
+to a file with a fixed name in a shared folder such as `/tmp`: another project's
+run can read or overwrite it. When a step needs a file, make one with `mktemp`
+and remove it afterward.
+
 The complete stdout from this call **is the final assistant message**. Return
 it unchanged: no paraphrasing, added intro or second question. The screen is reply text: paste the rendered output into the message itself, before the picker in the same message; output left in a tool result has not been shown, since the host folds it away. Rendering is the
 last step of In, not material for another writing pass. If content needs
@@ -455,7 +470,8 @@ client styling.
 The screen ends on the single question, as a bold speech-bubble blockquote:
 `> 💬 **Start a Conductor session?**`. Nothing follows it: no footer, render
 time or end marker. Ordinary In always supplies this question, including when
-nothing is actionable. Do not add a second question; the open items are its
+nothing is actionable; on a first arrival the renderer asks “What do you want
+to work on?” in its place, with no picker. Do not add a second question; the open items are its
 context, the recommendation its proposed answer. The renderer places the
 question; do not append it yourself. Where the host offers a native picker,
 follow the rendered output with up to four options: **“Yes — <the recommended
@@ -538,8 +554,8 @@ its input shape only. A caller may shorten a role's wording faithfully for
 display, without modifying its private binding or assigning new responsibility.
 Do not synthesize the team from project history or a legacy bridge's
 collaborator names. The renderer groups identical identities and displays
-providers and roles only. Use `[]` for no established pairing and `null` for
-unread/unresolved state. A team row's `attention` line (Kerd requests waiting
+providers and roles only. Use `[]` for no established pairing (the grid then shows no TEAM cell) and
+`null` for unread/unresolved state. A team row's `attention` line (Kerd requests waiting
 undelivered in a Codex partner's queue over ten minutes) goes into `warnings`
 as it reads. When that line's “since” date is an earlier calendar day than
 today, Open work also carries one line owned by the person, since only they can

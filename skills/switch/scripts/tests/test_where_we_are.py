@@ -14,8 +14,7 @@ SPEC.loader.exec_module(view)
 
 NOW = "2026-09-09 12:26 EDT"
 
-CLAUDE_RESTART_LINE = ("Exit (with Agent view on, Ctrl-C in the session list) and restart, "
-                       "or /clear and /kerd:switch in to pick up from here.")
+CLAUDE_RESTART_LINE = "Run /clear, then /kerd:switch in to pick up from here."
 
 FULL = """# Work: a small view
 
@@ -823,7 +822,7 @@ class TeamTests(unittest.TestCase):
 
     def test_unknown_empty_and_unselected_are_distinct(self):
         self.assertIn("not recorded", view.team_rows(None)[0][1])
-        self.assertIn("No established pairing", view.team_rows([])[0][1])
+        self.assertEqual(view.team_rows([]), [])
         self.assertIn("recipient not selected", view.team_rows([dict(provider="codex")])[0][1])
 
     def test_actionable_routing_warning_is_preserved_when_supplied(self):

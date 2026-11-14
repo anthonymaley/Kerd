@@ -66,6 +66,14 @@ class TendWording(unittest.TestCase):
         self.assertIn("only when the chosen fixes use those answers", s)
         self.assertIn("skip the intake", s)
 
+    def test_newcomer_ask_is_plain_words(self):
+        self.assertIn("in plain sentences for someone who is not a developer", self.plain)
+        self.assertIn("without the labels Problem, Facts", self.plain)
+        self.assertIn("an empty placeholder file that keeps the folder in Git", self.plain)
+        self.assertNotIn("End with the decision block", self.plain)
+        self.assertNotIn("is idempotent", self.t)
+        self.assertNotIn("which is idempotent", self.t)
+
     def test_drift_report_for_set_up_repos_kept(self):
         self.assertIn("4 passing · 2 warnings · 1 failing", self.t)
 

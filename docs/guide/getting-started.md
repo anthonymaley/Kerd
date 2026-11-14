@@ -102,7 +102,7 @@ current release, not the one shown):
 
 ```
   ❯ kerd@kerd-marketplace
-    Version: 0.195.0
+    Version: x.y.z
     Scope: user
     Status: ✔ enabled
 ```
@@ -207,21 +207,21 @@ Kerd restores what the project already knows and shows you an arrival screen in
 plain English. Its heading says whether the restore is complete and which Kerd
 version drew the screen, read from the installed package itself. Then a one-row
 grid: PROJECT, PHASE (where the recommended work sits), NEXT (the recommendation)
-and, when a Claude or Codex partner was restored, TEAM. Under it, in this order:
+and TEAM when a Claude or Codex pairing was restored (no TEAM cell when there is no pairing; "not recorded" when the team could not be read). Under it, in this order:
 where things stand in product terms, what changed last session, the open work one
 line each, and one **Recommended** item with the **Why** it comes first. ATTENTION
 appears only when something limits the recommendation or the restore. It closes
 with links to the documents the work already names.
 
 The very first time, in a project that has never used Kerd, there is nothing to
-restore. The arrival says so, and the right answer is to say what you want to
-work on.
+restore. The arrival is one line saying so, with no grid, and the right answer is to say
+what you want to work on.
 
 The second arrival is where it earns its keep. This one is an illustration, for an
 invented project (a small tool that exports a list of customer requests to a
 spreadsheet), shortened:
 
-> **KERD · SWITCH IN COMPLETE ✓**
+> **TALLY · SWITCH IN COMPLETE ✓ · Kerd 0.196.0**
 >
 > | PROJECT | PHASE | NEXT |
 > | --- | --- | --- |
@@ -315,8 +315,7 @@ phase and released grid, what changed this session in product terms, what
 Switch In will offer (the next step and why, plus up to two other open items each
 with its reason, marked proposed, never agreed), and any save problem under
 Attention. Only after a confirmed save
-does it offer the restart line: "Exit (with Agent view on, Ctrl-C in the session
-list) and restart, or /clear and `/kerd:switch in` to pick up from here."
+does it offer the restart line: "Run /clear, then /kerd:switch in to pick up from here."
 
 Read that first word before you close anything.
 
@@ -343,7 +342,8 @@ cases differ. With no remote, a save that stays on this computer is a valid
 outcome, not a failure: the closing box says "Saved on this computer; no Git remote is configured" and still offers the restart line. With a remote, if the
 saved commit has not been pushed to it, Out warns you to push before switching
 devices and keeps the session open until you have; the closing box tells you which
-happened. Conductor commits the work itself as it goes, per
+happened. Out saves only its own records; if other files are uncommitted (your code, a
+generated export), it names them and asks which to include. Conductor commits the work it builds as it goes, per
 task that passed its verification. Tend commits nothing at all. If none of that
 is what you want, do not run Out, and commit by hand.
 
