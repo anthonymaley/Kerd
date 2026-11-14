@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.199.0
+
+**0.199.0: Kerd's installed plugin is 1.6 MB, not 39 MB.** Claude Code now installs Kerd from a generated `plugin` branch that holds only what runs: skills, agents, hooks, the plugin manifest, README and licence. Before, it copied the whole repository, docs, site and evals included, about 39 MB. The install command is unchanged; the marketplace's own copy of the repository is unchanged too. `tools/release.py ship` keeps the branch in step: it creates it the first time, appends each release after CI passes and never force-pushes.
+
 ## 0.198.0
 
 **A new user's first screens get their project's name right and keep the plain words they asked for.** A fifth walk

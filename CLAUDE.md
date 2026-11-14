@@ -30,6 +30,8 @@ Every change to a skill (new skill, modified behavior, renamed command, changed 
 
 Run the release with `tools/release.py`: `prep VERSION --note FILE` bumps the three version fields, writes the note into README and CHANGELOG and runs `check`; `check` runs the named steps `.github/workflows/gate.yml` lists, each with its own exit code, and stops on a step form it cannot read; `ship [--codex] [--plugin]`, on Anthony's go only, pushes, waits for the `entry-gate` run of that exact commit, and publishes on green (it waits, so a background worker runs it). Report a suite as passing only from the runner's own exit code, never from output read through `| tail`.
 
+Claude Code users install from the generated `plugin` branch (`"ref": "plugin"` on the kerd source in `.claude-plugin/marketplace.json`), which holds only `.claude-plugin/plugin.json`, `skills/`, `agents/`, `hooks/`, `README.md`, `LICENSE`, two docs Kivna reads, and `release.json`. `ship` keeps it in step: after CI passes it appends the release, built by `tools/plugin_release.py` with a leased push that can only fast-forward, and `--plugin` checks the install against that branch's commit. `ship` refuses a commit without a version bump; a records-only commit goes to `main` with a plain `git push`. A new file type, a symlink or a hook path the allowlist can't classify refuses the build: add the type in `tools/plugin_release.py` as a decision, not a default.
+
 CI enforces the mechanical subset of this checklist on every push: `python3 tools/release_check.py` refuses version drift (item 1), capability-list drift (item 3), bare slash references (item 5), a release note that reads differently in `README.md` and `CHANGELOG.md`, and skill or agent frontmatter that breaks Anthropic's limits (must parse as YAML; `description` at most 1,024 characters with no `<` or `>`; SKILL.md body at most 500 lines). The changelog may keep older entries the README has trimmed; that is the decided shape, not drift.
 
 ## Version Strategy
@@ -46,6 +48,7 @@ skills/           # skill definitions (each skill in its own folder with SKILL.m
 agents/           # kerd:<model>-<effort> subagent definitions: model and effort for delegated native Claude jobs (older kerd:effort-<level> kept for sessions that predate them)
 tools/release_check.py # standalone release rules check (version drift, capability-list drift, bare slash references)
 tools/run_tests.py # runs every skill's scripts/tests/ wording tests
+tools/plugin_release.py # builds the slim `plugin` branch Claude Code installs from (ship calls it)
 tools/release.py  # the release steps: check (CI's steps, real exit codes), prep (version + note), ship (push, CI by exact commit, publish)
 docs/product/     # the funnel board from the retired ladder — unpoliced history, one <slug>.md per work item
 docs/work/question-sets/ # seed question sets, one <work-type>.md, copied into a work record at intake

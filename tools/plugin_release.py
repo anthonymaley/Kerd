@@ -8,7 +8,8 @@ commit, into a fresh directory that is a git repository on branch `plugin`.
 
 The new commit's parent is the remote's current `plugin` tip when one exists,
 so the branch only ever appends. Nothing is pushed unless --publish is given,
-and even then the push is a plain fast-forward: never forced. The source
+and even then the push is leased on the checked tip
+(`--force-with-lease`), so it can only fast-forward what was checked. The source
 checkout, its index and user configuration are never changed.
 
 Fail-closed: a file the allowlist cannot classify, a symlink, a missing
