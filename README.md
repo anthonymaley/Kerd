@@ -1,38 +1,42 @@
 # Kerd
 
 Kerd turns working with an AI from a string of chats into a piece of work. You
-rehearse the work together until you both know what done means. Then Kerd writes
-the score, and a team of agents performs it, with your goals checked before it
-ends.
+talk the work through with the AI until you both know what "done" means; Kerd
+calls that part *rehearsal*. Then the plan is written down as a *score*, one step
+per part, and a team of agents carries it out, with your goals checked before it
+ends; Kerd calls that part *the concert*.
 
 **Rehearsal, then the concert.** Two words carry the whole of Kerd. *Rehearsal*
 is the part you are in: working it through turn by turn, in any order, shipping
-as you go, while Kerd keeps a sketchbook of what is settled. *The concert* is
-what happens once you say you are ready: the work is written down as a score,
-and a team of agents performs it: no turn-by-turn questions, because the asking
-already happened. It comes back to you only for something that costs money, cannot
-be undone or falls outside what you agreed. You decide when rehearsal ends, and nothing is performed that
-you have not agreed.
+as you go, while Kerd keeps a *sketchbook*, a running note of what is settled for
+that piece of work. *The concert* is what happens once you say you are ready: the
+score is performed by a team of agents, with no turn-by-turn questions, because
+the asking already happened. It comes back to you only for something that costs
+money, cannot be undone or falls outside what you agreed. You decide when
+rehearsal ends, and nothing is performed that you have not agreed.
 
-**Who it is for:** people already working in Claude Code or Codex, in a project
-folder tracked by Git. If that is not you yet, set those up first; Kerd does not
-replace them. **How new it is:** picking work up and putting it down has been in
-daily use for months. Rehearsal and the concert shipped in 0.139.0, and the
-README, guides and [live site](https://kerd-six.vercel.app/) are their first real use.
+**Who it is for:** people already working in Claude Code, in a project folder
+tracked by Git. If your work is not in Git yet, [two commands set it
+up](docs/guide/getting-started.md#if-your-work-isnt-in-git-yet), and you do not
+need GitHub. Kerd does not replace Claude Code. **How new it is:** picking work up
+and putting it down has been in daily use for months. Rehearsal and the concert
+shipped in 0.139.0, and the README, guides and [live site](https://kerd-six.vercel.app/)
+are their first real use. What has not been seen in real use yet is listed in
+[known limits](docs/guide/known-limits.md).
 
 ![A day with Kerd: sit down and pick up, rehearse, call it ready, perform the concert, put it down](docs/pictures/how-kerd-works.svg)
 
-**Kerd runs inside Claude Code, and a four-skill core can be built for Codex.** It
+**Kerd runs inside Claude Code; a four-skill Codex package exists but is early.** Kerd
 is a plugin: a set of skills you call by name, plus the records they keep on disk so
 the next sitting, meaning one stretch of work from opening the project to putting it
 down, can read them.
 
-The work is whatever those two tools can do inside a project folder: code, a set
+The work is whatever Claude Code can do inside a project folder: code, a set
 of documents, a research write-up, a website. This README, the guides, the
 pictures and the site in this repo were made with Kerd in one piece of work, and
-most of it is prose and drawings rather than code. What you need is one of the two
-tools, a project folder tracked by Git, because Kerd keeps its records as files in
-that folder and saves them with Git, and ordinary language. Kerd adds no server,
+most of it is prose and drawings rather than code. What you need is Claude Code, a
+project folder tracked by Git, because Kerd keeps its records as files in that
+folder and saves them with Git, and ordinary language. Kerd adds no server,
 no inbox and no service of its own.
 
 ## Why you would care: three things that go wrong today
@@ -84,26 +88,12 @@ not, it says that too.
 
 ## Install
 
+Needs git and Python 3.10 or newer (macOS or Linux).
+
 ```
 claude plugin marketplace add anthonymaley/Kerd
 claude plugin install kerd@kerd-marketplace
 ```
-
-**In Codex, install the four-skill core from the generated Git marketplace:**
-
-```sh
-codex plugin marketplace add anthonymaley/Kerd --ref codex
-codex plugin add kerd@kerd-core
-```
-
-Update after that one-time registration:
-
-```sh
-codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core
-```
-
-For existing local-build installations, migrate the registration first. See
-[getting started](docs/guide/getting-started.md#install-in-codex).
 
 **Try a version before adopting it**, without installing it:
 
@@ -119,6 +109,30 @@ records one line of usage in your `~/.claude.json`. Tested in a throwaway
 profile on 2026-09-20. Which copy's skill text a running session prefers has not
 been tested.
 
+**If your work is not in Git yet,** [two short steps set it
+up](docs/guide/getting-started.md#if-your-work-isnt-in-git-yet), and a remote such
+as GitHub is optional.
+
+### Codex (early)
+
+Kerd's Codex package has four of the eight skills (Conductor, Switch, Visuals and
+Agent). It has not been used by anyone but its author, so treat it as early. To
+install it from the generated Git marketplace:
+
+```sh
+codex plugin marketplace add anthonymaley/Kerd --ref codex
+codex plugin add kerd@kerd-core
+```
+
+Update after that one-time registration:
+
+```sh
+codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core
+```
+
+For existing local-build installations, migrate the registration first. See
+[getting started](docs/guide/getting-started.md#install-in-codex).
+
 ## Your first five minutes
 
 Open the project folder you want to work in and say:
@@ -127,30 +141,30 @@ Open the project folder you want to work in and say:
 /kerd:switch in
 ```
 
-Kerd reads the project and tells you where things stand in plain English. This is
-the real arrival from the sitting that made this package, on 2026-09-18, cut down
-to fit here:
+Kerd reads the project and tells you where things stand in plain English. The very
+first time, in a project that has never used Kerd, there is nothing to restore;
+the arrival says so, and you tell it what you want to work on. When you come back
+for a second sitting it looks like this. This is an illustration for an invented
+project, shortened, not output from a real one:
 
 > **KERD · SWITCH IN COMPLETE ✓**
 >
-> | PROJECT | PHASE | NEXT | TEAM |
-> | --- | --- | --- | --- |
-> | Kerd | released, not yet seen in use | Rehearse one real piece of work with 0.139.0. | Claude (build and release; arrival and closeout checks) + Codex (expert review and investigation) |
+> | PROJECT | PHASE | NEXT |
+> | --- | --- | --- |
+> | Tally | export built and accepted | Add a customer filter to the export, if you still want it. |
 >
-> **Where things stand:** Kerd 0.139.0 is out: Conductor now works as rehearsal
-> … and then a concert performed by fanned-out players and checked against the
-> agreed goals. It is wording only and nobody has used it on real work yet.
+> **Where things stand:** The spreadsheet export works and you accepted it. It
+> saves a file with the day's date in its name, most-voted requests first.
 >
 > **Open work**
 >
-> 1. Rehearse one real piece of work with 0.139.0 and record what Conductor
->    actually does … [the owner] picks the work and the project.
-> 2. Watch the arrival and closing screens over several sittings …
+> 1. Customer filter for the export: you said "not today", so it waits for you.
+> 2. You: decide whether to back the project up somewhere other than this computer.
 >
-> **Recommended:** Rehearse one real piece of work with 0.139.0.
+> **Recommended:** Add the customer filter, if you want it.
 >
-> **Why:** … It is wording a model may or may not follow, and it has no test, so
-> only a real sitting shows which.
+> **Why:** It is the one thing you set aside last time, and the export is ready
+> for it.
 >
 > > 💬 **Start a Conductor session?**
 
@@ -164,10 +178,17 @@ go. When you stop:
 
 That saves the place: what changed, what got settled, and what the next Switch In
 will offer, the recommended next step first, each with its reason.
-The following sitting starts from it, here or on another machine.
+The following sitting starts from it, here, or on another machine once the saved work has been pushed and is available there.
+
+That is the whole path: `/kerd:switch in`, work, `/kerd:switch out`. Claude Code
+may ask before Kerd runs its own helper scripts, depending on your permission
+settings; [getting started](docs/guide/getting-started.md#permission-prompts) says what those
+prompts look like. `/kerd:tend` is an optional tidy-up for a project that wants
+Kerd's full layout; you do not need it first.
 
 Step by step, including what each question means and what to do when something is
-missing: [getting started](docs/guide/getting-started.md).
+missing: [getting started](docs/guide/getting-started.md). What has not been seen
+in real use yet: [known limits](docs/guide/known-limits.md).
 
 ## What Kerd lets you do
 
@@ -189,53 +210,6 @@ the sketchbook that becomes a spec, the score the build is checked against, the
 goal check at the end, and an independent reviewer, not a machine that refuses
 your work.
 
-## Optional: overtone, a companion mod
-
-Overtone is a second plugin in the same marketplace, separate from Kerd's skills.
-It is a Claude Code mod: it draws inside Claude Code itself rather than adding
-commands.
-
-**What it shows.** One line above the prompt: three smooth colour bars for
-the context you have left, the 5-hour and weekly allowance you have left, then
-the cache hit, and "expand ▾" at its end. Click it, or press `ctrl+x b`, and the
-Workers card opens beneath the band ("collapse ▴" folds it again). Red alerts join the line only while something
-is wrong, such as a cache that went cold or a worker on a model you did not ask
-for.
-
-**The plan.** While Kerd's Conductor runs a concert, the band shows its plan: "●" and the title, a bar with
-one block per task and "N of M" accepted. Opened, the Workers card lists the tasks in plan order, one line
-each: a square and a bar per step, coloured by state (green done, yellow running with its last block
-flashing, red when a worker needs you, grey to come), then the model, the effort and what it is doing.
-Conductor reports the plan through overtone's `plan` tool and each player its steps through `step`; both
-tools' short descriptions sit in every session's context. Nothing shows for work Conductor does inline.
-
-**The guard.** Before Claude stages, commits or pushes a private path toward a
-public repo, overtone asks you first, and no answer within 30 seconds counts as
-no. It always guards `.env` and `.playwright-mcp/`. Set your notes folder once
-in overtone's `vault_path` setting (`/plugin configure overtone@kerd-marketplace`) and it is guarded in every
-project. A project can add to that in its `kivna/vault.json`: the `vault` it
-names, and its own files under `"private_paths"`. Neither can switch a check
-off, and a file the guard cannot use makes it ask. It reads ordinary git
-commands and the common ways of wrapping them, such as `env`, `sudo` or
-`bash -c`, and asks when it cannot tell what one does: it is a safety net for
-honest mistakes, not a lock against a command disguised on purpose.
-
-Install it with:
-
-```
-claude plugin install overtone@kerd-marketplace
-```
-
-It needs a Claude Code version with mods (2.1.288 or later). If you already
-load a local copy of overtone through a `CLAUDE_CODE_PLUGIN_DIRS` line, delete
-that line and restart before you configure the marketplace build: while the
-local copy loads, `/plugin configure` cannot see the installed one. To turn it
-off, uninstall it:
-
-```
-claude plugin uninstall overtone@kerd-marketplace
-```
-
 ## What it writes, and how to remove it
 
 Four kinds of file carry the work, and all four are ordinary Markdown: open
@@ -254,9 +228,13 @@ is committed JSON and the vault itself lives outside your project. And some
 working state is meant to stay out of Git, under `.agents/` and parts of
 `kivna/`, so it belongs in your `.gitignore`.
 
-Switch Out saves them with Git, and it commits the files it names and nothing
-else. It pushes when you have given it the authority to push; a
-local-only save is a valid choice and needs no push permission or GitHub access.
+Switch Out saves them with Git, trying to create the session log and `TODO.md` the first
+time if they are missing (its closing box says if it could not), and it commits the files it names and nothing
+else. It pushes when you have given it the authority to push. If the project has
+no remote, a save that stays on this computer is a valid choice: Out says "Saved on this computer; no Git remote is configured" and still offers the restart line, and
+no push permission or GitHub access is needed. If the project does have a remote
+and the saved commit has not been pushed to it, Out warns you to push before you
+switch devices and keeps the session open until you have.
 
 To remove Kerd:
 
@@ -316,6 +294,55 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
+## Optional extras
+
+### overtone, a companion mod
+
+Overtone is a second plugin in the same marketplace, separate from Kerd's skills.
+It is a Claude Code mod: it draws inside Claude Code itself rather than adding
+commands.
+
+**What it shows.** One line above the prompt: three smooth colour bars for
+the context you have left, the 5-hour and weekly allowance you have left, then
+the cache hit, and "expand ▾" at its end. Click it, or press `ctrl+x b`, and the
+Workers card opens beneath the band ("collapse ▴" folds it again). Red alerts join the line only while something
+is wrong, such as a cache that went cold or a worker on a model you did not ask
+for.
+
+**The plan.** While Kerd's Conductor runs a concert, the band shows its plan: "●" and the title, a bar with
+one block per task and "N of M" accepted. Opened, the Workers card lists the tasks in plan order, one line
+each: a square and a bar per step, coloured by state (green done, yellow running with its last block
+flashing, red when a worker needs you, grey to come), then the model, the effort and what it is doing.
+Conductor reports the plan through overtone's `plan` tool and each player its steps through `step`; both
+tools' short descriptions sit in every session's context. Nothing shows for work Conductor does inline.
+
+**The guard.** Before Claude stages, commits or pushes a private path toward a
+public repo, overtone asks you first, and no answer within 30 seconds counts as
+no. It always guards `.env` and `.playwright-mcp/`. Set your notes folder once
+in overtone's `vault_path` setting (`/plugin configure overtone@kerd-marketplace`) and it is guarded in every
+project. A project can add to that in its `kivna/vault.json`: the `vault` it
+names, and its own files under `"private_paths"`. Neither can switch a check
+off, and a file the guard cannot use makes it ask. It reads ordinary git
+commands and the common ways of wrapping them, such as `env`, `sudo` or
+`bash -c`, and asks when it cannot tell what one does: it is a safety net for
+honest mistakes, not a lock against a command disguised on purpose.
+
+Install it with:
+
+```
+claude plugin install overtone@kerd-marketplace
+```
+
+It needs a Claude Code version with mods (2.1.288 or later). If you already
+load a local copy of overtone through a `CLAUDE_CODE_PLUGIN_DIRS` line, delete
+that line and restart before you configure the marketplace build: while the
+local copy loads, `/plugin configure` cannot see the installed one. To turn it
+off, uninstall it:
+
+```
+claude plugin uninstall overtone@kerd-marketplace
+```
+
 ## Naming
 
 Gaelic-inspired where it adds character:
@@ -327,9 +354,28 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.195.0)
+## What's New (v0.196.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.196.0
+
+**A first-time user can now get through a sitting without hitting Kerd's own machinery.** A simulated first user, a
+product person with a small project and no remote, found two things that stopped them and a dozen that confused them.
+This release fixes them. Switch Out on a project with no Git remote now saves on this computer, says so in one line and
+offers the restart line, instead of saying the boundary check failed; it checks each repo, the notes repo included,
+re-reads what it decided on before answering, counts only remote branches this check fetched, and refuses
+when it cannot prove that. Switch Out creates the session log and `TODO.md` when they are missing,
+so the first step everywhere is `/kerd:switch in` and `/kerd:tend` is an optional tidy-up. A first Switch In on a
+project with nothing saved shows one plain line instead of an empty grid; the weekly review line waits until a project
+has some history; the person at the keyboard is "You:". Conductor's first turn on a single task is one plain line, with
+the staffing grid only when it starts helpers, and it names rehearsal, the sketchbook and the concert once in plain
+words. Tend gives a project not yet set up a plain report with nothing marked failing, and asks for git, not a remote;
+Kivna no longer defaults to its author's vault, and setting up a vault keeps the files already there. The README, getting
+started and the site start with Switch In, say what to do when your work isn't in Git yet, explain the permission
+prompts, move Codex under "Codex (early)", and a new Known limits page says what has not been seen in real use. A
+flaky Conductor test that failed under load now waits for its child process. Unseen with a real person: the invited
+round is still the test.
 
 ### v0.195.0
 

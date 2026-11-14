@@ -59,7 +59,10 @@ existing record; the display is a view of it, not another source of truth.
 At entry/resume, decisions and stage transitions, show these in reading order:
 
 1. Journey: Understand → Shape → Agree → Deliver → Complete. Mark done, current
-   and later in words as well as symbols; colour alone is insufficient.
+   and later in words as well as symbols; colour alone is insufficient. For one
+   task Conductor does itself, leave the journey line out, at entry and at that
+   task's decision: the entry line already names the stage, and the update stays
+   [one plain line](orchestration.md#one-visible-startup-view).
 2. A compact “What we're building” view: the result, what is settled, important
    open decisions and the next action. Keep the ten coverage areas internal.
    No topic-completion meter or “question 4 of 10”. “One decision before drafting”
@@ -339,9 +342,10 @@ insight banner or confirmation of a confirmation.
 ### The shape of every report
 
 Every message that reports work — a job returning, a batch finishing, a review
-coming back, the finish — has the same shape, top to bottom. The grid, Fit lines,
-`Change read ·` line and evidence this guide asks for still appear; they come after
-the three opening lines, never before them.
+coming back, the finish — has the same shape, top to bottom. Where contributors
+were dispatched, the grid, Fit lines, `Change read ·` line and evidence this guide
+asks for still appear; they come after the three opening lines, never before them.
+Inline work with nothing dispatched keeps its plain treatment: no grid or Fit lines.
 
 1. **Three labelled lines open every report.** The person can stop after them; the
    details come below. Each sits on its own line; where the host joins consecutive
@@ -447,10 +451,11 @@ A tiny single action does not need a manufactured plan.
 Show the actual stage, owner, outcome and stopping boundary before substantial
 research/design or implementation starts, not only at its finish. Reuse the
 restored brief rather than reciting the dashboard. For example, after approval
-of a design-only task: “Conductor · Shape — draft the pagination design. Claude
-owns the draft (use the host-declared model if supplied; effort unknown unless
-verified); code, deployment and push remain excluded.” The inline/split
-decision accompanies this start, proportionate to the actual work.
+of a design-only task this session drafts itself: “Conductor · Shape — draft the
+pagination design. I'll write the draft myself; code, deployment and push stay
+out.” The inline/split decision accompanies this start, proportionate to the
+actual work: model and effort evidence appears only when a contributor is
+dispatched.
 
 Emit an update at each real change of state: investigation or implementation starts, a reviewer
 starts or returns, correction begins, work completes or blocks. Each one says what
@@ -461,10 +466,12 @@ attention the updates are spending.
 
 #### Delegation grid and preparation updates
 
-At interactive Conductor startup, use [orchestration](orchestration.md) for the
-same grid with the controller, any composer call and each assigned step included,
-even when the result is one inline task and no worker. The main pair's evidence
-and suitability stay explicit. Reuse the view and settled choices; update new
+At interactive Conductor startup with contributors, use
+[orchestration](orchestration.md) for the same grid with the controller, any
+composer call and each assigned step included; the main pair's evidence and
+suitability stay explicit there. One task this session does inline, with nothing
+dispatched, gets the [one plain line](orchestration.md#one-visible-startup-view)
+instead: no grid and no Fit line. Reuse the view and settled choices; update new
 jobs or changes, not every tool call. Narrow managed decision sessions don't
 repeat this interactive startup view. When composition is actually called, make
 its bounded scope and score transition visible; when players are assigned, name
@@ -704,13 +711,24 @@ including a next item the person's standing authority already covers. Once the
 sitting's agreed work is complete with nothing outstanding for the session (no job,
 review or answer pending), the session saves the item the finish named as the
 proposed next step and runs Switch Out itself through the host's skill mechanism,
-saying so. It never asks “Shall I switch out now?” or puts the Switch Out into an
-approval bubble. The ~200k mark never interrupts unfinished work, and a concert keeps
+saying so. Where the host can start the skill, it never asks “Shall I switch out
+now?” or puts the Switch Out into an approval bubble. The ~200k mark never interrupts unfinished work, and a concert keeps
 its own Roll. The session controlling the agreed work owns this Out; a contributing
 partner session never starts one, and Out's existing-owner check still applies. A
 person's “not yet”, or an instruction to keep the session open, holds: the declined
 Switch Out terms above apply to this Out too. Out's own saves and pushes keep their
 existing authority.
+
+**A newcomer learns where Out lives.** When the agreed goal is met and nothing is
+outstanding, a next item that waits for later (“next week”, someone else's
+answer) does not hold the Out back: name that item, then run Out. Say it in plain
+words and name the command, so a newcomer knows how to put work down another time:
+“That's done. I'm putting this down for today with `/kerd:switch out`, so
+`/kerd:switch in` picks it up next time.” Where the host gives no way to start a
+skill from the session, the turn ends on the one question that hands it over,
+`> 💬 **Put this down for today with /kerd:switch out?**`. (First-user
+walkthrough, 2026-11-13: a finished export ended on “tell me next week”, with no
+Out and no mention of it.)
 Avoid a report of internal instruction-following, repeated setup disclosures
 or an insight banner merely because a tool ran. Link deeper evidence instead.
 
@@ -740,6 +758,21 @@ Prefer “Anything we should leave alone?” with concrete proposed boundaries t
 “Define authority and protection.” Don't show internal Can use / Save headings.
 Use normal corrections to update the brief without restarting; don't pretend a
 chat panel is editable. Offer contextual help deciding when useful and permitted.
+
+**Speak the words the docs teach.** The README, the site and the getting-started
+guide teach rehearsal, sketchbook and concert. In the one simulated first-user
+walkthrough (2026-11-13), the session said only Shape, Agree and Deliver and never
+those words; that a newcomer then cannot map one to the other is an inference
+from that run. The first time in a sitting that the work is in
+rehearsal, has a sketchbook or goes to a concert, name that word once with its
+plain gloss, then let it stand alone:
+
+“This is rehearsal: we work out what you want.”
+“I keep our notes, the sketchbook, at docs/work/<work>/work.md.”
+“The concert: I build what we agreed on its own branch.”
+
+The stage names (Understand, Shape, Agree, Deliver, Complete) stay as they are;
+rehearsal is Understand through Agree and the concert is Deliver.
 
 “That's enough to draft. I'll mark the missing location for confirmation.”
 “Two options fit. I'd choose the simpler one because it meets the stated need.”

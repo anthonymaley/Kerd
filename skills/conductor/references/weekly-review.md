@@ -22,7 +22,10 @@ The weekly review is a look-back over the current project's own work, in any
 project using Kerd: it reviews that project's work, not Kerd. It covers the
 last 7 days, or the window the person names. It runs as ordinary Conductor work,
 offered by Switch In's open work when the last review is over 7 days old or none
-has run.
+has run, once the project has history: at least 3 session logs and 7+ days since
+the start of the project's history as [Switch In's lookup](../../switch/references/in.md#in)
+reads it: the oldest dated session log, or CONTEXT.md's first commit when older
+(fewer than 3 logs: not offered).
 
 It reads, bounded to the window:
 

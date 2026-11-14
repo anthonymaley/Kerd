@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.196.0
+
+**A first-time user can now get through a sitting without hitting Kerd's own machinery.** A simulated first user, a
+product person with a small project and no remote, found two things that stopped them and a dozen that confused them.
+This release fixes them. Switch Out on a project with no Git remote now saves on this computer, says so in one line and
+offers the restart line, instead of saying the boundary check failed; it checks each repo, the notes repo included,
+re-reads what it decided on before answering, counts only remote branches this check fetched, and refuses
+when it cannot prove that. Switch Out creates the session log and `TODO.md` when they are missing,
+so the first step everywhere is `/kerd:switch in` and `/kerd:tend` is an optional tidy-up. A first Switch In on a
+project with nothing saved shows one plain line instead of an empty grid; the weekly review line waits until a project
+has some history; the person at the keyboard is "You:". Conductor's first turn on a single task is one plain line, with
+the staffing grid only when it starts helpers, and it names rehearsal, the sketchbook and the concert once in plain
+words. Tend gives a project not yet set up a plain report with nothing marked failing, and asks for git, not a remote;
+Kivna no longer defaults to its author's vault, and setting up a vault keeps the files already there. The README, getting
+started and the site start with Switch In, say what to do when your work isn't in Git yet, explain the permission
+prompts, move Codex under "Codex (early)", and a new Known limits page says what has not been seen in real use. A
+flaky Conductor test that failed under load now waits for its child process. Unseen with a real person: the invited
+round is still the test.
+
 ## 0.195.0
 
 **Conductor's review brief now names the problems that took several rounds to find.** Kerd's first weekly review found

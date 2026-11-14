@@ -92,7 +92,9 @@ keeps working.
 Say "make this a skill" after doing a job twice and Conductor builds one in your
 own project with Anthropic's skill-creator, with how to run it and what to check.
 Paste notes that hold decisions and they come back as one list to settle or drop.
-Once a week, when Switch In offers it, a **weekly review** reads the week's
+Once a week, when Switch In offers it (only once the project has at least 3 session
+logs and 7 or more days of history, and the last review is over 7 days old or none
+exists), a **weekly review** reads the week's
 sessions for your corrections, jobs repeated, questions that missed, defaults
 nobody looked at and decisions that never reached a record, and changes nothing
 without your go.

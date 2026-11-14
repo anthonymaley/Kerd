@@ -212,15 +212,40 @@ decision in the list as what it is; do not dress it as agent work. Items
 omitted from the screen stay open behind the documents link; omission changes
 neither their status nor the saved priority.
 
-**The weekly review line.** During In, find the newest
-[weekly review record](../../conductor/references/weekly-review.md#the-review-record):
-with `kivna/vault.json` carrying `"work_notes": "vault"`, in
-`notes:weekly-review/`; otherwise in `docs/work/weekly-review/`. List that one
-folder and read the newest `<YYYY-MM-DD>.md` name; it is a bounded lookup, not a
-sweep. When none exists or the newest is over 7 days old, Open work carries one
-line, “Weekly review: last one N days ago” (or “Weekly review: never run”), which
-runs as a Conductor route when picked. It is the recommendation only when nothing
-else is buildable. One line, never a list, never repeated elsewhere on the screen.
+**The weekly review line.** It appears only once the project has history,
+read in three bounded lookups, each of which can fail:
+
+1. List `kivna/sessions/` and count its `<YYYY-MM-DD>.md` names. At least 3 are
+   needed; fewer than 3: no line, however old the project.
+2. The first Kerd record is the oldest dated session log, or
+   the date `CONTEXT.md` was first committed when that is older. Read the second
+   with `git log --diff-filter=A --format=%as -- CONTEXT.md` (its last line).
+   When the oldest session log is already 7 days old or more, that settles it
+   and the git read can be skipped. Otherwise an empty result (`CONTEXT.md` never
+   committed) leaves the session-log date, and a failed git read is unknown, so
+   the line is not shown. At least 7 days since the first Kerd record are
+   needed.
+3. With that history, find the newest
+   [weekly review record](../../conductor/references/weekly-review.md#the-review-record):
+   with `kivna/vault.json` carrying `"work_notes": "vault"`, in
+   `notes:weekly-review/`; otherwise in `docs/work/weekly-review/`. List that one
+   folder and read the newest `<YYYY-MM-DD>.md` name; it is a bounded lookup,
+   not a sweep. Choosing the folder is itself a read: a `kivna/vault.json` that
+   exists but cannot be read or parsed, or a notes root it names that cannot be
+   reached, leaves the folder unknown, and the line is not shown.
+
+A folder that does not exist is a successful read with nothing in it. A folder
+that exists but cannot be read, or a read that errors, is unknown, not absent:
+an unknown session count or review date shows no line, and an unreadable review
+folder is never reported as “never run”. Only successful reads with enough
+dated evidence show the line. When none exists or the newest is over 7 days old,
+Open work carries one line, “Kerd's look back at recent sessions (weekly review): last one N days ago”
+(or “Kerd's look back at recent sessions (weekly review): never run”). The label
+is meant to say whose review it is, Kerd's look back at its own sessions, as
+distinct from any review meeting the person holds.
+It runs as a Conductor route when picked. It is the recommendation only when
+nothing else is buildable. One line, never a list, never repeated elsewhere on
+the screen.
 
 Where the restored material says where an open item stands, its line says so in
 plain words: what is settled and what is still open (“the season picker: goals
@@ -282,7 +307,7 @@ selects only an unambiguous partner, never by title or recency. It skips stale
 bindings (no reply in 14 days, or a contribution request sent since its last
 reply and unconfirmed for over a day), even when they are passed explicitly, so
 no notice goes to a stale partner, and returns them in a top-level `stale` list. When that list is not empty, Open work
-carries one line owned by the person: “<Person>: retire N stale pairings
+carries one line owned by the person: “You: retire N stale pairings
 (<aliases or count>), set aside, recoverable”. It is one line for all of them,
 never repeated and never the recommendation. Retirement runs through Agent
 (`retire --alias`) only on the person's yes; it moves each binding aside, never
@@ -314,9 +339,10 @@ way in:
   Design only; no implementation or deployment. Enter the work without repeating
   pickup or intake. Read Kerd's orchestration startup and relevant
   job-split/work-view sections if not already loaded, then begin with Conductor ·
-  Shape, current model/effort evidence, owner, intended design result, stopping
-  boundary and work split. Only then start substantive project research.” For
-  underway work, say resume.
+  Shape: owner, intended design result, stopping boundary and work split, with
+  current model/effort evidence only for jobs dispatched to contributors (one
+  task Conductor does itself gets one plain line instead). Only then start
+  substantive project research.” For underway work, say resume.
 - **Asks for guidance without choosing** (“Something else” from the picker,
   “not sure”, “help me decide”): invoke
   Conductor at Understand/Shape for direction-setting with the full open-work
@@ -352,8 +378,20 @@ its heading, then a one-row grid, then the text:
 
 - **Grid:** PROJECT; PHASE, the recommended work item's rung on the project's
   ladder (frame, viability, scope, design, handoff, loop, acceptance, or the
-  project's own stage names), `null` when the item has none; NEXT, the
-  recommendation; TEAM, the restored pairing.
+  project's own stage names); when the item has none, the `Phase:` line the
+  start point records (Out writes it there), and `null` only when neither
+  exists; a start point that cannot be read is a restoration gap
+  (`restored: "partial"`), not a missing phase; NEXT, the recommendation; TEAM, the restored pairing.
+- **A project with no Kerd records:** set `first_arrival: true` and
+  `restored: "yes"` (there was nothing to recover) only when successful reads
+  confirm that `CONTEXT.md`, `TODO.md` and `kivna/sessions/` are all absent and
+  no work record is linked or known. A location that cannot be inspected (an
+  unreadable folder, a failed read) is not absence: use `restored: "partial"`
+  with the gap in `restore_note`, and never `first_arrival`. The renderer then shows the
+  heading and one line, “Kerd has nothing saved here yet. Tell me what you want
+  to work on and Conductor will shape it with you.”, in place of the grid and
+  the empty blocks below it, so there is no empty PHASE, NEXT or TEAM cell. The
+  arrival question still ends the screen. Otherwise `first_arrival` is `false`.
 - **Where things stand:** one or two sentences on position in the wider work, in
   product terms: what the product does now and what is left before its next
   milestone. Not the agent's activity.
@@ -374,9 +412,11 @@ the action and its outcome; move procedures (clicks, restart sequences) and pass
 criteria (expected values or states) to the linked task detail. Keep details
 needed to identify the right target, distinguish scope or avoid an immediate
 safety or permission mistake. Where an item has an established owner who is not
-the agent, say so in the line (“Anthony: check the stats panel on the TV”); the
+the agent, say so in the line (“You: check the stats panel on the TV”); the
 renderer displays `**Owner:** action` notation when supplied but neither assigns
-owners nor chooses priorities.
+owners nor chooses priorities. The person at the keyboard is “You:”, not their
+name, nickname or account name. A named owner appears only when the records name
+someone else as that item's owner.
 
 **ATTENTION** covers material limits on the recommendation or on safe
 restoration: failed synchronization, a consequential contradiction, a falsely
@@ -450,7 +490,7 @@ coherent sitting. Use `null` or `[]` for anything the work has nothing for.
   "open_work": [
     "Sign off the risk-rating change with real evidence, the first launch step.",
     "Try the 0.134.0 diagram rules on a real diagram; they have never been exercised.",
-    "Anthony: decide whether the 2026-09-13 \"prove Kerd first\" hold is lifted."
+    "You: decide whether the 2026-09-13 \"prove Kerd first\" hold is lifted."
   ],
   "recommendation": {
     "text": "Sign off the risk-rating change.",
@@ -473,12 +513,15 @@ coherent sitting. Use `null` or `[]` for anything the work has nothing for.
   "insight": "The migration shipped two weeks ago; only its acceptance record is missing.",
   "base": ".",
   "restored": "yes",
-  "restore_note": null
+  "restore_note": null,
+  "first_arrival": false
 }
 ```
 
 `project` is the project already restored, never inferred from the renderer's
-installation path. `phase` is the recommended item's rung, shown in the grid;
+installation path. `phase` is the recommended item's rung, or the start point's
+recorded `Phase:` line when the item has none, shown in the grid;
+`first_arrival` is `true` only for a project with no Kerd records (above);
 `where` is the position sentence; `open_work` a list of plain
 lines (a single string is one item); `recommendation` carries `text` and `why`,
 or `null` when nothing is actionable, which the renderer states. `question.text`
@@ -500,7 +543,7 @@ unread/unresolved state. A team row's `attention` line (Kerd requests waiting
 undelivered in a Codex partner's queue over ten minutes) goes into `warnings`
 as it reads. When that line's “since” date is an earlier calendar day than
 today, Open work also carries one line owned by the person, since only they can
-reach that window: “<Person>: look at the Codex <role> window (N Kerd requests
+reach that window: “You: look at the Codex <role> window (N Kerd requests
 waiting, the oldest since <date>); say which still matter before it takes them”. Typing in
 the window woke one stalled session; a closed one needs reopening. The queue
 shows those requests waiting, not that the partner has stopped everything, and
@@ -514,8 +557,10 @@ routine unconfirmed notice delivery is not a blocker or an availability claim.
 Given a correctly shaped JSON object, fields are not required: a missing or null
 one degrades to a plain “not recorded” line or an explicit “nothing open”
 statement rather than an error. Malformed JSON exits 2 with a message. Where
-things stand, Last session, Open work, Recommended and the grid always render; only
-the attention panel, documents and Insight are omitted when empty.
+things stand, Last session, Open work, Recommended and the grid always render,
+except on a first arrival (`first_arrival: true`), where the one plain line
+replaces them all; only the attention panel, documents and Insight are omitted
+when empty.
 
 It reads stdin, so nothing is written to disk. Do not re-read files to fill it,
 and do not stop for approval before showing it. Only if rendering fails or the

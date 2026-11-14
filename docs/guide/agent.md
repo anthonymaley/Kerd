@@ -53,11 +53,11 @@ another, because an independent read by a fresh worker and a conversation with a
 partner who knows the work are different jobs.
 
 Which route Kerd uses depends on the work. A review (a checkpoint, before a
-push, a pull request) goes to a fresh, record-briefed reviewer from the other
+push, a pull request) goes by default to a fresh, record-briefed reviewer from the other
 provider that Kerd starts through Agent, read only: a Codex reviewer when Claude
 builds, a Claude reviewer when Codex builds. If the other provider can't start,
 Kerd uses a different model of the same provider, as its own native subagent,
-and tells you so. Its brief
+and tells you so. If you name a reviewer, the request goes to that partner and Kerd does not silently substitute another. Its brief
 names the records to read (the work's notes, the decisions, the diff) and asks by name for
 the problems that tend to hide past one round, and its
 verdict is written back to the notes. A standing Codex partner is for multi-turn

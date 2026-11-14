@@ -13,7 +13,9 @@ On Claude Code, get a profile's path from the shared catalogue with
 directory Conductor was loaded from, and read the file it names. It prints `path`, `source` and
 `reason`: a copy from the catalogue's `catalogue` branch, kept for seven days, or
 the profile shipped here when the catalogue can't be read. When `source` is
-`shipped` or `stale-cache`, say so in one clause on the startup view's Fit line.
+`shipped` or `stale-cache`, say so in one clause on the startup view's Fit line
+when contributors are dispatched; inline work with nothing dispatched keeps this
+internal.
 Hosts without network (Codex by default) read the shipped profile here directly.
 
 Current model-specific files live directly under the provider folder. Files in

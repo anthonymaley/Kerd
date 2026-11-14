@@ -4,7 +4,7 @@ Tend keeps a repo's structure and plumbing in shape: directories, config files, 
 
 ## When you would reach for it
 
-Reach for tend on a brand new repo, to set everything up in one pass, or on an existing one after a Kerd update, to catch what has drifted from current convention. Reach for slainte when you want to know if the words in a doc still match the state of the project, on demand for one area, or at a release: after a version bump, run slainte's release pass yourself; nothing calls it for you.
+Tend is optional: you can start with `/kerd:switch in` and never run it. Reach for it on a project not yet set up for Kerd, when you want the folders and files Kerd uses created for you, or on one already set up, after a Kerd update, to catch what has drifted from current convention. Reach for slainte when you want to know if the words in a doc still match the state of the project, on demand for one area, or at a release: after a version bump, run slainte's release pass yourself; nothing calls it for you.
 
 ## How tend goes
 
@@ -12,9 +12,11 @@ Reach for tend on a brand new repo, to set everything up in one pass, or on an e
 /kerd:tend
 ```
 
-Run it at the root of a git repo. It checks nine categories: directory structure, required files, vault integration, deprecated patterns, naming consistency, stray and stale files, gitignore hygiene, skill hygiene, and hook hygiene. Each category comes back passing, failing, or a warning. Failing and warning items get a table of what is there now against what is proposed, with a reason.
+Run it at the root of a git repo. Which report you get depends on the project.
 
-After the report, you choose: fix everything, pick items one at a time, or skip and just keep the report. Tend never commits its own changes. Structural fixes stay in the working tree until you review and commit them yourself.
+A project **not yet set up for Kerd** gets a plain-words report: what tend would add or change and why (for example the `kivna/` and `kivna/sessions/` folders and a few `.gitignore` lines), with optional files such as `CLAUDE.md` or `docs/playbook.md` listed as optional, never as failures. A project **already set up** (it has a `kivna/vault.json`, a `docs/playbook.md` or anything in `kivna/` other than `sessions/` and `.gitkeep`; a project with only Switch's session logs still gets the plain report) gets the drift report: nine categories (directory structure, required files, vault integration, deprecated patterns, naming consistency, stray and stale files, gitignore hygiene, skill hygiene, and hook hygiene), each passing, failing, or a warning. Failing and warning items get a table of what is there now against what is proposed, with a reason. A failing line is a gap against Kerd's layout, not a sign that something is wrong with your project.
+
+After the report, you approve: for the drift report, fix everything, pick items one at a time, or skip and just keep the report. Tend changes only what its report lists, and only after you approve. It never commits its own changes. Structural fixes stay in the working tree until you review and commit them yourself.
 
 ## How slainte goes
 
@@ -26,7 +28,7 @@ Valid areas are docs, code, site, deps, playbook, release, and all. Each finding
 
 ## An exchange
 
-Tend's report reads like this, a passing category shown plain and a failing one shown as a table:
+The drift report, for a project already set up, reads like this, a passing category shown plain and a failing one shown as a table:
 
 ```
 ✓ Directory structure

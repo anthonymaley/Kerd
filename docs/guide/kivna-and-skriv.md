@@ -35,7 +35,7 @@ A kivna Weekly entry, in its own real shape:
 ```
 ### Achievements
 - Shipped weekly tracker feature in Kivna (v0.14.0)
-- Resolved vault path migration to ~/eolas/vault
+- Resolved vault path migration
 ```
 
 A skriv audit finding, in its own real shape:

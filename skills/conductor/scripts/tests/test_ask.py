@@ -17,12 +17,100 @@ ask = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ask)
 
 
+def reap_child(pid, seconds=10):
+    """Bounded replacement for a blocking os.waitpid(pid, 0) in cleanup: poll with
+    WNOHANG until the deadline, then SIGTERM, then SIGKILL, reaping each time; if the
+    child still cannot be reaped, fail loudly instead of hanging the suite."""
+    def reaped(within):
+        deadline = time.monotonic() + within
+        while True:
+            try:
+                done, _ = os.waitpid(pid, os.WNOHANG)
+            except ChildProcessError:  # already reaped elsewhere
+                return True
+            if done:
+                return True
+            if time.monotonic() >= deadline:
+                return False
+            time.sleep(0.02)
+    if reaped(seconds):
+        return
+    for sig in (signal.SIGTERM, signal.SIGKILL):
+        try:
+            os.kill(pid, sig)
+        except ProcessLookupError:
+            pass
+        if reaped(2):
+            raise AssertionError(f"child {pid} outlived {seconds} s and was stopped with {sig.name}")
+    raise AssertionError(f"child {pid} could not be reaped after SIGKILL")
+
+
+class ReadinessGatedClock:
+    """Stands in for ask's `time` module: `monotonic` holds still until the fixture
+    child's readiness file holds complete JSON, then runs at real speed from there.
+    The hold is capped (20 s real time) so a broken fixture fails instead of hanging."""
+
+    def __init__(self, ready, cap=20.0):
+        self.ready = ready
+        self.start = time.monotonic()
+        self.cap = cap
+        self.ready_at = None
+
+    def monotonic(self):
+        now = time.monotonic()
+        if self.ready_at is None:
+            try:
+                json.loads(self.ready.read_text())["group"]
+                self.ready_at = now
+            except (FileNotFoundError, json.JSONDecodeError, KeyError):
+                if now - self.start < self.cap:
+                    return self.start
+                self.ready_at = self.start
+        return self.start + (now - self.ready_at)
+
+    @staticmethod
+    def sleep(seconds):
+        time.sleep(seconds)
+
+
+class TestDeadline(AssertionError):
+    pass
+
+
 class TransportTests(unittest.TestCase):
+    # One real-time deadline per test, set before anything can block and cleared after
+    # every other cleanup (addCleanup runs last-registered first), so a hang in a test or
+    # its cleanup fails with a clear message instead of stalling the suite. SIGALRM is
+    # delivered to the main thread only, where unittest runs the test; job threads keep
+    # their own bounds. Forked children do not inherit the pending alarm.
+    TEST_DEADLINE = 90
+
+    def arm_deadline(self, seconds):
+        if threading.current_thread() is not threading.main_thread():
+            return
+        message = f"{self.id()} exceeded its {seconds} s real-time deadline"
+        fired = []
+        def expired(signum, frame):
+            fired.append(True)
+            raise TestDeadline(message)
+        previous = signal.signal(signal.SIGALRM, expired)
+        signal.setitimer(signal.ITIMER_REAL, seconds)
+        def disarm():
+            signal.setitimer(signal.ITIMER_REAL, 0)
+            signal.signal(signal.SIGALRM, previous)
+            # ask.run turns an exception inside a job into a "failed" result after
+            # stopping the provider group, so the raise above can be absorbed; the
+            # deadline still fails the test here.
+            if fired:
+                raise TestDeadline(message)
+        self.addCleanup(disarm)
+
     def setUp(self):
+        self.arm_deadline(self.TEST_DEADLINE)
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.project = Path(self.temp.name).resolve()
-        subprocess.run(["git", "init", "-q", str(self.project)], check=True)
+        subprocess.run(["git", "init", "-q", str(self.project)], check=True, timeout=30)
         commands = {p: [sys.executable, str(ROOT / "tests/fake_cli.py"), p] for p in ("codex", "claude")}
         self.bridge = ask.Bridge(self.project, commands)
 
@@ -71,20 +159,20 @@ class TransportTests(unittest.TestCase):
         project = self.project / "separate-project"
         metadata = self.project / "separate-metadata"
         subprocess.run(["git", "init", "-q", "--separate-git-dir", str(metadata),
-                        str(project)], check=True)
+                        str(project)], check=True, timeout=30)
         self.assertTrue((project / ".git").is_file())
         bridge = ask.Bridge(project, self.bridge.commands)
         result = bridge.run("claude", "Review", "reviewer", "separate")
         self.assertEqual(result["status"], "completed")
         self.assertEqual(bridge.state, metadata / "cross-llm")
         self.assertEqual(subprocess.check_output(
-            ["git", "status", "--porcelain"], cwd=project, text=True), "")
+            ["git", "status", "--porcelain"], cwd=project, text=True, timeout=30), "")
 
     def test_packaged_cli_uses_explicit_project_from_foreign_cwd(self):
         result = self.run_job(request_id="portable")
         output = subprocess.run(
             [sys.executable, str(ROOT / "ask.py"), "--project", str(self.project),
-             "status", "portable"], cwd=ROOT, capture_output=True, text=True)
+             "status", "portable"], cwd=ROOT, capture_output=True, text=True, timeout=30)
         self.assertEqual(output.returncode, 0, output.stderr)
         returned = json.loads(output.stdout)
         self.assertEqual(returned["project"], str(self.project))
@@ -139,9 +227,7 @@ class TransportTests(unittest.TestCase):
 
     def test_cancel_and_session_busy_but_other_session_can_run(self):
         output = []
-        thread = threading.Thread(target=lambda: output.append(self.run_job(prompt="SLEEP", request_id="waiting")))
-        thread.start()
-        self.addCleanup(thread.join)
+        thread = self.start_job_thread(output, "waiting", prompt="SLEEP")
         deadline = time.monotonic() + 5
         while not (self.bridge.request_path("waiting") / "result.json").exists():
             self.assertLess(time.monotonic(), deadline)
@@ -169,7 +255,7 @@ class TransportTests(unittest.TestCase):
 
     def test_state_is_inside_git_metadata_not_project_documents(self):
         self.run_job()
-        status = subprocess.check_output(["git", "status", "--porcelain"], cwd=self.project, text=True)
+        status = subprocess.check_output(["git", "status", "--porcelain"], cwd=self.project, text=True, timeout=30)
         self.assertEqual(status, "")
         self.assertTrue(str(self.bridge.state).startswith(str(self.project / ".git")))
 
@@ -198,30 +284,138 @@ class TransportTests(unittest.TestCase):
         self.assertEqual(result, self.bridge.status("empty"))
         self.assertEqual(self.bridge.sessions(), [])
 
-    def test_timeout_kills_descendant_after_leader_exits(self):
-        started = time.monotonic()
-        result = self.run_job(prompt="DESCENDANT", timeout=0.5)
-        self.assertEqual(result["status"], "timed_out")
-        self.assertLess(time.monotonic() - started, 7)
-        output = (self.bridge.request_path(result["request_id"]) / "events.jsonl").read_text()
-        self.assertIn("child-ready", output)
-        self.assertEqual(self.run_job()["status"], "completed")
+    def start_job_thread(self, output, request_id, ready=None, **kwargs):
+        """Start a synchronous job on a daemon thread, with its cleanup registered before
+        the test waits on anything. The job carries its own timeout (20 s unless given),
+        so it ends even if cancellation never reaches it. At cleanup the fixture child's
+        group is killed; if the thread is still alive, the leader's group (its pid,
+        recorded in result.json at launch) is killed too, the thread gets a 5 s join, and
+        a thread that survives fails the test loudly rather than holding up exit."""
+        kwargs.setdefault("timeout", 20)
+        thread = threading.Thread(
+            target=lambda: output.append(self.run_job(request_id=request_id, **kwargs)), daemon=True)
 
-    def test_explicit_cancel_kills_ready_descendant_group(self):
-        output = []
-        thread = threading.Thread(target=lambda: output.append(self.run_job(prompt="DESCENDANT", request_id="descendant")))
-        thread.start()
-        self.addCleanup(thread.join, 5)
-        ready = self.project / "fixture-child.json"
-        group = self.wait_for_group(ready)
-        def cleanup_group():
+        def kill(group):
             try:
                 os.killpg(group, signal.SIGKILL)
             except ProcessLookupError:
                 pass
             except PermissionError:  # macOS denies while reaping; a live group still fails here
                 self.wait_for_group_gone(group, 3)
-        self.addCleanup(cleanup_group)
+
+        def cleanup():
+            for group in (self.recorded_groups_from_ready(ready) if ready is not None else ()):
+                kill(group)
+            if thread.is_alive():
+                for group in self.recorded_groups(request_id, ready):
+                    kill(group)
+                thread.join(5)
+            if thread.is_alive():
+                raise AssertionError(f"job thread {request_id!r} survived cleanup")
+
+        self.addCleanup(cleanup)
+        thread.start()
+        return thread
+
+    def run_bounded(self, seconds, groups, **kwargs):
+        """Run a synchronous job on a daemon thread under a real-time deadline.
+
+        `groups` returns the process groups the job may have started; on a missed
+        deadline or an exception every one of them is SIGKILLed, then the thread is
+        joined, and the test fails instead of blocking the suite."""
+        returned, failed = [], []
+
+        def job():
+            try:
+                returned.append(self.run_job(**kwargs))
+            except BaseException as exc:  # surfaced on the test thread below
+                failed.append(exc)
+
+        def kill_groups():
+            for group in groups():
+                try:
+                    os.killpg(group, signal.SIGKILL)
+                except (ProcessLookupError, PermissionError):
+                    pass
+
+        runner = threading.Thread(target=job, daemon=True)
+        runner.start()
+        runner.join(seconds)
+        if runner.is_alive() or failed:
+            kill_groups()
+            runner.join(5)
+            if failed:
+                raise failed[0]
+            self.fail(f"run_job did not return within {seconds} s real time")
+        return returned[0]
+
+    def recorded_groups(self, request_id, ready=None):
+        """Process groups for a request: the leader's pid from result.json (ask starts
+        the leader in a new session, so its pid is the group ID), recorded as soon as
+        it launches, and the fixture child's own group when its readiness file exists."""
+        groups = set()
+        record = ask.read(self.bridge.request_path(request_id) / "result.json") or {}
+        if isinstance(record.get("process_id"), int):
+            groups.add(record["process_id"])
+        if ready is not None:
+            try:
+                groups.add(json.loads(ready.read_text())["group"])
+            except (FileNotFoundError, json.JSONDecodeError, KeyError):
+                pass
+        return groups
+
+    def test_timeout_kills_descendant_after_leader_exits(self):
+        # Under machine load the fixture child once took longer than the 0.5 s timeout
+        # to start, so the kill came before "child-ready" (1 of 1,277, 2026-11-13). The
+        # job's clock now holds still until the child has printed "child-ready" (it
+        # writes fixture-child.json after the print), so the 0.5 s timeout always fires
+        # on a live, SIGTERM-ignoring descendant, and the 7 s bound runs from there.
+        # run_job is synchronous, so both jobs here run under a real-time deadline: a
+        # hang fails the test after killing every group the job started, found from the
+        # leader's recorded pid even when the child never became ready. 30 s covers the
+        # clock's 20 s hold cap, the 0.5 s timeout, ask's 3 s grace and 1 s collection.
+        ready = self.project / "fixture-child.json"
+        clock = ReadinessGatedClock(ready)
+        groups = lambda: self.recorded_groups("timeout-descendant", ready)
+        # After a normal return, clean up only the child's own group (still alive only if
+        # the kill failed); a reaped leader's pid is not killed, as it may be reused.
+        self.addCleanup(lambda: [self._kill_quietly(g) for g in self.recorded_groups_from_ready(ready)])
+        with mock.patch.object(ask, "time", clock):
+            result = self.run_bounded(30, groups, prompt="DESCENDANT", timeout=0.5,
+                                      request_id="timeout-descendant")
+        self.assertEqual(result["status"], "timed_out")
+        self.assertIsNotNone(clock.ready_at, "the descendant never became ready")
+        output = (self.bridge.request_path(result["request_id"]) / "events.jsonl").read_text()
+        self.assertIn("child-ready", output)
+        # The bound covers the whole kill: the group must be gone within 7 s of readiness,
+        # so the group wait gets only what remains of that budget.
+        remaining = 7 - (time.monotonic() - clock.ready_at)
+        self.assertGreater(remaining, 0)
+        self.wait_for_group_gone(json.loads(ready.read_text())["group"], remaining)
+        self.assertLess(time.monotonic() - clock.ready_at, 7)
+        follow = self.run_bounded(15, lambda: self.recorded_groups("timeout-follow-up"),
+                                  request_id="timeout-follow-up")
+        self.assertEqual(follow["status"], "completed")
+
+    @staticmethod
+    def recorded_groups_from_ready(ready):
+        try:
+            return {json.loads(ready.read_text())["group"]}
+        except (FileNotFoundError, json.JSONDecodeError, KeyError):
+            return set()
+
+    @staticmethod
+    def _kill_quietly(group):
+        try:
+            os.killpg(group, signal.SIGKILL)
+        except (ProcessLookupError, PermissionError):
+            pass
+
+    def test_explicit_cancel_kills_ready_descendant_group(self):
+        output = []
+        ready = self.project / "fixture-child.json"
+        thread = self.start_job_thread(output, "descendant", ready, prompt="DESCENDANT")
+        group = self.wait_for_group(ready)
         self.bridge.cancel("descendant")
         thread.join(7)
         self.assertFalse(thread.is_alive())
@@ -232,7 +426,7 @@ class TransportTests(unittest.TestCase):
         started = time.monotonic()
         accepted = self.run_job(prompt="SLEEP", request_id="background", background=True)
         worker = accepted["owner_pid"]
-        self.addCleanup(os.waitpid, worker, 0)
+        self.addCleanup(reap_child, worker)
         self.assertEqual(accepted["status"], "starting")
         self.assertLess(time.monotonic() - started, 1)
         with self.assertRaises(ask.Busy):
@@ -252,7 +446,7 @@ class TransportTests(unittest.TestCase):
             with self.subTest(provider=provider):
                 request_id = "wait-" + provider
                 accepted = self.run_job(provider, "SLEEP", request_id=request_id, background=True)
-                self.addCleanup(os.waitpid, accepted["owner_pid"], 0)
+                self.addCleanup(reap_child, accepted["owner_pid"])
                 progress = self.bridge.wait(request_id, timeout=0.05)
                 self.assertIn(progress["status"], ("starting", "running"))
                 self.assertFalse((self.bridge.request_path(request_id) / "cancel.json").exists())
@@ -282,7 +476,7 @@ class TransportTests(unittest.TestCase):
         completed = subprocess.run(
             [sys.executable, str(ROOT / "ask.py"), "--project", str(self.project),
              "wait", "retained", "--timeout", "0"],
-            capture_output=True, text=True, check=True)
+            capture_output=True, text=True, check=True, timeout=30)
         self.assertEqual(json.loads(completed.stdout), result)
 
     def test_abandoned_background_start_returns_failure_without_launch(self):
@@ -315,15 +509,21 @@ class TransportTests(unittest.TestCase):
                 runner.kill()
             runner.communicate(timeout=5)
         self.addCleanup(cleanup_runner)
-        group = self.wait_for_group(ready, runner)
+        # Registered before the readiness wait, so a fixture that never becomes ready is
+        # still cleaned up: the child's group from its file, and, while the runner is still
+        # alive, the leader's group from result.json (a reaped leader's pid may be reused).
         def cleanup_group():
-            try:
-                os.killpg(group, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-            except PermissionError:  # macOS denies while reaping; a live group still fails here
-                self.wait_for_group_gone(group, 3)
+            groups = (self.recorded_groups(request_id, ready) if runner.poll() is None
+                      else self.recorded_groups_from_ready(ready))
+            for group in groups:
+                try:
+                    os.killpg(group, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                except PermissionError:  # macOS denies while reaping; a live group still fails here
+                    self.wait_for_group_gone(group, 3)
         self.addCleanup(cleanup_group)
+        group = self.wait_for_group(ready, runner)
         return runner, group
 
     def test_normal_termination_cleans_provider_group_and_allows_reuse(self):
@@ -409,19 +609,9 @@ class TransportTests(unittest.TestCase):
 
     def test_detached_output_pipe_does_not_hang_cleanup(self):
         output = []
-        thread = threading.Thread(target=lambda: output.append(self.run_job(prompt="DETACHED", request_id="detached")))
-        thread.start()
-        self.addCleanup(thread.join, 5)
         ready = self.project / "fixture-detached.json"
+        thread = self.start_job_thread(output, "detached", ready, prompt="DETACHED")
         group = self.wait_for_group(ready)
-        def cleanup_detached_fixture():
-            try:
-                os.killpg(group, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-            except PermissionError:  # macOS denies while reaping; a live group still fails here
-                self.wait_for_group_gone(group, 3)
-        self.addCleanup(cleanup_detached_fixture)
         self.bridge.cancel("detached")
         thread.join(5)
         self.assertFalse(thread.is_alive())
@@ -501,7 +691,7 @@ class TransportTests(unittest.TestCase):
         with mock.patch.object(ask.os, "fork", side_effect=interrupted_fork):
             with self.assertRaises(KeyboardInterrupt):
                 self.run_job(prompt="SLEEP", request_id="parent-interrupted", background=True)
-        self.addCleanup(os.waitpid, children[0], 0)
+        self.addCleanup(reap_child, children[0])
         result = self.bridge.wait("parent-interrupted", timeout=7)
         self.assertEqual(result["status"], "completed")
         self.assertTrue((self.bridge.request_path("parent-interrupted") / "events.jsonl").exists())

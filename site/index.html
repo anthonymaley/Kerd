@@ -52,7 +52,7 @@
         <a class="button" href="#install">Install Kerd</a>
         <a class="link-plain" href="docs.html">Read the guides</a>
       </div>
-      <p class="hero__aside small soft">Kerd runs inside Claude Code, and a four-skill core installs in Codex.</p>
+      <p class="hero__aside small soft">Kerd runs inside Claude Code. A four-skill Codex package exists but is early.</p>
     </div>
   </section>
 
@@ -212,12 +212,20 @@
       <p class="lead soft">Two commands in Claude Code. The concert starts when you say so, not when it installs.</p>
     </div>
     <div class="install__show">
-      <p>Add the marketplace, then the plugin. For Codex, which takes a different route, see
-        <a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/getting-started.md#install-in-codex">getting started</a>.</p>
+      <p>Needs git and Python 3.10 or newer, on macOS or Linux. Add the marketplace,
+        then the plugin.</p>
 <pre><code>claude plugin marketplace add anthonymaley/Kerd
 claude plugin install kerd@kerd-marketplace</code></pre>
-      <p>Then sit down: <code>/kerd:switch in</code>, answer its question, do the work,
-        <code>/kerd:switch out</code>.</p>
+      <p>Then sit down in your project folder: <code>/kerd:switch in</code>, tell it what
+        you want to work on, do the work, <code>/kerd:switch out</code>. That is the whole path.
+        If your work is not in Git yet,
+        <a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/getting-started.md#if-your-work-isnt-in-git-yet">two short steps set it up</a>;
+        you do not need GitHub.</p>
+      <p class="small soft">Codex is early: a four-skill package exists, and nobody but its
+        author has used it yet. Its steps are under
+        <a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/getting-started.md#codex-early">Codex (early)</a>
+        in getting started. What has not been seen in real use yet is in
+        <a href="https://github.com/anthonymaley/Kerd/blob/main/docs/guide/known-limits.md">known limits</a>.</p>
     </div>
   </section>
 
@@ -225,7 +233,7 @@ claude plugin install kerd@kerd-marketplace</code></pre>
 
 <footer class="wrap grid colophon">
   <div class="colophon__say">
-    <p>Kerd runs inside Claude Code, and a four-skill core installs in Codex.</p>
+    <p>Kerd runs inside Claude Code. A four-skill Codex package exists but is early.</p>
     <p class="soft">This site, the README and the guides were made with Kerd: rehearsed first,
       then performed as a concert.</p>
     <p class="small soft">MIT licensed.</p>

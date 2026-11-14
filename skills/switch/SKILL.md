@@ -1,13 +1,13 @@
 ---
 name: switch
-description: "Save, restore or move repo work between sittings and devices, or Roll an authorized Conductor build into fresh context. In restores memory and pairing, weighs every open item, shows a plain-English arrival headed by the Kerd version it loaded: a project/phase/next/team grid, where things stand, open work, one recommendation with why, ending on “Start a Conductor session?” with a picker of up to four (the recommendation, up to two other open items, Something else), without loading Conductor; choosing work opens Conductor at Shape, never approving its operations. Out checks role ownership, contributor coverage and urgent risks, adds what settled to the sketchbook, saves the next action and approval boundary, and ends on a plain-English box: what changed, next step and why, and up to two other items Switch In will offer, marked proposed. Managed Roll continues without arrival approval; a tmux Conductor chat rolls itself into a fresh session (`/kerd:switch roll`) at its saved next step."
+description: "Save, restore or move repo work between sittings and devices, or Roll an authorized Conductor build into fresh context. In restores memory and pairing, weighs every open item, shows a plain-English arrival headed by the Kerd version it loaded: a project/phase/next/team grid (one plain line instead where Kerd has no records), where things stand, open work, one recommendation with why, ending on “Start a Conductor session?” with a picker (the recommendation, up to two other open items, Something else), without loading Conductor; choosing work opens Conductor at Shape, never approving its operations. Out checks role ownership, contributor coverage and urgent risks, adds what settled to the sketchbook, saves the next action and approval boundary, and ends on a plain-English box: what changed, next step and why, and up to two other items Switch In will offer, marked proposed. Managed Roll continues without arrival approval; a tmux Conductor chat rolls itself into a fresh session (`/kerd:switch roll`)."
 ---
 
 # Switch
 
 **First, before any other tool call:** read this skill's guide for the named action, resolved from this skill's base directory, with the host's file reader (the Read tool in Claude Code): for In, `references/in.md` in full; for Out, `references/out.md` in full; for To or Roll, `references/to-roll.md` from its contents, then only the sections it routes that action to. The lists below are reminders of that guide, not a replacement for it. Run every command in the person's project, never in this skill's directory.
 
-**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; never ask whether the person is confused: answer what they asked, with one recommendation; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
@@ -57,13 +57,19 @@ item names the guide section with its detail: open that section before the step.
   decide) is never the recommendation: with nothing buildable in Now, say so and
   weigh the saved item and the Backlog section's rows, skipping deferred or parked
   ones ([Compose the arrival](references/in.md#compose-the-arrival-in-switch)).
-- Find the newest weekly review record in its one folder, never a sweep; none, or
-  over 7 days old, adds one Open work line, “Weekly review: last one N days ago”
-  (or “never run”), a Conductor route when picked, recommended only when nothing
-  else is buildable, never a list or repeated elsewhere on the screen
+- The weekly review line waits for history: at least 3 session logs and at least
+  7 days since the first Kerd record, which is the oldest dated session log, or
+  `CONTEXT.md`'s first commit when that is older; with fewer than 3 session logs
+  there is no line, and a read that fails is unknown, not absent, so it shows no
+  line either. With that history, find the newest weekly review
+  record in its one folder, never a sweep; none, or over 7 days old, adds one Open
+  work line, “Kerd's look back at recent sessions (weekly review): last one N days
+  ago” (or “never run”), a Conductor route when picked, recommended only when
+  nothing else is buildable, never a list or repeated elsewhere on the screen
   ([Compose the arrival](references/in.md#compose-the-arrival-in-switch)).
 - Renderer: copy the `$summary` shape from the guide, never from the script, and run
-  `where_we_are.py --summary - --markdown`; only if it fails or is unavailable, say so
+  `where_we_are.py --summary - --markdown` (a project with no Kerd records sets
+  `first_arrival: true`, one plain line in place of the empty grid); only if it fails or is unavailable, say so
   and give the restored facts and the question as plain text ([Welcome back](references/in.md#welcome-back-the-screen-summary)).
 - The screen is pasted as reply text, unchanged, before any picker in the same message;
   output left in a tool result has not been shown.
@@ -110,16 +116,21 @@ item names the guide section with its detail: open that section before the step.
   before the project's last commit. After the last commit and before the box, run the
   `boundary` check on every repo committed to, repeating `--preserve <path>`, its
   output read whole (never through `tail`, `head` or `grep`); only `passed`, seen
-  as `boundary_ok` in that call's own result, earns the ✓ (a local-only Out says
-  so instead), and nothing is written after it
+  as `boundary_ok` in that call's own result, earns the ✓; a project or vault with no remote
+  configured records `local_only`, seen as `boundary_local_only`: a confirmed save
+  on this computer, shown as such without the ✓; nothing is written after it
   ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
 - End on the saved-place box from `where_we_are.py --closing - --markdown`, its shape
   copied from the guide; nothing follows its closing line; if the renderer cannot
   run, say the same as plain text
   ([Close with the saved-place box](references/out.md#close-with-the-saved-place-box)).
 - The restart line appears only after a remote-verified or committed save,
-  `handoff_ready: true` and `boundary: "passed"`; never claim the session exited or
-  the context was cleared.
+  `handoff_ready: true` and `boundary: "passed"`, or a committed or remote-verified
+  save with `handoff_ready: true` and `boundary: "local_only"`; never claim the session
+  exited or the context was cleared.
+- A missing `kivna/sessions/<date>.md` or `TODO.md` (with a `## Now` section) is
+  created by Out and named in the box; if it cannot be, the box says why
+  ([Out](references/out.md#out)).
 
 ### To
 
@@ -293,7 +304,10 @@ deliberately keeps out of Git, named with `--preserve`; a project whose records
 sit in a repo shared with other projects names its folder with `--scope`, and
 only unsaved changes there stop its pickup), and the `boundary`
 check Out must pass before its ✓
-(fetch now, HEAD on a remote branch, clean tree; stashes counted, not refused).
+(fetch now, HEAD on a remote branch, clean tree; stashes counted, not refused;
+a repo with no remote configured, the project or its vault, needs only the clean
+tree and is reported as a local-only save; HEAD and the remote list are re-read
+at the end and a change refuses).
 When a project keeps its working notes in the vault (`kivna/vault.json`'s
 `work_notes`), Out saves and pushes that vault repo the same way and the
 boundary check covers both repos.

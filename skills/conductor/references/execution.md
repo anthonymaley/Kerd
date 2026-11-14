@@ -4,6 +4,7 @@ Contents:
 
 - [Resolve the reply against the current work](#resolve-the-reply-against-the-current-work): what a reply advances, repeated instructions, changed limits
 - [Prepare and do the next useful job](#prepare-and-do-the-next-useful-job): the job split, routes and the delegated job
+  - [Write git commands with the repo's literal path](#write-git-commands-with-the-repos-literal-path): no shell variables; a refusal for form alone is rerun literally
 - [Keep a long build moving through Roll](#keep-a-long-build-moving-through-roll): managed Conductor, the worker-only Roll route and a To handoff
 - [Review, prove and improve](#review-prove-and-improve): checking against success criteria and independent review
 - [Finish the outcome, not a stage label](#finish-the-outcome-not-a-stage-label): reporting met, not met or not assessable
@@ -110,10 +111,12 @@ the matching model profile in [local guidance](guidance/README.md); on Claude
 Code, read the file that
 `python3 <Conductor skill directory>/scripts/catalogue.py profile <provider>/<model>`
 names (the skill directory is the absolute base directory Conductor was loaded
-from), and say in one clause on the Fit line when its `source` is `shipped` or `stale-cache`.
+from), and, when contributors are dispatched, say in one clause on the Fit line when its `source` is `shipped` or `stale-cache`.
 Check that it applies to the actual model and execution route. Guidance is
 advice, not proof of superior results. If no applicable profile is available,
-disclose that and use a clear outcome-first brief without invented tuning.
+use a clear outcome-first brief without invented tuning, and, when contributors
+are dispatched, disclose the missing profile on the Fit line; inline work notes it
+internally.
 
 Use the [score contract](orchestration.md#write-the-score-before-assigning-executable-work)
 before assigning executable work, and choose who writes each step there. Delegate
@@ -153,12 +156,28 @@ If the needed route is unavailable, continue other useful authorized work and
 disclose what remains blocked. Respect host delegation and permission rules.
 
 Keep the live work view current using [the journey guide](journey.md#delegation-grid-and-preparation-updates):
-show its task/who/model/effort/status grid and the actual guidance, saved-prompt
-and dispatch transitions. Reflect observed launch/return, findings and corrections. The native
+when contributors are dispatched, show its task/who/model/effort/status grid and
+the actual guidance, saved-prompt and dispatch transitions; one task this session
+does itself keeps the [one plain line](orchestration.md#one-visible-startup-view). Reflect observed launch/return, findings and corrections. The native
 list tracks real jobs; commentary and tool activity remain visible beneath it.
 Show current activity and perform the job. A plan or caller contract being
 written does not complete an implementation request. Continue from results to
 the next useful job without another permission turn inside existing authority.
+
+### Write git commands with the repo's literal path
+
+Wherever Conductor runs a git command that changes a repo, in rehearsal or the concert, name
+the repo by its literal absolute path (`git -C /abs/path …`), never a repo or command held
+in a shell variable (`cd $W`, `$G add`): a git guard such as overtone's cannot read where it
+points, so it asks, and an ask nobody answers within 30 s refuses the command.
+Write it that way the first time: `git -C /Users/me/project add notes.md`, not
+`P=/Users/me/project; git -C $P add notes.md`. When the guard refuses a command
+only for its form (a variable or `cd $VAR` where a literal path belonged), rerun
+the same command with the literal path under the approval that already covered
+it; do not ask the person again for an approval they already gave. A refusal for
+anything else (a different repo, a push, a command outside the approval) is not a
+form refusal and goes back to the person. (Six misses in the first weekly review,
+2026-11-13, each costing a second approval.)
 
 ## Keep a long build moving through Roll
 

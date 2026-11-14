@@ -5,7 +5,7 @@ description: Connect Claude and Codex for a contribution, define ongoing partner
 
 # Agent
 
-**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; never ask whether the person is confused: answer what they asked, with one recommendation; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
@@ -150,11 +150,17 @@ not shell subcommands. For execution, use the workflow below.
    and its commands. Handle setup within existing authority; ask before installing
    dependencies or changing account/settings scope. Never request secrets in chat.
 6. Before dispatch, show the partner/model, job and edit boundary in the live
-   task list when available. After dispatch, distinguish queued, unconfirmed,
+   task list when available. When starting a worker or reviewer, say in one line
+   which session it is (a fresh one-off, or which partner by alias), its model,
+   effort and access, labelled requested, configured or unknown (“Fresh one-off
+   Codex reviewer, <model> at high (requested), read only”), never a bare “the
+   reviewer is running”. After dispatch, distinguish queued, unconfirmed,
    running and returned. A Codex TUI request's `delivery` says whether it still
    waits in Codex's own queue (`queued`: say so, with how long; typing in an idle
    window has woken a stalled one), is `not-queued` (not proof it was taken or
-   answered) or `unknown`. Do other useful work while waiting; emit useful state
+   answered) or `unknown`. When asking the person to type in a partner's window,
+   name that window by its thread title (the Saved title discovery shows) and its
+   alias, so they type in the right one. Do other useful work while waiting; emit useful state
    changes. A wait timeout stops waiting, not the recipient, and never resends.
    Own retrieval through to a complete reply or an explicit blocker; dispatch is
    not completion. Use short waits during active work. If inbound approval blocks

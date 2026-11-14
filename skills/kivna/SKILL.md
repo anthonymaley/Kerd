@@ -5,7 +5,7 @@ description: "Use when the user says 'kivna', 'vault', 'save context', 'save', '
 
 # Kivna (Knowledge Management)
 
-**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; never ask whether the person is confused: answer what they asked, with one recommendation; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
@@ -15,24 +15,30 @@ From Gaelic "cuimhne" (memory), respelled phonetically.
 
 Single owner of the project's knowledge layer. The vault is a human knowledge base. Every file answers a question someone would actually ask. Files are living, updated in place, not appended to.
 
+## Write Safety
+
+One rule covers every write Kivna makes (save, import, export, scaffold). An update needs a successful read of the target first. A create needs confirmed absence ("no such file", not a permission error or an unclear result). Inspect the target again immediately before writing. On an error, or if the target changed since it was read or checked (a file appeared, or its content differs), stop and say so; keep what is there and do not overwrite it.
+
 ## Vault Discovery
 
 Every kivna command starts here. Resolve the vault location before doing anything else.
 
 1. **Check `kivna/vault.json`.** If it exists, read `vault`, `folder`, and `name`. Expand `~` to the user's home directory. If it also sets `"work_notes": "vault"`, the project keeps its working notes private: the notes root is `<vault>/<folder>/work`, the `work/` folder inside the vault's existing private git repo (shared with the rest of the vault's content, not a repo of its own, and separate from this project's repo), and Conductor writes each piece of work's sketchbook there instead of `docs/work/`. Kivna does not create or maintain this folder; it only recognizes the key.
 
-2. **Convention fallback.** If no `vault.json`, check for `~/eolas/vault/`:
-   - If `~/eolas/vault/` exists, use it as the vault root.
-   - Folder: lowercase repo directory name (e.g., repo at `~/Kerd` → folder `kerd`)
-   - Display name: title-case the folder name (e.g., `kerd` → `Kerd`)
-   - Check if `~/eolas/vault/[folder]/` exists on disk.
+   Absence must be confirmed: "no such file" counts, but a permission error, an unreadable folder or any check that does not give a clear answer does not. If the check fails, stop and say what could not be inspected; do not continue as if the file were absent.
 
-3. **No vault found.** If neither `vault.json` exists nor `~/eolas/vault/` exists on disk, ask:
-   Default: `~/eolas/vault/`.
+   If `kivna/vault.json` exists but cannot be read, is not valid JSON, or lacks `vault`, `folder` or `name`, it is not "absent". Stop, say what is wrong with it, and say how to repair it (fix the JSON or the missing field by hand, or delete the file to start over). Do not ask for a vault path, do not scaffold, and do not write over it.
+
+2. **No `vault.json` at all: find or ask.** Kerd assumes no vault location as a default. The project folder is the lowercase repo directory name (e.g., repo at `~/Kerd` → folder `kerd`) and the display name is that folder title-cased (`kerd` → `Kerd`).
+
+   - **A vault already on this machine.** If `~/eolas/vault/` is confirmed present, offer it as a location found, not as a default, so projects set up before `vault.json` existed keep working. Ask "Use the vault found at `~/eolas/vault/`?" and write `kivna/vault.json` only after the person confirms. If that check errors, stop and say what could not be inspected. If the folder is confirmed absent, say nothing about it: a newcomer sees no such path.
+   - **Otherwise ask**, with no default path, and use what they say (expand `~`):
 
    > 💬 **Where is your Obsidian vault?**
 
-   If the user provides a path, use it. If they accept the default, create `~/eolas/vault/` and proceed. Then run the scaffold mechanic to set up the project folder within it.
+   Once the path is known, look in it for an existing project folder and spine (`[Name].md`, `[Name] Status.md`, `[Name] Weekly.md`). An error opening the vault folder or reading its contents is a stop: say what could not be inspected, and do not treat it as "no folder yet". If any spine file exists, keep it as it is and write only `kivna/vault.json`; run scaffold for the missing spine files only on the person's explicit approval, and never overwrite an existing vault file. The question is asked once per project because `vault.json` is then written.
+
+   **If the vault folder they name is confirmed absent** ("no such file"), offer to create it and do so only after they confirm, checking again just before creating; then run the scaffold mechanic on the new folder. A permission error or any other failure to inspect it is a stop, not an offer to create. If they have no vault and do not want one, stop: a vault is optional, and nothing else in Kerd needs it.
 
 ## Folder Convention
 
@@ -53,13 +59,15 @@ pushes it, alongside the project, at the session boundary. See
 
 Update the vault to reflect the current session state. Use it at natural breakpoints: after finishing a task, before context gets long, when switching topics, or when something important was decided.
 
+Every write below follows Write Safety (top of this file): read before updating, confirm absence before creating, check again just before writing.
+
 Save is deliberate and on-demand — switch no longer calls it at the session boundary as of v0.83.0, so a vault is exactly as fresh as its last save.
 
 #### The mechanic
 
 1. **Discover vault.** Follow the vault discovery steps above. Stop if no vault is found and user declines scaffold.
 
-2. **Update `[Name] Status.md`.** Read the current `[Name] Status.md` from the vault folder. Draft an updated version reflecting the current session state. Show the user a short summary of what changed and overwrite — **no approval prompt** (v0.60.0: save writes directly; the do-not-save markers in step 6 remain the privacy control). If the file doesn't exist, create it.
+2. **Update `[Name] Status.md`.** Read the current `[Name] Status.md` from the vault folder. Draft an updated version reflecting the current session state. Show the user a short summary of what changed and overwrite — **no approval prompt** (v0.60.0: save writes directly; the do-not-save markers in step 6 remain the privacy control). If the file is confirmed absent (not merely unreadable), create it; if it cannot be inspected, stop and say so. (Write Safety applies.)
 
    Status.md format:
 
@@ -95,10 +103,10 @@ Save is deliberate and on-demand — switch no longer calls it at the session bo
 
    ### Achievements
    - Shipped weekly tracker feature in Kivna (v0.14.0)
-   - Resolved vault path migration to ~/eolas/vault
+   - Moved the vault to a new path
 
    ### Risks
-   - [open] No playbook yet — /kerd:tend to create one
+   - [open] No playbook yet — optional; write `docs/playbook.md` by hand, or copy and adapt the skeleton Tend shows in its Category 2 by hand (Tend reports a missing playbook; it does not create it)
    - [mitigated] Vault path hardcoded in old sessions → fixed in v0.12.1
 
    ## Week of 2026-03-10
@@ -147,7 +155,7 @@ Read files from `kivna/input/`, extract what's relevant, write it into the proje
 
 5. **Wait for approval.** Do not write anything until the user confirms.
 
-6. **Integrate.** For each approved item:
+6. **Integrate.** Each write follows Write Safety (top of this file). For each approved item:
    - KIF backlog items: merge into TODO.md Backlog section (skip duplicates)
    - KIF decisions: append to the current session log in kivna/sessions/
    - KIF status: update vault Status.md (same mechanic as `/kerd:kivna save`; the import approval in step 5 already gated this)
@@ -193,6 +201,8 @@ Gather context from repo artifacts in this order. Only use conversation context 
 
 #### Write the TOON export
 
+Write Safety applies to both export files: an existing export is read and replaced only knowingly, a new one needs confirmed absence, and the target is checked again just before the write.
+
 Create `kivna/output/export-YYYY-MM-DD.kif.toon`. TOON format rules:
 
 - Nested objects use YAML-style indentation (key: value, indented children)
@@ -207,7 +217,7 @@ meta:
   project: Kerd
   exported: 2026-04-04
   version: 0.19.0
-  repo: github.com/anthonymaley/Kerd
+  repo: github.com/example/Kerd
 
 status:
   phase: active development
@@ -219,7 +229,7 @@ backlog[3]{id,item,priority}:
   3,Shared state contract doc,low
 
 decisions[2]{date,decision,reasoning}:
-  2026-04-04,Hooks are opt-in via tend,Non-invasive for existing users
+  2026-04-04,Weekly sections are updated in place,Keeps the file short
   2026-04-04,TOON export + JSON import,Avoids TOON parser dependency
 ```
 
@@ -236,7 +246,7 @@ Create `kivna/output/export-YYYY-MM-DD.kif.json` alongside the TOON file. Same d
     "project": "Kerd",
     "exported": "2026-04-04",
     "version": "0.19.0",
-    "repo": "github.com/anthonymaley/Kerd"
+    "repo": "github.com/example/Kerd"
   },
   "status": {
     "phase": "active development",
@@ -246,7 +256,7 @@ Create `kivna/output/export-YYYY-MM-DD.kif.json` alongside the TOON file. Same d
     {"id": 1, "item": "Merge trim PR after Kwan approves", "priority": "high"}
   ],
   "decisions": [
-    {"date": "2026-04-04", "decision": "Hooks are opt-in via tend", "reasoning": "Non-invasive for existing users"}
+    {"date": "2026-04-04", "decision": "Weekly sections are updated in place", "reasoning": "Keeps the file short"}
   ]
 }
 ```
@@ -263,7 +273,7 @@ Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded 
 
 #### The mechanic
 
-1. **Create the vault folder.** `~/eolas/vault/[folder]/`.
+1. **Create the vault folder.** `[vault]/[folder]/`, where `[vault]` is the path from discovery. Write Safety applies to every create below (folder, MOC, Status, Weekly, `vault.json`): each needs confirmed absence and a fresh check immediately before its write, and a file that appeared meanwhile is kept, never overwritten.
 
 2. **Run the per-project intake.** A short, batched interview that seeds the spine — this replaces "blank folder, figure it out later." It is *batched*, not drilled: ask everything in one round (≤5 prompts). Show the prompts as labelled fields, not questions, then close with one speech-bubble question. (Intake is *seeding*, not *deciding*, so it batches rather than drilling one question at a time.)
 
@@ -296,11 +306,11 @@ Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded 
    ### Risks
    ```
 
-6. **Write `kivna/vault.json`** in the repo:
+6. **Write `kivna/vault.json`** in the repo, only when its absence is confirmed, checked again immediately before the write. If one already exists, keep it exactly as it is (it may hold `work_notes` or other keys) and do not rewrite it; if it cannot be inspected, stop and say so. For a new file:
 
 ```json
 {
-  "vault": "~/eolas/vault",
+  "vault": "[vault path from discovery]",
   "folder": "[folder]",
   "name": "[Name]"
 }

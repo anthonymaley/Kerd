@@ -8,7 +8,7 @@ Contents:
   - [Make every score step independently executable](#make-every-score-step-independently-executable): what a score step states
   - [Size roles and advise the controller by the work](#size-roles-and-advise-the-controller-by-the-work): controller sizing
   - [Plan independent review from the pairing](#plan-independent-review-from-the-pairing): fresh reviewers by default, partners' review cadence and an unanswered review
-- [One visible startup view](#one-visible-startup-view): the startup view, Fit lines and grid rows for every dispatch
+- [One visible startup view](#one-visible-startup-view): one plain line for a task done inline; the grid, Fit lines and rows for every dispatch
 - [Prepare, send and assess visibly](#prepare-send-and-assess-visibly): sending, local guidance and assessing returns
 
 For a substantial build, design or workflow request, new or existing, offer
@@ -27,9 +27,12 @@ success check and supplied resource limits. Assess the requirement and suitable
 available pairs before deciding to retain the current controller or inherit it
 for a worker; capability alone is not a reason to use the highest pair. Consider
 the current controller and each useful contribution using [model choice](guidance/model-choice.md).
-State the main pair's fit and evidence limits briefly; recommend an available
-alternative when the current pair materially exceeds or misses the work's needs.
-Give a brief reason for retaining or inheriting a pair. No universal switch,
+When contributors are dispatched, state the main pair's fit and evidence limits
+briefly; recommend an available alternative when the current pair materially
+exceeds or misses the work's needs. One task this session does itself shows none
+of this: it gets the [one plain line](#one-visible-startup-view).
+The suitability assessment still happens for every task; with contributors
+dispatched, give a brief visible reason for retaining or inheriting a pair. No universal switch,
 cheap tier or proven optimum. Respect named models, existing partners, host role
 choices and permission limits.
 
@@ -296,23 +299,28 @@ runs stood in, and he could not see the reviews from his Codex window.
 ## One visible startup view
 
 Before substantive execution, show the actual stage, intended result, owner and
-stopping boundary, with the suitability and inline/delegation decision. Use the
+stopping boundary, with the inline/delegation decision.
+
+**One task Conductor does itself gets one plain line.** When the work is one task
+this session does inline, with no composer, player or reviewer dispatched, the
+entry update is the entry line and one plain sentence: what it will do, and where
+it stops. No grid, no Fit line, no model or effort evidence and no journey line;
+they describe how work is staffed, and with nothing staffed they only add words
+to read. In the simulated first-user walkthrough of 2026-11-13 (one persona), a
+one-file export showed a Controller row, “Host-declared Sonnet 5.5”, “Live effort
+unknown” and a Fit line, and the persona's next message asked what they meant.
+Illustrative, not a script:
+
+“**Conductor · Shape — fix the heading.** I'll make the edit myself, check the
+diff and stop before committing.”
+
+**When Conductor dispatches contributors**, use the
 [existing work grid](journey.md#delegation-grid-and-preparation-updates), including
 the controller, any composer call and each assigned step (Conductor- or
 composer-written) in the same view. Show only real
-assignments; inline composition need not become a separate row. Include a controller
-row even when no worker launches. This illustrative tiny task needs only one row:
-
-| Task | Who | Model requested | Effort | Status |
-| --- | --- | --- | --- | --- |
-| Controller: correct the heading and check the diff | This session, inline | Host-declared model if supplied, otherwise unknown | Live effort unknown unless verified | Ready inline |
-
-Fit · Controller — needs one exact wording edit and a diff check; the current
-session because the edit is tiny and judgment is minimal.
-
-“This single heading edit fits inline work; briefing a contributor adds more
-work than it resolves. I'll retain the current session and check the diff.”
-In real work, substitute the actual evidence and decision.
+assignments; inline composition need not become a separate row. The controller
+row stays in that grid beside the dispatched rows. The go shows the grid for every
+job it will dispatch, as before.
 
 Directly under the grid, give a **Fit** line for the controller and for every
 newly selected model job — composer, player and reviewer — as

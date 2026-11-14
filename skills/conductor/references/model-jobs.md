@@ -28,8 +28,9 @@ or ask the user to staff every job. Then load only the chosen model's guidance.
 
 Choose the model for the contribution and available tools. Assess suitable
 available pairs before retaining or inheriting the controller's settings; the
-current pair is one candidate, not the default. State the brief task-based reason
-when retaining or inheriting it. Check installed CLI
+current pair is one candidate, not the default. That assessment happens every
+time; state the brief task-based reason for retaining or inheriting it visibly
+when contributors are dispatched, and keep it internal for one task done inline. Check installed CLI
 help and known account availability when the route is unfamiliar; don't probe
 with paid jobs merely to list models. Prefer a different suitable model for
 independent assessment. Do not silently replace a specifically requested model.

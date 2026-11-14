@@ -863,7 +863,7 @@ class HandoffTests(unittest.TestCase):
         code, result = self.boundary_cli()
         self.assertEqual(code, 1)
         self.assertEqual(result["remote_refs_containing_head"], [])
-        self.assertTrue(any("only on this machine" in item for item in result["failures"]))
+        self.assertTrue(any("No branch on a configured remote" in item for item in result["failures"]))
 
     def test_boundary_refuses_a_dirty_tree_and_staged_work(self):
         for change in ("tracked", "untracked", "staged"):
@@ -887,11 +887,65 @@ class HandoffTests(unittest.TestCase):
         self.assertIn(f"origin/{self.branch}", result["remote_refs_containing_head"])
         self.assertTrue(any("fetch failed" in item for item in result["failures"]))
 
-    def test_boundary_with_no_remote_is_refused(self):
+    def test_boundary_with_no_remote_is_a_local_only_save(self):
+        # First-user walkthrough 2026-11-13, finding 1: a project with no remote
+        # was told "Boundary check failed" and to keep the session open forever.
         self.git(self.source, "remote", "remove", "origin")
+        (self.source / "result.txt").write_text("local only\n")
+        self.commit(self.source, "unpushed, and there is nowhere to push")
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 0, result)
+        self.assertEqual(result["status"], "boundary_local_only")
+        self.assertTrue(result["local_only"])
+        self.assertFalse(result["fetched"])
+        self.assertEqual(result["failures"], [])
+        self.assertIn("no Git remote is configured for the project", result["note"])
+        self.assertEqual(result["verdicts"], {"project": "local_only"})
+        self.assertNotIn("push", json.dumps(result).replace("pushed", ""))
+
+    def test_boundary_with_no_remote_still_refuses_unsaved_work(self):
+        self.git(self.source, "remote", "remove", "origin")
+        (self.source / "new.txt").write_text("not saved\n")
         code, result = self.boundary_cli()
         self.assertEqual(code, 1)
-        self.assertFalse(result["fetched"])
+        self.assertEqual(result["status"], "boundary_refused")
+        self.assertTrue(result["local_only"])
+        self.assertEqual(len(result["failures"]), 1)
+        self.assertIn("not clean", result["failures"][0])
+
+    def test_boundary_refuses_when_a_remote_appears_during_the_check(self):
+        # Review round 1, item 9: the local-only verdict rests on the remote list
+        # read first; a remote added mid-check must not leave it standing.
+        self.git(self.source, "remote", "remove", "origin")
+        original = handoff.local_changes
+
+        def add_remote(root, *scope):
+            if not self.git(self.source, "remote"):
+                self.git(self.source, "remote", "add", "origin", str(self.remote))
+            return original(root, *scope)
+
+        with patch.object(handoff, "local_changes", side_effect=add_remote):
+            result = handoff.boundary(handoff.root_for(self.source))
+        self.assertEqual(result["status"], "boundary_refused")
+        self.assertTrue(any("remotes or their settings (URLs, fetch refspecs) changed during the check" in item for item in result["failures"]))
+
+    def test_boundary_with_a_remote_and_an_unpushed_commit_is_unchanged(self):
+        (self.source / "result.txt").write_text("local only\n")
+        self.commit(self.source, "unpushed")
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 1)
+        self.assertEqual(result["status"], "boundary_refused")
+        self.assertFalse(result["local_only"])
+        self.assertTrue(any("No branch on a configured remote" in item for item in result["failures"]))
+
+    def test_boundary_with_a_remote_that_cannot_be_fetched_is_unchanged(self):
+        self.git(self.source, "remote", "set-url", "origin", str(self.folder / "missing.git"))
+        (self.source / "result.txt").write_text("local only\n")
+        self.commit(self.source, "unpushed")
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 1)
+        self.assertFalse(result["local_only"])
+        self.assertTrue(any("fetch failed" in item for item in result["failures"]))
 
     def test_boundary_leaves_preserved_paths_out_and_counts_stashes_without_refusing(self):
         (self.source / "result.txt").write_text("stashed\n")
@@ -1052,6 +1106,41 @@ class HandoffTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)["notes_commit"], newer)
 
+    def test_a_notes_tree_read_that_fails_refuses_the_pickup(self):
+        # Final review r3: two failed reads of the notes tree must not compare
+        # equal and pass a pickup unproven; only a confirmed absence is None.
+        vault = self.notes()
+        self.git(self.dest, "push", "-q", "origin", self.branch)
+        saved = self.git(vault, "rev-parse", "HEAD")
+        original = subprocess.run
+
+        def broken_tree_reads(args, *rest, **kwargs):
+            if "ls-tree" in args or any(str(arg).endswith(":proj/work") for arg in args):
+                return subprocess.CompletedProcess(args, 128, "", "fatal: bad object\n")
+            return original(args, *rest, **kwargs)
+
+        with patch.object(handoff.subprocess, "run", side_effect=broken_tree_reads):
+            with self.assertRaises(handoff.HandoffError):
+                handoff.pickup(self.dest, self.branch, "notes:plan.md", notes_commit=saved)
+            with self.assertRaises(handoff.HandoffError):
+                handoff.prepare(self.dest, self.branch, "record.md", sections=[("notes:plan.md", "## Now")],
+                                notes_commit=saved)
+        location = handoff.notes_location(self.dest)
+        self.assertEqual(handoff.notes_tree(location, saved), handoff.notes_tree(location))
+        self.assertIsNotNone(handoff.notes_tree(location, saved))
+        with self.assertRaises(handoff.HandoffError):
+            handoff.notes_tree(location, "0" * 40)
+
+    def test_a_notes_root_missing_at_a_revision_is_confirmed_absent(self):
+        vault = self.notes()
+        first = self.git(vault, "rev-list", "--max-parents=0", "HEAD")
+        location = handoff.notes_location(self.dest)
+        self.assertIsNotNone(handoff.notes_tree(location, first))
+        self.git(vault, "checkout", "-q", "--orphan", "bare-history")
+        self.git(vault, "rm", "-rq", "--cached", ".")
+        self.git(vault, "commit", "-q", "--allow-empty", "-m", "nothing committed here")
+        self.assertIsNone(handoff.notes_tree(location, "HEAD"))
+
     def test_saved_notes_commit_pins_the_notes_root_not_the_whole_vault(self):
         vault = self.notes()
         self.git(self.dest, "push", "-q", "origin", self.branch)
@@ -1164,10 +1253,249 @@ class HandoffTests(unittest.TestCase):
         self.assertEqual(code, 1, result)
         self.assertEqual(result["remote_refs_containing_head"], [f"origin/{self.branch}"])
         self.assertEqual(result["notes"]["remote_refs_containing_head"], [])
-        self.assertTrue(any(item.startswith(f"Notes repo {vault.resolve()}: ") and "only on this machine" in item
+        self.assertTrue(any(item.startswith(f"Notes repo {vault.resolve()}: ") and "No branch on a configured remote" in item
                             for item in result["failures"]), result["failures"])
         self.assertIsNone(handoff.boundary(self.dest)["notes"])
         self.assertIsNone(handoff.boundary(self.dest)["notes_commit"])
+
+    def test_boundary_combines_each_repos_verdict(self):
+        # Review round 2, item 2: the vault gets the same local-only rule, and
+        # the combined verdict is ok only when every repo is ok.
+        vault = self.notes(root=self.source)
+        self.git(self.source, "push", "-q", "origin", self.branch)
+        code, result = self.boundary_cli()
+        self.assertEqual((code, result["status"]), (0, "boundary_ok"), result)
+        self.assertEqual(result["verdicts"], {"project": "ok", "notes": "ok"})
+
+        self.git(vault, "remote", "remove", "origin")  # project pushed, vault has no remote
+        code, result = self.boundary_cli()
+        self.assertEqual((code, result["status"]), (0, "boundary_local_only"), result)
+        self.assertEqual(result["verdicts"], {"project": "ok", "notes": "local_only"})
+        self.assertEqual(result["notes"]["verdict"], "local_only")
+        self.assertIn("no Git remote is configured for the notes repo", result["note"])
+        self.assertFalse(result["local_only"], "the top-level flag stays the project's own")
+
+        self.git(self.source, "remote", "remove", "origin")  # both without a remote
+        code, result = self.boundary_cli()
+        self.assertEqual((code, result["status"]), (0, "boundary_local_only"), result)
+        self.assertEqual(result["verdicts"], {"project": "local_only", "notes": "local_only"})
+        self.assertIn("the project or the notes repo", result["note"])
+
+        (vault / "proj" / "work" / "plan.md").write_text("unsaved\n")  # local-only project, refused vault
+        code, result = self.boundary_cli()
+        self.assertEqual((code, result["status"]), (1, "boundary_refused"), result)
+        self.assertEqual(result["verdicts"], {"project": "local_only", "notes": "refused"})
+
+    def test_boundary_with_a_local_only_project_and_an_unpushed_vault_is_refused(self):
+        vault = self.notes(root=self.source)
+        self.git(self.source, "remote", "remove", "origin")
+        (vault / "proj" / "work" / "plan.md").write_text("changed\n")
+        self.commit(vault, "unpushed notes")
+        code, result = self.boundary_cli()
+        self.assertEqual((code, result["status"]), (1, "boundary_refused"), result)
+        self.assertEqual(result["verdicts"], {"project": "local_only", "notes": "refused"})
+
+    def test_an_orphaned_tracking_ref_does_not_prove_containment(self):
+        # Final cross-cutting review, item 1: a leftover ref under refs/remotes
+        # that no configured remote's fetch refreshes must not pass the check.
+        commit = self.git(self.source, "rev-parse", "HEAD")
+        for name, ref in (("a removed remote", "refs/remotes/gone/main"),
+                          ("outside the fetch refspec", "refs/remotes/origin-old/main")):
+            with self.subTest(case=name):
+                (self.source / "result.txt").write_text(name + "\n")
+                self.commit(self.source, "unpushed: " + name)
+                self.git(self.source, "update-ref", ref, "HEAD")
+                code, result = self.boundary_cli()
+                self.assertEqual((code, result["status"]), (1, "boundary_refused"), result)
+                self.assertEqual(result["remote_refs_containing_head"], [])
+                self.assertTrue(any("No branch on a configured remote" in item for item in result["failures"]))
+                self.git(self.source, "update-ref", "-d", ref)
+                self.git(self.source, "reset", "-q", "--hard", commit)
+        # A ref inside a narrowed refspec of the same remote is outside it too.
+        self.git(self.source, "config", "--replace-all", "remote.origin.fetch",
+                 f"+refs/heads/{self.branch}:refs/remotes/origin/{self.branch}")
+        self.git(self.source, "switch", "-q", "-c", "elsewhere")
+        (self.source / "result.txt").write_text("pushed elsewhere\n")
+        self.commit(self.source, "on another branch")
+        self.git(self.source, "push", "-q", "origin", "elsewhere")
+        # The narrowed refspec does not track it, so this local ref is one this
+        # fetch never refreshes, whatever the remote holds.
+        self.git(self.source, "update-ref", "refs/remotes/origin/elsewhere", "HEAD")
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 1, result)
+        self.assertEqual(result["remote_refs_containing_head"], [])
+
+    def test_configurations_the_check_cannot_prove_are_refused(self):
+        # Final review round 2: a stale tracking ref that matches a positive
+        # destination must not prove containment when a negative refspec or
+        # skipDefaultUpdate keeps it from being refreshed. Kerd refuses these
+        # configurations rather than modelling them.
+        pushed = self.git(self.source, "rev-parse", "HEAD")
+        (self.source / "result.txt").write_text("not on any remote\n")
+        self.commit(self.source, "unpushed")
+        for setting, value in ((("remote.origin.fetch", "^refs/heads/stale"), "add"),
+                               (("remote.origin.skipDefaultUpdate", "true"), "set"),
+                               (("remote.origin.skipDefaultUpdate", "yes"), "set"),
+                               (("remote.origin.skipDefaultUpdate", ""), "bare")):
+            key, val = setting
+            with self.subTest(key=key, value=val):
+                # The stale ref sits inside origin's positive destination and holds HEAD.
+                self.git(self.source, "update-ref", "refs/remotes/origin/stale", "HEAD")
+                if value == "add":
+                    self.git(self.source, "config", "--add", key, val)
+                elif value == "bare":  # `skipDefaultUpdate` with no value means true
+                    with open(self.source / ".git" / "config", "a") as stream:
+                        stream.write('[remote "origin"]\n\tskipDefaultUpdate\n')
+                else:
+                    self.git(self.source, "config", key, val)
+                result = handoff.boundary(handoff.root_for(self.source))
+                self.assertEqual(result["status"], "boundary_refused", result)
+                self.assertTrue(any("can't prove the remote refs are current for this configuration" in item
+                                    and "push and confirm by hand" in item for item in result["failures"]),
+                                result["failures"])
+                if value == "add":
+                    self.git(self.source, "config", "--unset", key, "^" + __import__("re").escape(val) + "$")
+                else:
+                    self.git(self.source, "config", "--unset", key)
+                self.git(self.source, "update-ref", "-d", "refs/remotes/origin/stale")
+        # A refspec form Git itself rejects stops the check with no verdict.
+        self.git(self.source, "config", "--add", "remote.origin.fetch", "+refs/*/x/*:refs/remotes/origin/*/x/*")
+        with self.assertRaises(handoff.HandoffError):
+            handoff.boundary(handoff.root_for(self.source))
+        self.git(self.source, "config", "--unset", "remote.origin.fetch", r"\*/x/")
+        # Without those settings the same unpushed commit is refused only for
+        # not being on the remote, and the pushed one still passes.
+        result = handoff.boundary(handoff.root_for(self.source))
+        self.assertFalse(any("can't prove" in item for item in result["failures"]))
+        self.git(self.source, "reset", "-q", "--hard", pushed)
+        code, result = self.boundary_cli()
+        self.assertEqual((code, result["status"]), (0, "boundary_ok"), result)
+
+    def test_each_remote_is_fetched_by_name(self):
+        calls = []
+        original = subprocess.run
+
+        def record(args, *rest, **kwargs):
+            if "fetch" in args:
+                calls.append(args)
+            return original(args, *rest, **kwargs)
+
+        self.git(self.source, "remote", "add", "backup", str(self.remote))
+        with patch.object(handoff.subprocess, "run", side_effect=record):
+            handoff.boundary(handoff.root_for(self.source))
+        fetched = sorted(args[-1] for args in calls)
+        self.assertEqual(fetched, ["backup", "origin"])
+        self.assertFalse(any("--all" in args for args in calls))
+
+    def test_boundary_refuses_when_a_remote_url_or_refspec_changes_during_the_check(self):
+        # Final cross-cutting review, item 3: names alone are not the remote list.
+        original = handoff.local_changes
+        for key, value in (("remote.origin.url", str(self.folder / "elsewhere.git")),
+                           ("remote.origin.fetch", "+refs/heads/x:refs/remotes/origin/x")):
+            with self.subTest(key=key):
+                before = self.git(self.source, "config", "--get", key)
+
+                def change(root, *scope):
+                    self.git(self.source, "config", key, value)
+                    return original(root, *scope)
+
+                with patch.object(handoff, "local_changes", side_effect=change):
+                    result = handoff.boundary(handoff.root_for(self.source))
+                self.git(self.source, "config", key, before)
+                self.assertEqual(result["status"], "boundary_refused")
+                self.assertTrue(any("settings (URLs, fetch refspecs) changed during the check" in item
+                                    for item in result["failures"]), result["failures"])
+
+    def test_boundary_refuses_a_vault_config_it_cannot_read(self):
+        # Final review, item 1: only a confirmed-absent kivna/vault.json means
+        # "no notes repo"; anything else refuses rather than skipping the vault.
+        self.git(self.source, "remote", "remove", "origin")
+        config = self.source / "kivna" / "vault.json"
+        config.parent.mkdir(exist_ok=True)
+        cases = (("a directory", lambda: config.mkdir()),
+                 ("malformed JSON", lambda: config.write_text("{not json")),
+                 ("not an object", lambda: config.write_text("[]")),
+                 ("unreadable", lambda: (config.write_text("{}"), config.chmod(0))))
+        for name, make in cases:
+            with self.subTest(case=name):
+                make()
+                code, result = self.boundary_cli()
+                self.assertEqual(code, 2, result)
+                self.assertIn("vault.json", result)
+                if config.is_dir():
+                    config.rmdir()
+                else:
+                    config.chmod(0o600)
+                    config.unlink()
+        code, result = self.boundary_cli()
+        self.assertEqual((code, result["status"]), (0, "boundary_local_only"), result)
+
+    def test_boundary_refuses_when_the_vault_config_changes_during_the_check(self):
+        # Final review, item 3: vault.json is read before the checks and again after.
+        self.git(self.source, "remote", "remove", "origin")
+        original = handoff.local_changes
+
+        def write_config(root, *scope):
+            config = self.source / "kivna" / "vault.json"
+            if not config.exists():
+                config.parent.mkdir(exist_ok=True)
+                config.write_text("{}")
+            return original(root, *scope)
+
+        with patch.object(handoff, "local_changes", side_effect=write_config):
+            result = handoff.boundary(handoff.root_for(self.source))
+        self.assertEqual(result["status"], "boundary_refused")
+        self.assertTrue(any("vault.json changed during the check" in item for item in result["failures"]))
+
+    def test_boundary_rereads_the_project_after_the_notes_check(self):
+        # Final review, item 2: the notes fetch can take a minute; a project
+        # commit or edit during it must refuse.
+        vault = self.notes(root=self.source)
+        self.git(self.source, "push", "-q", "origin", self.branch)
+        original = handoff.repo_checks
+        for change in ("commit", "edit"):
+            with self.subTest(change=change):
+                def during_notes(root, *args, **kwargs):
+                    if Path(root).resolve() == vault.resolve():
+                        (self.source / "result.txt").write_text(change + " during the notes check\n")
+                        if change == "commit":
+                            self.commit(self.source, "landed during the notes check")
+                    return original(root, *args, **kwargs)
+
+                with patch.object(handoff, "repo_checks", side_effect=during_notes):
+                    result = handoff.boundary(handoff.root_for(self.source))
+                self.assertEqual(result["status"], "boundary_refused")
+                self.assertEqual(result["verdicts"]["project"], "refused")
+                self.assertEqual(result["verdicts"]["notes"], "ok")
+                words = "HEAD moved" if change == "commit" else "working tree changed"
+                self.assertTrue(any(words in item for item in result["failures"]), result["failures"])
+                self.git(self.source, "reset", "-q", "--hard", f"origin/{self.branch}")
+
+    def test_a_detached_head_is_no_branch_and_a_failed_read_refuses(self):
+        # Final review, item 7.
+        self.git(self.source, "checkout", "-q", "--detach")
+        self.assertIsNone(handoff.current_branch(self.source))
+        with self.assertRaises(handoff.HandoffError):
+            handoff.current_branch(self.folder / "not-a-repo")
+
+    def test_boundary_refuses_when_head_moves_during_the_check(self):
+        # Review round 2, item 3: containment is checked against the captured
+        # commit and HEAD is read again at the end.
+        original = handoff.local_changes
+
+        def commit_during_check(root, *scope):
+            if not hasattr(self, "_moved"):
+                self._moved = True
+                (self.source / "result.txt").write_text("landed mid-check\n")
+                self.commit(self.source, "mid-check commit")
+            return original(root, *scope)
+
+        with patch.object(handoff, "local_changes", side_effect=commit_during_check):
+            result = handoff.boundary(handoff.root_for(self.source))
+        self.assertEqual(result["status"], "boundary_refused")
+        self.assertTrue(any("HEAD moved during the check" in item for item in result["failures"]))
+        self.assertIn(f"origin/{self.branch}", result["remote_refs_containing_head"],
+                      "containment was checked for the commit read first")
 
     def test_boundary_counts_unsaved_notes_only_inside_the_notes_root(self):
         vault = self.notes(root=self.source)

@@ -13,6 +13,7 @@ REPO = Path(__file__).resolve().parents[4]
 # work-record guide when SKILL.md became the must-hold routing page.
 ENTRY = REPO / "skills" / "conductor" / "references" / "entry.md"
 RECORD = REPO / "skills" / "conductor" / "references" / "work-record.md"
+EXECUTION = REPO / "skills" / "conductor" / "references" / "execution.md"
 
 
 def flat(text):
@@ -59,13 +60,16 @@ class PrivateNotesWordingTests(unittest.TestCase):
 
     def test_git_commands_name_the_repo_by_literal_path(self):
         # Rehearsal and concert alike; the guard asks rather than refusing outright.
+        # Moved 2026-11-13 (first weekly review, six misses) from the entry guide to the
+        # delivery guide, where commands are written; the entry guide keeps a pointer.
+        self.assertIn("execution.md#write-git-commands-with-the-repos-literal-path", self.skill)
         self.assertIn(
             "Wherever Conductor runs a git command that changes a repo, in rehearsal or "
             "the concert, name the repo by its literal absolute path (`git -C /abs/path …`), "
             "never a repo or command held in a shell variable (`cd $W`, `$G add`): a git "
             "guard such as overtone's cannot read where it points, so it asks, and an ask "
             "nobody answers within 30 s refuses the command.",
-            self.prose,
+            flat(EXECUTION.read_text(encoding="utf-8")),
         )
 
 

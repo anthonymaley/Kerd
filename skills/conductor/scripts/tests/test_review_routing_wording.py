@@ -119,7 +119,7 @@ class SwitchInOffersRetirementTests(unittest.TestCase):
             "It skips stale bindings",
             "even when they are passed explicitly, so no notice goes to a stale partner",
             "returns them in a top-level `stale` list",
-            "“<Person>: retire N stale pairings (<aliases or count>), set aside, recoverable”",
+            "“You: retire N stale pairings (<aliases or count>), set aside, recoverable”",
             "never repeated and never the recommendation",
             "Retirement runs through Agent (`retire --alias`) only on the person's yes",
             "The arrival's `stale` list never fills `team`",

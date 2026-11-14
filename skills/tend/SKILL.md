@@ -1,11 +1,11 @@
 ---
 name: tend
-description: "Use when the user says 'tend', 'check structure', 'fix drift', 'structural health check', 'set up this project', 'initialize kerd', 'scaffold', or needs to audit or converge repo structure to current Kerd conventions. Works on new repos (full setup) and existing repos (detect drift, fix gaps)."
+description: "Optional tidy-up, never a required first step (start with /kerd:switch in; Switch Out creates the session log and TODO.md when missing). Use when the user says 'tend', 'check structure', 'fix drift', 'structural health check', 'set up this project', 'initialize kerd', 'scaffold', or wants to audit or converge repo structure to current Kerd conventions. Works on repos not yet set up for Kerd (says in plain words what it would add and why) and on repos already set up (detects drift, fixes gaps)."
 ---
 
 # Tend (Structural Health & Convergence)
 
-**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; never ask whether the person is confused: answer what they asked, with one recommendation; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
@@ -13,7 +13,7 @@ description: "Use when the user says 'tend', 'check structure', 'fix drift', 'st
 
 Audits repo infrastructure against current Kerd conventions. Shows a visual report of current vs expected state. Fixes with approval.
 
-Run it on a new repo to set up everything. Run it on an existing repo to catch drift. Run it after a Kerd version bump to pick up new conventions. Safe to run anytime. It converges, never destroys.
+Tend is an optional tidy-up, not a first step. Start with `/kerd:switch in`; Switch Out creates the session log and `TODO.md` when they are missing. Run tend when you want the folders and files set up in one pass, to catch drift on a repo already set up, or after a Kerd version bump to pick up new conventions. Safe to run anytime. It converges, never destroys.
 
 ## Usage
 
@@ -28,7 +28,7 @@ Run it on a new repo to set up everything. Run it on an existing repo to catch d
 
 ### 1. Verify git
 
-Confirm `.git` exists. If not, stop: "No git repo found. Initialize a repo and set up a remote first, then run `/kerd:tend` again."
+Confirm `.git` exists. If not, stop: "This folder is not a git repo yet. Run `git init`, make a first commit, then run `/kerd:tend` again." A remote is optional: a repo with no remote is fine, and tend does not ask for one.
 
 ### 2. Infer project identity
 
@@ -38,9 +38,15 @@ Resolve the project name without asking questions:
 2. Check `README.md` → first `# heading`
 3. Fall back to the directory name, title-cased
 
-Only ask for project name and one-line description if this is a brand new repo (no README.md, no CLAUDE.md, no docs/).
+Ask for project name and one-line description only when the chosen fixes use those answers, that is, when Tend is about to create template files on a brand new repo (no README.md, no CLAUDE.md, no docs/). On the not-yet-set-up path in step 3, which creates no template files, skip the intake.
 
-### 3. Run all checks
+### 3. Decide which kind of repo this is
+
+Look first, and tell "confirmed absent" apart from "could not inspect". Check `kivna/vault.json`, `docs/playbook.md` and the contents of `kivna/`. A clear "no such file" is absence. A permission error, an unreadable `kivna/` or any check without a clear answer is not: stop, say which path could not be inspected and why, and do not classify the repo or apply anything.
+
+A repo is **already set up** when any of these is true: `kivna/vault.json` exists, `docs/playbook.md` exists, or `kivna/` holds anything other than `sessions/` and `.gitkeep`. Otherwise it is **not yet set up for Kerd**. The test ignores `kivna/sessions/` and `TODO.md` on purpose: Switch Out creates those on its own (with a session log inside `kivna/sessions/`), so a repo with only Switch-made session records is still new to Tend. A vault config, a playbook or extra `kivna/` content are deliberate choices, so they mark a repo as set up. Not-yet-set-up repos get the plain-words report in step 4 (no pass/fail marks on optional files). Already-set-up repos get the drift report below.
+
+### 3b. Run all checks
 
 Run each category below. Collect results into three buckets:
 - `✓` passing: no action needed
@@ -245,6 +251,18 @@ Auto-load covers the Kerd source repo too, so it needs no local hook wiring eith
 
 ### 4. Display report
 
+#### Repo not yet set up for Kerd
+
+Do not use `✓ ✗ ⚠`, category numbers, or counts like "3 failing". A new repo is not failing anything. Write it in plain words, in this order, and run the checks below only to learn what exists:
+
+1. **What I will add or change, and why.** List every creation or edit, one line each, naming the file: `kivna/` and `kivna/sessions/` if missing (where saved session logs go), and a `.gitkeep` in each of those two folders that lacks one (check each folder and each `.gitkeep` on its own: Switch may have made `kivna/sessions/` without a `.gitkeep`, and then only the missing pieces are listed); for `.gitignore`, either "create it" or "add these lines to your existing file" with the exact lines (`kivna/input/`, `kivna/output/`, `.DS_Store`, whichever are missing; they keep scratch folders out of git). Say that nothing is committed.
+2. **Optional, your call.** List each of these that is missing with one line on what it is for, never as a failure: `CLAUDE.md` (standing instructions for Claude in this repo), `docs/playbook.md` (how to rebuild the project), `TODO.md` (open work; Switch Out creates it when missing), a vault under `kivna/vault.json` (an Obsidian knowledge base; set up later with `/kerd:kivna scaffold`). These are reported and not created: no templates, and the vault is not scaffolded on this path.
+3. **Left alone.** Say that every file not named in item 1 is not changed.
+
+End with the decision block and one approval question, as below. Approval covers only the item 1 list, and the fix flow applies only those entries, checking each path again immediately before writing it and stopping if a path has changed or cannot be inspected. The summary line is plain too: "Will add 2 folders and 3 lines to your .gitignore. 4 optional files left for you."
+
+#### Repo already set up
+
 Format the report as a visual table. Show passing categories as one-liners. Show failing/warning categories with current vs proposed tables and a "Why" explanation.
 
 **Evidence tracking for failing/warning findings:** the "Why" cell must reference the source of the finding — which check detected it (e.g. "Category 3 vault.json check: missing field `name`" / "Category 6 staleness scan: file not touched in 60+ days per `git log -1 --format=%at -- <path>`" / "Category 9: hook path resolves to nonexistent file at `<path>`"). When proposing fixes in the Proposed column, include the verification step the user can run after the fix lands (e.g. "verify with: `cat kivna/vault.json` shows the `name` field; `git log -1 -- <path>` shows recent activity"). Findings without a source-of-detection are unverifiable; the proposed fix becomes "trust me" rather than reproducible.
@@ -315,6 +333,8 @@ Input, then ask, naming the count:
 
 ### 5. Fix flow
 
+Before every write, check the path again; if it cannot be inspected, stop and explain. For a repo not yet set up, "yes" applies only the item 1 list of the plain report; it never runs vault scaffold or creates template files. Otherwise:
+
 **"yes" / "fix all"**: Apply all proposed fixes:
 - Create missing directories and files
 - Run `/kerd:kivna scaffold` if vault needs setup
@@ -331,7 +351,7 @@ Input, then ask, naming the count:
 
 After fixes are applied, print what was changed. Do NOT commit — structural fixes are the user's to review before they land.
 
-If this is a brand new repo and all structure was just created, suggest: "Structure ready. Run `/kerd:conductor` to start your first session, or `/kerd:switch out` to commit and push."
+If this is a brand new repo and all structure was just created, suggest: "Structure ready. Run `/kerd:switch in` to start your first session, and `/kerd:switch out` to save it."
 
 ## No Commit
 
@@ -340,7 +360,7 @@ Tend does NOT commit or push. It makes structural changes and stops. Unlike cond
 ## Notes
 
 - Tend is idempotent. Running it twice produces the same result.
-- Tend replaces the old startup skill entirely. It covers both new repo setup and existing repo convergence.
+- Tend is optional. `/kerd:switch in` is the first step on any repo; tend covers one-pass setup and later convergence.
 - For vault operations (scaffold, vault setup), tend delegates to `/kerd:kivna scaffold` rather than reimplementing vault logic.
 - The vault spec at `docs/vault-spec.md` defines what belongs in the vault. Tend checks structure against this spec.
 - Category checks are ordered so that earlier categories don't depend on later ones. Directory structure is checked before required files, vault before deprecated patterns.
