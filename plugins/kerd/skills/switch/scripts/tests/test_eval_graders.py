@@ -55,7 +55,8 @@ def last_line(rel):
 class GraderCopiesTests(unittest.TestCase):
     def test_each_grader_is_identical_across_its_cases(self):
         for cases, grader in ((IN_CASES, "in-guide-read"), (IN_CASES, "conductor-not-shell-read"),
-                              (OUT_CASES, "out-guide-read"), (OUT_CASES, "boundary-passed-last")):
+                              (OUT_CASES, "out-guide-read"), (OUT_CASES, "boundary-passed-last"),
+                              (OUT_CASES, "restart-only-when-confirmed")):
             texts = {(EVALS / c / "graders" / f"{grader}.md").read_text(encoding="utf-8") for c in cases}
             with self.subTest(grader=grader):
                 self.assertEqual(len(texts), 1)
@@ -234,6 +235,49 @@ class ConductorShellReadTests(unittest.TestCase):
                     "grep -l Shape /p/conductor/references/*.md", "ls /p/conductor/references/"):
             with self.subTest(cmd=cmd):
                 self.assertFalse(self.rx.search(tool_use(cmd)))
+
+
+
+class RestartGraderTests(unittest.TestCase):
+    """restart-only-when-confirmed is not_contains: a match is a slip. It must
+    see the current restart line (2026-11-14) and the older one in old traces."""
+
+    NEW = "Run /clear, then /kerd:switch in to pick up from here."
+    OLD = ("Exit (with Agent view on, Ctrl-C in the session list) and restart, "
+           "or /clear and /kerd:switch in to pick up from here.")
+
+    def test_restart_after_a_confirmed_save_passes(self):
+        for case in OUT_CASES:
+            rx = re.compile(pattern(case, "restart-only-when-confirmed"))
+            for line in (self.NEW, self.OLD):
+                with self.subTest(case=case, line=line):
+                    self.assertFalse(rx.search("**TALLY · SESSION SAVED ✓**\n\n" + line))
+
+    def test_restart_without_a_confirmed_save_fails(self):
+        for case in OUT_CASES:
+            rx = re.compile(pattern(case, "restart-only-when-confirmed"))
+            for line in (self.NEW, self.OLD):
+                with self.subTest(case=case, line=line):
+                    self.assertTrue(rx.search("**TALLY · NOT SAVED**\n\n" + line))
+
+    def test_a_kept_open_box_passes(self):
+        rx = re.compile(pattern(OUT_CASES[0], "restart-only-when-confirmed"))
+        self.assertFalse(rx.search("**TALLY · NOT SAVED**\n\nKeep this session open and resolve "
+                                   "the save before clearing context."))
+
+    def test_the_renderer_line_is_the_one_the_grader_sees(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "where_we_are_graders", ROOT / "skills/switch/scripts/where_we_are.py")
+        view = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(view)
+        out = view.render_closing({"project": "Tally", "saved": "remote-verified", "handoff_ready": True,
+                                   "boundary": "passed", "tree": "clean", "host": "claude"},
+                                  "2026-11-14 09:00 EST", 80, False, markdown=True)
+        self.assertIn(self.NEW, " ".join(out.split()))
+        rx = re.compile(pattern(OUT_CASES[0], "restart-only-when-confirmed"))
+        self.assertFalse(rx.search(out))
+        self.assertTrue(rx.search(out.replace("SESSION SAVED ✓", "SESSION SAVED")))
 
 
 if __name__ == "__main__":

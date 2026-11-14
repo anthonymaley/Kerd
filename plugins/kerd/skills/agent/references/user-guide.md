@@ -131,7 +131,8 @@ Which route Kerd uses, by the work:
   case in Claude Code, and a Claude reviewer when Codex builds. If the other
   provider can't start, Kerd uses a different model of the same provider and
   tells you so. Its
-  brief names the records to read (the sketchbook, the decisions, the diff),
+  brief names the records to read (the sketchbook, the decisions, the diff)
+  and asks by name for the problems that tend to hide past one round,
   and its verdict is written to the sketchbook. This is the default.
 - **Multi-turn Codex work**, where Codex builds or investigates over several
   turns, goes to a standing Codex partner Kerd starts for it, where Agent can

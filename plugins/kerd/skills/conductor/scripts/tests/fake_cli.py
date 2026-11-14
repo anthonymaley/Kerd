@@ -12,7 +12,7 @@ if "DETACHED" in prompt:
     child = subprocess.Popen([sys.executable, "-c", "import os,time,json,pathlib; pathlib.Path('fixture-detached.json').write_text(json.dumps({'group':os.getpgrp()})); print('detached-ready',flush=True); time.sleep(30)"], start_new_session=True)
     time.sleep(30)
 if "DESCENDANT" in prompt:
-    child = subprocess.Popen([sys.executable, "-c", "import os,signal,time,json,pathlib; signal.signal(signal.SIGTERM, signal.SIG_IGN); pathlib.Path('fixture-child.json').write_text(json.dumps({'group':os.getpgrp()})); print('child-ready', flush=True); time.sleep(30)"])
+    child = subprocess.Popen([sys.executable, "-c", "import os,signal,time,json,pathlib; signal.signal(signal.SIGTERM, signal.SIG_IGN); print('child-ready', flush=True); pathlib.Path('fixture-child.json').write_text(json.dumps({'group':os.getpgrp()})); time.sleep(30)"])
     time.sleep(30)
 sid = str(uuid.uuid4())
 if provider == "codex" and "resume" in args:

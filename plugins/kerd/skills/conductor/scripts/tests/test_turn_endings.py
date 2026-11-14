@@ -86,7 +86,8 @@ class TurnEndingTests(unittest.TestCase):
         self.assertIn("**Switch Out at the end is run, not asked.**", text)
         self.assertIn("Remaining authorized work comes first", text)
         self.assertIn("runs Switch Out itself through the host's skill mechanism, saying so", text)
-        self.assertIn("It never asks “Shall I switch out now?” or puts the Switch Out into an approval bubble", text)
+        # 2026-11-13: qualified by the host limitation (a host that cannot start the skill hands it over in a bubble).
+        self.assertIn("Where the host can start the skill, it never asks “Shall I switch out now?” or puts the Switch Out into an approval bubble", text)
         self.assertIn("The ~200k mark never interrupts unfinished work, and a concert keeps its own Roll", text)
         self.assertIn("a contributing partner session never starts one, and Out's existing-owner check still applies", text)
         self.assertIn("the declined Switch Out terms above apply to this Out too", text)

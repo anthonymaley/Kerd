@@ -351,10 +351,16 @@ SUMMARY_KEYS = ("project", "where", "open_work", "recommendation",
 # The remaining SUMMARY_KEYS serve the record-driven view and older callers.
 OPEN_WORK_KEYS = ("project", "phase", "where", "open_work", "recommendation", "last_session",
                   "team", "question", "documents", "warnings", "insight", "base", "restored",
-                  "restore_note")
+                  "restore_note", "first_arrival")
+# `first_arrival: true`, for a project with no Kerd records at all, replaces the
+# grid and its empty blocks with this one line; the question still ends the screen.
+FIRST_ARRIVAL = ("Kerd has nothing saved here yet. Tell me what you want to work on and "
+                 "Conductor will shape it with you.")
+# ...and the question under that line asks for the work, not a yes or no.
+FIRST_ARRIVAL_QUESTION = "What do you want to work on?"
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
-CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "boundary", "phase", "released",
+CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "boundary", "verdicts", "phase", "released",
                 "this_session", "next", "why", "next_in", "tree", "warnings", "host")
 # Switch In's picker offers the recommendation, at most two other open items and
 # "Something else"; the closing box's preview matches it.
@@ -371,9 +377,39 @@ def ink(text, *tones, on=True):
     return "\x1b[" + ";".join(ANSI[tone] for tone in tones) + "m" + text + "\x1b[0m"
 
 
+BACKTICK_RUN = re.compile(r"(?<!`)`+(?!`)")
+
+
 def md(text):
-    """Treat summary values as text, not Markdown instructions or headings."""
-    value = re.sub(r"([\\`*_\[\]<>|~])", r"\\\1", " ".join(str(text).split()))
+    """Treat summary values as text, not Markdown instructions or headings.
+
+    A complete inline code span (`like this`, opened and closed by backtick
+    runs of the same length) passes through as code, so a command shows as a
+    command rather than as escaped backticks. Its content is literal in
+    Markdown, so it cannot carry a heading, link or emphasis. A span holding a
+    `|` is escaped like other text, since a pipe inside it would still split a
+    table cell; so is an unmatched backtick.
+    """
+    value = " ".join(str(text).split())
+    pieces, start, position = [], 0, 0
+    while (opening := BACKTICK_RUN.search(value, position)) is not None:
+        run = opening.group()
+        closing = re.compile(r"(?<!`)" + run + r"(?!`)").search(value, opening.end())
+        inner = value[opening.end():closing.start()] if closing else ""
+        if closing is None or not inner.strip() or "|" in inner:
+            position = opening.end()
+            continue
+        pieces.append(escape_text(value[start:opening.start()], at_start=start == 0))
+        pieces.append(value[opening.start():closing.end()])
+        start = position = closing.end()
+    pieces.append(escape_text(value[start:], at_start=start == 0))
+    return "".join(pieces)
+
+
+def escape_text(value, at_start=True):
+    value = re.sub(r"([\\`*_\[\]<>|~])", r"\\\1", value)
+    if not at_start:
+        return value
     value = re.sub(r"^(#{1,6}|[-+]+)(?=\s|$)", r"\\\1", value)
     return re.sub(r"^(\d+)([.)])(?=\s|$)", r"\1\\\2", value)
 
@@ -587,8 +623,12 @@ def team_rows(team):
     """Compact roster only; identity and delivery details remain in Agent."""
     if team is None:
         return [("TEAM", "not recorded", None)]
-    if not team:
-        return [("TEAM", "No established pairing", None)]
+    if not isinstance(team, list):
+        return [("TEAM", "not recorded", None)]
+    if team == []:
+        # No pairing: no TEAM cell at all, rather than a line a newcomer has
+        # to ask about. None (unread) still says "not recorded".
+        return []
     members = {}
     for index, member in enumerate(team):
         key = (member.get("provider"), member.get("id") or index)
@@ -624,7 +664,7 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     presentation ran.
     """
     get = summary.get
-    if any(key in summary for key in ("where", "open_work", "recommendation")):
+    if any(key in summary for key in ("where", "open_work", "recommendation", "first_arrival")):
         return "\n".join(open_work_head(summary, width, color, markdown)
                          + dashboard_tail(summary, now, width, color, markdown, arrival=True))
     # --question-below remains accepted for older callers; this older grid
@@ -650,12 +690,12 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
         state = str(get("state") or UNRECORDED)
         if get("state_reason"):
             state += " — " + str(get("state_reason"))
-        cells = [get("project") or UNRECORDED, get("phase") or UNRECORDED,
-                 state, team_rows(get("team"))[0][1]]
+        cells = [("PROJECT", get("project") or UNRECORDED), ("PHASE", get("phase") or UNRECORDED),
+                 ("STATE", state)] + [(label, value) for label, value, _ in team_rows(get("team"))]
         lines = [f"**KERD · {status}**", "",
-                 "| PROJECT | PHASE | STATE | TEAM |",
-                 "| --- | --- | --- | --- |",
-                 "| " + " | ".join(md(value) for value in cells) + " |", ""]
+                 "| " + " | ".join(label for label, _ in cells) + " |",
+                 "|" + " --- |" * len(cells),
+                 "| " + " | ".join(md(value) for _, value in cells) + " |", ""]
         for label, value, empty in (("LAST SESSION", get("last_session"), "no completed job is recorded"),
                                    ("THIS SESSION", get("this_session"), "Nothing agreed yet.")):
             lines += [f"- **{label}**", "", f"  {md(value or empty)}", ""]
@@ -760,15 +800,25 @@ def open_work_head(summary, width, color, markdown):
     if isinstance(recommendation, str):
         recommendation = {"text": recommendation}
     nothing = "No recommendation: nothing actionable is open."
+    if get("first_arrival") is True:
+        # A project with no Kerd records: one line that says what to do,
+        # instead of a grid of empty cells and a pairing nobody has set up.
+        if markdown:
+            return [f"**{md(project.upper())} · {status}**", "", md(FIRST_ARRIVAL), ""]
+        tone = "green" if restored == "yes" else "amber"
+        lines = [ink(" " + line, "bold", "cyan", on=color) for line in wrap(project.upper(), width - 1)]
+        lines += [ink(" " + line, tone, on=color) for line in wrap(status, width - 1)]
+        lines += [ink("━" * width, "cyan", on=color), ""]
+        return lines + ["   " + line for line in wrap(FIRST_ARRIVAL, width - 3)] + [""]
     blocks = (("Where things stand", get("where"), "not recorded"),
               ("Last session", get("last_session"), "no completed job is recorded"))
     grid = (("PROJECT", project), ("PHASE", str(get("phase") or UNRECORDED)),
             ("NEXT", str(recommendation.get("text") or "Nothing actionable is open")),
-            ("TEAM", team_rows(get("team"))[0][1]))
+            *((label, value) for label, value, _ in team_rows(get("team"))))
     if markdown:
         lines = [f"**{md(project.upper())} \u00b7 {status}**", "",
                  "| " + " | ".join(label for label, _ in grid) + " |",
-                 "| --- | --- | --- | --- |",
+                 "|" + " --- |" * len(grid),
                  "| " + " | ".join(md(value) for _, value in grid) + " |", ""]
         for label, value, empty in blocks:
             lines += [f"**{label}:** {md(value or empty)}", ""]
@@ -829,6 +879,10 @@ def dashboard_tail(summary, now, width, color, markdown, arrival=False):
     arrival ends on its question, with documents on one line."""
     get = summary.get
     question = get("question")
+    if arrival and get("first_arrival") is True:
+        # Whatever question the caller passed, a first arrival asks for the
+        # work its one line just invited.
+        question = dict(question or {}, text=FIRST_ARRIVAL_QUESTION)
     restored = get("restored")
     lines = []
     warnings = list(get("warnings") or [])
@@ -950,14 +1004,47 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
         badge, tone, cell = "SAVE STATUS NOT RECORDED", "amber", "Not recorded"
         saved = "unknown"
     ready = get("handoff_ready")
-    # `boundary` is handoff.py boundary's verdict: exactly "passed" on exit 0,
-    # otherwise its failures. Anything else, absent included, withholds the ✓
+    # `boundary` is handoff.py boundary's verdict: exactly "passed" for
+    # boundary_ok, exactly "local_only" for boundary_local_only (every repo
+    # committed and clean, at least one with no Git remote configured),
+    # otherwise its failures. Anything else, absent included, withholds the tick
     # and the restart: a save that no fetch has shown on a remote is not proven.
-    proven = get("boundary") == "passed"
-    if not proven:
+    # A local-only verdict confirms the save on this computer: the restart,
+    # never the tick. Which repo is local only comes from `verdicts`, the
+    # check's own per-repo result, never guessed from `saved`. Without a
+    # complete one (a project verdict, known values) a local-only save is not
+    # confirmed: the restart waits and the box names the missing evidence.
+    local = get("boundary") == "local_only"
+    verdicts = get("verdicts")
+    if not (isinstance(verdicts, dict) and "project" in verdicts and set(verdicts) <= {"project", "notes"}
+            and set(verdicts.values()) <= {"ok", "local_only", "refused"}):
+        verdicts = None
+    local_repos = [name for name in ("project", "notes") if verdicts.get(name) == "local_only"] \
+        if verdicts else None
+    consistent = verdicts is not None and (bool(local_repos) and "refused" not in verdicts.values()
+                                           and not (saved == "remote-verified" and "project" in local_repos))
+    proven = get("boundary") == "passed" or (local and consistent
+                                             and saved in ("committed", "remote-verified"))
+    if local and saved == "committed" and local_repos and "project" in local_repos:
+        cell = "Committed on this computer"
+    if get("boundary") != "passed":
         badge, tone = badge.replace(" \u2713", ""), ("amber" if tone == "green" else tone)
     attention = []
-    if saved == "committed":
+    saved_somewhere = saved in ("committed", "remote-verified")
+    if local and saved_somewhere and local_repos is None:
+        attention.append("The boundary check's per-repo verdicts were not recorded (or lack the project's), "
+                         "so which repo is saved only on this computer is unknown and the save is not "
+                         "confirmed.")
+    elif local and saved_somewhere:
+        if "project" in local_repos:
+            attention.append("Saved on this computer; no Git remote is configured.")
+        if "notes" in local_repos:
+            attention.append("The notes repo has no Git remote configured, so the notes are saved on "
+                             "this computer only.")
+    if local and saved_somewhere and local_repos is not None and not consistent:
+        attention.append("The boundary check's per-repo verdicts do not match this save; "
+                         "check which is true.")
+    if saved == "committed" and not local:
         attention.append("The save is committed on this machine but not verified on the remote; "
                          "push before switching devices.")
     elif saved == "not-saved":
@@ -971,7 +1058,7 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     tree = get("tree")
     if tree and str(tree).strip().rstrip(".").lower() != "clean":
         attention.append(f"Left in the working tree: {tree}")
-    if not proven:
+    if not proven and not local:
         failed = get("boundary")
         if isinstance(failed, str):
             failed = [failed]
@@ -985,12 +1072,16 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
         # Only Claude has /clear; any other or unrecognised host gets the
         # host-neutral line, and an unrecorded host is taken as Claude.
         host = str(get("host") or "claude").strip().lower()
-        closing = ("Exit (with Agent view on, Ctrl-C in the session list) and restart, "
-                   "or /clear and /kerd:switch in to pick up from here."
+        closing = ("Run /clear, then /kerd:switch in to pick up from here."
                    if host == "claude" else
                    "Exit and restart, then switch in to pick up from here.")
     elif saved not in ("remote-verified", "committed"):
         closing = "Keep this session open and resolve the save before clearing context."
+    elif not proven and local and local_repos is None:
+        closing = ("Keep this session open and record the boundary check's per-repo verdicts "
+                   "before clearing context.")
+    elif not proven and local:
+        closing = "Keep this session open and check whether this project has a remote before clearing context."
     elif not proven:
         closing = "Keep this session open and resolve the boundary check before clearing context."
     elif ready is False:

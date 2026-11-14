@@ -5,7 +5,7 @@ description: "Use when the work is a substantial build, design or workflow, new 
 
 # Conductor
 
-**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; never ask whether the person is confused: answer what they asked, with one recommendation; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](references/journey.md#question-surface-and-host-adaptation).
 
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](references/journey.md#question-surface-and-host-adaptation).
 
@@ -109,8 +109,12 @@ names the guide section with its detail: open that section before the step.
   scoped by Switch, the order is: (1) read orchestration startup, the relevant
   job-split guidance and work view if not already loaded (Kerd instruction reads, not
   project research); (2) give the entry update as the first work response, with
-  current model/effort evidence, suitability and the actual split, using the grid
-  for contributors or a practical inline reason; (3) then the substantive project
+  the actual split: when contributors are dispatched, the grid with current
+  model/effort evidence and a Fit line per job; when the work is one task
+  Conductor does itself, one plain line saying what it will do and where it stops,
+  with no grid, Fit line, model/effort evidence or journey line
+  ([one visible startup view](references/orchestration.md#one-visible-startup-view));
+  (3) then the substantive project
   reads, dispatches or edits, with no second pickup or approval. With missing
   context, bounded local orientation may establish the stage and job boundaries
   first; do not guess an agreement or settled split. State that limited orientation
@@ -188,6 +192,13 @@ names the guide section with its detail: open that section before the step.
   instead of the repo and pointed to as `notes:<work>/work.md`; without that key, it
   stays at `docs/work/<work>/work.md` and is committed with the project
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Speak the words the docs teach. The first time in a sitting that the work is in
+  rehearsal, has a sketchbook or goes to a concert, name that word once with its
+  plain gloss (“this is rehearsal: we work out what you want”; “I keep our notes,
+  the sketchbook, at docs/work/<work>/work.md”; “the concert: I build what we
+  agreed on its own branch”); after that the word can stand alone. The stage
+  names (Understand, Shape, Agree, Deliver, Complete) stay as they are
+  ([Relaxed, useful language](references/journey.md#relaxed-useful-language)).
 - Keep the risks in view: when the person or the work names something that could
   sink the work or hurt later, write it in the sketchbook's short risks list, the
   risk in one plain sentence and what is being done about it or that it is accepted
@@ -263,8 +274,13 @@ names the guide section with its detail: open that section before the step.
   gaps with their defaults, so the one bubble approves the go with those defaults,
   and the task/who/model/effort grid for the controller and every composer, player and
   reviewer job the go will dispatch, each with its Fit line, so the go approves the
-  staffing the person has seen; the go then dispatches as shown, and a row whose
-  model, effort or route changes is shown again, with its Fit line, before its dispatch
+  staffing the person has seen (a go that dispatches nothing carries the one plain
+  line instead); the go then dispatches as shown, and a row whose
+  model, effort or route changes is shown again, with its Fit line, before its dispatch.
+  A go whose staffing for this work is not on screen, such as a go in the opening
+  message, approves the work, not unseen staffing: put the grid with its Fit lines in
+  a reply before the first `Agent` call, then dispatch in the same turn without asking
+  again; a rolled or managed continuation reuses the assignments its sketchbook records
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - A concert performs on its own branch. At the go, start `concert/<work>` from the
   current tip, as part of that same go and not a second question, and record the
@@ -354,6 +370,13 @@ names the guide section with its detail: open that section before the step.
 - Then bring one decision: merge the concert branch back into the branch it started
   from. The merge and its push need the person's go; never merge because the steps
   ran out ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- When the agreed goal is met and nothing is outstanding, the controlling session
+  runs Switch Out itself, unasked, and says so in plain words naming
+  `/kerd:switch out`, so a newcomer learns how to put work down; a next item that
+  waits for later is named, and does not hold the Out back. Where the host gives
+  no way to start the skill, the turn ends on the one question
+  `> 💬 **Put this down for today with /kerd:switch out?**`
+  ([One clear finish](references/journey.md#one-clear-finish)).
 - Delivery can finish before a long-term benefit is measurable when that stopping
   point and its available evidence are agreed; never relabel unmeasured benefit as
   achieved
@@ -380,7 +403,9 @@ names the guide section with its detail: open that section before the step.
   (the person may add detail, links or files), or dropped and never raised again
   ([weekly review](references/weekly-review.md)).
 - The weekly review is a Conductor route Switch In offers when the project's last
-  review is over 7 days old. It reads that project's session logs and chat history
+  review is over 7 days old, or none has run, once the project has history: at
+  least 3 session logs and 7+ days of history as [Switch In's lookup](../switch/references/in.md#in) reads
+  it (the oldest dated session log, or CONTEXT.md's first commit when older). It reads that project's session logs and chat history
   for the window through five lenses (corrections, repeated jobs, questions, unsure
   items, missed decisions) and writes nothing without the person's go
   ([weekly review](references/weekly-review.md)).
@@ -400,7 +425,7 @@ names the guide section with its detail: open that section before the step.
   question form, rendered views, the shape of every report, the task view and the
   finish.
 - [Delivery](references/execution.md): entering or resuming Deliver, splitting jobs,
-  resolving a reply, Roll, review and finishing the outcome.
+  resolving a reply, writing git commands, Roll, review and finishing the outcome.
 - [Model jobs](references/model-jobs.md): the dispatch contract, and asking another
   model or an established partner to contribute.
 - [Work record](references/work-record.md): when first saving work, recording

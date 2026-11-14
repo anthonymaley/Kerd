@@ -18,9 +18,29 @@ Picking up is in [In](in.md).
 Read the active state and inspect what actually changed. Preserve the current
 agreement, decisions, exact next action, unresolved jobs and important findings.
 After the contribution checkpoint below, append an evidence-backed session
-account to the existing history; read the clock
+account to the existing history, under its own heading for this sitting even
+when that day's log already holds an earlier one, so the next In's Last session
+reads the newest sitting; read the clock
 for dates/times written now. Unknown start time stays unknown. Do not retain the
 whole native conversation or private session IDs as project history.
+
+**When the session log or TODO.md is missing.** Setting a project up with
+`/kerd:tend` is optional, so Out may meet a project with no `kivna/sessions/`
+folder or no `TODO.md`. Missing means a successful read found it absent; a path
+that exists but cannot be read is not missing, so Out does not write over it and
+names it in `warnings` instead. Out creates what is missing: `kivna/sessions/<date>.md`
+for this sitting's account, and a minimal `TODO.md` whose `## Now` section holds
+the open items Out saves (or the line “Nothing open.” when there are none, so the
+section is never empty). Save them with the other named files, and name them in
+the box's `this_session` in plain words (“Started a session log and a to-do list
+for this project”). If either cannot be created, say so in `warnings` with the
+reason, and save the rest. The reading set and the `measure` call then name only
+records that exist: leave the missing file out of `--file` and `--section`
+rather than naming a path `measure` cannot read. Carry what it would have held
+into a record that does exist (the session account and the open items into
+`CONTEXT.md`'s current section), and measure again. When no existing record can
+carry them, so a fresh reader could not recover the open work and next action,
+set `handoff_ready: false` and name the gap in `next`.
 
 When collaboration matters to the next pickup, retain a short provider,
 contribution and evidenced result, plus the relevant next-action/work-record
@@ -60,7 +80,8 @@ claiming the job done.
 Show the checkpoint in one short line, for example: “Contributions captured:
 Claude (review) + Codex (implementation); missing: none.” Name actual contributors
 and roles, not private IDs; this is an accountable coverage statement, not a
-machine proof. An unavailable participant is not itself missing necessary memory:
+machine proof. When this session is the only contributor there is nothing to
+reconcile, so show no checkpoint line. An unavailable participant is not itself missing necessary memory:
 if other evidence restores the scope, authority, known outcomes, limits and next
 action, record any residual gap and why it does not prevent safe continuation.
 Never turn an unresolved observation into a verified result. If necessary memory
@@ -256,7 +277,10 @@ order, each leaving a reachable link behind:
    not a complete handoff claim. Size targets never justify dropping material
    active-work context or an urgent risk; re-measure after changing the set.
 4. **Measure it and record the reading.** Run the helper's `measure` on that
-   set and write the result beside the reading set:
+   set and write the result beside the reading set. The example below is the
+   ordinary case, with both `TODO.md` and the session log present; when either
+   could not be created, use the adjusted selection from
+   [When the session log or TODO.md is missing](#out) instead:
 
    ```sh
    python3 /path/to/switch/scripts/handoff.py --project /path/to/project measure \
@@ -276,14 +300,16 @@ order, each leaving a reachable link behind:
    line each, and pass them on the same call as `--carry-file <path>`, a file
    with one phrase per line that only its owner can read, or `--carry-file -`
    to pipe them on stdin. Never pass a phrase as a bare argument: argv is
-   visible to other local accounts on the machine. A phrase `measure` reports
+   visible to other local accounts on the machine. A carry file is made with `mktemp`
+   and removed after the call, never a fixed name in a shared folder such as
+   `/tmp`, where another project's run can read or overwrite it. A phrase `measure` reports
    as not in the reading set is fixed by writing it into CONTEXT.md or TODO.md,
    or by adding its source to the set, then measuring again. This never blocks
    the save and asks the person nothing.
 
    Save the returned `read_args` array beside that measurement in the existing
    start point. It is the exact selection to reuse at In, not another manifest.
-   For the example above it is:
+   For the example above (both files present) it is:
    `["--record", "CONTEXT.md", "--file", "kivna/sessions/<date>.md", "--section", "TODO.md", "## Now"]`.
    When the project's records sit in a Git repo it shares with other projects
    (a vault holding several projects' folders, the project run as that repo),
@@ -329,17 +355,28 @@ because its task name appears in a file. Respect existing direction on whether
 it continues; a genuine unresolved ownership issue needs a decision.
 
 Under the agreed Git authority, commit the relevant work/session files by name
-and push to the intended branch. When `kivna/vault.json` sets `work_notes`,
+and push to the intended branch. A project with no remote configured
+(`git remote` succeeds and prints nothing; a failed read is not “no remote”) has
+nowhere to push: save without `--push`, and do
+not ask the person to push or add a remote to finish Out. When `kivna/vault.json` sets `work_notes`,
 save and push the vault repo the same way, by the same named-file save,
 alongside the project; the sketchbook it holds is part of this sitting's saved
-place, not a separate closeout. Run each vault git command (add, commit, push,
+place, not a separate closeout. A vault with no remote configured is saved
+without `--push`, by the same rule. Run each vault git command (add, commit, push,
 rev-parse) as `git -C <the notes repo's literal absolute path> …`, naming files
 explicitly. Never put the repo behind a shell variable or a `cd $VAR` prefix: the
 git guard cannot read where it points and refuses it. During a concert on its own
 branch, that is the concert branch its sketchbook records: before committing, check the checked-out
 branch matches it, and stop without saving if it does not. Out saves and pushes
 there and does not merge it back; the merge is the person's decision at the
-concert's end. A save commits only the named files. Exact paths
+concert's end. A save commits only the named files. Out names its own records:
+the start point, `TODO.md`, the session log, any sketchbook it wrote and, with
+`work_notes`, `notes:outside-the-repo.md`. Other
+files the sitting changed and left uncommitted (code, or a generated output
+such as an export) do not join Out's save on its own judgement: name each one to
+the person in one question, saying which look like generated output, and
+include only those they say to keep in the project history. One they want left
+out stays local through `--preserve`, recorded as below. Exact paths
 the project has already decided to keep locally — a scratch patch, a stray build
 artifact — are acknowledged with `--preserve`: they stay untouched and are reported
 as local only, not saved. Keep that acknowledgement in the project's existing
@@ -361,15 +398,39 @@ repeating `--preserve <path>` for each acknowledged local path. It fetches now
 and exits 1 when the fetch fails (cached refs are not verification), when no
 remote branch contains HEAD, or when the tree holds anything unsaved beyond the
 preserved paths. Read its output whole, never through `tail`, `head`, `grep`
-or another filter that can drop the status: the verdict is `passed` only when
-this call's own result shows `boundary_ok` (exit 0), and an unseen status is not
+or another filter that can drop the status: the verdict follows the status and
+exit code in this call's own result, by the mapping under
+[the saved-place box](#close-with-the-saved-place-box), and an unseen status is not
 recorded, never passed. `git status` and `git log -1` do not prove this: a clean tree
 says nothing about whether any remote has the commits. Its `stashes` count is
 information, not a refusal: when it is nonzero, say so in `warnings`
 ("2 stashes on this machine, not saved"). Run it on every repo the sitting
 committed to; a local-only Out is allowed, and its box says so instead of ✓.
-With `work_notes` set, this includes the vault repo: the boundary check now
-covers both, and the box shows both as saved only when each passes.
+For a repo with no remote configured at all, the check skips the fetch and the
+remote search and refuses only unsaved work; that repo's verdict is
+`local_only`. A repo that has a remote keeps every check: a failed fetch or a
+commit no remote branch holds still refuses, and the box still says to keep the
+session open. Only remote-tracking refs this fetch refreshes count as holding
+the commit: those a configured remote's fetch refspec writes. A leftover ref
+from a removed remote, or one outside the refspec, proves nothing. Each remote
+is fetched by name. Kerd does not model every Git fetch rule: a remote with a
+negative fetch refspec (`^…`) or `skipDefaultUpdate` set makes the check refuse
+with “The check can't prove the remote refs are current for this configuration
+(…); push and confirm by hand.”, and a refspec Git itself rejects stops the
+check with no verdict. It reads
+`kivna/vault.json` and each repo's HEAD, remote names and remote settings (URLs,
+fetch refspecs) first and checks against those. After every repo is checked, it
+reads vault.json and each repo's HEAD, remote names and settings and unsaved
+paths again, and any change refuses. A git read that fails stops the check with no verdict (a
+detached HEAD is reported as no branch, not a failure). vault.json counts as
+absent only when it does not exist; a directory, an unreadable file or anything
+other than a JSON object stops the check rather than skipping the vault.
+With `work_notes` set, this includes the vault repo, under the same rules: the
+boundary check covers both, and the box shows both as saved only when neither is
+refused. The result's `verdicts` names each repo's verdict (`ok`, `local_only` or `refused`),
+and the combined status is `boundary_ok` only when every repo is `ok`,
+`boundary_local_only` (exit 0) when none is refused and at least one is
+`local_only`, and `boundary_refused` otherwise.
 Its `notes_commit` must equal the commit already written into the start point; if the
 vault moved since, record the new one, commit again and re-run `boundary`. Never write
 anything after a passed check.
@@ -381,6 +442,8 @@ End Out on one box, rendered with the same packaged renderer:
 ```sh
 printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing - --markdown
 ```
+
+Pipe the JSON on stdin as shown, not through a fixed-name file in `/tmp`.
 
 The box is the last thing in the message: its closing line ends Out, and nothing
 follows it: no note, footer, commit trailer or remark about a preserved file.
@@ -406,15 +469,33 @@ one of `remote-verified` (the helper's `saved_to_remote`), `committed` (a local
 commit, push not verified) or `not-saved`; the banner, the SAVED cell and any
 attention line follow it. An absent or unrecognised `saved` renders SAVE STATUS
 NOT RECORDED, never "nothing committed": unknown is not evidence.
-`boundary` is the boundary check's verdict: exactly `passed` when it exited 0,
-otherwise its `failures` list copied as written. Only `passed` earns the ✓ and
-the restart line; failures appear under attention, and an absent value reads as
-not recorded, never as passed.
+`boundary` is the boundary check's verdict, read from the status and exit code
+of that call's own result, both together:
+
+- `status: "boundary_ok"` with exit 0 → `passed`: the ✓ and the restart line.
+- `status: "boundary_local_only"` with exit 0 (every repo committed and clean,
+  at least one with no Git remote configured) → `local_only`: no ✓, an
+  attention line for each repo the check's `verdicts` mark `local_only`, and the
+  restart line. For the project that line is “Saved on this computer; no Git
+  remote is configured.”; for the notes repo it says the notes are saved on this
+  computer only. Copy the check's `verdicts` object into the box as it reads
+  (`{"project": "local_only"}`, or `{"project": "ok", "notes": "local_only"}`);
+  the renderer picks the lines from it, not from `saved`. Without a complete
+  `verdicts` (missing, malformed or without the project's verdict) a local-only
+  save is not confirmed: no restart line, and the box names the missing
+  verdicts. The renderer writes these lines, so `warnings` does not repeat them.
+- Anything else (another status, a nonzero exit, a status not seen) → not ready:
+  copy its `failures` list as written, or leave `boundary` absent when no
+  result was seen. Failures appear under attention and the closing line asks to
+  keep the session open; an absent value reads as not recorded, never as passed.
+
 `handoff_ready` is the owner's memory-coverage assessment after the coordinated
 closeout check, not something a Git push or renderer can prove: `false` or
 omitted adds an attention line, and `false` also names the missing detail or
 recovery action in `next`. `phase` is where the wider work stands, in the
-project's own terms. `released` is what this sitting released
+project's own terms; write the same words into the start point's current section
+as one line, `Phase: <phase>`, before the last commit, so the next arrival can
+show it rather than “not recorded”. `released` is what this sitting released
 ("0.136.0 → 0.138.0"), or `null` for "Nothing released"; the next step appears
 once, in Next time or first in Switch In will offer. `this_session` is what changed, in product language, not
 the files touched. `next` is the exact next action the start point names; `why`
@@ -430,9 +511,9 @@ it chooses the closing line; only `claude` (or an unrecorded host) gets `/clear`
 for; a missing field renders as "not recorded", never as a claim.
 
 The closing line offers a restart only after a remote-verified or committed save,
-`handoff_ready: true` **and** `boundary: "passed"`: under Claude, "Exit (with Agent view on,
-Ctrl-C in the session list) and restart, or /clear and /kerd:switch in to pick up
-from here."; under Codex, "Exit and restart, then switch in to pick up from here."
+`handoff_ready: true` **and** `boundary: "passed"`, or after a committed or
+remote-verified save with `handoff_ready: true` and `boundary: "local_only"`: under Claude, "Run /clear, then
+/kerd:switch in to pick up from here."; under Codex, "Exit and restart, then switch in to pick up from here."
 Otherwise it asks to keep the session open and
 resolve the save or the missing handoff first, because clearing context then
 would lose the very work that is unsaved. It never says the session exited or
@@ -454,6 +535,7 @@ routing. No session is ended by preparing its handoff.
   "saved": "remote-verified",
   "handoff_ready": true,
   "boundary": "passed",
+  "verdicts": {"project": "ok"},
   "phase": "Launch outcomes 0 of 5; sequence steps 1–2 done",
   "released": "0.136.0 → 0.138.0",
   "this_session": [
@@ -464,7 +546,7 @@ routing. No session is ended by preparing its handoff.
   "why": "It is the first real work item driven in someone else's project, and the only way to see Kerd work for a real user.",
   "next_in": [
     {"text": "Try the 0.134.0 diagram rules on a real diagram.", "why": "They have never been exercised."},
-    {"text": "Anthony: decide whether the \"prove Kerd first\" hold is lifted.", "why": "Two launch steps wait on it."}
+    {"text": "You: decide whether the \"prove Kerd first\" hold is lifted.", "why": "Two launch steps wait on it."}
   ],
   "tree": "clean",
   "warnings": [],

@@ -62,24 +62,53 @@ def local_changes(root, *scope):
 NOTES_PREFIX = "notes:"
 
 
-def notes_location(root):
+def config_bytes(root):
+    """kivna/vault.json's bytes, or None only when it is confirmed absent.
+
+    Absent means the path does not exist (nor does `kivna/` as a folder). A
+    directory, a dangling or other non-regular entry, or an error reading it is
+    not absence: it refuses, so a check never quietly skips the notes repo.
+    """
+    config = root / "kivna" / "vault.json"
+    try:
+        os.lstat(config)
+    except (FileNotFoundError, NotADirectoryError):
+        return None
+    except OSError as exc:
+        raise HandoffError(f"Cannot inspect {config}: {exc.strerror or exc}")
+    try:
+        info = os.stat(config)
+        if not stat.S_ISREG(info.st_mode):
+            raise HandoffError(f"{config} is not a regular file, so whether notes are kept in the vault "
+                               "is unknown")
+        return config.read_bytes()
+    except OSError as exc:
+        raise HandoffError(f"Cannot read {config}: {exc.strerror or exc}")
+
+
+def notes_location(root, raw=None):
     """(notes root, notes repo) when the project keeps work notes in the vault, else None.
 
     `"work_notes": "vault"` in kivna/vault.json puts the notes root at
-    <vault>/<folder>/work. Absent file or key: no notes root. A set key whose
+    <vault>/<folder>/work. A confirmed-absent file, or a JSON object without
+    the key: no notes root. A file that cannot be inspected or read, is not a
+    regular file, or is not a JSON object refuses (see `config_bytes`). A set key whose
     root is missing or outside a Git repo is an error naming the path, never a
     silent fall back to the project. The folder is a plain relative name, no
     part of <folder>/work may be a symlink, the resolved root must stay under
     the resolved vault, and the notes repo cannot be the project's own repo.
     """
     config = root / "kivna" / "vault.json"
-    if not config.is_file():
+    raw = config_bytes(root) if raw is None else raw
+    if raw is None:
         return None
     try:
-        settings = json.loads(config.read_text(encoding="utf-8"))
+        settings = json.loads(raw.decode("utf-8"))
     except ValueError as exc:
         raise HandoffError(f"Cannot read {config}: {exc}")
-    if not isinstance(settings, dict) or "work_notes" not in settings:
+    if not isinstance(settings, dict):
+        raise HandoffError(f"{config} is not a JSON object, so whether notes are kept in the vault is unknown")
+    if "work_notes" not in settings:
         return None
     if settings["work_notes"] != "vault":
         raise HandoffError(f"Unrecognised work_notes value in {config}: {settings['work_notes']!r}; "
@@ -118,12 +147,27 @@ def notes_scope(location):
 
 
 def notes_tree(location, revision="HEAD"):
-    """The committed tree of the notes root at a revision; None when nothing is committed there."""
-    relative = location[0].relative_to(location[1]).as_posix()
-    spec = f"{revision}^{{tree}}" if relative == "." else f"{revision}:{relative}"
-    found = subprocess.run(["git", "-C", str(location[1]), "rev-parse", "--verify", "--quiet", spec],
-                           text=True, capture_output=True)
-    return found.stdout.strip() or None
+    """The committed tree of the notes root at a revision; None only when confirmed absent.
+
+    `rev-parse --verify` answers "Needed a single revision" alike for a missing
+    path and a bad revision, so the two are read apart: the revision must
+    resolve to a commit (any failure raises), then `ls-tree` lists the path,
+    where a successful empty listing is the one confirmed absence and any
+    other failure raises. Two failed reads therefore never compare as equal.
+    """
+    repo = location[1]
+    relative = location[0].relative_to(repo).as_posix()
+    commit = git(repo, "rev-parse", "--verify", "--end-of-options", f"{revision}^{{commit}}")
+    if relative == ".":
+        return git(repo, "rev-parse", "--verify", "--end-of-options", f"{commit}^{{tree}}")
+    listed = [entry for entry in git(repo, "--literal-pathspecs", "ls-tree", "-z", commit, "--", relative)
+              .split("\0") if entry]
+    if not listed:
+        return None
+    entries = [entry for entry in listed if entry.partition("\t")[2] == relative]
+    if len(entries) != 1:  # a listing that names something else is not a reading of this path
+        raise HandoffError(f"Could not read the notes root {relative} at {revision} in {repo}")
+    return entries[0].partition("\t")[0].split()[2]
 
 
 def notes_unsaved(location):
@@ -341,70 +385,260 @@ def publish(root, branch, files, message, push=False, verify_commit=None, preser
 FETCH_TIMEOUT = 60  # seconds; a fetch that hangs on a prompt or dead network counts as failed
 
 
-def repo_checks(root, keep=(), scope=()):
+def unsaved_paths(root, keep=(), scope=()):
+    """Changed, untracked and staged paths within the scope, less the preserved ones."""
+    spec = ["--", *scope] if scope else []
+    return sorted((local_changes(root, *scope)
+                   | set(filter(None, git(root, "diff", "--cached", "--name-only", "-z", *spec).split("\0"))))
+                  - set(keep))
+
+
+def current_branch(root):
+    """The checked-out branch, or None for a detached HEAD; any other failure raises."""
+    found = subprocess.run(["git", "-C", str(root), "symbolic-ref", "--quiet", "--short", "HEAD"],
+                           text=True, capture_output=True)
+    if found.returncode == 0:
+        return found.stdout.strip() or None
+    if found.returncode == 1:  # --quiet: exit 1, silently, means HEAD is detached
+        return None
+    raise HandoffError(found.stderr.strip() or "git symbolic-ref failed")
+
+
+def remote_config(root):
+    """Every `remote.*` setting (URLs, fetch refspecs and the rest), as Git prints them.
+
+    `git config --get-regexp` exits 1 when nothing matches, which here means no
+    remote settings at all; any other failure raises.
+    """
+    found = subprocess.run(["git", "-C", str(root), "config", "--get-regexp", r"^remote\."],
+                           text=True, capture_output=True)
+    if found.returncode == 0 or (found.returncode == 1 and not found.stdout and not found.stderr):
+        return found.stdout
+    raise HandoffError(found.stderr.strip() or "git config failed")
+
+
+def remote_settings(config):
+    """(remote name, variable, value) for each `remote.<name>.<variable>` line.
+
+    Git prints the variable in lower case and keeps the name's case; a name may
+    hold dots, so the variable is the part after the last one. A setting
+    written with no value prints with no space and reads as "".
+    """
+    for line in config.splitlines():
+        key, _, value = line.partition(" ")
+        if key.startswith("remote.") and key.count(".") >= 2:
+            name, _, variable = key[len("remote."):].rpartition(".")
+            yield name, variable, value
+
+
+FALSE_VALUES = {"false", "no", "off", "0"}
+
+
+def unprovable_remotes(names, config):
+    """Configurations under which a fetch here cannot prove the tracking refs current.
+
+    Kerd does not model every Git fetch rule; it refuses instead. A negative
+    refspec can leave a stale ref that still matches a positive destination,
+    `skipDefaultUpdate` keeps a remote out of default fetches, and a refspec
+    with more than one `*` on a side is a form this check does not read.
+    """
+    found = [f"remote {name} has a name that reads as an option" for name in sorted(names)
+             if name.startswith("-")]
+    for name, variable, value in remote_settings(config):
+        if name not in names:
+            continue
+        if variable == "fetch" and value.startswith("^"):
+            found.append(f"remote {name} has a negative fetch refspec ({value})")
+        elif variable == "fetch" and any(side.count("*") > 1 for side in value.split(":", 1)):
+            found.append(f"remote {name} has a fetch refspec this check does not read ({value})")
+        elif variable == "skipdefaultupdate" and value.strip().lower() not in FALSE_VALUES:
+            found.append(f"remote {name} sets skipDefaultUpdate")
+    return found
+
+
+def tracking_patterns(names, config):
+    """Destinations of each configured remote's fetch refspecs, e.g. refs/remotes/origin/*.
+
+    Only these refs are refreshed (and pruned) by fetching that remote with
+    --prune; a leftover ref from a removed remote or outside the refspec is not.
+    A refspec with no destination, or one outside refs/remotes/, adds nothing.
+    """
+    patterns = []
+    for name, variable, value in remote_settings(config):
+        if variable != "fetch" or name not in names or not value or value.startswith("^") or ":" not in value:
+            continue
+        destination = value.split(":", 1)[1]
+        if destination.startswith("refs/remotes/"):
+            patterns.append(destination)
+    return patterns
+
+
+def refreshed_ref(ref, patterns):
+    for pattern in patterns:
+        if "*" in pattern:
+            head, _, tail = pattern.partition("*")
+            if len(ref) > len(head) + len(tail) and ref.startswith(head) and ref.endswith(tail):
+                return True
+        elif ref == pattern:
+            return True
+    return False
+
+
+def repo_state(root, keep=(), scope=()):
+    """What a boundary verdict rests on, read so it can be compared again at the end."""
+    return {"remotes": git(root, "remote"), "remote_config": remote_config(root),
+            "commit": git(root, "rev-parse", "HEAD"), "unsaved": unsaved_paths(root, keep, scope)}
+
+
+def repo_checks(root, keep=(), scope=(), allow_local_only=False):
     """The boundary checks for one repo: fetch, HEAD on a remote ref, nothing unsaved.
 
     Fetch and remote containment are repo-wide; `scope` (pathspecs) narrows only
     the unsaved-changes check, so a shared vault's other folders cannot refuse.
+    With `allow_local_only`, a repo with no remote configured at all is checked
+    as a local-only save: there is nothing to fetch or push to, so those two
+    checks are not failures, and only the clean-tree check can refuse. A repo
+    that has a remote keeps every check, whatever this flag says.
+
+    Every git read here raises when it fails, so no verdict is returned; a
+    detached HEAD is reported as no branch, not a failure. HEAD and the remote
+    list are read first and the checks run against those values (containment
+    against the captured commit, not a fresh HEAD). The returned `state` is what
+    `boundary` reads again after every repo is checked.
     """
     failures = []
-    try:
-        fetch = subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "--all", "--prune"], text=True,
-                               capture_output=True, timeout=FETCH_TIMEOUT,
-                               env={**os.environ, "GIT_TERMINAL_PROMPT": "0"})
-        fetched = fetch.returncode == 0 and bool(git(root, "remote"))
-    except subprocess.TimeoutExpired:
-        fetched = False
-    if not fetched:
-        failures.append("The fetch failed, so the remote state is unknown; cached refs are not verification.")
+    remotes = git(root, "remote")
+    config = remote_config(root)
     commit = git(root, "rev-parse", "HEAD")
-    containing = [ref for ref in git(root, "for-each-ref", "--contains", "HEAD", "--format=%(refname:short)",
-                                     "refs/remotes").splitlines()
-                  if ref and not ref.endswith("/HEAD")]
-    if not containing:
-        failures.append("No remote branch contains this commit; the work exists only on this machine.")
-    spec = ["--", *scope] if scope else []
-    left = sorted((local_changes(root, *scope)
-                   | set(filter(None, git(root, "diff", "--cached", "--name-only", "-z", *spec).split("\0"))))
-                  - set(keep))
+    local_only = allow_local_only and not remotes
+    if local_only:
+        fetched, containing = False, []
+    else:
+        names = remotes.splitlines()
+        for reason in unprovable_remotes(set(names), config):
+            failures.append("The check can't prove the remote refs are current for this configuration ("
+                            + reason + "); push and confirm by hand.")
+        # Each captured remote is fetched by name, so none is left out the way
+        # `fetch --all` leaves out a remote it skips.
+        fetched = bool(names)
+        for name in names:
+            if name.startswith("-"):  # refused above; never passed to git as an argument
+                fetched = False
+                continue
+            try:
+                fetch = subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "--prune", name], text=True,
+                                       capture_output=True, timeout=FETCH_TIMEOUT,
+                                       env={**os.environ, "GIT_TERMINAL_PROMPT": "0"})
+                fetched = fetched and fetch.returncode == 0
+            except subprocess.TimeoutExpired:
+                fetched = False
+        if not fetched:
+            failures.append("The fetch failed, so the remote state is unknown; cached refs are not verification.")
+        # Containment counts only refs this fetch refreshes: a configured remote's
+        # fetch-refspec destinations. A leftover tracking ref proves nothing.
+        patterns = tracking_patterns(set(remotes.splitlines()), config)
+        containing = [ref[len("refs/remotes/"):] for ref in
+                      git(root, "for-each-ref", "--contains", commit, "--format=%(refname)",
+                          "refs/remotes").splitlines()
+                      if ref and not ref.endswith("/HEAD") and refreshed_ref(ref, patterns)]
+        if not containing:
+            failures.append("No branch on a configured remote, as checked by this fetch, contains this "
+                            "commit.")
+    left = unsaved_paths(root, keep, scope)
     if left:
         failures.append(f"The working tree is not clean: {len(left)} unsaved "
                         + ("path" if len(left) == 1 else "paths") + ".")
     stashes = len([line for line in git(root, "stash", "list").splitlines() if line])
-    branch = subprocess.run(["git", "-C", str(root), "symbolic-ref", "--quiet", "--short", "HEAD"],
-                            text=True, capture_output=True).stdout.strip() or None
-    return {"branch": branch, "commit": commit, "fetched": fetched, "remote_refs_containing_head": containing,
-            "unsaved_paths": left, "stashes": stashes, "failures": failures}
+    return {"branch": current_branch(root), "commit": commit, "fetched": fetched,
+            "remote_refs_containing_head": containing, "unsaved_paths": left, "stashes": stashes,
+            "failures": failures, "local_only": local_only,
+            "state": {"remotes": remotes, "remote_config": config, "commit": commit, "unsaved": left}}
+
+
+def changed_since(root, state, keep=(), scope=()):
+    """Failures for anything a verdict rested on that is different now."""
+    now = repo_state(root, keep, scope)
+    found = []
+    if now["remotes"] != state["remotes"] or now["remote_config"] != state["remote_config"]:
+        found.append("The list of remotes or their settings (URLs, fetch refspecs) changed during the "
+                     "check, so its result is not reliable; run the check again.")
+    if now["commit"] != state["commit"]:
+        found.append("HEAD moved during the check, so its result is not reliable; run the check again.")
+    if now["unsaved"] != state["unsaved"]:
+        found.append("The working tree changed during the check, so its result is not reliable; "
+                     "run the check again.")
+    return found
+
+
+def verdict_of(failures, local_only):
+    return "refused" if failures else "local_only" if local_only else "ok"
 
 
 def boundary(root, preserve=()):
     """Prove the end of a sitting: is HEAD on a remote, checked by a fetch just now?
 
     Refuses when the fetch fails (cached remote refs are not verification), when
-    no remote ref contains HEAD (the work exists only on this machine), or when
-    the tree carries changes other than the exact preserved paths. Stashes are
-    counted as information, never a refusal. Nothing is pushed, staged or moved.
+    no branch on a configured remote contains HEAD, or when the tree carries
+    changes other than the exact preserved paths. Stashes are counted as
+    information, never a refusal. Nothing is pushed, staged or moved.
+    A repo with no remote configured at all cannot be pushed, so its committed,
+    clean save is the confirmed end of the sitting on this computer: that repo's
+    verdict is `local_only`, and only the clean-tree check applies to it. A repo
+    that has a remote keeps every check: a failed fetch or an unpushed HEAD still
+    refuses.
     When the project keeps work notes in the vault, the notes repo gets the same
-    checks and its failures join the list, each prefixed with the notes repo.
-    Its unsaved-changes check covers the notes root only; fetch and remote
-    containment stay repo-wide.
+    checks, local-only rule included, and its failures join the list, each
+    prefixed with the notes repo. Its unsaved-changes check covers the notes root
+    only; fetch and remote containment stay repo-wide. Whether notes are kept is
+    read from kivna/vault.json, which must be confirmed absent or readable: a
+    directory, unreadable file or malformed JSON refuses.
+
+    After every repo is checked, kivna/vault.json and each repo's remote list,
+    HEAD and unsaved paths are read again; any change refuses that repo.
+
+    Each repo's verdict is `refused` (any failure), `local_only` or `ok`. The
+    combined status is `boundary_ok` only when every repo is `ok`;
+    `boundary_local_only` (exit 0) when none is refused and at least one is
+    `local_only`; otherwise `boundary_refused`.
     """
     keep = acknowledged(root, preserve)
-    location = notes_location(root)
-    checked = repo_checks(root, keep)
-    failures = checked.pop("failures")
+    raw = config_bytes(root)
+    location = notes_location(root, raw) if raw is not None else None
+    checked = repo_checks(root, keep, allow_local_only=True)
     notes = None
     if location:
         notes_root, notes_repo = location
         notes = {"root": str(notes_root), "repo": str(notes_repo),
-                 **repo_checks(notes_repo, scope=notes_scope(location))}
-        failures += [f"Notes repo {notes_repo}: {item}" for item in notes["failures"]]
-    result = {"status": "boundary_refused" if failures else "boundary_ok", "branch": checked["branch"],
+                 **repo_checks(notes_repo, scope=notes_scope(location), allow_local_only=True)}
+    # Every check is done; nothing a verdict rests on may have moved meanwhile
+    # (the notes fetch alone can take a minute).
+    checked["failures"] += changed_since(root, checked.pop("state"), keep)
+    if config_bytes(root) != raw:
+        checked["failures"].append("kivna/vault.json changed during the check, so which repos it covers "
+                                   "is not reliable; run the check again.")
+    if notes:
+        notes["failures"] += changed_since(notes_repo, notes.pop("state"), scope=notes_scope(location))
+    failures = checked.pop("failures")
+    local_only = checked.pop("local_only")
+    verdicts = {"project": verdict_of(failures, local_only)}
+    if notes:
+        notes["verdict"] = verdicts["notes"] = verdict_of(notes["failures"], notes["local_only"])
+        failures = failures + [f"Notes repo {notes_repo}: {item}" for item in notes["failures"]]
+    found = set(verdicts.values())
+    status = ("boundary_refused" if "refused" in found or failures else
+              "boundary_local_only" if "local_only" in found else "boundary_ok")
+    note = "Stashes are information, not a refusal; preserved paths are local only"
+    unremoted = [{"project": "the project", "notes": "the notes repo"}[name]
+                 for name, verdict in verdicts.items() if verdict == "local_only"]
+    if unremoted:
+        note += ("; no Git remote is configured for " + " or ".join(unremoted)
+                 + ", so that save is on this computer only")
+    result = {"status": status, "branch": checked["branch"],
               "commit": checked["commit"], "fetched": checked["fetched"],
               "remote_refs_containing_head": checked["remote_refs_containing_head"],
               "unsaved_paths": checked["unsaved_paths"], "stashes": checked["stashes"],
-              "preserved_local_only": keep, "failures": failures,
-              "note": "Stashes are information, not a refusal; preserved paths are local only",
+              "preserved_local_only": keep, "failures": failures, "local_only": local_only,
+              "verdicts": verdicts, "note": note,
               "notes": notes, "notes_commit": notes["commit"] if notes else None}
     return result
 
@@ -771,7 +1005,8 @@ def main():
     size.add_argument("--carry-file", action="append", default=[], metavar="PATH",
                       help="Owner-only (0600) file of exact phrases the pickup must carry, one per line, "
                            "or - for stdin; reports which source holds each, never blocks")
-    check = sub.add_parser("boundary", help="Fetch, then refuse unless a remote ref contains HEAD and the tree is clean")
+    check = sub.add_parser("boundary", help="Fetch, then refuse unless a remote ref contains HEAD and the tree is "
+                                            "clean; with no remote configured, a clean tree is a local-only save")
     check.add_argument("--preserve", action="append", default=[],
                        help="Exact untracked path this project keeps locally; not counted as unsaved")
     args = parser.parse_args()

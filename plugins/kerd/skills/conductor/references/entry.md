@@ -72,10 +72,14 @@ work already scoped by Switch, the order is:
    [job-split guidance](execution.md#prepare-and-do-the-next-useful-job)
    and [work view](journey.md#keep-the-tasks-visible-while-the-work-unfolds)
    if not already loaded. These Kerd instruction reads are not project research.
-2. Give the entry update as the first work response, including current
-   model/effort evidence, suitability and the actual split:
+2. Give the entry update as the first work response, with the actual split:
    reuse settled assignments or decide independent research/checks as well as
-   implementation. Use the grid for contributors, or a practical inline reason.
+   implementation. When contributors are dispatched, show the grid with current
+   model/effort evidence and a Fit line for each job. When the work is one task
+   Conductor does itself, the update is
+   [one plain line](orchestration.md#one-visible-startup-view): what it will do
+   and where it stops, with no grid, Fit line, model/effort evidence or journey
+   line.
 3. Then do the substantive project reads, dispatches or edits and continue the
    authorized job. No second pickup or approval.
 
@@ -239,9 +243,23 @@ decision block carries the open-gap list with its defaults, so the one bubble
 approves the go with those defaults, and it carries the staffing: the
 [task/who/model/effort grid](orchestration.md#one-visible-startup-view), a row
 for the controller and every composer, player and reviewer job the go will
-dispatch, each with its Fit line, inside the block above the bubble. The go then approves the staffing
+dispatch, each with its Fit line, inside the block above the bubble (a go that
+dispatches nothing carries the one plain line instead). The go then approves the staffing
 the person has seen; dispatch as shown, and show a row again, with its Fit line,
 before dispatching it if its model, effort or route has changed since Ready.
+
+**A go whose staffing for this work is not on screen** (a go in the opening
+message, or a Ready shown for other work) approves the work, not a staffing the
+person has not seen. Before the first `Agent` call, put that same grid, with a
+row for the controller and every job about to be dispatched and a Fit line for
+each, into a reply message, then dispatch in the same turn. It is shown, not
+asked: the go is not put to the person again. Work that dispatches nothing gives
+the one plain line instead. A rolled or managed continuation dispatches the
+assignments its sketchbook already records under that go without showing them
+again; a job not in that record gets its row and Fit line first, as any changed
+row does. Behaviour eval `conductor-go` found this gap: in 4 of 4 runs (two
+before 0.196.0, two after), a go in the opening prompt showed no grid or Fit
+line, and three of them dispatched players anyway.
 
 A concert performs on **its own branch**. At the go, start `concert/<work>` from
 the current tip, as part of that same go and not a second question, and record the
@@ -251,10 +269,9 @@ work is half-built. Before each save or roll, and when a fresh session picks the
 concert up, check that the checked-out branch is the recorded concert branch; if it
 is not, stop before committing and say so. Rehearsal and small work stay on the current branch.
 
-Wherever Conductor runs a git command that changes a repo, in rehearsal or the concert, name
-the repo by its literal absolute path (`git -C /abs/path …`), never a repo or command held
-in a shell variable (`cd $W`, `$G add`): a git guard such as overtone's cannot read where it
-points, so it asks, and an ask nobody answers within 30 s refuses the command.
+Git commands that change a repo name it by its literal absolute path; the rule, and
+what to do when a guard refuses a command for its form, live where commands are
+written: [the delivery guide](execution.md#write-git-commands-with-the-repos-literal-path).
 
 In the **concert**, fan out every independent part of the score to its own
 player, as many as the score allows, each at a fitted model and effort. When a

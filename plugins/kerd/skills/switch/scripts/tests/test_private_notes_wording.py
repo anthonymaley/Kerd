@@ -71,8 +71,9 @@ class PrivateNotesWordingTests(unittest.TestCase):
              "place, not a separate closeout."),
             # Out: the boundary check now proves both repos.
             ("skills/switch/references/out.md",
-             "With `work_notes` set, this includes the vault repo: the boundary check now "
-             "covers both, and the box shows both as saved only when each passes."),
+             "With `work_notes` set, this includes the vault repo, under the same rules: the "
+             "boundary check covers both, and the box shows both as saved only when neither is "
+             "refused."),
             # Sketchbook location moves with the key when the Out owner starts a fresh record.
             ("skills/switch/references/out.md",
              "When `kivna/vault.json` sets `work_notes`, start it instead at "

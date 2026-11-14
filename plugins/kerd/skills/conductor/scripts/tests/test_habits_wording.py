@@ -110,7 +110,7 @@ class WeeklyReviewPointerTests(unittest.TestCase):
 
     def test_weekly_review_route(self):
         for phrase in (
-            "The weekly review is a Conductor route Switch In offers when the project's last review is over 7 days old.",
+            "The weekly review is a Conductor route Switch In offers when the project's last review is over 7 days old, or none has run, once the project has history: at least 3 session logs and 7+ days of history as [Switch In's lookup](../switch/references/in.md#in) reads it (the oldest dated session log, or CONTEXT.md's first commit when older).",
             "five lenses (corrections, repeated jobs, questions, unsure items, missed decisions)",
             "writes nothing without the person's go",
         ):
