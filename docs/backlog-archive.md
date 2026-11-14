@@ -7,6 +7,10 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-11-14 (Switch Out, 14:2x)
+
+**Done** (his "y" 11:55 and 11:56): the Now row "codex-tui's pairing points at a closed thread" — codex-tui retired with 11 other stale bindings and the two test leftovers (`route-test-1112`, `stall-test-1112c`) through Agent's `retire --alias`, exit 0 each, moved to `.git/kerd-agent/partners-retired/`. **Done** (12:0x): the Now row "Re-walk Sam on 0.197.0" — round 5 in `notes:batch-1114/first-user-5.md`. **Done, on main as 0.198.0, not shipped** (his "y" 14:25; c61ee997, entry-gate CI 43632004088 green): the round-5 fixes, `notes:batch-1114/work.md` (round-5 fixes section).
+
 ## Closed 2026-11-14 (Switch Out, 11:1x)
 
 **Done, released in 0.197.0** (his "y" 11:05; main 9e1b91c6, entry-gate CI 43613762699 green, public `codex` 0895ddb1, installed here at 9e1b91c6): the Now row "Release 0.197.0 (proposed; his go needed)". Evidence: `notes:batch-1114/work.md` (release section).
