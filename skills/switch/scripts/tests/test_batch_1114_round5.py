@@ -45,8 +45,10 @@ class OutInputsOnStdin(unittest.TestCase):
         self.assertIn("printf '%s\\n' 'first finding' 'second finding' | python3", text)
         self.assertIn("--carry-file -", text)
         self.assertIn("Otherwise do not make a temporary file for them", text)
-        self.assertIn("Only on a shared machine or where a host cannot pipe at all, make the file with "
-                      "`mktemp`, remove it after the call, and say so in that turn", text)
+        # Codex round 4: the shared-machine exception covers the carry phrases only, as in.md says.
+        self.assertIn("Only for the carry phrases on a shared machine (above), or for any input where a "
+                      "host cannot pipe at all, make the file with `mktemp`, remove it after the call, "
+                      "and say so in that turn", text)
         # Codex round 1: piping does not hide the phrases from a host's `sh -c` command line.
         self.assertIn("a carry phrase never holds a secret", text)
         self.assertNotIn("never reach a process list", text)

@@ -353,9 +353,9 @@ order, each leaving a reachable link behind:
    Otherwise do not make a temporary file for them: `mktemp`, a write and an `rm`
    outside the project are three permission prompts a new user cannot judge. Every
    Out input that accepts `-` goes on stdin the same way (`measure --carry-file -`,
-   the closing box's `--closing -`). Only on a shared machine or where a host
-   cannot pipe at all, make the file with `mktemp`, remove it after the call, and
-   say so in that turn;
+   the closing box's `--closing -`). Only for the carry phrases on a shared
+   machine (above), or for any input where a host cannot pipe at all, make the
+   file with `mktemp`, remove it after the call, and say so in that turn;
    never a fixed name in a shared folder such as
    `/tmp`, where another project's run can read or overwrite it. A phrase `measure` reports
    as not in the reading set is fixed by writing it into CONTEXT.md or TODO.md,
