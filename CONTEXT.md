@@ -92,7 +92,7 @@ Session logs: `kivna/sessions/` (newest `2026-11-13.md`).
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `notes:weekly-review/2026-11-13.md` (the review, findings #2 to #5 with wording), `notes:release-script/work.md` (0.194.3 build, five review rounds, first live ship), `TODO.md` `## Backlog` (the archived Sonnet link row), `notes:flaky-ask-test/work.md` (0.194.2 diagnosis, two review rounds), `notes:pickup-recheck/work.md` (0.194.1 build, three review rounds), `notes:prepare-shared-vault/work.md` (0.194.0 diagnosis, four review rounds), `kivna/sessions/2026-11-12.md`, `skills/conductor/references/weekly-review.md`, `notes:readme-guides/work.md` (0.193.3 build, six review rounds), `notes:openai-advice/work.md` (0.193.2 build, reviews, the CI miss), `notes:anthropic-habits/work.md` (catalogue), `notes:review-routing/work.md` (0.193.0/0.193.1 build, reviews, live tests), `notes:fable-5-2/work.md`, `notes:codex-exec-reviews/work.md`, `notes:deeper-reading.md`, `docs/decisions.md`, `docs/backlog-archive.md`, `kivna/sessions/2026-11-10.md`.
 
-**Notes commit:** `b41065509709d03db871979659e922cab36d6f10` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `1a520ff435b3f10c38b4aa9ceca202c696176118` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git.
 
 The observed position before this save is `main` at 4786f12e (0.194.3 released); the boundary commit is this save itself.
