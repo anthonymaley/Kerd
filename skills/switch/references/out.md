@@ -246,6 +246,15 @@ the pointer can identify the risk and source without repeating its figures.
 This carries recorded urgency, not a fresh operational verdict or authority to
 investigate; routine owed work does not become urgent to justify inclusion.
 
+When the person stated how much technical detail they want (“keep the technical
+stuff out of my way”, “I'm not a developer”, “show me the commands”), save it in
+CONTEXT.md's governing lines (in a new CONTEXT.md, the first line under its title),
+in their own words and dated, as one line:
+`Person's preference (2026-11-14): “keep the technical stuff out of my way”.`
+Reconcile an existing line rather than adding a second; drop it only when they
+take it back. It is a standing preference, not a ruling about the work, and Switch
+In passes it to Conductor so a fresh session does not lead with Kerd's stage words.
+
 Historical decisions needed by a future feature remain discoverable by subject;
 the active memory must include constraints that affect the next work. Be explicit
 about unreconciled historical sections rather than calling the migration lossless.
@@ -315,8 +324,22 @@ order, each leaving a reachable link behind:
    line each, and pass them on the same call as `--carry-file <path>`, a file
    with one phrase per line that only its owner can read, or `--carry-file -`
    to pipe them on stdin. Never pass a phrase as a bare argument: argv is
-   visible to other local accounts on the machine. A carry file is made with `mktemp`
-   and removed after the call, never a fixed name in a shared folder such as
+   visible to other local accounts on the machine. **Pipe them on stdin**, one
+   phrase per line, with the shell's own `printf` (a builtin, so the phrases
+   never reach a process list):
+
+   ```sh
+   printf '%s\n' 'first finding' 'second finding' | python3 /path/to/switch/scripts/handoff.py \
+     --project /path/to/project measure --record CONTEXT.md --section TODO.md '## Now' \
+     --file kivna/sessions/<date>.md --carry-file -
+   ```
+
+   Do not make a temporary file for them: `mktemp`, a write and an `rm` outside
+   the project are three permission prompts a new user cannot judge. Every Out
+   input that accepts `-` goes on stdin the same way (`measure --carry-file -`,
+   the closing box's `--closing -`). Only where a host cannot pipe at all, make
+   the file with `mktemp`, remove it after the call, and say so in that turn;
+   never a fixed name in a shared folder such as
    `/tmp`, where another project's run can read or overwrite it. A phrase `measure` reports
    as not in the reading set is fixed by writing it into CONTEXT.md or TODO.md,
    or by adding its source to the set, then measuring again. This never blocks
@@ -536,12 +559,23 @@ recovery action in `next`. `phase` is where the wider work stands, in the
 project's own terms; write the same words into the start point's current section
 as one line, `Phase: <phase>`, before the last commit, so the next arrival can
 show it rather than “not recorded”. `released` is what this sitting released
-("0.136.0 → 0.138.0"), or `null` for "Nothing released". `releases` is `false`
-only when successful reads show the project has no release process: `git tag
---list` succeeded and printed nothing, no CHANGELOG or release notes exist, no
-version field the project bumps (`package.json`, `pyproject.toml`,
-`plugin.json`), and no record mentions a release; the box then has no RELEASED
-cell. A failed read or any doubt leaves it `null` and the cell shows as before.
+("0.136.0 → 0.138.0"), or `null` for "Nothing released".
+
+**`releases` comes from four reads, made before filling the box.** Run them
+every Out; they are cheap and inside the project:
+
+1. `git tag --list` succeeds and prints nothing;
+2. no `CHANGELOG*` or release-notes file at the root;
+3. no version field the project bumps (`package.json`, `pyproject.toml`,
+   `plugin.json`);
+4. no record (CONTEXT.md, TODO.md, the session logs) mentions a release.
+
+`releases` is `false` only when successful reads show the project has no release
+process: all four ran and found nothing; the box then has no RELEASED cell, which
+a notes-only project such as a launch brief should not carry. A failed read or
+any doubt leaves it `null` and the cell shows as before. With the reads not
+made, pass `null`, never `false` and never a guess: the four reads come first,
+and skipping them is not the same as finding nothing.
 `first_out` is `true` only when a successful read found no earlier session log
 in `kivna/sessions/` before this Out; the box then says once what Kerd's own
 files are and that the person can ignore them. The renderer writes that line:

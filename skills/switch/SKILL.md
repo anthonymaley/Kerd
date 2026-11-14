@@ -111,8 +111,8 @@ item names the guide section with its detail: open that section before the step.
   parked; and every unresolved risk the active records flag
   urgent or imminent, inside the reading set ([Save the selected continuation](references/out.md#save-the-selected-continuation)).
 - A lean, measured start point: rulings stay and cases move, closed rows leave with
-  their reason, the reading set is named, `handoff.py measure` runs with `--carry-file`
-  (never a phrase as a bare argument), and its reading and `read_args` are saved beside
+  their reason, the reading set is named, `handoff.py measure` runs with the phrases piped to `--carry-file -`
+  (no temporary file; never a phrase as a bare argument), and its reading and `read_args` are saved beside
   the set ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
 - Save named files only, under the agreed Git authority: Out's own records, and
   other files the sitting created or changed and left uncommitted, untracked ones
@@ -132,7 +132,7 @@ item names the guide section with its detail: open that section before the step.
   ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
 - End on the saved-place box from `where_we_are.py --closing - --markdown`, its shape
   copied from the guide; nothing follows its closing line; if the renderer cannot
-  run, say the same as plain text
+  run, say the same as plain text; `releases` is set only after the guide's four reads (not made: `null`)
   ([Close with the saved-place box](references/out.md#close-with-the-saved-place-box)).
 - The restart line appears only after a remote-verified or committed save,
   `handoff_ready: true` and `boundary: "passed"`, or a committed or remote-verified
@@ -257,7 +257,7 @@ explicit completion heading naming the Kerd version it loaded, the PROJECT · PH
 when a partner was restored or the team could not be read; none with no pairing), Where
 things stand, Last session, Open work, Recommended with its Why, attention and a
 real link to the open-work page, all in plain product English. No footer or end
-marker. PROJECT is the README's first heading, else the first heading of the main notes file at the root, else the folder name (“Your project” for a placeholder name), never the word “project” alone. The single question ends the screen as a bold speech-bubble blockquote.
+marker. PROJECT is the README's first heading, else the first heading of a root `notes.md` (any case), else the folder name (“Your project” for a placeholder name), never a file picked by alphabetical order and never the word “project” alone. The single question ends the screen as a bold speech-bubble blockquote.
 The screen is reply text: paste the rendered output into the message itself, before the picker in the same message; output left in a tool result has not been shown, since the host folds it away.
 Where the host has a native picker it follows with up to four options: “Yes — <the
 recommended work>”, up to two other open items each with a one-line why, and
