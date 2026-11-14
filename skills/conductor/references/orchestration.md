@@ -320,7 +320,10 @@ the controller, any composer call and each assigned step (Conductor- or
 composer-written) in the same view. Show only real
 assignments; inline composition need not become a separate row. The controller
 row stays in that grid beside the dispatched rows. The go shows the grid for every
-job it will dispatch, as before.
+job it will dispatch, as before. A go whose staffing for this work is not on screen
+(for example a go in the opening message) still shows that grid, in a reply, before
+the first `Agent` call, without asking again
+([the go](entry.md#rehearsal-then-the-concert)).
 
 Directly under the grid, give a **Fit** line for the controller and for every
 newly selected model job — composer, player and reviewer — as

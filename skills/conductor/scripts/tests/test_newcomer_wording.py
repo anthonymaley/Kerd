@@ -88,6 +88,26 @@ class InlineEntryIsOnePlainLine(unittest.TestCase):
         self.assertIn("and the task/who/model/effort grid for the controller and every composer, "
                       "player and reviewer job the go will dispatch, each with its Fit line", skill)
 
+    def test_go_without_ready_still_shows_the_grid_before_dispatch(self):
+        """Eval conductor-go, 4 of 4 runs: a go in the opening prompt showed no grid
+        or Fit line (three still dispatched), since the go text assumed a Ready."""
+        entry = read(REFS / "entry.md")
+        for phrase in ("staffing for this work is not on screen",
+                       "Before the first `Agent` call",
+                       "a row for the controller and every job about to be dispatched",
+                       "a Fit line for each",
+                       "dispatch in the same turn",
+                       "the go is not put to the person again",
+                       "Work that dispatches nothing gives the one plain line instead",
+                       "assignments its sketchbook already records under that go without showing them again",
+                       "a job not in that record gets its row and Fit line first"):
+            self.assertIn(phrase, entry)
+        skill = read(SKILL)
+        self.assertIn("staffing for this work is not on screen", skill)
+        self.assertIn("before the first `Agent` call", skill)
+        view = section(REFS / "orchestration.md", "## One visible startup view")
+        self.assertIn("staffing for this work is not on screen", view)
+
     def test_skill_entry_must_hold_matches_the_guides(self):
         skill = read(SKILL)
         self.assertIn("when contributors are dispatched, the grid with current model/effort "

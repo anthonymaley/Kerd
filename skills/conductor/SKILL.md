@@ -276,7 +276,11 @@ names the guide section with its detail: open that section before the step.
   reviewer job the go will dispatch, each with its Fit line, so the go approves the
   staffing the person has seen (a go that dispatches nothing carries the one plain
   line instead); the go then dispatches as shown, and a row whose
-  model, effort or route changes is shown again, with its Fit line, before its dispatch
+  model, effort or route changes is shown again, with its Fit line, before its dispatch.
+  A go whose staffing for this work is not on screen, such as a go in the opening
+  message, approves the work, not unseen staffing: put the grid with its Fit lines in
+  a reply before the first `Agent` call, then dispatch in the same turn without asking
+  again; a rolled or managed continuation reuses the assignments its sketchbook records
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - A concert performs on its own branch. At the go, start `concert/<work>` from the
   current tip, as part of that same go and not a second question, and record the

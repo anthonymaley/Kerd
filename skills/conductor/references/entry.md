@@ -248,6 +248,19 @@ dispatches nothing carries the one plain line instead). The go then approves the
 the person has seen; dispatch as shown, and show a row again, with its Fit line,
 before dispatching it if its model, effort or route has changed since Ready.
 
+**A go whose staffing for this work is not on screen** (a go in the opening
+message, or a Ready shown for other work) approves the work, not a staffing the
+person has not seen. Before the first `Agent` call, put that same grid, with a
+row for the controller and every job about to be dispatched and a Fit line for
+each, into a reply message, then dispatch in the same turn. It is shown, not
+asked: the go is not put to the person again. Work that dispatches nothing gives
+the one plain line instead. A rolled or managed continuation dispatches the
+assignments its sketchbook already records under that go without showing them
+again; a job not in that record gets its row and Fit line first, as any changed
+row does. Behaviour eval `conductor-go` found this gap: in 4 of 4 runs (two
+before 0.196.0, two after), a go in the opening prompt showed no grid or Fit
+line, and three of them dispatched players anyway.
+
 A concert performs on **its own branch**. At the go, start `concert/<work>` from
 the current tip, as part of that same go and not a second question, and record the
 branch and where it started in the sketchbook. Every commit, save and roll in the
