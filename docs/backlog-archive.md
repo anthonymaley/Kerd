@@ -7,6 +7,10 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-11-14 (Switch Out, 17:3x)
+
+**Done, shipped as 0.199.0** (his "y" 17:06; main 6224b5ed, entry-gate CI 43648383817 green, `plugin` 04c5dbc8, `codex` d3edb66f, installed here at 04c5dbc8, 1.6 MB): the Now row "Slim install package" — `notes:batch-1114/package.md` (Shape and Shipped sections; scratch first-switch run clean, Codex review Safe). **Overtaken** (same release): the Backlog row "`release.py ship --plugin` stops falsely on a records-only commit" — under `"ref": "plugin"` the install check compares against the plugin tip, which moves only on a version bump; the scratch replay (records commit on main, install stayed at the tip, next ship exit 0) showed the false stop gone. Records-only commits now go to main with a plain `git push` (CLAUDE.md).
+
 ## Closed 2026-11-14 (Switch Out, 14:2x)
 
 **Done** (his "y" 11:55 and 11:56): the Now row "codex-tui's pairing points at a closed thread" — codex-tui retired with 11 other stale bindings and the two test leftovers (`route-test-1112`, `stall-test-1112c`) through Agent's `retire --alias`, exit 0 each, moved to `.git/kerd-agent/partners-retired/`. **Done** (12:0x): the Now row "Re-walk Sam on 0.197.0" — round 5 in `notes:batch-1114/first-user-5.md`. **Done, on main as 0.198.0, not shipped** (his "y" 14:25; c61ee997, entry-gate CI 43632004088 green): the round-5 fixes, `notes:batch-1114/work.md` (round-5 fixes section).
