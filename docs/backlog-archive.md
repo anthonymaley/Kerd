@@ -7,6 +7,10 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-11-14 (Switch Out, 11:1x)
+
+**Done, released in 0.197.0** (his "y" 11:05; main 9e1b91c6, entry-gate CI 43613762699 green, public `codex` 0895ddb1, installed here at 9e1b91c6): the Now row "Release 0.197.0 (proposed; his go needed)". Evidence: `notes:batch-1114/work.md` (release section).
+
 ## Closed 2026-11-14 (Switch Out, 10:4x)
 
 **Done on `concert/batch-1114`, in 0.197.0 (unreleased)** (his 08:30 batch ask; check 3 of 3, 1,473 tests): the Backlog row "Conductor shows no staffing grid before dispatch on a go in the opening message". Cause found: Claude Code 2.1.319 shows multi-line text between tool calls only as a summary (15 traces, 4 probes); Conductor now dispatches in the background and ends the reply with the grid, its exact shape in SKILL.md; conductor-go 2/2 and conductor-ready 2/2 on the working tree, conductor-go 2/2 on fc555f1c (`notes:batch-1114/work.md`, `evals.md`). Row as it stood:
