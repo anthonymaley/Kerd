@@ -93,10 +93,22 @@ class TechnicalDetailPreferenceCarried(unittest.TestCase):
                       "`Person's preference (2026-11-14): “keep the technical stuff out of my way”.`", text)
 
     def test_in_passes_it_to_conductor(self):
-        self.assertIn("and any saved preference about technical detail (the `Person's preference "
-                      "(<date>): “…”` line in the project's current-context pointer, CONTEXT.md by "
-                      "convention), quoted in the person's words",
+        self.assertIn("and any saved preference about technical detail (the whole `Person's preference "
+                      "(<date>): …` line in the project's current-context pointer, CONTEXT.md by "
+                      "convention, a `none; they took back “…”` line included, so Conductor clears an "
+                      "older sketchbook line), quoted in the person's words",
                       guide("references/in.md"))
+
+    def test_a_withdrawal_carries_out_in_conductor(self):
+        # Codex rounds 6-7: Out keeps a withdrawal, In passes it, Conductor's sketchbook follows it.
+        out = guide("references/out.md")
+        self.assertIn("`Person's preference (2026-11-14): none; they took back “…”.`", out)
+        self.assertIn("This line is the authority for the whole project.", out)
+        entry = (SWITCH.parent / "conductor/references/entry.md").read_text(encoding="utf-8")
+        entry = " ".join(entry.split())
+        self.assertIn("When Switch In passes the project's preference line, that line is the authority, "
+                      "a “none; they took back” line included: follow it, and when the sketchbook's line "
+                      "differs, rewrite or remove it that turn to match.", entry)
 
     def test_only_a_stated_preference_is_saved(self):
         # Codex round 3: a self-description is not a stated preference.
