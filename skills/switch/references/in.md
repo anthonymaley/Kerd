@@ -471,8 +471,9 @@ Pipe the summary on stdin as shown. Do not write it, or any other Switch input,
 to a file with a fixed name in a shared folder such as `/tmp`: another project's
 run can read or overwrite it. Every Switch input that accepts `-` goes on stdin,
 never through a temporary file: `mktemp`, a write and an `rm` outside the project
-are prompts a new user cannot judge. Only when a tool cannot read stdin, make the
-file with `mktemp`, remove it afterward, and say so.
+are prompts a new user cannot judge. Only when a tool cannot read stdin, or Out's
+carry phrases on a machine shared with other accounts ([out.md](out.md#leave-a-lean-start-point)),
+make the file with `mktemp`, remove it afterward, and say so.
 
 The complete stdout from this call **is the final assistant message**. Return
 it unchanged: no paraphrasing, added intro or second question. The screen is reply text: paste the rendered output into the message itself, before the picker in the same message; output left in a tool result has not been shown, since the host folds it away. Rendering is the

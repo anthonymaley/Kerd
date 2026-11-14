@@ -12,11 +12,13 @@ record, update that instead of making a second source of truth.
 Start after intent is known. During understanding, leave undecided matters
 clearly undecided. An incomplete draft is useful; invented certainty is not.
 
-**Save how they want it.** When the person says they want technical detail kept
-out of the way (or is plainly not technical), write that preference, in their
-words, on the record's `How they want it:` header line the same turn, so a fresh
-session reads it before it speaks. Keep it when the stage changes; change it only
-when the person does. (First-user round 5, 2026-11-14: “keep the technical stuff
+**Save how they want it.** When the person says how much technical detail they
+want, less (“keep the technical stuff out of my way”) or more (“show me the
+commands”), write it, in their words and dated, on the record's `How they want it:`
+header line the same turn, so a fresh session reads it before it speaks. Only words
+they said go on that line; an impression that they are not technical shapes this
+sitting's language but is never saved as their preference. Keep it when the stage
+changes; when they change their mind, replace it with their new words. (First-user round 5, 2026-11-14: “keep the technical stuff
 out of my way” was saved nowhere, and the next sitting opened on a stage label.)
 
 ```markdown

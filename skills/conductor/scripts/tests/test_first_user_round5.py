@@ -43,10 +43,14 @@ class SaveHowTheyWantIt(unittest.TestCase):
         record = read(REFS / "work-record.md")
         self.assertIn("# Work: <outcome> How they want it: <a standing preference in the "
                       "person's own words", record)
-        self.assertIn("**Save how they want it.** When the person says they want technical "
-                      "detail kept out of the way (or is plainly not technical), write that "
-                      "preference, in their words, on the record's `How they want it:` header "
-                      "line the same turn, so a fresh session reads it before it speaks.", record)
+        # Codex round 2: either direction is saved, only their own words, replaced when they change.
+        self.assertIn("**Save how they want it.** When the person says how much technical detail "
+                      "they want, less (“keep the technical stuff out of my way”) or more (“show me "
+                      "the commands”), write it, in their words and dated, on the record's `How they "
+                      "want it:` header line the same turn", record)
+        self.assertIn("an impression that they are not technical shapes this sitting's language but "
+                      "is never saved as their preference", record)
+        self.assertIn("when they change their mind, replace it with their new words", record)
 
     def test_entry_reads_it_back(self):
         entry = read(REFS / "entry.md")

@@ -329,14 +329,23 @@ order, each leaving a reachable link behind:
    phrase per line, with the shell's own `printf`. That keeps them out of the
    helper's arguments, but a host that runs the whole command through `sh -c`
    still shows that shell's command line, phrases included, so a carry phrase
-   never holds a secret. On a machine shared with other accounts, write them to
-   an owner-only file instead (`mktemp` creates one readable only by you) and say
-   so:
+   never holds a secret. On a machine used only by its owner, the ordinary case:
 
    ```sh
    printf '%s\n' 'first finding' 'second finding' | python3 /path/to/switch/scripts/handoff.py \
      --project /path/to/project measure --record CONTEXT.md --section TODO.md '## Now' \
      --file kivna/sessions/<date>.md --carry-file -
+   ```
+
+   On a machine shared with other accounts, do not pipe them: make an owner-only
+   file with `mktemp` (readable only by you), write the phrases into it with the
+   host's file-write tool, never a shell command, pass `--carry-file <that path>`,
+   remove it after the call, and say so:
+
+   ```sh
+   python3 /path/to/switch/scripts/handoff.py --project /path/to/project measure \
+     --record CONTEXT.md --section TODO.md '## Now' --file kivna/sessions/<date>.md \
+     --carry-file /path/from/mktemp
    ```
 
    Otherwise do not make a temporary file for them: `mktemp`, a write and an `rm`
