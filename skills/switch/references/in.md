@@ -353,7 +353,8 @@ way in:
   job-split/work-view sections if not already loaded, then begin with Conductor ·
   Shape: owner, intended design result, stopping boundary and work split, with
   current model/effort evidence only for jobs dispatched to contributors (one
-  task Conductor does itself gets one plain line instead). Only then start
+  task Conductor does itself gets one plain line instead; a saved preference
+  for less technical detail drops the stage label too). Only then start
   substantive project research.” For underway work, say resume.
 - **Asks for guidance without choosing** (“Something else” from the picker,
   “not sure”, “help me decide”): invoke

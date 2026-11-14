@@ -112,7 +112,7 @@ item names the guide section with its detail: open that section before the step.
   urgent or imminent, inside the reading set ([Save the selected continuation](references/out.md#save-the-selected-continuation)).
 - A lean, measured start point: rulings stay and cases move, closed rows leave with
   their reason, the reading set is named, `handoff.py measure` runs with the phrases piped to `--carry-file -`
-  (no temporary file, except an owner-only one on a machine shared with other accounts; never a phrase as a bare argument), and its reading and `read_args` are saved beside
+  (no temporary file, except an owner-only one on a machine shared with other accounts or where the host cannot pipe; never a phrase as a bare argument), and its reading and `read_args` are saved beside
   the set ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
 - Save named files only, under the agreed Git authority: Out's own records, and
   other files the sitting created or changed and left uncommitted, untracked ones

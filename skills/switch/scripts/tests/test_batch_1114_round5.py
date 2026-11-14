@@ -56,7 +56,7 @@ class OutInputsOnStdin(unittest.TestCase):
     def test_in_and_skill_md_agree(self):
         self.assertIn("Every Switch input that accepts `-` goes on stdin, never through a temporary file",
                       guide("references/in.md"))
-        self.assertIn("runs with the phrases piped to `--carry-file -` (no temporary file, except an owner-only one on a machine shared with other accounts;", guide("SKILL.md"))
+        self.assertIn("runs with the phrases piped to `--carry-file -` (no temporary file, except an owner-only one on a machine shared with other accounts or where the host cannot pipe;", guide("SKILL.md"))
 
     def test_the_instruction_is_true_of_the_scripts(self):
         handoff = (SWITCH / "scripts/handoff.py").read_text(encoding="utf-8")
