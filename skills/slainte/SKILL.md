@@ -1,0 +1,139 @@
+---
+name: slainte
+description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies — or when the user runs the release pass after a version bump (nothing calls it automatically). The pass fixes drift under the caller's verification gate and reports what it deliberately left; on-demand area audits report-only unless the caller asks for fixes."
+---
+
+# Slainte (Project Health)
+
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; never ask whether the person is confused: answer what they asked, with one recommendation; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
+**Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
+**Showing the person:** when they ask to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change, the answer carries a saved, rendered view drawn with diagram-design or Archify — never hand-rolled ASCII in a code fence, never an offer question, no quota; only a single action or a factual answer stays text, and being easy to describe in words does not make it one — see [showing the work](../conductor/references/journey.md#visuals-belong-throughout).
+
+From Irish "slàinte" (health). Pronounced "SLAHN-chuh".
+
+Slainte is the release close-out pass, plus on-demand health audits. The pass fixes what is drift and reports what it deliberately left; the on-demand area audits report issues with severity grades and fix only when the caller asks.
+
+## Targets
+
+Targets derive from the repo — there is no config file. The narrative surface is `README.md` (skill sections + What's New), `CLAUDE.md`, `docs/playbook.md`, `docs/state-contract.md`, the capability lists in `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`, and any `docs/design/` living doc the release's diff touched. Each area audit below names how its own targets derive.
+
+## The release pass
+
+**One trigger: the version-field diff — CI's release definition, reused (a work commit that changes the three `"version"` fields IS a release, rule R1's set).** **The pass has no automatic caller as of v0.107.0** — conductor's close-out invoked it until Conductor was replaced, and the new one calls no other skill. Run `/kerd:slainte release` yourself when the trigger condition is met; the same judgment checks apply.
+
+**Charter: CI owns the mechanical layer (release rules R1–R3)** — version sync, capability-list sync, namespace prefixes. The pass never re-checks any of those; anything newly machine-checkable belongs in CI (file a Backlog row), not here. The pass owns what no machine rule covers: the `release` area checks below, swept across the derived narrative surface.
+
+**Fix discipline: fixes are work commits, and restraint is reported.** The pass edits what is drift, under the caller's verification gate — diff read in full, blast radius reviewed, staged by name — and any prose it writes passes `/kerd:skriv`'s one-shot audit before landing. Anything judged deliberate-not-drift is named in the report as left untouched, with the reason. Visible restraint is the countermeasure for an audit with hands: never fix silently, never leave silently.
+
+**Output: the severity table, plus the left-untouched list** (see Output Format).
+
+## Commands
+
+### `/kerd:slainte <area>`
+
+Run the audit for the specified area. Valid areas: `docs`, `code`, `site`, `deps`, `playbook`, `release`, `all`.
+
+#### docs
+
+Targets: the repo's committed markdown surface — README.md and CLAUDE.md first, then `docs/` (excluding dated historical records: `docs/plans/`, `docs/gates/`, session logs).
+
+1. **Doc inventory**: if CLAUDE.md has a docs table, cross-reference: every file listed should exist, every doc file should be listed
+2. **Name consistency**: search for old or stale names across all docs. Check CLAUDE.md or README for the canonical project name.
+3. **Path consistency**: search for broken internal links and old paths
+4. **Internal links**: check markdown links between docs resolve to real files
+5. **Stats drift**: check test counts, package counts, and other metrics against actual values
+6. **TODO.md accuracy**: are "done" items actually done? Are "blocked" items still blocked?
+7. **README vs CLAUDE.md**: do they agree on structure, counts, and key details?
+
+#### code
+
+Targets: the source directories the repo actually carries (for Kerd: `skills/`, `tools/`, `hooks/`) plus any manifest present (`package.json`, `pyproject.toml`, or equivalent).
+
+1. **Test suite**: run all tests, report failures
+2. **Build check**: run the project's build command, report errors
+3. **Unused exports**: spot-check main entry points against actual usage
+4. **Lock file consistency**: lock files match manifests
+5. **CI config**: if `.github/workflows/` exists, check it references correct versions and commands
+
+#### site
+
+Targets: the site build config and content directories where they exist (`public/`, `next.config.js`, or equivalent). Skip the area when none exist.
+
+1. **Build check**: run the site build command, must pass clean
+2. **Content sync**: if docs are synced from a source directory, check for drift
+3. **Navigation completeness**: every doc should appear in sidebar/nav config
+4. **Asset check**: referenced assets should exist
+5. **Broken links**: scan for references to deleted files
+
+#### deps
+
+Targets: every dependency manifest and lock file present. Skip the area when none exist.
+
+1. **Dependency freshness**: run package manager outdated commands (npm outdated, pip list --outdated, cargo outdated, etc.)
+2. **Lock file consistency**: lock files match manifests
+3. **Security vulnerabilities**: run `npm audit`, `pip audit`, or equivalent if available
+
+#### playbook
+
+Targets: `docs/playbook.md`.
+
+1. **Existence**: does `docs/playbook.md` exist? If it is confirmed absent, report it as optional, not a failure ("No playbook found. It is optional; write `docs/playbook.md` by hand, or copy and adapt the skeleton `/kerd:tend` shows in its Category 2 by hand; Tend reports a missing playbook and does not create it."). If the path cannot be inspected (permission error, unreadable folder), say so and do not report it as missing.
+2. **Current Status accuracy**: compare the "Current Status" section against actual project state (working build, test results, deployed state if detectable)
+3. **Tech stack drift**: are the tools/frameworks listed in the playbook still in `package.json` / `pyproject.toml` / equivalent? Flag removed or added deps not reflected in playbook
+4. **Setup steps validity**: do the setup commands reference files and scripts that still exist?
+5. **Freshness**: when was playbook last modified relative to recent commits? If 10+ commits have landed since the last playbook update, flag as medium
+6. **Section completeness**: are any major sections empty or still showing skeleton placeholder text?
+
+#### release
+
+Kerd-specific release audit — the judgment layer of the release pass, also runnable on demand. Only runs when slainte detects `.claude-plugin/plugin.json` (i.e., in the Kerd repo itself or a Kerd-like plugin repo).
+
+CI owns the mechanical checks that used to open this list (version sync, description sync, namespace sweep — release rules R1–R3); never re-check them here.
+
+1. **Skill count consistency**: count `skills/*/SKILL.md` files and compare against claims in `README.md` (e.g., "Nine workflow skills") and `docs/playbook.md`. Mismatches are high severity.
+2. **SKILL frontmatter drift**: for each `skills/*/SKILL.md`, verify the `name` field matches the directory name. Flag mismatches as high.
+3. **Marketplace URL**: verify `.claude-plugin/marketplace.json` `plugins[0].source.url` points to the canonical repo (not a fork). Mismatch is high severity.
+4. **Cross-doc claim verification**: verify that claims made in docs match the code and each other:
+   - README "What's New" version numbers match the actual current version in plugin.json. If the latest What's New entry references a version that doesn't match the current version, flag as medium.
+   - README skill descriptions match SKILL.md behavior. For each skill section in README, spot-check 2-3 specific claims (e.g., "conductor does not write session logs") against the actual SKILL.md. Flag contradictions as high.
+   - `docs/playbook.md` "Working" list matches actual skill set and feature claims. Flag stale claims as medium.
+   - `docs/state-contract.md` ownership table matches actual skill behavior. For each W (write) entry, verify the skill actually writes to that file. For each `-` (no interaction), verify the skill doesn't reference that file. Flag contradictions as high.
+   - Vault Status.md version matches plugin.json version. Mismatch is informational only (v0.83.0: the vault is opt-in and refreshed solely by deliberate `/kerd:kivna save` — staleness of any depth is expected, never a finding).
+5. **Hook auto-load currency**: verify `hooks/hooks.json` exists, is valid JSON, and every hook script it references (a `/hooks/*.sh` path under the plugin-root variable, `$` followed by `{CLAUDE_PLUGIN_ROOT}`) exists in `hooks/`. Flag a missing script as high — the harness auto-loads this file on enable, so a wrong path silently kills the hook. Verify the retired `hooks/hooks.template.json` is absent (its presence means the v0.96.0 auto-load migration is incomplete); flag as medium if found.
+
+#### all
+
+Run all areas (including release if `.claude-plugin/plugin.json` exists). Use parallel agents where possible for speed.
+
+## Output Format
+
+Start with a summary line:
+
+```
+Slainte: X high, Y medium, Z low
+```
+
+Then a severity table per area:
+
+| Severity | Location | Issue | Evidence |
+|----------|----------|-------|----------|
+| high | `docs/whitepaper.md:12` | References old project name | grep "OldName" → 3 hits at lines 12, 47, 89 |
+| medium | `CLAUDE.md` § Tests | Test count says 145, actual is 148 | `find . -name "*.test.*" \| wc -l` → 148; CLAUDE.md line 67 says 145 |
+| low | `README.md:23` | Minor formatting inconsistency | trailing whitespace per `git diff --check` |
+
+In the release pass, the table is followed by a **Left untouched** list — one line per deliberate non-fix, naming the finding and why it was judged deliberate rather than drift.
+
+### Evidence specification
+
+Each finding must include an **Evidence** column entry — the specific check that detected it: file:line reference, command run with output, grep result, version comparison, or doc citation. "References old project name" without a line number or grep result is unverifiable; "References old project name (grep 'OldName' → 3 hits at lines 12, 47, 89)" is reproducible. This applies to ALL severity levels — even `low` findings get a citation, because a finding without evidence is a claim without a source.
+
+If a finding cannot be cited (e.g. cross-doc drift detected through reading rather than a specific command), record the comparison method explicitly: "compared README.md `## Skills` count to `skills/` directory count: README says 9, directory has 10."
+
+**Absence is confirmed, not assumed.** A finding that a file or folder is missing needs a clear "no such file". A permission error, an unreadable directory or an indeterminate check is reported as "could not inspect `<path>`: `<reason>`", never as missing. Before applying any fix that writes, check the path again; if it cannot be inspected, stop and explain.
+
+### Severity guide:
+- **high**: factually wrong, broken build, missing file, security vulnerability
+- **medium**: stale but not misleading, cosmetic inconsistency
+- **low**: nitpick, style drift, minor staleness

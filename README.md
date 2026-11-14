@@ -1,0 +1,2606 @@
+# Kerd
+
+Kerd turns working with an AI from a string of chats into a piece of work. You
+talk the work through with the AI until you both know what "done" means; Kerd
+calls that part *rehearsal*. Then the plan is written down as a *score*, one step
+per part, and a team of agents carries it out, with your goals checked before it
+ends; Kerd calls that part *the concert*.
+
+**Rehearsal, then the concert.** Two words carry the whole of Kerd. *Rehearsal*
+is the part you are in: working it through turn by turn, in any order, shipping
+as you go, while Kerd keeps a *sketchbook*, a running note of what is settled for
+that piece of work. *The concert* is what happens once you say you are ready: the
+score is performed by a team of agents, with no turn-by-turn questions, because
+the asking already happened. It comes back to you only for something that costs
+money, cannot be undone or falls outside what you agreed. You decide when
+rehearsal ends, and nothing is performed that you have not agreed.
+
+**Who it is for:** people already working in Claude Code, in a project folder
+tracked by Git. If your work is not in Git yet, [a few steps set it
+up](docs/guide/getting-started.md#if-your-work-isnt-in-git-yet), and you do not
+need GitHub. Kerd does not replace Claude Code. **How new it is:** picking work up
+and putting it down has been in daily use for months. Rehearsal and the concert
+shipped in 0.139.0, and the README, guides and [live site](https://kerd-six.vercel.app/)
+are their first real use. What has not been seen in real use yet is listed in
+[known limits](docs/guide/known-limits.md).
+
+![A day with Kerd: sit down and pick up, rehearse, call it ready, perform the concert, put it down](docs/pictures/how-kerd-works.svg)
+
+**Kerd runs inside Claude Code; a four-skill Codex package exists but is early.** Kerd
+is a plugin: a set of skills you call by name, plus the records they keep on disk so
+the next sitting, meaning one stretch of work from opening the project to putting it
+down, can read them.
+
+The work is whatever Claude Code can do inside a project folder: code, a set
+of documents, a research write-up, a website. This README, the guides, the
+pictures and the site in this repo were made with Kerd in one piece of work, and
+most of it is prose and drawings rather than code. What you need is Claude Code, a
+project folder tracked by Git, because Kerd keeps its records as files in that
+folder and saves them with Git, and ordinary language. Kerd adds no server,
+no inbox and no service of its own.
+
+## Why you would care: three things that go wrong today
+
+### You lose your place
+
+Every new chat starts from nothing, and you re-explain. With Kerd you sit down
+and it tells you where things stand, what is open, and the one thing it would do
+next and why. On this machine or another.
+
+![Picking up where you left off: last sitting's saved place becomes this sitting's arrival](docs/pictures/pick-up-where-you-left-off.svg)
+
+Guide: [Switch](docs/guide/switch.md).
+
+### What you want never gets pinned down
+
+The AI starts building before either of you knows what "done" means. With Kerd
+you rehearse: work it through turn by turn, still delivering as you go, while
+Kerd keeps a sketchbook, a running note of what is settled, one per piece of
+work, and draws pictures you can agree to. Ask "where are we?" at any point and
+it answers from that sketchbook.
+
+![Rehearsal: turn by turn, a sketchbook of what is settled, pictures to agree](docs/pictures/rehearsal.svg)
+
+Guides: [Conductor](docs/guide/conductor.md), [Visuals](docs/guide/visuals.md).
+
+### It's done when your spec and goals are met
+
+Today everything stays turn by turn, and done is whatever the AI says it is. With
+Kerd, once you are ready, the work is written as a score, the plan with one step per
+part, and performed as a concert: many players, each an agent given one step and
+running alongside the others, every return checked, the result compared with your
+goals before it ends. Every gap still open is settled at once before it starts,
+each with a default you can change; after that only something that costs money,
+cannot be undone or falls outside what you agreed comes back to you, for that one
+point, not to the start. A second AI can
+read the work too: another Claude or Codex session, either a partner you have
+already paired with, which knows the project, or a fresh reviewer started for that
+one job and given the brief and the sources, not the builder's account of what it
+did.
+
+![The concert: a score, players working in parallel, every return checked, the result compared with your goals](docs/pictures/the-concert.svg)
+
+Guides: [Conductor](docs/guide/conductor.md), [Agent](docs/guide/agent.md).
+
+As said at the top, this part is new. Everything below is marked for what it is:
+where a claim has been proved by running it, this page says so, and where it has
+not, it says that too.
+
+## Install
+
+Needs git and Python 3.10 or newer (macOS or Linux).
+
+```
+claude plugin marketplace add anthonymaley/Kerd
+claude plugin install kerd@kerd-marketplace
+```
+
+Type these in a terminal, not inside a Claude Code session. If the first prints
+"SSH clone failed, retrying with HTTPS", that is normal without a GitHub key; it
+succeeds on the retry.
+
+**Try a version before adopting it**, without installing it:
+
+```
+claude --plugin-dir /absolute/path/to/kerd
+```
+
+The local copy loads alongside whatever you already have, as a session-only
+plugin: `claude plugin list` shows both, the installed one still enabled and the
+local one loaded beside it. Closing the session ends that. Nothing is installed
+and nothing is disabled, but it is not trace-free: starting a session this way
+records one line of usage in your `~/.claude.json`. Tested in a throwaway
+profile on 2026-09-20. Which copy's skill text a running session prefers has not
+been tested.
+
+**If your work is not in Git yet,** [a few steps set it
+up](docs/guide/getting-started.md#if-your-work-isnt-in-git-yet), and a remote such
+as GitHub is optional.
+
+### Codex (early)
+
+Kerd's Codex package has four of the eight skills (Conductor, Switch, Visuals and
+Agent). It has not been used by anyone but its author, so treat it as early. To
+install it from the generated Git marketplace:
+
+```sh
+codex plugin marketplace add anthonymaley/Kerd --ref codex
+codex plugin add kerd@kerd-core
+```
+
+Update after that one-time registration:
+
+```sh
+codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core
+```
+
+For existing local-build installations, migrate the registration first. See
+[getting started](docs/guide/getting-started.md#install-in-codex).
+
+## Your first five minutes
+
+Open the project folder you want to work in and say:
+
+```
+/kerd:switch in
+```
+
+Kerd reads the project and tells you where things stand in plain English. The very
+first time, in a project that has never used Kerd, there is nothing to restore;
+the arrival is one line ("Kerd has nothing saved here yet. Tell me what you want to
+work on and Conductor will shape it with you.") and you answer with what you want
+to work on. When you come back for a second sitting it looks like this. The grid
+has no TEAM cell when there is no Claude or Codex pairing, as here; it says "not
+recorded" if the team could not be read. This is an illustration for an invented
+project, shortened (the heading shows 0.x.y where yours shows the version you installed), not output from a real one:
+
+> **TALLY · SWITCH IN COMPLETE ✓ · Kerd 0.x.y**
+>
+> | PROJECT | PHASE | NEXT |
+> | --- | --- | --- |
+> | Tally | export built and accepted | Add a customer filter to the export, if you still want it. |
+>
+> **Where things stand:** The spreadsheet export works and you accepted it. It
+> saves a file with the day's date in its name, most-voted requests first.
+>
+> **Open work**
+>
+> 1. Customer filter for the export: you said "not today", so it waits for you.
+> 2. You: decide whether to back the project up somewhere other than this computer.
+>
+> **Recommended:** Add the customer filter, if you want it.
+>
+> **Why:** It is the one thing you set aside last time, and the export is ready
+> for it.
+>
+> > 💬 **Start a Conductor session?**
+
+Say yes to the work it recommends, pick one of the other open items it offers, or
+name something else. Then work. Talk it through, change your mind, ship as you
+go. When you stop:
+
+```
+/kerd:switch out
+```
+
+That saves the place: what changed, what got settled, and what the next Switch In
+will offer, the recommended next step first, each with its reason.
+The following sitting starts from it, here, or on another machine once the saved work has been pushed (sent to a remote copy, such as one on GitHub) and is available there.
+
+That is the whole path: `/kerd:switch in`, work, `/kerd:switch out`. Claude Code
+may ask before Kerd runs its own helper scripts, depending on your permission
+settings; [getting started](docs/guide/getting-started.md#permission-prompts) says what those
+prompts look like. `/kerd:tend` is an optional tidy-up for a project that wants
+Kerd's full layout; you do not need it first.
+
+Step by step, including what each question means and what to do when something is
+missing: [getting started](docs/guide/getting-started.md). What has not been seen
+in real use yet: [known limits](docs/guide/known-limits.md).
+
+## What Kerd lets you do
+
+| You can | The skill | Guide |
+|---|---|---|
+| Put work down and pick it up exactly where you left it | Switch | [switch](docs/guide/switch.md) |
+| Shape a piece of work, agree it, and have it performed | Conductor | [conductor](docs/guide/conductor.md) |
+| See it: pictures of what you are making, as you go | Visuals | [visuals](docs/guide/visuals.md) |
+| Get a second opinion from another AI session, Claude or Codex | Agent | [agent](docs/guide/agent.md) |
+| Keep the project tidy and catch what has drifted | Tend, Slainte | [tend and slainte](docs/guide/tend-and-slainte.md) |
+| Keep what you learn, and write like a person | Kivna, Skriv | [kivna and skriv](docs/guide/kivna-and-skriv.md) |
+
+Every command, one line each: [reference](docs/guide/reference.md).
+
+Kerd also runs a small release rules check in CI, the checks GitHub runs on a
+push: it catches version drift and a mismatched capability list between the
+plugin manifests on every push. What keeps the work itself honest is
+the sketchbook that becomes a spec, the score the build is checked against, the
+goal check at the end, and an independent reviewer, not a machine that refuses
+your work.
+
+## What it writes, and how to remove it
+
+Four kinds of file carry the work, and all four are ordinary Markdown: open
+them, read them, edit them, commit them.
+
+| File | What it holds |
+|---|---|
+| `CONTEXT.md` | what is currently true about the project, overwritten each time, never a diary |
+| `TODO.md` | open work only: `## Now` and `## Backlog`, one line each |
+| `kivna/sessions/YYYY-MM-DD.md` | one log per day: what was done, key decisions, commits, what is next |
+| `docs/work/<name>/work.md` | one record per piece of work: the direction, what is settled, what is still open (kept in your private vault instead when `kivna/vault.json` sets `"work_notes": "vault"`, along with `outside-the-repo.md`, the list of live links outside the repository) |
+
+Those four are not everything Kerd writes. Drawings are saved as HTML and SVG
+beside the work record. If you opt into the Obsidian vault, `kivna/vault.json`
+is committed JSON and the vault itself lives outside your project. And some
+working state is meant to stay out of Git, under `.agents/` and parts of
+`kivna/`, so it belongs in your `.gitignore`.
+
+Switch Out saves them with Git, trying to create the session log and `TODO.md` the first
+time if they are missing (its closing box says if it could not), and it commits the files it names and nothing
+else. It pushes when you have given it the authority to push. If the project has
+no remote, a save that stays on this computer is a valid choice: Out says "Saved on this computer only" and still offers the restart line, and
+no push permission or GitHub access is needed. If the project does have a remote
+and the saved commit has not been pushed to it, Out warns you to push before you
+switch devices and keeps the session open until you have.
+
+To remove Kerd:
+
+```
+claude plugin uninstall kerd@kerd-marketplace
+```
+
+The four files stay in your project. They were readable without Kerd the whole
+time.
+
+## What it costs
+
+Rehearsal is an ordinary conversation: one session, one model, the cost of a
+chat. A concert is not. It runs several players at the same time, each its own
+agent, and then a second AI reads the result, so a concert spends more than the
+same work done in one chat. Nobody has measured how much more, and this page is
+not going to guess at a number.
+
+## Examples
+
+Real work, not invented.
+
+- [MusicTUI across sittings](examples/musictui-across-sittings.md). A terminal app carried through many sittings, the place saved and picked up each time.
+- [A reviewed release](examples/a-reviewed-release.md). A Kerd release read by an independent second AI before it shipped.
+- [This package](examples/this-package.md). The README, site and guides you are reading now, from rehearsal to concert.
+
+## Rolling back
+
+**Rollback is a Git reference, never a cached plugin file.** Claude Code garbage-
+collects old versions out of `~/.claude/plugins/cache/`, so a version you can see
+there today may be gone tomorrow. That is what silently killed hooks across eleven
+repos before v0.96.0. Roll back by pinning the marketplace to a tagged commit:
+
+| Want | Reference |
+|---|---|
+| The last commit before Conductor/Switch were replaced | `716a099` on `origin/main` |
+| Undo the release, keep the history | `git revert <release commit>` |
+
+**Read this before pinning to an old commit.** From `bc0d78e` on 2026-02-27
+until the fix in 0.142.1 on 2026-09-20, this project's marketplace manifest
+named itself by its SSH address, and `claude plugin install` clones that address
+literally. `716a099` is inside that range. Pinned anywhere in it, the install
+fails with `Permission denied (publickey)` for anyone who has not set up a
+GitHub key, and no environment variable changes that: the address is explicit,
+so there is no shorthand for the CLI to re-resolve. Tested in a throwaway
+profile on 2026-09-20.
+
+Two ways round it, neither run against an old commit: take a checkout of the
+version you want and point `--plugin-dir` at it (loading a local checkout that
+way was observed working on 2026-09-20, with a current one), or edit the `url`
+in that commit's `.claude-plugin/marketplace.json` to the `https://` form before
+installing, which is the operation the 0.142.1 fix itself was proved with on
+2026-09-19, against a fixed manifest rather than an old one.
+
+This repo carries **no tags** (`git tag` returns nothing), so a commit SHA is the
+only durable reference today. If you want `v0.107.0` to be tag-addressable, the tag
+has to be created and pushed as part of publishing; until then, cite the SHA.
+Confirm what a reference points at with `git show --stat <ref>` before relying on it.
+
+## Optional extras
+
+### overtone, a companion mod
+
+Overtone is a second plugin in the same marketplace, separate from Kerd's skills.
+It is a Claude Code mod: it draws inside Claude Code itself rather than adding
+commands.
+
+**What it shows.** One line above the prompt: three smooth colour bars for
+the context you have left, the 5-hour and weekly allowance you have left, then
+the cache hit, and "expand ▾" at its end. Click it, or press `ctrl+x b`, and the
+Workers card opens beneath the band ("collapse ▴" folds it again). Red alerts join the line only while something
+is wrong, such as a cache that went cold or a worker on a model you did not ask
+for.
+
+**The plan.** While Kerd's Conductor runs a concert, the band shows its plan: "●" and the title, a bar with
+one block per task and "N of M" accepted. Opened, the Workers card lists the tasks in plan order, one line
+each: a square and a bar per step, coloured by state (green done, yellow running with its last block
+flashing, red when a worker needs you, grey to come), then the model, the effort and what it is doing.
+Conductor reports the plan through overtone's `plan` tool and each player its steps through `step`; both
+tools' short descriptions sit in every session's context. Nothing shows for work Conductor does inline.
+
+**The guard.** Before Claude stages, commits or pushes a private path toward a
+public repo, overtone asks you first, and no answer within 30 seconds counts as
+no. It always guards `.env` and `.playwright-mcp/`. Set your notes folder once
+in overtone's `vault_path` setting (`/plugin configure overtone@kerd-marketplace`) and it is guarded in every
+project. A project can add to that in its `kivna/vault.json`: the `vault` it
+names, and its own files under `"private_paths"`. Neither can switch a check
+off, and a file the guard cannot use makes it ask. It reads ordinary git
+commands and the common ways of wrapping them, such as `env`, `sudo` or
+`bash -c`, and asks when it cannot tell what one does: it is a safety net for
+honest mistakes, not a lock against a command disguised on purpose.
+
+Install it with:
+
+```
+claude plugin install overtone@kerd-marketplace
+```
+
+It needs a Claude Code version with mods (2.1.288 or later). If you already
+load a local copy of overtone through a `CLAUDE_CODE_PLUGIN_DIRS` line, delete
+that line and restart before you configure the marketplace build: while the
+local copy loads, `/plugin configure` cannot see the installed one. To turn it
+off, uninstall it:
+
+```
+claude plugin uninstall overtone@kerd-marketplace
+```
+
+## Naming
+
+Gaelic-inspired where it adds character:
+- **Kerd**: skill (ceird)
+- **Kivna**: memory (cuimhne)
+- **Conductor**: keeps one session in tempo (renamed from *dian*, Gaelic for intense/rigorous)
+- **Skriv**: the act of writing (scríobh)
+- **Switch**: session handoff
+- **Slainte**: health (slàinte)
+- **Tend**: from English "to tend" (care for, maintain)
+
+## What's New (v0.198.0)
+
+Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.198.0
+
+**A new user's first screens get their project's name right and keep the plain words they asked for.** A fifth walk
+through Kerd as a simulated non-developer found two things that would confuse an invited person, and this release
+fixes their wording: Switch In no longer names a project after whichever notes file sorts first (it reads `README.md`,
+then `notes.md`, then the folder name), and asked what a word means, Kerd explains it and never claims it wasn't said,
+keeping git's words out of its progress lines for someone who hasn't used them. Someone who asks for technical detail
+to be kept out of the way now has that wish saved, in the work notes and in `CONTEXT.md`, so the next sitting keeps it.
+Switch Out pipes its inputs to its scripts by default instead of writing a temporary file (a file only you can read on a machine shared with other accounts, or where a host cannot pipe); its release cell is filled from four
+reads made first; and the getting-started guide's permissions section names what a first Switch In actually asks to
+run. Wording only: no script changed, and none of it has been walked again yet.
+
+### v0.197.0
+
+**Kerd is ready for its first invited users, developers or not.** A second simulated first user, a product marketer
+writing a launch brief with no Git experience, finished the work and came back to it, and found what still confused
+them; this release fixes it. Conductor puts a document you'll use beside your own files, names its work folder from
+your words, edits only what the agreed work covers and asks before changing your own notes, asks once what format a
+document for other people should be in, puts the work down after a finished revision, and says "saved" rather than
+git's words to someone who doesn't use them; for someone who asked to skip the technical detail its first line
+is plain, it puts the work down once they accept a draft, asks one question at a time and keeps its notes current. Its staffing grid now reaches the screen: on Claude Code 2.1.319 text
+written between tool calls is shown only as a summary, so Conductor starts its helpers in the background and ends that
+reply with the grid in its exact shape, written into Conductor's own instructions (the go and Ready evals passed 2 of 2
+each, from 0 of 2; small samples). Switch In names the project from its
+README or main notes file, runs each check as one plain command so fewer permission prompts repeat, recommends your own next item instead of saying nothing is actionable, and shows only urgent risks under
+Attention; Switch Out names every file the sitting changed in one question, checks that the next step's files exist,
+says what Kerd's own files are the first time, keeps its measurement lines under a heading marked for Kerd, and speaks
+in plain words with the git term in brackets ("Saved on this computer only."). The chat roll no longer refuses its own session over a `[1m]` model
+suffix, and a wrong model no longer uses up the roll. The getting-started guide lists the permission prompts a first
+sitting asks, sets your git name before the first commit and explains git's words; a new page for invited users and a
+"Something broke or confused me" issue template say how to report a problem. `tools/plugin_release.py` builds a slim
+install package (1.6 MB instead of 39 MB) that `ship` can publish; users are not switched to it yet.
+
+### v0.196.0
+
+**A first-time user can now get through a sitting without hitting Kerd's own machinery.** A simulated first user, a
+product person with a small project and no remote, found two things that stopped them and a dozen that confused them.
+This release fixes them. Switch Out on a project with no Git remote now saves on this computer, says so in one line and
+offers the restart line, instead of saying the boundary check failed; it checks each repo, the notes repo included,
+re-reads what it decided on before answering, counts only remote branches this check fetched, and refuses
+when it cannot prove that. Switch Out creates the session log and `TODO.md` when they are missing,
+so the first step everywhere is `/kerd:switch in` and `/kerd:tend` is an optional tidy-up. A first Switch In on a
+project with nothing saved shows one plain line instead of an empty grid; the weekly review line waits until a project
+has some history; the person at the keyboard is "You:". Conductor's first turn on a single task is one plain line, with
+the staffing grid only when it starts helpers, and it names rehearsal, the sketchbook and the concert once in plain
+words. Tend gives a project not yet set up a plain report with nothing marked failing, and asks for git, not a remote;
+Kivna no longer defaults to its author's vault, and setting up a vault keeps the files already there. The README, getting
+started and the site start with Switch In, say what to do when your work isn't in Git yet, explain the permission
+prompts, move Codex under "Codex (early)", and a new Known limits page says what has not been seen in real use. Switch Out saves only its own records and asks before including anything else, and its restart line is one plain instruction. A
+flaky Conductor test that failed under load now waits for its child process. Unseen with a real person: the invited
+round is still the test.
+
+### v0.195.0
+
+**Conductor's review brief now names the problems that took several rounds to find.** Kerd's first weekly review found
+review rounds turning up the same kind of problem one layer at a time: one old claim found at a different line in each
+of four rounds, and code checks that fail open or run before the read they guard found one layer per round. A review brief now
+asks for these by name: for a wording change, search every file the change touches and any that repeats the claim, not
+only the diff, and flag absolutes the source does not support; for code, ask of every check whether it fails closed and
+whether it runs after the read it guards. After two Holds of the same kind, Conductor widens the next brief to that
+kind across the files the change touches. Agent's review routing points at the same list. Wording only; whether reviews take fewer rounds shows in use.
+
+### v0.194.3
+
+**Kerd's own releases run from one script, and a test run is read from its own exit code.** Kerd's first weekly
+review found the release typed by hand about ten times in a week, and once a suite read through `| tail` reported a
+pass that CI then failed. `tools/release.py` now does the steps: `check` runs the steps CI's workflow lists, each with
+its own exit code; `prep` bumps the version and writes the note into README and CHANGELOG; `ship`, on the go only, pushes,
+waits for the CI run of that exact commit and publishes on green, otherwise printing the failing lines or saying they could not be fetched. Conductor's
+guide now says a pass is read from the run's own exit code, never through a pipe. For Kerd's maintainers; no change to
+what the skills do for you.
+
+### v0.194.2
+
+**Conductor's `ask` tests no longer fail at random on macOS.** After a test kills a process group it waits for
+the group to disappear, and it counted only "no such process" as gone; macOS can briefly answer "permission denied"
+while a killed group is cleared away, and that one answer failed a full run on 2026-11-13. The tests now treat a denied
+check as "not gone yet" within the same deadline, as `ask`'s own `stop()` already does, and their cleanup tolerates it
+too. Tests only; no change to what Kerd does.
+
+### v0.194.1
+
+**A plain Switch pickup checks the project again after reading its record.** A pickup given a saved revision, and
+`prepare`, already confirmed after reading that the branch, the commit and the project's unsaved changes were as
+before; a plain pickup checked only before reading, so an edit landing while the record was read came back as the
+saved record. Every pickup now checks the branch, the commit and unsaved changes again after the read, and reads the
+record a second time, so a record kept out of Git with `--preserve` is covered too; a change refuses the pickup.
+These are checks at two moments, not a snapshot. Found by a fresh Codex reviewer of 0.194.0.
+
+### v0.194.0
+
+**A project that shares its records' Git repo with other projects can be picked up again.** apple-music keeps its
+records in the vault, a repo several projects write to, so Switch In's `prepare` checked the whole vault for unsaved
+work, and on 2026-11-08 Kerd's unsaved notes folder stopped apple-music's pickup. `prepare`, `pickup` and `measure`
+now take `--scope <folder>`, saved in the project's `read_args`: only unsaved changes inside that folder stop the
+pickup, every project source must lie inside it, and the notes config must be saved. For every pickup, scoped or
+not, a fast-forward now refuses rather than overwrite an ignored local file.
+
+### v0.193.3
+
+**The user guides for Switch, Conductor and Agent describe 0.193.2.** They were last changed at 0.189.0, so they
+still told a new reader that the paired partner does the reviews. They now say that reviews go by default to a fresh
+reviewer from the other provider, started through Agent and briefed with the records, with a standing Codex partner
+for multi-turn Codex work or when you name one; that a stalled partner is a gap at Ready; that pairings show when they
+last replied, are marked stale and can be retired (set aside, recoverable, on your yes); that a Codex partner Kerd
+starts can be asked again (tried live once); and that Switch In offers lines for stale pairings and a Codex window
+whose requests have waited since an earlier day. Wording only.
+
+### v0.193.2
+
+**Conductor's advice for OpenAI work knows GPT-6.1 Terra.** Its model-choice page said GPT-6 has no Terra tier, while
+the shared catalogue's GPT-6 profile, revised 2026-11-03 from OpenAI's pages, lists GPT-6.1 Sol and GPT-6.1 Terra,
+and Kerd still shipped the September profile. Kerd now ships that revised profile (the September one archived), and the
+page's OpenAI rows read Astra, GPT-6.1 Sol, GPT-6.1 Terra and Luna, with GPT-6 Sol noted as gone from the models page.
+The page's pointers to Conductor's orchestration and model-jobs guides now name them in words, so they still make
+sense when Conductor reads the page from the catalogue copy, where the old links led nowhere. Wording only.
+
+### v0.193.1
+
+**A Codex partner Kerd starts can be asked again on current Codex.** codex-cli 0.167 makes its daemon's control
+socket a link into a private temporary folder, and Agent refused every link, so no Kerd-started partner, and no
+request through the daemon's queue, could get through. Agent now follows that link one step, only to your own socket
+in a folder you own that grants
+no permission bits to anyone else, connects to exactly what it checked, and talks to it only after the system confirms
+the process serving it runs as you. On this Mac, a thread Kerd
+had just started was missing from Codex's local store before its first turn (a second one was there right after
+its first turn; when it was written is not known), and Agent checked the store before sending that turn, so the
+first ask to a new partner was refused. A partner Kerd started itself (and only that) is now reached through the daemon until
+its first turn lands; every other route keeps the store check. Tried live on this Mac: a read-only partner answered
+its first ask in 5 seconds, and again after 21 minutes idle, woken in the same session without a fork. One
+idle gap is not proof the route never stalls.
+
+### v0.193.0
+
+**Reviews go to a fresh reviewer by default.** A Codex window takes a queued request only when it takes
+its next turn, so a review sent to an unattended one waits; that happened on 2026-10-14, in work-anthony on 2026-11-05 and in Kerd on 2026-11-08. Now Conductor
+sends checkpoint, before-push and pull-request reviews to a fresh reviewer from the other provider, started through
+Agent: a fresh Codex reviewer when Claude builds, a fresh Claude reviewer when Codex builds (a different model of the
+same provider, said as such, when the other can't start). It is briefed with the records to read (the work's notes,
+the decisions, the diff) and its verdict is written back to the notes. A standing
+Codex partner is for multi-turn Codex work, or when you ask for one; your own `codex` window takes work while you are
+at it. A partner's review cadence still sets when reviews happen. Agent now shows when each pairing last replied and
+marks one stale after 14 days without a reply, or when a request sent since its last reply has gone unconfirmed for
+over a day. Switch In no longer greets stale pairings: it lists them as one line for you, and `agent.py retire`
+moves a binding aside, never deleting it, only on your yes. A Kerd-started Codex partner is not yet proven: on the
+test machine it could not be reached (a symlinked daemon socket, and a new thread missing from Codex's own store),
+so multi-turn work falls back to a fresh Codex worker per turn and says so.
+
+### v0.192.0
+
+**Conductor knows how to brief Claude Fable 5.2.** Claude Code's `fable` alias now means Fable 5.2 (released
+9 November) from Claude Code 2.1.321, so Kerd's `kerd:fable-*` agents run it there, unless a gateway session,
+an alias override or a model allowlist says otherwise. A new prompt profile, from full
+reads of Anthropic's 5.2 prompting guide, what's new page, migration guide and effort notes, tells Conductor what
+changed: start at high effort and don't reuse 5.1 settings; a "don't deliberate" line no longer cuts thinking; at low
+and medium a job can stop before it is done, so the brief says to finish; leave out the "you own this codebase"
+sentence on your code (with it, output rose 70 to 80 percent and unrequested changes appeared); name the exact actions
+that need approval and write rules with their scope instead of "never"; test leaving a large budget out of briefs, while keeping limits a job must observe; check a player's
+diff, not only its summary. The model guide lists Fable 5.2 in place of 5.1 (still reachable by its full ID) with its
+price, its high default effort, usage-credit billing on some plans and its safety fallbacks. Every clause comes from
+Anthropic's guidance; none has yet been tried on Kerd work.
+
+### v0.191.0
+
+**A stalled Codex partner is put to you instead of quietly routed around.** When a paired Codex window stops
+taking Kerd's requests, Switch In already flags it. Now, once the oldest request has waited since an earlier day, Open
+work also carries a line that is yours: look at that window and say which waiting requests still matter. Conductor
+names the stalled partner as a gap at Ready; its reviews still go to the partner first, and one left unanswered for ten
+minutes gets a fresh one-off reviewer started through `/kerd:agent`, which your go on that Ready approves for that work.
+A staffing row that names a hand-typed `codex exec` is no longer a valid plan: reviewers started through Agent can be
+listed from either side, hand-typed runs cannot. From one project where a partner stalled for five days and 142
+hand-typed reviews stood in, unseen from Codex. This is guide wording; it has not yet been seen in a live sitting.
+
+### v0.190.0
+
+**Conductor reads model profiles from a weekly catalogue; Tend moves projects off the old Codex bridge.** Model
+profiles now live on Kerd's public `catalogue` branch, which a weekly job updates when a provider's official page
+changes, through pull requests that are reviewed and merged by hand. Conductor reads that catalogue and uses its saved copy
+for seven days before fetching again; when a fetch fails it keeps using the last saved copy, and only with none falls
+back to the profiles shipped in the plugin, so its model advice no longer waits for a Kerd release. Tend now spots a project still using the old vault bridge to Codex
+(`.agents/bin/ask-codex`), whose replies were written to files and could stop for an approval every time. It offers to
+pair that project's recorded Codex thread through `/kerd:agent`, which reads Codex's answer from its own transcript,
+and then to remove the old bridge piece by piece on your go. Agent's pairing guide says the same.
+
+### v0.189.0
+
+**Conductor asks once, then works; a weekly review finds what slipped.** From Anthropic's own research on how its
+staff use Claude (human attention is the bottleneck). At Ready, Conductor lists every gap still open at once, each with
+the default it will use, so one go covers them all. During a concert only what costs money, cannot be undone, goes outward (a push, a
+release, anything sent) or falls outside what you agreed stops the run; an unforeseen gap whose default stays inside what you agreed, costs nothing and can be undone takes that
+default and is reported for reversal. Every report opens with
+three lines, Found, Needs you and Unsure, and its closing question asks exactly what Needs you says. "Make this a
+skill" builds one in your own project with Anthropic's skill-creator, with how to run it and what to check. Pasted notes
+that hold decisions come back as one list to settle or drop. A weekly review, offered by Switch In when the last one is
+over 7 days old, reads the week's sessions for corrections, repeated jobs, unclear questions, unreviewed defaults and
+decisions that never reached a record, and changes nothing without your go.
+
+### v0.188.2
+
+**Intersect sequence sheets leave less to guess.** A drawer redrawing a relayed focal reply on 0.188.1 had to
+guess four things; each now has one reading. A message's number tag sits on its arrow at the sending end, joined by a
+short leader (tags stack down a side only on boxes). On a focal relay the diamond stays black: the red belongs to the
+message. The result banner says where the result went, never a copy of the last message's label. Every arrow that is
+a message of its own carries its own number, returns included; a relay's later hop takes none.
+
+### v0.188.1
+
+**Intersect has one reading of the focal thing.** A second drawing trial found the theme saying two things: its node
+table drew the focal node in ink inside an orbit ring, while its mapping and house rules drew it with the red border.
+The focal node is now the red border at 2.5, and the orbit ring belongs to a hub. A sequence message relayed through
+an actor (a reply passing through Agent on its way to Conductor) is one message on two hops: its number on the first
+hop, a diamond where it passes through, red on every hop when it is the focal message, each hop still counted toward
+the arrow and bus limits. The legend explains the red in words rather than drawing a second red sample.
+
+### v0.188.0
+
+**Diagrams keep your look, and overtone shows a player Conductor resumes.** In work-anthony a deploy plan came
+out in Archify's dark look on a machine whose diagrams are Intersect: Archify never reads diagram-design's
+style guide, and Visuals let a drawer pick it. When you have chosen a look (a project's, or a theme you made your
+default), Visuals now draws with diagram-design and uses Archify only when you ask for it or its exploration is
+the point, saying the view is in Archify's own look. The same sitting showed overtone's Workers card reading
+"no jobs running" while a player worked: Conductor had resumed a finished player with SendMessage, which starts
+no new agent, and overtone ignored calls from a worker it had seen finish. overtone 0.10.1 brings the row back
+on the resumed player's first call and ends it again when it finishes (four new tests; not yet seen live).
+
+### v0.187.1
+
+**Intersect draws sequence diagrams as the sheet, not a recoloured default.** A fresh drawer's sequence
+diagram kept Intersect's frame, title block and legend but drew plain lifelines and arrows inside, because the
+theme mapped no sequence parts; it also reused a step number and cut the final reply short to stay under the
+arrow limit. The theme now maps each part: actors as name plates, the call the diagram is about as the studded
+bus, returns as bead links with filled heads and async hand-offs with open ones, numbered messages with their
+own pin tags, fragments as housings with the operator on a side panel (an `alt` keeps its divider and guards),
+a dimension line for one round, a banner for the result leaving the sheet, and the focal message in red at the
+heavier weight. Too many lifelines, messages or fragments for diagram-design's limits means two sheets or a
+question, never a dropped or merged step. One redraw before and after (tested, not yet verified across drawers).
+
+### v0.187.0
+
+**Kerd reaches a Codex thread you opened in the Codex app.** Pairing refused a Codex reviewer thread opened in
+the Codex app or IDE ("not a session a person opened"), so re-pairing by ID never worked; Kerd only took threads
+opened in a terminal. Agent now lists, pairs and sends to an app thread you opened, the same way as a terminal one
+(a test message was answered in 7 seconds). App-server threads no person opened are still refused, and Kerd's own
+partners still go through Codex's server. Conductor also says a fresh Codex reviewer starts through Agent, never a
+hand-typed `codex exec`, and a review job only reviews and reports, never held behind a CI watch; every review a
+step asked for is read before acting on it.
+
+### v0.186.0
+
+**Intersect is drawn on white, full size, and in your look.** In real use a drawer squeezed an Intersect sheet down
+to phone width, dropping its side panels and banner, and other views were drawn in a hand-picked paper look while
+Intersect was the chosen style. The theme's paper is now white (`#FFFFFF`, with `#F2F2F0` for the frame and
+secondary fills); red, capitals and shapes are unchanged. Visuals now draws for a desktop screen first: a theme's
+full-size sheet stays full size and scrolls sideways on a narrow screen, and nobody briefs a drawer to narrow it.
+Every diagram-design view takes its colours, type and shapes from the active style guide (a theme you asked for on
+that one diagram, otherwise your project's profile, otherwise the one installed on your machine) and is checked
+against it before you see it. If you made Intersect a
+project or machine default, switch to it again to pick up the white paper.
+
+### v0.185.1
+
+**Intersect diagrams now look like the sheet, not a recoloured chart.** A real diagram drawn with the 0.185.0
+theme kept its colours and fonts but lost everything else: no sheet frame, no title block, no grain, no pin tags or
+flow lines, and white boxes. The theme now makes the sheet compulsory (frame, title block inside it, legend strip,
+grain, paper-coloured boxes only), puts the project and title inside the striped barber-pole frame, carries the
+main flow between groups as a long studded line with rounded bends, says which Intersect shape stands for each
+ordinary part of a diagram, never inventing one, carries a sheet outline to draw inside, and ends with a check
+that sends a flat drawing back to be redrawn. If you made Intersect a project or machine default, switch to it again to pick up
+the new version.
+
+### v0.185.0
+
+**An opt-in diagram theme: Intersect.** Kerd now ships a second look for diagrams, beside your own: a photocopied
+engineering schematic in off-white, toner black and one red, all in capitals, with numbered pin tags, chevron
+banners and studded flow lines. Ask Visuals for it in plain words: "draw this in the intersect theme" for one
+diagram, "switch to intersect theme" for the project you are in, or "make intersect my default" for every project
+on your machine that has not chosen its own look; ask to switch back the same way, and Kerd puts back the look
+you had. It is a diagram-design profile, so it never changes anyone's
+default unless they ask, and Archify diagrams keep their own look.
+
+### v0.184.1
+
+**The Agent guide says Kerd reads the Codex queue.** Slainte's release pass for 0.184.0 found the Agent guide still
+saying only that your Codex terminal is queued to. It now says Kerd reads that queue without changing its messages,
+says whether a request is still waiting and for how long when known, or unknown, and that Switch In flags an
+established Codex partner whose requests have waited over ten minutes. Wording only; no skill changed.
+
+### v0.184.0
+
+**Kerd says when a Codex request is still waiting in Codex's queue.** A request sent to a Codex window used to
+show only "sent, not confirmed", whether Codex had taken it or it was still sitting in Codex's own queue; on
+2026-10-14 three reviews sat there for two hours unseen. Agent now looks in that queue, read only, and says which:
+still waiting (with how long and how many ahead), no longer queued (which is not proof it was answered), or unknown.
+Switch In flags a Codex partner whose Kerd requests have waited over ten minutes. If the window is idle, typing in it
+woke a stalled one.
+
+### v0.183.2
+
+**Slainte no longer claims something runs it at a release.** Slainte's description said Conductor's close-out fires
+its release pass, and the Tend and Slainte guide said it runs automatically at a release. No automatic caller has
+existed since 0.107.0. Separately, that guide, the reference, the playbook and the state contract still named an
+acceptance record landing as a time to run it; acceptance records left with the retired ladder, so they now name only
+the version bump. After a version bump, run `/kerd:slainte release` yourself.
+
+### v0.183.1
+
+**A wait line says what was done meanwhile, even on a re-wait.** When Conductor ends a turn waiting on a job, it
+already had to say what it did in the meantime or why nothing else could move. In real use, 11 of 48 wait lines put
+"then <next step>" there instead, mostly right after a worker reported back. That substitution is now named and ruled
+out.
+
+### v0.183.0
+
+**Check questions name the result and ask whether it happened.** When Kerd asks you to check something, it no
+longer quizzes you on what the screen says. It names the expected result and asks whether you saw it; on a no, it asks
+what you saw instead. A genuine unknown still gets an open question.
+
+### v0.182.0
+
+**CI and long test runs go to a background worker, and git commands name the repo by its path.** Conductor
+still sat waiting on CI or a long test run even after 0.181.4. Now every CI run, deploy or test run over about a
+minute goes to a worker launched in the background (Haiku at low effort on Claude Code) that comes back with pass or
+fail, the run ID and, on a failure, the failing lines; Conductor never runs a watcher, `sleep` or wait loop itself and
+picks up the result between other work. Also, any git command that changes a repo names it by its literal path,
+never a repo or command held in a shell variable, which overtone's guard cannot read and stalled on for 30 seconds.
+
+### v0.181.4
+
+**A wait line says what was done meanwhile.** 0.181.2 had Conductor keep working while CI or tests ran, but a
+session could still end its turn on a bare "⏳ waiting on the tests" with records left to write, and you had to ask
+what it was doing. Now the wait line also says what was done meanwhile, or that nothing else authorized can move and
+why, and a host or global rule that accepts a named wait as a turn ending does not lift this.
+
+### v0.181.3
+
+**A Haiku worker sent without an effort level follows the session at xhigh too.** 0.181.1 said a plain
+`kerd:haiku` worker runs at the session's effort, tested at low and high only. Three more probes (Claude Code
+2.1.295) found the same at xhigh, under a Sonnet session as well as a Haiku one, and with `CLAUDE_CODE_EFFORT_LEVEL`
+set, which overrides `--effort` for the session and the worker alike. The agent's description and the Haiku 5.5
+profile now say so; max is not tested yet.
+
+### v0.181.2
+
+**Conductor keeps working while CI runs.** A session that pushed would watch CI with a foreground `gh run watch`,
+which holds the turn, and you had to tell it to move on. The rule to start other work first was there since 0.162.0
+but never named the trap. Now Conductor watches CI, a deploy or a long test run in the background and, meanwhile,
+does what doesn't need the result: records, the next steps' commands made ready, read-only checks, the next task.
+
+### v0.181.1
+
+**A Haiku worker sent without an effort level now says what it runs at.** 0.181.0 called the effort of a plain
+`kerd:haiku` worker unconfirmed. Two probes (Claude Code 2.1.295, Haiku 5.5 sessions at low and at high, no effort
+variables set) found the worker runs at the session's own effort, not Haiku 5.5's default of medium; the agent's
+description and the Haiku 5.5 profile now say so, scoped to what was tested. Sessions at xhigh or max, and
+`CLAUDE_CODE_EFFORT_LEVEL` set, are not tested yet.
+
+### v0.181.0
+
+**Haiku 5.5 jobs now run at an effort Conductor chooses, and overtone 0.10.0 shows it.** Haiku 5.5 (released
+2026-10-07) is the first Haiku that takes an effort level; Kerd still treated every Haiku as 4.5, so a Haiku worker ran
+at whatever effort the session gave it, unseen. Conductor and Agent now send a Haiku 5.5 job through `kerd:haiku-low`,
+`kerd:haiku-medium` or `kerd:haiku-high`, and the model guidance has a Haiku 5.5 profile from Anthropic's own docs
+(no matched comparison on Kerd's jobs yet, and the profile says so): medium for most work, high for longer agent
+jobs and strict instructions, low only for short ones; a long or code-changing brief carries Anthropic's "keep
+working until done" and "run a real check" lines. The `haiku` alias means Haiku 5.5 only on the Anthropic API with
+Claude Code 2.1.293 or later; on Claude Platform on AWS, Bedrock, Google Cloud and Foundry it is still Haiku 4.5, which
+takes no effort. Plain `kerd:haiku` stays for sessions that predate the new agents. overtone's Workers card shows the
+effort on Haiku 5.5 rows and a dash for Haiku 4.5 and older (tests only, not yet seen live). 1,049 Kerd tests, 743
+overtone tests; codex-tui reviewed it (two rounds).
+
+### v0.180.2
+
+**overtone 0.9.2: the band and its opened view now match the approved design.** The "expand ▾" button sits at the
+end of the band as a plain button, after the bars and the plan, and the plan reads "● name" with the name in bold.
+Opened, the band stays on top with "collapse ▴" at its end, and the Workers card is the one box beneath it: the old
+outer frame and its header row are gone, and the band no longer jumps a line when you open it. A session running on
+a model you did not ask for now says so in red on the band itself (it used to sit in the old header), and on the
+"next ▸" line only when a narrow band has folded it into "⚠ N". Short and narrow terminals are budgeted as drawn: a
+plan with no workers yet, a 40-column card and a one-row band all fit. Checked live in a trial session with three
+workers on 2026-10-09; 740 overtone tests; codex-tui reviewed it (two rounds).
+
+### v0.180.1
+
+**overtone 0.9.1: the band and the Workers card now look the way they were designed, with or without a plan.** The
+context, 5-hour and weekly bars are drawn as smooth true-colour bars of what is left, in place of the square
+blocks. The fold button reads "expand ▾" and "collapse ▴". Opened, the Workers card shows every worker as one
+line (a square, a bar, model, effort and what it is doing), numbered in the order they started, even when no
+Conductor plan was sent; before, those rows appeared only during a concert. A worker that has not reported its
+steps shows one block moving along a grey bar, so its bar no longer looks nearly full. A worker on a model you
+did not ask for keeps its place when the card folds and says "wrong model · asked X". Checked live in a trial
+session on 2026-10-08; 733 overtone tests; codex-tui reviewed it (two rounds).
+
+### v0.180.0
+
+**overtone 0.9.0: the band shows Conductor's plan, and each player's progress.** While Kerd's Conductor runs a
+concert, the band shows its plan: the title, a bar with one block per task and "N of M" accepted. Opened, the Workers
+card lists the tasks in plan order, one line each: a square and a bar per step, coloured by state (green done, yellow
+running with its last block flashing, red when a worker needs you, grey to come), then model, effort and what it is
+doing. Conductor reports the plan through overtone's new `plan` tool and now tells each player to report its steps
+through `step` (a player told "if available" never called it). Model-written plan, worker and note text is stripped of
+control, bidi and format characters before it is drawn. A worker running in auto, dontAsk or bypass mode is no longer
+shown as waiting on a permission prompt while the auto-mode classifier decides (a live run showed a 2-minute command
+red as "needs you"); the mode read is the parent's, the only one the engine passes. Haiku rows show no effort.
+Also: a Conductor test that failed at random under load now waits for a complete ready file. Checked live in a trial
+session on 2026-10-08: the plan bar, task rows in order, step bars filling from real Haiku workers, no false block;
+706 overtone tests; codex-tui reviewed the plan view (three rounds) and the text stripping (two).
+
+### v0.179.0
+
+**Switch Out saves your private notes by their real folder path, and steps you do yourself say where.** Switch
+Out now commits and pushes the private notes repo by its literal path (`git -C <path>`), never through a shell
+variable or `cd $VAR`, the form the guard refused in 5+ Outs across 4 sittings, 30 seconds each; no Out has run on
+the new wording yet. Conductor's
+question form gains a rule for steps the person does themselves: a numbered list, one action per step, each saying
+which machine or app it happens on, none left out; a scan of 8 real sittings found 6 cases where a person lost the
+thread at such steps. Sonnet 5.5's profile adds one clause from Kerd's own checks: a reader that grades or scans
+transcripts against a brief, with Conductor checking every finding, runs at medium; high stays where completeness is
+the result, since checking findings cannot recover omissions. Three medium-vs-high checks found the same hard failures
+and core findings, medium a little less complete (one confirmed minor missed). codex-tui: two rounds on the fixes and three on the release, safe to push.
+
+### v0.178.0
+
+**Switch Out at the end of finished work is run, not asked.** When the sitting's agreed work is complete and
+nothing is outstanding for the session (no job, review or answer pending), the session controlling that work saves
+the next step its finish named and runs Switch Out itself, saying so; it never asks "Shall I switch out now?".
+Remaining authorized work comes first, the ~200k mark never interrupts unfinished work, a concert keeps its own Roll,
+a partner session never starts an Out, and "not yet" holds. A recheck of five real sittings on 0.175.0 to 0.177.2
+found every one asking. Also: the Codex package publisher (`tools/codex_release.py`) refuses a source commit that
+is not on origin's main, and says a previous release source missing from the checkout needs `git fetch origin`
+instead of "not an ancestor". codex-tui: two rounds on each change, safe to push.
+
+### v0.177.3
+
+**overtone 0.8.4: the guard asks less on ordinary git and closes three small holes.** It no longer asks on
+`git push --dry-run`, or on a read-only shell alias (one that runs or writes through an option still asks). A push
+written as `src:dst` is checked against the full ref the remote holds, and a push to any non-branch ref (a tag,
+`refs/for/*`) reads the remote live, so a tag pushed by refspec is no longer unchecked. A `kivna/vault.json` that git
+will not show, or shows cut short, or whose absence check fails, now asks instead of counting as no vault. The band
+refolds when its card frame goes and never overruns one or two rows. 0.177.2 already carried most of this under the
+0.8.3 label; 0.8.4 is the same guard plus the cut-read fix, under its own number. codex-tui: four rounds across the
+two fixes, safe to push. Still open by decision: an unreadable working-copy `vault.json` (parked until a real slip
+shows one). Kerd's skills are unchanged.
+
+### v0.177.2
+
+**A Git-backed Codex core package, with terminal install and update commands.**
+The generated `codex` branch carries Conductor, Switch, Visuals and Agent from
+one committed source revision. Users register it once, then refresh `kerd-core`
+and reinstall `kerd@kerd-core` to update, without a source checkout or build.
+The source and packaged guides include that route and the one-time migration
+from a local catalog. Publication is an explicit maintainer command, not automatic
+CI or a Plugins Directory listing. Claude's other four skills and hooks stay out
+of the core; existing conversations still need a fresh session after an update.
+
+### v0.177.1
+
+**overtone 0.8.3: `push --all` stops asking every time on a clone that fetches pull requests.** The guard checks a
+ref-set push (`--all`, `--branches`, `--tags`, `--mirror`) against what the remote has now, but it read every
+remote-tracking ref as a branch, so a ref fetched from elsewhere (GitHub's `refs/pull/*/head` into `origin/pr/*`)
+read as gone and every such push asked. It now reads each tracking ref through the remote's own fetch settings and
+checks the ref it came from; unchanged passes. Still asks: a changed ref, a tracking ref no fetch setting explains, a
+fetch setting it cannot read, and two sources of one ref both on the remote. A tag pushed by refspec still gets no
+live check (Backlog). codex-tui: two rounds (round 1 caught a `$` in a branch name read wrong), safe to push. Kerd's
+skills are unchanged.
+
+### v0.177.0
+
+**Switch In stops recommending "keep using it" when there is nothing to build.** When the active list held only
+things to watch in real use and your own decisions, Switch Out saved "keep using Kerd on real work" as the next step
+and Switch In recommended it, so you had to ask for options (twice on 2026-10-07). Now an item that only waits, to
+watch real use or for you to decide, is never the recommendation or the saved next step. When nothing in Now can be
+built, the arrival says so plainly and weighs the saved item and the Backlog's rows, skipping any the records defer or
+park; with none eligible it says there is nothing to recommend. A suggested route to settle a pending choice still
+counts as work. Sonnet evals unchanged (5 of 6 at 1.00, the known Out slip). codex-tui: two rounds, safe to push.
+
+### v0.176.0
+
+**Switch reads its guide before it acts, so it now works on Haiku.** On Haiku, Switch never opened its guide (0 of 18
+eval runs): Switch In wrote the screen by hand (~0.6) and Switch Out skipped most steps (~0.2), once telling you the
+session was closed and saved when nothing was saved. Switch's first instruction now says to read the guide for the
+action before any other tool call, with the host's file reader: In and Out in full, To and Roll the sections their
+guide routes them to; and to run every command in your project, never in the skill's folder. Haiku now opens the
+guide every time: In 1.00, Out 0.69-0.88, no false close (it still skips the measured start point; Backlog). Sonnet
+and Opus unchanged. codex-tui: two rounds, safe to push.
+
+### v0.175.3
+
+**overtone 0.8.2: a failed `cd` no longer sends the guard to the wrong folder.** When a `cd` fails, the shell
+stays where it was and git runs there, but the guard followed the `cd` anyway and checked a folder git never ran in
+(`cd /a && cd /typo; git push` was judged against `/typo`, found no repo and passed). The guard now remembers every
+folder a `cd` or `pushd` moved to before each git command and asks when any of them is not a folder: missing, or a
+file (`cd README.md`), even when the line moves on (`cd /typo; cd ..`). Only ever asks more; one known extra ask is
+`mkdir x && cd x && git add` in one command. codex-tui: two rounds, safe to push. Kerd's skills are unchanged.
+
+### v0.175.2
+
+**Switch Out reads the save check whole before it says the save is proven.** In one of nine eval runs, Out piped the
+boundary check through `tail`, cut off its status line, and its closing box still said the save was proven, so you
+could have cleared context on a save nobody had confirmed. Out now reads the check's output whole, never through
+`tail`, `head` or `grep`, and only a `boundary_ok` in that call's own result earns the ✓; a status it did not see is
+recorded as not recorded, never as passed. Wording and a test; codex-tui: safe to push.
+
+### v0.175.1
+
+**overtone 0.8.1: the guard stops guessing which folder a push runs in.** Three rare gaps a review left at 0.7.0,
+and five more the closing reviews found (four of them already in 0.8.0), let the guard judge a git command against a
+folder it had guessed. `cd -`, `popd`, `pushd` forms that name no plain folder, `cd +N`, the `~-`/`~+`/`~N` tilde
+forms, a folder after `--` that starts with `-`, an option the builtin does not take, and a word after the target
+now ask instead of being followed. A shell alias (`!git …`) is read from both where you ran it and the top of the
+work tree, where git runs it, and asks if either does. `..` never cancels a `$X` in a path, and a pathspec the shell
+expands is unreadable. `git push --all/--tags/--mirror` to a public remote checks what the remote has now before
+trusting the tracking refs, and asks if they are stale. Every change only asks more; codex-tui's last two of six
+review rounds found no command that asked before and passes now. Kerd's skills are unchanged.
+
+### v0.175.0
+
+**The chat roll can fire on a window Claude Code reports.** Conductor's chat roll fires past 50% of the host-declared
+context window, but on a setup whose model ID carries no window (`claude-opus-5-5`) nothing declared one, so the roll
+never fired. A window Claude Code itself reports in the conversation now counts as declared: the system prompt's, or the
+`ctx <used>/<window>` figure the overtone mod adds to this session's own prompts from Claude Code's reading. A figure in a
+partner's reply, a quote or an example never counts, a model change voids it until restart (overtone can repeat the old
+window), and nothing is guessed from the model's name. Without one, the roll still refuses and says so once in chat.
+Wording tests pin the source and its exclusions.
+
+### v0.174.0
+
+**The question asks about the recommendation.** 0.173.0 listed the options above an open question, so a person saw
+four candidates and a recommendation and was then asked "What are you trying to achieve?" as if none had been offered
+("why ask an opposing question after listing option?", its first real use). Every skill now says: when options are
+listed with one recommendation and the question chooses among them (which work, which route), it asks about that
+recommendation ("Start with the export fix?"). A missing fact, a pick-several choice and Switch In's fixed arrival
+question keep their own question. Conductor's entry follows suit. Wording tests pin the rule and its exceptions.
+
+**Two Switch eval grader fixes.** The measurement check accepts "0.7k tokens", and a new check catches Switch In opening
+Conductor's files with Read (a shell read is not caught). Not yet run in an eval.
+
+### v0.173.0
+
+**Questions come with the options in hand.** Every skill's question rule now says: when options are in hand (open work,
+known routes, candidates), list them above the question with one recommendation, even for an open question, and ask bare
+only when none are in hand. Conductor's "What are you trying to achieve?" lists recorded candidate work above it. Before
+this, Conductor asked that question bare after Switch In although the Backlog held four candidates, and the person had
+to ask "options?"; it happened in other repos too. Wording tests pin the rule; model behaviour not yet seen.
+
+**overtone 0.8.0: finished helpers stop reading as running.** A helper agent overtone first sees through a tool call,
+never at its spawn, now ends when the agent above it ends, unless the host's agent list, a pending call or a permission
+ask shows it alive; such an ending is "unconfirmed", claims neither success nor failure, and revives on fresh signs of
+life. One the host's list has left out and that has made no call for ten minutes is shown as quiet, never as running or
+done. Before this, three finished helpers read as running for over two and a half hours. Reviewed by Codex in three
+rounds; 469 tests; not yet seen live, and the cause of the stuck rows is likely, not proven.
+
+**Three wording fixes.** A Switch In answer that chooses work opens Conductor at Shape (one stage name everywhere);
+Switch Out saves the vault first and writes its commit into the start point before the last project commit, so nothing
+is written after the passed boundary check; a chat roll refused for want of a declared context window is said to the
+person in the chat, not only in the sketchbook.
+
+### v0.172.1
+
+**Switch Out ends on its box.** The saved-place box is now the last thing Switch Out shows: its guide and the Out
+must-hold list say nothing follows the closing line, and anything worth saying goes into the box or the records. Before
+this, the Out guide said to end on one box but never, as Switch In does, that nothing follows it, and Sonnet eval runs
+sometimes added a note after the restart line (1 of 9 before 0.170.0; 2 of 3 on one case after). A wording test pins the
+rule; the behaviour evals were not re-run.
+
+### v0.172.0
+
+**Conductor shows who does what before your go.** At Ready, Conductor's decision block now carries the
+task/who/model/effort grid for every job the go will dispatch, each with its Fit line, so the go approves staffing you have
+seen; the go dispatches as shown, and a row that changes is shown again before it is sent. Before this, Conductor chose
+models correctly but dispatched without ever showing the grid, in every eval run and in real use, and a rule placed at the
+go itself changed nothing. A new behaviour case, `evals/conductor-ready`, measured it with the same graders, three runs
+each on Opus with shell and editing allowed: the grid and Fit lines appeared before the go in 1 of 3 runs before and 3 of
+3 after, with nothing dispatched early. Sonnet was not measured cleanly (1 of 3 after in a first pass the eval's tool
+limits skewed). A fresh Codex reviewer found four blockers (the must-hold
+line had dropped the controller row and the repeated Fit line; the graders were too loose); all fixed, and a re-run with
+stricter graders showed the full grid with a Fit line for every job in 3 of 3 Opus runs, nothing built or branched early
+(one run then asked to install the diagram tool the eval sandbox cannot load).
+
+### v0.171.1
+
+**Agent keeps the rules that must hold at the top.** Agent's SKILL.md now opens with a Must hold section: the paragraphs
+on permissions, inbound trust and what it never does (kill a terminal, resume "latest", revive an offline session) moved
+there word for word from the end of the file. The long role-and-review-cadence question moved word for word into the user
+guide, and all three Agent guides have contents lists. SKILL.md is 157 lines, down from 185; a line-by-line check found
+every original line still present. No behaviour changes, and no evals were run.
+
+### v0.171.0
+
+**Conductor keeps the rules that must hold at the top, and gets shorter.** Conductor's SKILL.md was 443 lines, close to
+the 500-line limit, with its rules spread through long explanations. It now opens with 37 must-hold rules for entry,
+shaping, the go, the concert and the finish, each keeping its source's conditions and linking to the detail; the long
+explanations moved word for word into the guides (a new entry guide, and the understanding, journey and work-record
+guides), and every guide over 100 lines has a contents list. SKILL.md is now 356 lines. A fresh Codex reviewer checked
+each rule against its source and found eight that had dropped a condition; all restored, re-check clean. Four behaviour
+cases in `evals/conductor-*` (entry from Switch's question, the go, a consequential decision, the finish) measured it
+before and after with the same graders, three runs each on Sonnet and Opus: entry went from 1 of 3 clean runs to 2 of 3
+on both; decision and finish stayed near-perfect; the go stayed at 0 of 3, because both models send work out without
+first showing the who/model/effort grid, a gap this change did not fix. Not yet seen in a real sitting.
+
+### v0.170.0
+
+**Switch keeps the rules that must hold where Claude reads them.** Two weeks of Kerd sessions showed Claude reads a
+skill's guide files whole only 12% of the time, and Switch Out never opened its 941-line guide in 10 of 33 runs. Switch's
+SKILL.md, which is always loaded whole, now opens with short must-hold lists for In, Out, To and Roll, each with the
+guide's own conditions and a direct link to the section with the detail. The guide is split into an In guide and an Out
+guide, each with a contents list; the short To guide is folded into To and Roll, which repeated it. No rule was rewritten:
+1,220 of 1,229 guide lines moved word for word, the rest are titles and pointers turned into links. Six behaviour cases in
+`evals/switch-*` (In and Out, each clean, with a file kept local by decision, and without a session log with a
+human-owned item) measured it before and after with the same graders, three runs each: Sonnet's Switch Out went from 3 of
+9 clean runs to 7 of 9 (it now records the reading-set measurement it used to skip), Switch In from 8 of 9 to 9 of 9, and
+Opus stayed near-perfect; Haiku follows Switch poorly either way. Run them with
+`PATH=<dir with a real git>:$PATH claude plugin eval . --case 'switch-*' --model sonnet --runs 3 --scaffold --allow-tools Bash Edit Write --ablation none`;
+on a Mac whose `/usr/bin/git` is Apple's stub the sandbox cannot find git without that PATH. SKILL.md grows from about
+3,200 to 5,500 tokens. A fresh Codex reviewer, three rounds, found must-hold lines that had dropped a guide's condition and
+graders that passed too easily; all fixed. Not yet seen in a real sitting.
+
+### v0.169.2
+
+**overtone 0.7.1: a worker's row shows its task, not its latest command.** In the expanded band's Workers card the
+"doing" column is gone and the job column takes its room, so a task name gets 35 characters on a 120-column band and
+65 on a 150-column one instead of 14 or 22; the latest tool call changed every few seconds and pushed the task out. A
+worker waiting on a permission prompt still shows what it waits on, since that is what you answer, and a partner row
+reads its name and the role it was asked. Running rows in the one-line form drop the tool call too, and task names
+are kept at up to 56 characters on a wide band. `/overtone` still prints each job's latest call. A fresh Codex reviewer and two re-checks: a long task hid the call a blocked worker waits on, now fixed. 454 mod tests. Not yet seen live.
+
+### v0.169.1
+
+**Kerd's skills meet Anthropic's frontmatter limits, and the release check keeps them there.** Anthropic's skill
+authoring guide caps a skill's description at 1,024 characters with no XML tags, and Claude Code's skill list cuts
+each entry at 1,536. Conductor's description was 2,139 characters, so its later trigger phrases were cut off; it is
+now 987, with its triggers first and its secondary detail left to the skill body. The frontmatter of Conductor,
+Switch, Visuals and the five older effort agents did not parse as YAML because of an unquoted colon; it is quoted
+now, with no wording changed. `tools/release_check.py` refuses frontmatter that does not parse, a description over
+1,024 characters or containing `<` or `>`, and a SKILL.md body of 500 lines or more, with or without PyYAML
+installed. Reviewed by a fresh Codex reviewer twice. Not yet seen in a real sitting.
+
+### v0.169.0
+
+**Overtone 0.7.0: the guard sees git however Claude starts it, and the band opens on workers.** The guard now
+reads git behind `env`, `sudo`, `timeout`, `nice`, `bash -c`, `eval`, here-documents, redirects and shortened or
+cancelled options, and asks when it cannot tell what a command does: through `xargs`, `find -exec`, `git subtree
+push`, aliases, a `cd` into a variable, or git settings passed for one command. A commit with `-i` counts what is
+already staged, a push lists files from merge commits and files with accented names, and `push --all` reads every
+branch's private-file list. It is a safety net for honest mistakes, not a lock against a command disguised on
+purpose, and the README now says so. Opened, the band shows the workers running and, when the cache went cold,
+why; the context, 5-hour and weekly bars stay on the one line, and `/overtone` prints their detail. When rows run
+short, workers come first and the card borders stay. 450 mod tests; four fresh read-only reviews. Kerd's skills
+are unchanged. Not yet seen in a real sitting.
+
+### v0.168.0
+
+**Overtone joins the marketplace as an optional companion mod.** Overtone is a Claude Code mod that has run in
+Kerd's own sittings: a one-line band above the prompt with three bars of square blocks for the context,
+5-hour and weekly allowance you have left, then the cache hit, opening in place on a click or `ctrl+x b`, with red
+alerts only while something is wrong. Its guard asks before Claude stages, commits or pushes a private path toward a
+public repo. It now ships as a second plugin, version 0.6.0, installed with `claude plugin install
+overtone@kerd-marketplace` and removed by uninstalling it; it needs a Claude Code version with mods (2.1.288 or
+later). For this release the guard stopped carrying anything of its author's: it ships with only `.env` and
+`.playwright-mcp/` as private paths. Your own notes folder goes in its new `vault_path` setting and is guarded in
+every project. A project adds its vault and its own private files in `kivna/vault.json` (`vault`, and the new
+`"private_paths"` list). Those settings only add checks: a vault path that holds the project or your home folder, a
+relative one, or a file the guard cannot read makes it ask, never pass. Kerd's own `kivna/vault.json` now lists its
+five local-only files there. Tests cover each case. Kerd's skills are unchanged. Not yet installed from the
+marketplace in a real sitting.
+
+### v0.167.1
+
+**Switch In shows its screen before the picker, every time.** An arrival could open straight on "Start a
+Conductor session?" with no summary above it: the screen was drawn in a shell call, its output stayed in the folded
+tool result, and the picker came next. Two of five of Kerd's own arrivals on 2026-10-03 did this, and a Kerd user
+met it on 2026-10-04. Switch, its pickup guide and Conductor's question form now say the screen is reply text, pasted
+into the message itself before the picker, and that a picker with no screen above it is a skipped arrival. A wording
+test guards all three places. Nothing else about the arrival changes. Not yet seen in a real sitting.
+
+### v0.167.0
+
+**Switch Out now shows what Switch In will offer, and Switch In offers more than one way in.** Out's closing box
+used to end on one next step. It now previews the choices the next arrival is expected to offer: the recommended step
+with its reason, plus up to two other open items, each with its reason, all marked proposed, never agreed. The next
+Switch In still weighs every open item afresh, so the saved choices are candidates, not a plan. At the arrival, the
+picker after "Start a Conductor session?" grows from exactly two choices ("Yes — <the recommended work>", "Something
+else") to up to four: the recommendation, up to two other open items each with a one-line why, and "Something else",
+with free text always open. Picking any work opens Conductor at Shape for it and approves none of its operations; a
+plain yes still means the recommendation, which stays one item. The bubble question is unchanged and the picker
+never replaces or precedes it. The renderer takes a new optional `next_in` list for the closing box; without it the
+box reads as before. Neither screen has been seen in a real sitting yet.
+
+### v0.166.0
+
+**Kerd's Sonnet jobs now get instructions written for Sonnet 5.5.** Claude Code's `sonnet` now points to Sonnet
+5.5 on Anthropic's API (since 2026-09-28), and Kerd's Sonnet readers were already running on it (18 of 18 calls
+observed) with instructions tuned for Sonnet 5. A new Sonnet 5.5 profile, from a full read of Anthropic's guide,
+carries its recalibrated effort levels (Claude Code runs it at medium by default) and its new habits: checking in
+early at low effort, adding files nobody asked for, starting its own review rounds at xhigh or max, and calling work
+done without a real check at low. The five Sonnet agents now stop when the work is done and checked and start no
+review rounds or subagents of their own unless asked. The model table gains a Sonnet 5.5 row and says which Sonnet
+each provider actually serves. The Sonnet 5 profile stays for Sonnet 5. Every new clause is unproven until a real
+job uses it.
+
+### v0.165.0
+
+**Kerd now tells you that a Codex it starts can't reach the network from its commands by default.** A Codex worker or
+partner that Agent or Conductor starts runs read-only for a review, or with edits inside the project, and its shell
+commands can't reach the network by default, so it can't install packages or run tests that need downloads; a user
+reported "no internet access" "anytime i ask it to do anything". Agent and Conductor now say so when they offer those
+routes and offer your own session instead: open `codex` in a new terminal in the project folder and Kerd finds it,
+with no ID to copy. Checked the same day: an editing job's `curl` reached the internet only with
+`[sandbox_workspace_write] network_access = true` in `~/.codex/config.toml`, a review's never did, and a review
+could still use Codex's own web search, which follows your Codex settings. The guides explain both, and managed
+Codex Roll, which turns web search off and refuses to run whenever that setting gives it network access, now says
+so when it is proposed. Wording only; the Codex jobs themselves are unchanged. Releases stay paused otherwise.
+
+### v0.164.1
+
+**The chat roll works with a sketchbook folder linked into the vault.** A project that keeps its plans in the
+vault through a folder link (apple-music's `docs/plans`) had its roll refused as "outside the project", because the
+check followed the link first. The name must still sit inside the project and outside Git metadata, and the link
+may lead only into the project or the project's own vault folder, never into Git metadata; tests cover both. Releases now pause so Kerd can be used for a while.
+
+### v0.164.0
+
+**A declined Switch Out stays declined for a while.** After you say no, Kerd does not ask again at the end
+of every turn: it comes back once the next piece of work you chose is finished or about 100k more tokens have been
+spent, whichever comes first (sooner only when the context window is nearly full), and never on the answer to a
+follow-up question. When the next item can't start yet, the finish names it and when it can start instead.
+
+### v0.163.3
+
+**The model trial has a second reading.** A second real design brief, of a different kind (a hook and
+terminal passage), went unchanged apart from the repository path to jobs requesting Opus 5.5 and Fable 5.1 and was graded blind:
+Opus clearly stronger again, verifying two material facts that Fable got wrong. Recorded in the task evidence with its
+confounds. `CONTEXT.md` and `TODO.md` now record that Codex runs 0.163.2.
+
+### v0.163.2
+
+**The model trial's record states only what was observed.** Its third arm now reads "GPT-6 Astra at xhigh
+requested; model and effort unreported", so a requested setting is never presented as the model that ran, and
+the file loses a stray blank line. Codex's own review of 0.163.1 raised both after the push.
+
+### v0.163.1
+
+**Agent stops printing a slice of the partner's session log, and the first same-brief model trial is on
+record.** Request output could expose up to 64 bytes of the partner's own session log, the sample Agent keeps
+to spot a log rewritten in place; that sample now stays in Agent's private record, with a test that fails
+without the fix. The trial behind it gave one real design brief (Agent's security fixes of 0.155.0),
+unchanged and on the code as it stood then, to Opus 5.5 at xhigh, Fable 5.1 at high and a fresh Codex. Two
+blind graders, Codex and Sonnet 5, put Opus first; Sonnet put Fable a slight second and Codex third. Opus and
+Fable both named the log leak, which Codex's score and the 0.155.0 release missed. One brief, so one reading,
+not a ranking; it fits the model guide's order and gives no case yet where Fable was needed after Opus.
+
+### v0.163.0
+
+**Kerd briefs each model from its current guide, and findings stop getting filtered away.** A read of
+359 delegated jobs over the past week, and of Anthropic's and OpenAI's guides as they stand today, found
+Kerd's model choices still match the vendors: Opus 5.5 composes first and Fable 5.1 comes in when Opus
+at its highest effort falls short; the other provider reviews, with Fable standing in (15 of 15 stand-in
+reviews found real problems). What had fallen behind were the prompt profiles: Fable 5.1's carried 5 of
+the guide's behaviours, Sonnet 5's 2. Both now carry the behaviours that change a brief (Fable 19
+clauses, Sonnet 11), Opus 5.5 gains two (tagging pasted text as data, safeguard refusals), and a note
+says how Haiku 4.5 differs. Any job that reports findings (a review, sweep, audit or evidence reading) is
+now asked for every issue with its confidence and severity, because Anthropic documents that a "report only
+high-severity issues" code-review brief makes Sonnet 5 drop real findings below the bar; Conductor filters afterwards. And a player that
+says it departed from a required part of its step (built before the tests it was told to write first,
+for instance) is sent back to the step as written, not accepted on a later passing test; twice last week that went by without a word. The week's job
+evidence is recorded beside the profiles. No clause has yet been scored against results, and no job has
+run the same brief on two models; a matched composer trial is next.
+
+### v0.162.1
+
+**Two rules now sit where a session actually reads them, from the first real-use re-grade.** Each
+0.162.0 sitting since release (four in one project, four in Kerd's own; apple-music had not yet restarted on it) was read back. The diagram
+heading and states held in both saved diagrams; a session started its other approved jobs before
+waiting (8 waits, none idle); four of five genuine questions were open. The fifth, asked in a session that
+had loaded Conductor but not its question guide, was a two-way pick ("did it pick up, or did you have
+to re-explain?"). So the one-line question rule at the top of every skill now says it too: a genuine
+question is open, never "X, or Y?". And a Switch In read its saved start point by hand and skipped
+the two private vault notes in it; Switch now says to assemble the start point with the helper's
+`prepare` and the saved notes commit, which reads every `notes:` entry and refuses a vault that is behind the saved commit;
+where `prepare` cannot run, the same set is read by hand, notes included. The
+push-first trigger and the chat roll still did not come up in real use; they stay on watch.
+
+### v0.162.0
+
+**Two rules tightened from reading a week of real use.** Kerd's recent changes were graded against
+real sittings in two other projects (read-only). Most held: questions came after their decision block,
+reports opened on what the person has, and 65 of 65 turn endings in one project closed on a question
+or a named wait. Two gaps showed. A turn ended on a correctly named wait while other approved work
+could have run, and the person had to ask why nothing else was moving; a session now starts every
+independent job its approval covers before it waits, and a named wait is the ending only when nothing
+else can move. And a question allowed without a decision block was worded as a two-way pick ("X, or
+Y?"); a genuine question is now open, and where two routes are known Kerd recommends one and asks for
+approval. The diagram rules (0.161.0), the push-first trigger, the chat roll and the vault notes were
+not exercised in those sittings, so they stay on watch.
+
+### v0.161.1
+
+**A flaky test stops failing the release gate.** `test_change_read.py` failed once in CI on
+2026-09-26: its temporary folder could not be deleted ("Directory not empty: 'pack'"), most likely
+because Git's background clean-up was still writing inside it; a re-run passed. The cause is not
+proven (a repo this small should rarely trigger that clean-up), so watch for a repeat. The test's Git environment now turns off
+automatic clean-up and maintenance (`gc.auto`, `gc.autoDetach`, `maintenance.auto`) for every repo
+it creates. Tests only; no skill behaviour changes.
+
+### v0.161.0
+
+**Every diagram now opens with its project's name.** A Kerd render's first line of text, whatever the
+tool calls it (eyebrow, kicker or title), starts with the project in capitals and a colon, then the
+subject, kind and status: `KERD: Invoice export · proposal from notes.md · not built`. A name
+elsewhere in the picture no longer counts; the pre-show render check looks for it, and the bundled
+starter diagram models it. Anthony caught the gap on a test render (2026-09-26 09:08): "doesnt
+mention the project anywhere that generated it". On 0.160.0, three Conductor proposal views in a
+repo called Acme Billing put the name lower-case in the eyebrow, never leading. Tested on the same scenario with fresh Opus sessions: an
+early wording led with the project in 4 of 6 runs; the misses kept diagram-design's own type
+eyebrow or wrote a dot instead of the colon, so the rule now says to replace a template's eyebrow
+with the project line. On the final wording, **5 of 5** runs opened with `ACME BILLING: …`.
+
+**Proposal diagrams already show who owns the gap and what it costs; the rule stays as it is.** A
+reading of 11 recent proposal views found the owner named in none and the cost in one, so this batch
+measured before changing anything. Fresh Opus sessions on 0.160.0 named the owner and the cost in 6
+of 6 diagrams, whether the notes stated them or only implied them (the owner in the lanes, the cost
+as a short cue with the full statement in a caption). A drafted rule change was not applied. The
+scenarios are in `evals/visuals-owner-cost/`; `claude plugin eval` cannot run them, because its
+sandbox loads only the plugin under test and Visuals needs diagram-design or Archify, so the README
+gives the scripted `claude -p` route.
+
+**A diagram's states no longer look alike.** What exists today is a solid outline, what is proposed
+is dashed, and the change the view is about has a solid, heavier accent border on plain paper (the Kerd
+look allows no tinted fill). Anthony, on a test render where the proposed steps and the focal change were both dashed
+boxes told apart only by colour (09:17): "can we use color vs dashed lines, they look the same?".
+Two states may no longer differ by one cue alone, and a
+result that exists only once the change ships counts as proposed, so it is dashed; an early draft
+that left that out was clean in 1 of 3 runs, the final wording in **5 of 5**.
+
+### v0.160.0
+
+**Kerd's question shape now has a behaviour check, not only a wording check.** `evals/question-shape/`
+is a case for Claude Code's `claude plugin eval`: a repo whose notes hold one slow timing taken under
+load, a two-day fix idea and a ruling the fix would reverse. Thirteen graders check the eight decision
+labels, the final bubble, that the Facts call the evidence weak, and that no file changed. First
+full run (2026-09-26, Opus, three runs per arm, Edit and Write granted so the no-change graders can fail): **1.00 with Kerd, 0.23 without**. Run it with
+`claude plugin eval . --case 'question-shape*' --model opus -j 3 --scaffold --allow-tools Edit Write`; `--scaffold` is needed,
+or the case has no notes to read (two early runs scored low for exactly that reason), and
+`--allow-tools Edit Write` is needed, or the tool removes them and the no-change graders pass for free.
+
+**Switch Out's restart line works with Agent view.** With Claude Code's Agent view on, `/exit`
+opens the list of background sessions instead of returning to the shell, so the old "Exit and
+restart" line left you in the wrong place. The line now reads: "Exit (with Agent view on, Ctrl-C in
+the session list) and restart, or /clear and /kerd:switch in to pick up from here." It still appears
+only after a confirmed save.
+
+**The record viewer stops offering a stock "Correct / Change" reply.** When a record holds a pending
+question with no recorded reply, Switch's single-record view now leaves the reply line out rather
+than filling it with the menu Kerd's question rule forbids.
+
+**The guide's Conductor example uses the decision block.** `docs/guide/conductor.md` now shows the same
+worked example as Conductor's own rules: the eight labels and a bubble ending "— approve?".
+
+### v0.159.0
+
+**Kerd stops asking loaded questions.** A consequential question (one whose answer commits
+work, spends real effort, releases or deletes something, or reverses a ruling) now comes after a
+decision block, in order: **Problem**, **Facts** (including how we know the problem is real and
+how strong that evidence is), **Known options** (or "needs study"), **Recommendation**, **Why**,
+**Cost**, **What we lose** and **Input** (who else checked it, or nobody yet). The bubble then
+repeats the Recommendation sentence ending **"— approve?"**, every operation included, or asks one
+genuine question the recommendation depends on. It never asks something smaller or softer than the
+real decision and never appears without the block: "Review, commit, push and install 0.158.1?" with
+nothing above it hid a big decision behind a short question and read as a trick to get a yes. Listing known options is not a menu: the
+recommendation and the bubble still carry one proposal. A factual question or a small, easily
+undone step stays one line, and Switch In's "Start a Conductor session?" is unchanged. This
+replaces 0.132.0's capsule, which carried the recommendation but never asked whether the problem
+was real. The shape is Anthony's own template, set 2026-09-25, with the approval bubble in his words ("Recommendation sentence…, approve?"). **Tested:** on one scenario (a slow sync with one timing taken under load, and a ruling the fix
+would reverse), fresh headless Opus sessions at medium effort. Three on this release's final wording
+each gave all eight labels, called the evidence weak and ended on their Recommendation with
+"— approve?", the steps carried over ("Hold off on the local copy and time about five normal syncs
+(no backup running) before deciding anything — approve?"). Three on an earlier draft that asked "Do
+you agree?" gave the same block. Three on 0.158.1 gave at most one label, and two ended on a loaded
+"Can you time a few catalogue syncs … and send me the numbers?" (the other near-identical). All nine
+recommended measuring first. Three runs per arm is directional, not a rate; the final messages are
+kept in the private working notes.
+
+### v0.158.1
+
+**The machine check reports only real problems.** `python3 tools/machine_check.py` replaces
+`docs/machine-setup.md`'s `grep -l kerd`, which flagged the enabled-plugin line as a hand-wired
+hook on every healthy machine. It reads the `hooks` key of your global and every project's settings as JSON (command and
+prompt hooks), checks the plugin is enabled at this repo's version with its install directory
+present and that the vault resolves, and notes leftover
+`kivna/.pair`. It only reads; run it after a machine move.
+
+### v0.158.0
+
+**Links outside the repo stop sinking.** With `"work_notes": "vault"` set, Switch Out keeps one
+private list, `notes:outside-the-repo.md`: each live thing the work leans on outside the
+repository (a claude.ai artifact, a message awaiting a reply, an open pull request), one line with
+what it is, its link, who owns it and what it is waiting on. Out adds new ones, drops what is
+saved, merged, answered or no longer needed, and names the list in the pickup reading set, so
+every Switch In sees it. It lives in the vault because such links can be private while the repo is
+public. Before this, a link survived one sitting in a session log and then sank.
+
+### v0.157.0
+
+**A public repo's working notes can stay private and still be saved.** Set
+`"work_notes": "vault"` in `kivna/vault.json` and Conductor keeps each work's sketchbook in your
+Obsidian vault (`<vault>/<folder>/work/`, the `work/` folder inside your vault's existing private
+git repo) instead of `docs/work/`.
+Records point to it as `notes:<work>/work.md`. Switch Out saves both repos, and its remote check
+covers both (the vault check looks only at the project's own notes folder). Switch In and the chat
+roll read the sketchbook from the vault. Projects without the setting keep committing `docs/work/`
+as before. Kerd's own notes moved there on 2026-09-25.
+
+**Switch Out checks that its key findings reach the next pickup.** It names the three to five
+findings that must survive and passes them to `measure --carry-file` (a file, never a bare
+argument), which reports, for each, the file
+in the next pickup's reading set that holds it, or "not in the reading set". A miss is written
+into CONTEXT.md or TODO.md before the save. It never blocks and asks you nothing. Its first run
+found a real finding left only in a local sketchbook. `measure` now warns when a source is not
+tracked: `prepare` refuses one and a `notes:` source must be tracked in the vault, while pickup
+can still read a project record deliberately kept out of Git with `--preserve`.
+
+### v0.156.0
+
+**Switch Out checks the save reached the remote.** Its saved box shows the ✓ and the restart
+line only after a new check, `handoff.py boundary`, fetches and finds this commit on a remote
+branch with no unacknowledged changes in the working tree. A failed fetch, a commit no remote holds, or unsaved work shows
+under attention instead. Stashes are counted, never refused. Mid-concert, before its branch is
+pushed, the box now says so.
+
+**Reports and finishes, tightened from observed runs.** Fresh Claude sessions ran Kerd's watched
+rules on scratch projects on 2026-09-25. A report's second line now says where the work stands
+even for a single job (it was missing in 10 of 10 reports), and a finish names the next item
+rather than tidying the one just done. "Just push it" or "skip the review" on Conductor work now
+brings Conductor in: a pending review gets a fresh reviewer offered once, and a push without one
+records the waiver first. That trigger change is not yet seen working in a live session. The Opus
+5.5 profile carries the new readings (a stated time budget ran 2.2 to 2.6 times faster with the
+same bugs found; explore-first applies only to sources outside the files being changed), each
+from two short runs per variant.
+
+**A background Conductor job lets go of its session before it reports done,** so a caller that
+starts the next job straight away is no longer refused as busy (seen once in CI).
+
+### v0.155.0
+
+**Messages between agents stay out of the process list.** Agent used to put a partner's
+whole message in the command it ran, where any local account can list it. The message now goes
+to a private file under `.git/kerd-agent/requests/` (owner-only), and the command carries only
+where to find it. A live Claude partner read the file and replied on 2026-09-25. Agent also now
+checks that the process holding a Claude session's socket is that session before sending,
+notices a reply log rewritten in place even at the same size, and gives each controller its own
+sender name when that session reports its id, so sessions
+stop sharing one throttle by default; a controller without an id still uses the shared name. What is left open is written down
+in the Agent guide's limits paragraph.
+
+**The words people read, in one voice.** The README, the guides and the site had their em dashes
+taken out, and the release history lost its dashes without being rewritten (quoted labels keep
+theirs). A new release check
+refuses a README whose What's New header names a different version from the plugin. The vault
+spec and Kivna now agree on which vault file keeps dated sections.
+
+### v0.154.1
+
+**The chat roll works for sessions started the usual way.** Claude Code can show itself to
+the system as `Claude` rather than `claude`, and sessions are often started with
+`--dangerously-skip-permissions`; 0.154.0 refused to roll either. The roll
+now matches the name in any case and carries `--dangerously-skip-permissions` as the permission
+mode it is (the restart uses the mode Claude Code reports). A resumed session still rolls by
+hand: `--resume` can bring back a custom agent's tool limits, which a fresh start would drop.
+The first real roll, from a session
+started as plain `claude`, worked on 2026-09-25: the pane restarted on the same model, effort
+and mode, and the new session picked up its saved next step.
+
+### v0.154.0
+
+**Conductor rolls its own chat.** When a Conductor chat running in tmux passes half its
+context window between batches, with nothing outstanding, it saves its place and tmux restarts
+its pane into a fresh `claude` on the same model, which picks up the saved next step under the
+same approval. Nobody types, and nothing is typed into Claude: the old session is ended by
+restarting its pane, after a check that the pane still runs that session. The fresh session
+loads the installed Kerd, which `/clear` did not. A new `tmux_roll.py` keeps a roll note beside
+Roll's records under the same lock; the new session claims it only when the commit, branch,
+sketchbook and model match and the old session is gone, and otherwise stops and says why.
+A fourth roll in a row, or a roll with no progress since the last, stops for you; `roll --cancel`
+withdraws one until the restart begins. It is for Claude only, and it carries the model,
+effort and permission mode; the mode is the one in force when it rolled, which the context hook
+now records on every tool call. A session started with other launch options, or whose Claude
+settings differ from what tmux would give the pane, is not rolled, since a restart would not
+reproduce it. Outside
+tmux it saves and shows one line to run, and the pickup waits until the old session is gone. Worker Roll and managed
+Conductor refuse to start while a chat roll waits. From a trial in a private tmux server:
+Claude's permission check stops a relaunch command that passes `$TMUX_PANE`, so the roll passes
+none. A roll of a real Conductor build has not run yet.
+
+### v0.153.3
+
+**The Roll guide names the saved-place keys and how to retire a finished run.** Two gaps
+tripped Kerd's first real Claude Roll runs on 2026-09-24: the guide said "failure counts" where
+the helper wants the key `failures`, and nothing said how to clear a finished run before new
+work, so the helper refused the next one. The guide now lists the exact keys (a test checks
+them against the helper) and says how to retire a finished `review` or `blocked` record: a new
+`roll_retire.py` holds the owner lock, re-checks the record and its pending jobs, and moves it to
+a dated `retired-…json`, never deletes it; a running, uncertain or failed one still goes through
+recovery. The guide edits were made by a Claude Roll worker; Codex's review added the lock. Across three
+real runs the context checkpoint fired mid-run twice, but each job was small enough that the
+worker finished before it could stop, so a hand-over to a second fresh run is still unseen.
+
+### v0.153.2
+
+**The context reading's description matches what it does.** The hook reports once an
+earlier reply exists to count, so it is silent before the first reply of a fresh conversation;
+a resumed conversation can report on its first prompt. Seen live on 2026-09-24 in one fresh
+session: nothing on the first prompt, the line on the second. The hook, its registration and
+the 0.153.0 note said "every prompt" and now say that. Written by Kerd's first
+real Claude Roll run, which finished in one run; a context-triggered handover to a second run
+has still not been seen.
+
+### v0.153.1
+
+**A turn that waits on a job, or answers a partner, still tells you where things stand.**
+On 2026-09-24 Anthony had to ask "what's happening" ten times across four sessions. Most of
+those turns ended waiting on a job with only "nothing is needed from you", or after answering
+Codex with nothing said to him, or on a suggestion instead of a question. Conductor's rule
+now names both missing endings: a wait names the job, how the session resumes and when,
+or says the return time is unknown and when it next checks; and in an interactive session a
+turn that took in a partner's contribution ends with a line to the person. Agent carries the partner
+half. Wording only; whether sessions follow it shows in real use.
+
+### v0.153.0
+
+**Claude now sees its own context token count.** A new Kerd hook reads the session's
+own log and tells Claude how many tokens its last request carried, using the same formula as
+the status line's context figure: at each prompt once an earlier reply exists to count
+(so silent before the first reply of a fresh conversation), and during a long turn after tool calls,
+at most every five minutes or every 50,000 tokens. It counts the last main-conversation reply
+and skips subagents. It reports a token count only, not a percentage or the window size,
+since these hook inputs carry neither. It runs in every project and stays silent when it
+can't read a count. Deciding when to Switch Out in an interactive session is still yours.
+
+### v0.152.0
+
+**Conductor's Opus 5.5 guidance, checked against Anthropic's guide.** Kerd now
+recommends Opus 5.5 for the session that conducts, at medium effort by default, and
+never changes that session itself. The Opus 5.5 profile gets a new dated version, with
+the old one archived. Two clauses now match the provider's wording: trying other effort
+levels is encouraged, and visual scaffolding is re-tested rather than dropped. The
+max_tokens advice is marked as API-only, since Claude Code agents don't set it. Three
+pending clauses come from the same guide: handling a premature stop in an unattended
+run, a time budget for fan-out, and exploring before acting on a loose brief. Two
+clauses carry a first observation each, one paired run: medium and high both found all
+five planted bugs in a review, and a generic "avoid an AI look" frontend brief produced
+four of the five patterns the guide names.
+
+### v0.151.1
+
+**Tend and Slainte describe the plugin-root placeholder instead of spelling it out.**
+Claude Code replaces that placeholder with the install path when it loads a plugin skill,
+and nothing keeps it literal, so where Tend's stale-hook check and Slainte's hook check
+meant the unexpanded text, the model read an install path instead. The four lines now
+describe the form they look for, and a test keeps those two skills from spelling it out
+again. The substitution was observed; Tend actually missing a stale entry was not. Tend
+and Slainte are not in the Codex package, so Codex is unaffected.
+
+### v0.151.0
+
+**Codex builds only when you say so.** Conductor now builds with its own host's workers
+and the other provider reviews, and a Codex builder
+under a Claude conductor (or the reverse) is an exception you ask for or approve, with a
+reason such as stalled work, evidence of a better fit, or spare capacity on the other
+provider. Without a comparison behind it, the Fit line calls it a trial. The guide also
+separates what a provider suggests, what worked here before and what a real comparison
+showed, since only the last supports preferring one model, and it judges a result by the
+agreed outcome first, then rework, intervention, time and usage.
+
+### v0.150.0
+
+**The arrival names the Kerd version that drew it.** A Switch In screen said where the
+work stood but not which Kerd produced it, so the only way to know was to find the
+version in a file path the session happened to read, as in Codex's pickup of Seinn on
+2026-09-23, or to trust a version remembered from a record, which went wrong on
+2026-09-13. The heading now reads, for example, "SEINN · SWITCH IN COMPLETE ✓ · Kerd
+0.150.0". The renderer reads it from the installed package's own manifest, in Claude
+Code and in Codex alike, and says "Kerd version not read" rather than guessing when it
+cannot.
+
+### v0.149.2
+
+**The getting-started walkthrough says what to type in Codex.** A fresh Codex session
+picked up a real project well on 2026-09-23, but only after the first two tries,
+`/switch` and `/kerd`, were rejected: the walkthrough gave Claude Code's slash commands
+and nothing else. Each step now says what a Codex user types instead ("Switch in.",
+"Switch out."), how to check the install there, and that setting a project up with Tend
+needs Claude Code, since Tend is not in the Codex package. Guide wording only; no skill
+changed.
+
+### v0.149.1
+
+**The getting-started guide catches up with the concert.** The first page a new user
+reads described the concert without saying it runs on a branch of its own, so someone
+finishing their first concert would find their work missing from `main` and be asked
+for a merge the page never mentioned. It now says so: the concert performs on
+`concert/<work>`, and nothing reaches `main` without your go. The same page also named
+0.139.0 as the current release; that sentence now names no current version, so it
+cannot go stale again. Guide wording only; no skill changed.
+
+### v0.149.0
+
+**A review your partner doesn't answer gets a fresh reader, not a waiver.** When the Codex
+partner a project reviews with was closed, Kerd explained that, would not swap in
+another reviewer without asking, and then recommended pushing without the review as low
+risk. On 3of3, three pushes went out that way, and the partner found a defect already
+running on both televisions when it came back. Now, after ten minutes with no answer,
+Kerd says so and recommends a fresh one-off reviewer, read only, which starts only on
+your yes; the push waits for it. Your partner's request stays queued and its findings
+still count. Skipping the review is still your call, and Kerd no longer recommends it.
+Wording only; not yet seen in a real sitting.
+
+### v0.148.0
+
+**Kerd's model guide now knows the current models.** The guide Conductor uses to choose and
+brief a model was last checked on 8 September. Since then Anthropic made Claude Opus 5.5
+its default starting point, with a medium default effort and thinking that cannot be
+turned off, and moved Opus 5 to its legacy list; OpenAI's newest line is GPT-6 Astra,
+Sol and Luna, with no Terra tier. The shortlist is rechecked against both
+providers' pages as of 23 September, with new briefing profiles for Opus 5.5 and GPT-6
+written from their official guides. Opus 5 and GPT-5.6 keep their profiles for runs that
+ask for them. GPT-5.6 has left the API catalogue's general-model list, while Codex
+says it stays available during the rollout. Nothing has run on the new profiles yet, so every clause in them is untested.
+
+### v0.147.0
+
+**The running-job list now names the model as well as the effort, where the model has one.** Claude Code's list of
+running jobs shows each job's agent name beside a live activity line, and Kerd's agents
+were named for the effort alone, so every row read `kerd:effort-high` whatever model it
+ran on. The description Kerd sends with each job never appears there, so writing the model
+into it would not have helped. Kerd now ships agents named for both, `kerd:sonnet-low` to `kerd:fable-max`, and
+each sets the model and effort its name carries; Haiku takes no effort setting, so its
+agent is plain `kerd:haiku`.
+Conductor and Agent pick the one that matches the call's model, and the call still names
+that model. The five `kerd:effort-<level>` agents stay for sessions that started before
+this release. `/tasks` also shows each job's model, and its effort where the model supports one. The finding comes from one session
+with four jobs; the new names have not yet been seen in the list.
+
+### v0.146.0
+
+**Kerd keeps going, or says what it is waiting for.** A turn could end in a third way
+besides working and asking: idle, with nothing asked, because the steps ran out or a
+document ended. Coming back to a session like that, you have to ask what is going on. A
+turn now ends carrying on (the goal is clear and the authority already covers the next
+step, so it takes it) or stopped on one question you can answer cold, saying what is
+blocked, what it is waiting for and what follows each answer. This holds in rehearsal as
+much as in the concert: research, drafts, checks and the score are worked through without
+pausing between them for permission to continue. Reported after it cost time across two
+projects in one day.
+
+### v0.145.1
+
+**The picture-by-path route now has evidence on both providers.** 0.143.0 taught Kerd to
+show a partner an image by naming its path, but that had only been seen on a Codex
+session. A Claude session was given one absolute path and answered three questions whose
+answers exist only in the picture: correct on all three. Documentation only, and the
+remaining gaps are named where the route is described: on Claude it has been seen with a
+fresh worker, not an established partner, and not yet with a file outside the project.
+
+### v0.145.0
+
+**A report that takes something back says so first, and a finish says what comes next.**
+Two things Kerd's report shape got wrong, both seen repeatedly in real sittings. A message
+that had to deliver a result *and* retract an earlier claim was over its five-item budget
+before it started, so the retraction drifted to the end or went missing; a correction of
+your own earlier claim now travels in the opening lines beside the result and never
+competes for those five places. And the finish rule let a report end on "no action needed"
+while open work was waiting, so the sitting stalled until the person asked what was next;
+a finish now names the next item and its reason, then either carries on where the
+authority already covers it or ends on the one question that starts it.
+
+### v0.144.1
+
+**The pictures stay readable on a laptop.** Kerd's own rule is that a label never renders
+below 13px at the width it is read, and the site broke it: beside its text a picture is half
+the page, so on a 13-inch window its smallest labels fell to 12.6px, and one label in the
+concert picture was under the floor even on a large screen. The site now stacks below
+1200px, giving each picture the full width and its labels 26px, and the concert picture's
+smallest type went up a step. Also corrects three records: the state contract described the
+`.active-modes` file as shared mode state when Skriv is now its only writer, the Kivna
+export list named it as an export, and the machine-setup check looked for a pairing file
+that went with the retired Pair skill, and the playbook still described the retired
+conductor marker as live.
+
+### v0.144.0
+
+**A long build no longer publishes half-built work when it moves to a fresh session.**
+A concert, Conductor's build to an agreed score, rolls to a fresh session between batches
+when its context runs low, and that roll is a Switch Out, which commits and pushes. So the
+first half of a build could land on `main` before the second half existed. A concert now
+performs on its own branch, `concert/<work>`, started at the go you already give it. Every
+save and roll lands there, and after the goal check Conductor asks you one thing: merge
+it back. Nothing reaches `main` without your go. Rehearsal and small work stay where they
+are. Switch needed no new machinery: its save already works on whichever branch is
+checked out. Not yet seen in a real concert.
+
+### v0.143.0
+
+**Your partner can see what you are looking at.** Asked to show some mockups to a Codex
+partner, Kerd had no way to do it, so Claude sent them to a brand-new Codex that knew
+nothing about the project, and said so. The partner never saw them. Codex's message route
+refuses image attachments outright, but a partner told where the file is opens it with its
+own viewer: tested on a file in its own folder and on one elsewhere on disk, and it read
+both back correctly. Agent now sends the path. A fresh Codex that takes the picture
+directly is still there, but only when you ask for one. Reported by a Kerd user. Not yet
+tried with a Claude partner.
+
+### v0.142.1
+
+**Anyone can install it.** The address Kerd published for itself reached the project over
+SSH only, so anyone who has not set up a GitHub key on their machine was refused. Adding
+the marketplace worked for everybody, because that step checks whether you have a key and
+takes the open route when you do not. Installing never checked. It used the published
+address exactly as written, was refused, and left nothing behind: no plugin, and none of
+the eight skills. The address is now the ordinary public link to the project, tested on a
+machine with no key and on one with a key, both installing all eight skills. No skill
+behaviour changed. It was found by running the published commands from scratch for the
+first time.
+
+### v0.142.0
+
+**One way to keep work honest.** Kerd carried two: the sketchbook, score and goal check
+that people use, and a ladder of machine checks with a tiered risk ledger that nobody
+did. The second is retired. Gone are the check tools and the ladder, Conductor's step
+check (added in 0.137.0), the requirements register tools, the design matrix, the
+progress board, the old diagram generators, the handoff fidelity check, and the
+"Checks that can say no" guide with its picture. In their place Conductor keeps a short
+list of risks in view: when you or the work names something that could sink it or hurt
+later, it goes in the sketchbook in one plain sentence with what is being done about it,
+and Conductor reads the list back before it says Ready and before the goal check. No
+sizing, no columns, and it never invents a risk to fill the list. The release rules
+check that protects every push (version numbers in step, the two capability lists
+identical, slash commands carrying the `kerd:` prefix) now lives in its own small file,
+`tools/release_check.py`, and CI runs three steps: skill tests, hook tests and that
+check. The old work items, gate records, plans and designs stay where they were, as
+history that nothing polices. The risks rule is wording and a wording test; not yet
+seen in real use.
+
+### v0.141.0
+
+**Kerd installs what its front page describes.** The plugin shipped twelve skills while
+the README, the website and the guides described eight. Drive, Lorg, Interrogate and Pair
+are removed, and `/kerd:drive`, `/kerd:lorg`, `/kerd:interrogate` and `/kerd:pair` no
+longer exist. That is a breaking change for anyone who used them. Conductor already does
+Drive's job of carrying a piece of work across sittings, and its rehearsal covers whether
+the work can succeed and is worth doing, which is what Interrogate asked. Pair's session hook goes
+with it: no line is added to your prompts, and a `kivna/.pair` file left in a project
+is now inert and safe to delete. The eight that remain are Switch, Conductor, Visuals,
+Agent, Tend, Slainte, Kivna and Skriv. The checks, the ladder and the risk-ledger format
+are unchanged in this release.
+
+### v0.140.0
+
+**Reports you can read at a glance.** Every time Conductor reports work, a job
+returning, a batch finishing, a review coming back or the finish, the message now has
+one shape: the first line says what you have now and where to look at it, the second
+says where the work stands, at most five items are on screen with the rest kept in the
+sketchbook behind a link, a side issue gets one line at the end, and before sending
+Conductor checks that the first and last lines alone tell you what happened and what
+to do next. The grid and the evidence still appear, after those two lines. The shape
+never hides a limit or a failed check. It comes from the first real concert, where the
+owner's verdict on the reports was "thats a lot of text" and "seems chaos", and five of
+its rules are adapted from ayghri's i-have-adhd skill (MIT). Wording and a wording
+test; not yet seen in real use. The delegation grid also drops its routing column: it now says who does each job in plain words (an agent, your Codex partner, this session) beside the model and the effort, because a label like `kerd:effort-high` means nothing to the person reading it and the effort column already says it. The call still carries the model and the effort label.
+
+### v0.139.0
+
+**Rehearsal, then the concert.** Conductor now names the two ways work happens.
+Rehearsal is what you already do: turn by turn, in any order, shipping as you go,
+with no gates or sequence. Along the way Conductor keeps a **sketchbook** for the
+work (the idea and why, whether it is worth doing, goals, constraints, design) and
+answers "where are we?" from it. The score is written as you go, and the composer
+can be called at any time. **Ready** can come from you or from Conductor ("I think
+we're ready", or "we need this first"). The **concert** is implementation to the
+score: as many agents as the score allows, each with its own part, context windows
+rolling, and the result compared with your goals before the loop ends. Agents and
+pictures work the same in both. Switch Out adds anything a sitting settled to the
+sketchbook without asking you anything, and Switch In says what is settled and
+what is still open for each piece of work. Not yet seen in real use.
+
+### v0.138.1
+
+**The Switch Out grid says what was released, not the next step twice.** The
+grid's NEXT cell repeated the "Next time" line below it. It now shows what this
+sitting released ("0.136.0 → 0.138.0", or "Nothing released"); the next step
+appears once, with its reason.
+
+### v0.138.0
+
+**The Switch Out screen matches Switch In.** The closing box used to list the
+save's plumbing (commit, file count, remote, tree state, a memory flag, a
+byte-and-token count, a reading list, a log path, a render time) and never said
+what the session achieved. Now it opens with the same kind of grid as the
+arrival (project, how far the save got, phase and next step), lists what
+changed this session in product terms, gives the next step with its reason,
+and ends on one line: *Exit and restart or /clear and /kerd:switch in to pick up
+from here.* The save details stay in the records the next Switch In reads. A
+save that did not reach the remote, memory that is not ready or work left behind
+still shows, under Attention, whenever it is true, and the restart line appears
+only after a confirmed save.
+
+### v0.137.1
+
+**The step check is tested in both directions.** 0.137.0 proved that Conductor,
+run from inside Kerd against your project, never answers from Kerd. Now the
+reverse is proved too: run from inside your project with Kerd named, it answers
+from Kerd, never from the folder it happens to be in. Each direction fails when
+the project is not named explicitly.
+
+### v0.137.0
+
+**Conductor checks where your work stands, in your own project.** Kerd's step
+checks only ever ran inside Kerd's own repository; in yours, where a piece of
+work stood was whatever you said. Now, when Conductor picks up a work item that
+has a record in your project, and again before it starts a build, it asks your
+project which step the work is on. If groundwork is missing it names it in plain
+words and offers to do it. Going ahead anyway is your call, never refused, and
+it is written into the work record so the next session sees it. Small fixes and
+unrecorded work get no check. It reads your project, never Kerd's: a test run
+from inside Kerd against a separate project proves it, and fails when the
+project is not named explicitly. Drive is being retired in favour of Conductor
+(ruled 2026-09-18); it still ships in this release.
+
+### v0.136.1
+
+**The acceptance check now has a test for a citation that points at nothing.**
+risk-state-split's acceptance gate (2026-09-18) found that the design's fifth
+required test was half-covered: a fatal risk whose treatment was still *planned*
+was refused at acceptance, but no test covered a cited proof that does not
+exist. The code already refused it; T68b now holds that behaviour, with a
+negative control. risk-state-split is accepted, ready to release, with the
+product-measurement gap named as an exception.
+
+### v0.136.0
+
+**The Switch In screen gets its grid back, speaks product English and ends on
+*“Start a Conductor session?”*.** The first real 0.135.0 arrival (2026-09-18) was
+a long run of loose text that described the agent ("nothing is being built")
+rather than the product, and it ended on an open question that an answer could
+use to get around Conductor. Now the arrival opens with a one-row grid (project,
+phase, next and team), where PHASE is the recommended item's rung on the ladder.
+"Where things stand" says what the product does and what is left before launch,
+the footer, render time and END OF PICKUP marker are gone, and the screen ends on
+one question, followed where the host has a picker by exactly *Yes, <the
+recommended work>* and *Something else*. Both open Conductor; neither approves
+the work's operations.
+
+### v0.135.0
+
+**Switch In tells you what happens next and why, in plain English.** The arrival
+used to repeat whatever the last session wrote down as its next step, inside a
+status grid, with the real open work behind a link. On 2026-09-18 that put an
+internal self-check at the top of the screen with no reason it mattered. Now In
+weighs every open item, the saved one included, and shows where things stand,
+the open work one line each, one recommendation with its reason, then asks
+*“What do you want this session to move forward?”*. Choosing work, a plain yes to
+the recommendation included, opens Conductor at Shape for it; it never approves
+that work's operations. Work that only proves Kerd's own mechanics no longer
+leads. The status grid remains only for record-driven views and older callers.
+Not yet observed on a real arrival.
+
+### v0.134.0
+
+**A diagram that only a reader of the source can follow is not doing its job.**
+The owner supplied two versions of one card (implementation-first against product
+language), and Visuals now carries the difference as contract. Code references sit
+in a subordinate evidence layer; removing them must leave the main relationship
+understandable without the source, and a solution, proposal or correction view must
+still show what works today, what does not, who owns the gap, what changes and any
+material cost or boundary that exists. Every view saved beside work also names its
+project, product or repository inside the render,
+because a filename, browser tab or surrounding message does not travel with the
+picture. Both are **producer checks at review, not automated proof**: no gate, hook
+or schema was added, and nothing here has been measured on real diagram output.
+
+Five of the seven clauses originally proposed were dropped as already contracted, and
+three more were reworded because they could not fail, or could not pass: the defect
+class 0.132.0 and 0.133.0 each shipped once. A before-push review caught a fourth
+instance in the first draft of this very release.
+
+### v0.133.2
+
+**0.133.1 said CI runs the tests; CI was red, so it didn't.** Its first real run found a
+test that depended on `agent.RPC` being unpatched global state: many tests in that
+module patch it, and a leaked patch turns `agent.RPC.__new__(agent.RPC)` into
+`Mock.__new__(<instance>)`, which raises `TypeError` rather than failing as a test. The
+test now captures the real class at import time, so it exercises the genuine call loop
+regardless. **Which test leaks the patch is unresolved and recorded as such**: the
+dependence is removed, the leak is not diagnosed. Green locally on 3.14 the whole time,
+which is exactly why the suite needed to run somewhere else.
+
+### v0.133.1
+
+**The test suite now runs in CI, and runs at all by module name.** 730 tests across 17
+modules existed and CI ran none of them: `.github/workflows/gate.yml` ran three
+selftests. It now runs `tools/run_tests.py` and the hook tests too. The suite also
+could not be invoked by dotted module name: `skills/switch/scripts/tests/test_roll_control.py`
+imported its siblings *above* its own `sys.path` inserts, so it only worked when the
+interpreter happened to start in the right directory. Found while verifying 0.133.0 and
+deliberately left out of it; no skill behaviour changes.
+
+### v0.133.0
+
+**A delegated job now says which model it runs on, in the call.** Kerd's five
+`kerd:effort-<level>` agents set effort and carry no model, and the guidance said
+the call "still passes `model`", a note, not a requirement. So every job dispatched
+in the 0.132.0 sitting omitted it and fell through to the caller's Opus:
+`requested_model` null with `claude-opus-5` observed six times, and one survey run
+elsewhere burning roughly 860K Opus tokens on mechanical slices. The contract is now
+stated where the dispatch happens: `model` requests Haiku, Sonnet, Opus or Fable,
+`subagent_type` sets the effort, the grid names both concretely before dispatch, and
+"per definition" or "inherited" is invalid for any of them. `job_evidence.py`
+still reports what actually ran, afterward.
+
+Evidenced by one real mixed-model fan-out: three jobs in a single dispatch at
+`haiku`/low, `sonnet`/medium and `opus`/high, observed as
+`claude-haiku-4-5-20251001`, `claude-sonnet-5` and `claude-opus-5` respectively. With `CLAUDE_CODE_SUBAGENT_MODEL` unset, as it was here, the same three calls without
+an explicit `model` would have resolved to the controller's Opus: the pattern the 0.132.0
+sitting produced six times.
+One honest gap the run exposed: the Haiku job returned no effort records at all, so
+its requested effort stays unverifiable rather than confirmed.
+
+No `PreToolUse` hook, matcher framework or model×effort agent matrix: the defect was
+a missing tool argument, and a subsystem is not the countermeasure for it.
+
+### v0.132.0
+
+**A proposal now arrives as a picture, not a wall of text.** Kerd's skills had a
+standing instruction to draw, and a discretionary one ("consider whether seeing the
+relationship would help"), plus an explicit licence to "use a small inline sketch". So
+models hand-rolled ASCII in code fences and called it a diagram. Both holes are closed.
+Every skill entry point now carries a **Showing the person** line beside its Asking the
+person line: when someone asks to see something, and whenever a proposal carries two
+or more connected parts, a branch, an ownership boundary or a before → after change,
+the answer carries a saved, rendered view. The threshold is countable on purpose:
+"substantial" was the first draft, and a model can call a multi-part proposal small
+because it is easy to describe in words. There is no "shall I draw one?"
+offer and no quota: tiny or factual work staying text is the proportional control, not
+a failure. The view is drawn with **diagram-design or Archify, which are now required
+rather than merely allowed**: hand-rolled ASCII in a code fence is not a visual, and
+the bundled starter patterns alone do not satisfy the rule. Archify is installed and
+verified for this release; diagram-design keeps the static default, Archify takes
+exploration and before/after comparison. A guard test covers the rule across all twelve
+entry points, the linked section, the required-tool wording and a ban on offer phrases,
+mutation-checked, including cases that must *pass*: a mid-sentence rewrap, and prose
+that forbids the offer while discussing how the two tools relate.
+
+**A decision now stays attached to the question that asks for it.** Immediately
+before a consequential speech-bubble question, Kerd gives the smallest
+answer-ready capsule: the recommended concrete action, what it decides or
+changes, any material cost or risk, and the stopping or authority boundary that
+applies. No account, Insight, history, follow-on work or document list may split
+that capsule from the bubble, and the bubble names the concrete action and
+target instead of asking about an abstract “measurement”, “proposal” or “it”.
+Tiny and factual questions remain proportionate. Ordinary Switch In is the one
+explicit exception: its complete rendered dashboard is already the orientation,
+and its fixed, labelled Yes opens direction-setting only.
+
+**What the tests show, and what they don't.** The visual rule is demonstrated. On a
+deliberately marginal case (two components and one branch, comfortably answerable in
+prose), three of three runs carrying the rule rendered a view and none of three without
+it did; it also declined to fire on a one-line factual question (0/3) and worked from
+entry points other than Conductor (2/2). Nineteen valid runs across three arms that
+isolate each rule. The capsule rule was **tightened and re-tested**: its first wording produced one
+clean capsule in three, because models gave their recommendation early and left the block
+above the question carrying only the deciding consideration. It now requires the
+recommendation to be *restated* there. Re-tested against the same scenario: **4/4 clean
+capsules against 0/4** for the wording without it. A
+static guard proves a rule is *written*, never that it is *followed*, which is exactly
+how the discretionary wording this release removes survived so long.
+
+### v0.131.0
+
+**A picker may now follow the question, and Agent offers the roles it knows.**
+v0.129.0 unified every Kerd question into one speech-bubble line, and also banned
+native pickers outright, which was never asked for. That ban is withdrawn. The bubble
+is still the question and is still the last prose line, but where the host offers one,
+a native single- or multi-select picker may follow it carrying that question's own
+options, approvals included. The picker always leaves a free-form answer open, never
+narrows a question meant to stay open, and never broadens what an approval authorizes;
+where there is no picker, the bubble is answered in words exactly as before. It names
+shortcuts and defers to the host's own free-form route rather than adding an "Other"
+entry where the host supplies one: Claude Code's picker does. A stock Correct / Change
+menu stays banned, precisely because it carries none of the question's own options.
+Switch In's "Start a Conductor session?" can now be answered from a picker whose
+options are labelled "Yes — open direction-setting" and "Not now", never a bare
+Yes, so a picked answer states what it opens and cannot read as approving the
+saved task.
+Agent is the first skill to use it: a missing partner role follows the bubble with a
+single-choice picker naming Pairing partner, Implementation partner, Independent
+reviewer and Specialist adviser, and a missing review cadence gets a multi-select over
+the four cadence values: a recorded role or cadence is still never re-asked, and those
+four roles are shortcuts, never the permitted set, which `--partner-role` enforces by
+taking any wording at all. The guard test that enforced the ban now enforces its
+replacement, mutation-checked in eight places.
+
+**What is not yet verified.** A bubble followed by a native picker was observed once,
+leaving the prose above it unchanged. Two things were not: that Switch's renderer
+returns byte-identical Markdown with a picker attached, and that a picker Yes opens
+direction-setting without approving saved work. The second is an authority question,
+not a presentation one: a misread Yes could start work that was only meant to be
+discussed. Both are deferred to the first real Switch In on 0.131.0 and recorded there.
+
+### v0.130.0
+
+**Unattended Claude Roll runs now save their place before their context fills.**
+`roll.py --target claude --context-aware` watches a worker's own context usage and,
+at 65% of its reported window, asks it for its saved place; the next fresh Claude
+run continues from there. Nothing is compacted, and interactive sessions are
+untouched: you still decide when to Switch Out. A bootstrap turn first confirms the
+worker's tools, permission mode, project and window before any work is sent; the
+checkpoint request goes out only while a tool call is running; the reply is saved
+and read back before the process is closed, and cleanup must be verified before a
+new run starts. Anything unexpected stops for inspection instead of relaunching.
+Live control and device handoff stay Codex-only. `roll.py` now also accepts a saved
+place wrapped in prose when it sits in exactly one JSON fence and nothing else in
+the reply is JSON. Evidence so far: three test-threshold trials, including one
+complete run through to a saved place; a pressure-triggered handover into a second
+fresh run has not yet been seen live.
+
+### v0.129.0
+
+**Every Kerd question looks the same.** A question is now always one speech-bubble
+line at the end of the message, `> 💬 **The question?**`: the form Switch In already
+used for "Start a Conductor session?". Conductor decisions and approvals no longer
+use a boxed card with a plain-text question underneath. The proposed answer and its
+qualifications sit above the bubble, and the bubble holds only the one question.
+Every skill's entry point now carries the same rule, options are listed above the
+bubble, and a test guards the form. (The picker ban that shipped alongside it was
+withdrawn in v0.131.0.)
+
+### v0.128.0
+
+**Conductor now requests effort per delegated Claude job.** Earlier
+Conductor wrote effort levels into prompts, but no Agent tool call ever passed one.
+Players ran at whatever effort Claude Code had saved for their model. Kerd now
+ships five subagent definitions, `kerd:effort-low` through `kerd:effort-max`, each
+setting only its effort; Conductor picks one per job and still passes the model.
+A small probe confirmed that the definition's effort applies even with a different
+model on the call. After a job returns, `skills/conductor/scripts/job_evidence.py`
+reads the model and effort it actually ran with from that job's transcript. It
+reads only those structured fields and never outputs conversation content, and it
+shows "unverified" when the evidence is missing, partial or malformed. A Claude
+session only sees newly installed agents after it restarts, and
+`CLAUDE_CODE_EFFORT_LEVEL` still overrides them. Codex routes keep their own
+controls.
+
+### v0.127.0
+
+**Reviews are planned, fit is argued, and returned work is read.** Real builds on
+0.126.0 showed three gaps: partner reviews happened only when asked, grids named
+models without saying why, and returned player work was trusted to its own checks.
+Pairing now asks once how a partner reviews (checkpoints, before push, at the end,
+or only on request), stores that with the pairing and carries it across session
+changes; Conductor reads it with `agent.py partners` and plans those reviews, and a
+change after a review repeats the gate. Every model job gets a **Fit** line saying
+why that model suits it. After each return, Conductor compares the owned paths
+against a content baseline taken before dispatch with
+`skills/conductor/scripts/change_read.py`, so new, ignored, binary and pre-dirty
+files are seen too. A cadence schedules review inside authorized work only; it
+grants nothing.
+
+### v0.126.0
+
+**Clear work is delegated without waiting for a composer.** Conductor now
+chooses who writes each step. When the outcome, approach, files and checks are
+already settled, Conductor writes complete steps itself and hands them to
+players, fanning independent steps out in parallel. The composer is called when
+the specification still needs design or reasoning Conductor can't settle; being
+unsure a step can be written precisely is the signal. Only tiny, tightly coupled
+or judgment-bound work stays inline, with a stated reason. Delegation is the
+default when a job can be briefed, checked and is worth its handoff cost.
+
+**Repairs go back to whoever wrote the step.** A defect in a step Conductor wrote
+returns to Conductor; one in a composer passage returns to the composer, and a
+step that turns out to need design goes to the composer rather than being patched
+inline. The composer hands its score back to Conductor and never dispatches
+work. Players are sized to a suitable available pair for the complete step,
+preferring lower cost only where the evidence supports it.
+
+This change is instruction guidance, reviewed by Codex with three corrections
+applied. It has no fixture, synthetic or real-build evidence yet; the next real
+multi-step builds are the test. No efficiency or token saving is claimed.
+
+### v0.125.0
+
+**Switch restores the whole active picture, then offers Conductor once.** Every
+ordinary Switch In ends with *“Start a Conductor session?”* without loading
+Conductor or treating the saved task as approved. A plain yes opens
+direction-setting; an explicit selected task can carry its own authority. The
+compact dashboard remains selective, while the pointer-designated active list,
+current linked records, decisions, constraints and known risks remain available
+for an intelligent recommendation. A human-blocked continuation is not a
+project-wide hold, and managed Roll keeps its exact non-interactive authority.
+
+**The composer writes the score; players execute complete steps.** Non-trivial
+work with useful bounded player jobs uses four distinct responsibilities:
+producer, bounded top-capability composer, Conductor and players. Composition is
+two-pass: first the smallest named terrain, then a cold-readable score beside the
+work record. Only complete steps receive keep/delegate assignments. A well-factored
+score is biased toward delegation without quotas, while tiny or judgment-bound
+work stays inline for a concrete reason. Model and effort are selected for the
+task, with advice down as well as up; inherited or highest settings are not a
+self-justifying default.
+
+**The score remains the contract through failure and review.** A complete score
+step is the reusable player brief, supplemented only with missing transport facts.
+Conductor reads every returned edit's actual diff against its owned boundary;
+bulk deletions, renames and pattern edits always get the full diff, including
+inline Conductor edits. A sound step can be re-dispatched without semantic change;
+a known score defect returns immediately to the composer, and three failed player
+attempts are a ceiling rather than proof of cause. Managed runs use their existing
+`blocked` boundary and verified stop before score repair: no nested composer action
+or mutable live agreement was added.
+
+The integrated source was compared with v0.105.0 using the same six synthetic
+scenarios and one cold-player execution. It restores the historical composition,
+specification and delegation strengths while retaining current authority,
+Agent-routing, model-evidence and managed-run safeguards. Claude independently
+found the missing universal diff gate; the score went back to its composer before
+the player correction, then the integrated fixes were rechecked. These are source
+and synthetic-execution results, not proof of installed behavior, lower token use
+or efficiency. The next two real multi-step builds remain the acceptance check.
+
+### v0.124.0
+
+**Switch restores; Conductor orchestrates when chosen.** Switch In now composes
+its own selected continuation and dashboard without loading Conductor. Approval
+of its Conductor proposal opens the actual stage, carrying scope and exclusions.
+“Use Conductor, but not that task” opens direction-setting, not another start
+confirmation or an unapproved substitute. Substantial build, design and workflow
+requests can offer Conductor for new or existing work; small standalone fixes
+stay direct, and established guided work doesn't repeat the offer.
+
+**Every guided task gets a staffing and model-fit decision.** At startup,
+Conductor shows the current model/effort evidence, owner, boundary and actual
+work split. Composer work drafts direction, designs or job briefs for the
+controller's assessment; it can stay inline or be a useful contribution, never
+delegated approval authority. Independent work is assigned before the controller
+does it itself; retained work gets a concrete reason. Tiny jobs still get a
+brief decision, not a compulsory worker. New jobs and changed scope reopen the
+assessment; tool calls and unchanged turns do not.
+
+**Prepare for the chosen model before sending.** Assignments consult applicable
+model guidance, preserve the outcome and permissions in the prompt, retain a
+safe brief, and show real preparation, submission, return and assessment.
+Configured, requested, host-declared, observed and unknown settings are distinct;
+Conductor doesn't silently change the main session's model or effort. A missing
+profile is disclosed, not replaced by a claim of optimized prompting.
+
+The earlier clean-entry rules and source-level scenarios were independently
+reviewed. These changes are instruction contracts, not a host-enforced guarantee
+of compliance, lower token usage or optimal staffing. Ordinary installed startup
+and post-approval work remain the acceptance test. Managed decision sessions
+keep their narrow existing contract, without a startup grid on every cycle.
+
+### v0.123.0
+
+**Start Conductor explicitly, then keep the agreed work moving.** Ordinary
+Switch In asks “Start Conductor on X?” or “Resume Conductor on X?” for agent-owned
+work. Approval enters delivery with its actual owner, scope and split, without
+another pickup or approval. Human checks, factual answers and deferrals retain
+their own meaning; loading Conductor for a dashboard is not starting a build.
+
+**Managed Conductor can carry the decision and review loop through fresh
+contexts.** For sustained authorized local builds, a local driver owns fresh
+Codex decision and implementation sessions plus independent review. It saves
+contributions, retains unresolved findings and correction counts, and checks
+source shutdown before continuing. A context checkpoint needs no new user
+approval. A real permission or product decision still stops. The existing chat
+is the control surface, not a TUI the driver clears or replaces.
+
+The first pressure-aware coordinator/implementer route is Codex; Claude can be
+the control chat or a file-only reviewer. Reviews use bounded CLI turns. Host
+process survival, pressure-aware Claude coordination and automatic recovery of
+uncertain jobs are not claimed. Worker Roll does have an observed Claude route
+since v0.130.0, but it is not wired into this managed decision loop. No installs, global hooks or consumer-session
+changes are made by publishing. See the
+[managed guide](skills/conductor/references/managed-conductor.md) for operation
+and evidence limits.
+
+One bounded native scratch loop completed with fresh Conductor sessions, a real
+review finding, correction and re-review, plus forced checkpoint and stop/resume.
+The forced threshold is not natural context-pressure evidence, and the trial is
+not a token-efficiency benchmark. Ordinary installed use remains the next check.
+
+### v0.122.1
+
+**Urgent risks survive a lean handoff.** Out checks that known unresolved risks
+the active records flag as urgent or imminent are inside the actual pickup
+reading set before measurement and memory readiness. It carries a concise,
+dated risk line or selects the source section; a link to unread material is
+not coverage. Saved observations stay distinct from fresh checks, and ordinary
+owed work does not become urgent.
+
+This corrects the missing capacity warning in Weefish's first 0.122.0 Out/In
+loop. Both reading-set representations were checked locally and Claude reviewed
+the correction. A real Out/In remains the ordinary-use test; no renderer,
+transport or installed plugin was changed by this source release.
+
+### v0.122.0
+
+**One saved continuation, one session scope.** Out preserves the selected next
+action, owner, agreement status, completion steps, stopping point and pending
+question in the existing handoff. In recognizes that meaning in prose as well
+as headings; no new required fields or parallel plan. Legacy handoffs still
+work, with any recommendation labelled proposed rather than agreed.
+
+Conductor composes THIS SESSION, NOW and the question from that same scope.
+An approval-only question is not a duplicate task, and a separately approved
+later build or playback check is not follow-through. Omitted work stays open
+behind Open work. ATTENTION retains consequential contradictions and limits,
+plus recorded urgent risks, not every owed task. No renderer or transport change.
+
+This addresses the selection failures reported in Seinn, Weefish and Leru;
+the earlier unchanged renderer-to-final observation remains valid. Source and
+non-independent bounded replay review are evidence, not a claim that every future arrival will
+comply. An ordinary Out/In remains the real-world check.
+
+### v0.121.2
+
+**An action, not a compressed checklist.** NOW names who, what and which target;
+navigation steps and pass criteria stay behind the task link even when they fit
+in one sentence. Necessary target, safety and permission details stay visible.
+THIS SESSION states the current scope without promising the next unrelated
+build. No runtime renderer or Out change.
+
+In Leru's ordinary 0.121.1 pickup, Claude verified that renderer output and
+final text matched exactly. That sequencing held once; this patch addresses the
+remaining composition drift, not a renewed renderer failure.
+
+### v0.121.1
+
+**Keep the rendered arrival intact.** Switch In now explicitly returns the
+complete renderer output unchanged, with no second prose pass. Corrections go
+into the summary and are rendered again; the disclosed plain-text fallback is
+only for renderer failure or unavailability. Before rendering, NOW is checked
+for the current action and its necessary follow-through, keeping unrelated later
+builds and long checking procedures behind Open work. Owner labels contain the
+owner; dependencies go in the action text.
+
+This addresses the two separate failures observed in Leru on 0.121.0. A bounded
+Claude replay kept NOW tight and returned the complete rendered text unchanged.
+The next ordinary pickup still needs observation; guidance is not runtime
+enforcement. Renderer code, Out and installed plugin copies are unchanged.
+
+### v0.121.0
+
+**Arrival as a status grid.** Switch In's chat view opens with an explicit
+completion heading and a PROJECT / PHASE / STATE / TEAM grid, then three bullets:
+LAST SESSION, THIS SESSION and NOW, with owner-labelled numbered actions nested
+under NOW. NOW holds only immediate actions and necessary follow-through;
+detailed procedures, future-event checks and unrelated later work stay behind
+Open work, while immediate limits stay visible. The explicit END and the single
+question after it remain. Plain terminal output and Out are unchanged. Older
+`task` context and `question.proposed` limits still survive under NOW.
+
+**Delegation you can see.** Conductor shows a task / route / model requested /
+effort / status grid when it splits work, with short updates at real
+transitions: guidance checked, prompt briefs saved, dispatched, returned and
+checked. Shareable briefs sit beside the work; Agent's full requests stay in its
+private store. Unknown effort stays unverified, a native subagent is never
+labelled as a Kerd Agent request, and queued is not running.
+
+Fixture checks and two Claude review rounds cover the change. How long grid
+cells wrap in your client, and both grids in ordinary use, remain to be observed.
+
+### v0.120.0
+
+**A compact arrival, without YOU.** Switch In's dashboard drops the separate YOU
+box. NOW is the action list: pressing work and logical next steps in priority
+order, each owner written as `**Owner:** action`, not an evidence checklist.
+Plain colon text never gets owner emphasis; the renderer assigns no owner.
+TEAM is one line, `Claude (role) + Codex (role)`; session IDs and routine
+notice status stay in Agent's details, and a routing problem appears under
+ATTENTION only when it affects the next action. The one question follows END OF
+PICKUP as a bold speech-bubble callout, in chat and terminal alike.
+
+Older callers keep their scope: a `question.proposed` value still renders under
+NOW with its paragraphs and lists intact. Agent routing, arrival notices and Out
+are unchanged. Fixture checks and two Claude review rounds cover the change; the
+new layout in ordinary use remains to be observed.
+
+### v0.119.0
+
+**See your team at arrival.** Switch In's completion box now shows providers,
+roles and short session IDs, plus the outcome of a one-way arrival notice.
+An explicit partner selection wins; otherwise Agent uses an unambiguous existing
+pairing, preferring a recorded role. Multiple candidates remain unresolved and
+unsent. Repeating In with the same IDs reuses the earlier notice rather than
+sending again. No reply is requested, no dormant session is resumed, and a queued
+notice does not prove the peer is online. Native delivery can still trigger a
+recipient turn or hold the message; no zero-token guarantee is made.
+
+**YOU recommends, without a reply menu.** The box presents one recommended action,
+numbered steps when useful, and a separately spaced scope limit. One direct
+question follows END OF PICKUP. No “or later?” alternative or REPLY menu; you can
+decline or redirect naturally. Agreeing to perform a check is not a passing result.
+
+Fixture checks and independent Claude review cover the changes. Live arrival
+notice delivery and the new layout in ordinary use remain to be observed.
+
+### v0.118.0
+
+**Out checks who holds the role before saving.** Before editing the handoff,
+Switch Out verifies its own session against any existing pairing role. The same
+ID keeps it; an explicit replacement choice already given is reused without
+asking again; Out alone never takes a role. When only pairing is unresolved, the
+memory save still goes ahead and the choice goes in the closing next action.
+After the final save, whether successor designation succeeded, was unavailable
+or did not apply is reported in the existing next text.
+
+**Out collects contributions before it writes.** The closeout owner names the
+sessions that contributed, reuses accounts already captured, and requests only
+a missing delta through Agent before drafting, so you no longer have to ask each
+agent. It shows one line saying who is captured and what is missing. A known
+pending job is covered by its owner, state and where its result lands. An
+unavailable participant is a recorded gap only when the available evidence
+preserves the necessary context; otherwise the handoff is not ready. A delta
+arriving after the save reopens the account and needs re-designation.
+
+Fixture checks, a Claude review and one real run of the checkpoint on a Kerd
+closeout passed. Model compliance in ordinary use remains unobserved.
+
+### v0.117.0
+
+**The question comes last, and NOW is a to-do list.** Switch In's chat arrival
+ends on END OF PICKUP followed immediately by its one question; YOU keeps the
+scope, proposal and reply guidance. With nothing to ask, it stops at the marker.
+NOW is a numbered list of next actions in priority order, not a report of
+observations or deferred rows. Terminal output keeps `--question-below` opt-in.
+
+**A lost session no longer loses its role.** A record-based adoption keeps a
+private restart receipt in the same binding. If that Claude session is lost and
+another restarts, In can recover the same alias and role when the saved account
+is unchanged, the machine matches and the predecessor is no longer natively
+listed. Retired IDs cannot reclaim it automatically; a new Out, cancellation or
+explicit replacement supersedes it. Refusals show their reason. This recovers
+routing, not unsaved work. Codex new-ID crash recovery stays unsupported, and a
+binding consumed before this release has no receipt to recover from.
+
+Fixture checks and Claude reviews passed. A real restart recovery and the
+experience of the new arrival remain unobserved.
+
+### v0.116.0
+
+**Keep the role when the session changes.** Agent verifies the current host's
+session ID. Out can designate its existing role for continuation after saving;
+In keeps the same ID or adopts the designated role with an expected-old-ID check.
+Changed handoff records and competing replacements refuse. Old requests keep
+their original targets; roles and IDs stay private to the worktree and machine.
+No session is launched, stopped or granted new permissions by this update.
+
+**Decide who builds, not just who reviews.** Conductor considers useful bounded
+implementation contributions at delivery start, including established partners.
+Owners and edit boundaries stay visible; small coupled edits can remain inline.
+The controller integrates and checks the work; independent review stays separate.
+No worker quota or new staffing approval step.
+
+**A clarification is not permission.** A project name does not approve an install;
+“not now” defers that action. Human-owned checks are labelled as yours. In restores
+existing pairing context without contacting peers, loading Agent for contributions
+and its short succession guide only when the local binding needs it.
+
+Fixture checks and Claude reviews passed. Live clear/restart succession, actual
+delivery of this release to installed clients, and delegation cost improvements
+remain unverified; source publication is not installation or an experience verdict.
+
+### v0.115.0
+
+**A compact welcome, with a clear finish.** Switch In's chat view has a tight
+completion box, short Last/This session summaries, NOW, essential warnings,
+a separate YOU box and document links. END OF PICKUP marks the transition to
+the session without authorizing work. Structure no longer depends on colour.
+
+**One closeout for collaborating sessions.** The Out owner reuses recorded
+contributions and retrieves material missing detail from the established partner,
+then saves one resumable handoff. Read-only contributors return their account;
+they do not rewrite shared pointers. MEMORY readiness is separate from the Git
+SAVED verdict: the clear-context hint requires both a confirmed save and an
+explicitly ready handoff. Missing necessary context remains visible.
+
+**Define the partner's role once.** Agent remembers an ongoing implementation,
+review or other agreed responsibility alongside the existing private pairing.
+It stays separate from each job's role and grants neither permissions nor
+Switch Out ownership. No tracked session-ID roster is created.
+
+### v0.114.0
+
+**Colour and emphasis on arrival and closeout.** Switch In and Out can now
+render theme-styled Markdown directly in chat: accented identity, bold status,
+a distinct YOU section and linked documents. The existing ANSI terminal boxes
+remain available. The client chooses the palette; status stays explicit in
+words, including unknown or failed saves. No extra dashboard or memory reads.
+
+**Pickup reflects what just happened.** Arrival checks observed during In are
+shown with their remaining assessment or recording, not as untouched future
+work. Setup approvals name the installation scope and target project. A source
+update time later than the render time in the same displayed zone gets a warning;
+unknown times stay unknown. No automatic project edits or installation changes.
+
+**Recognize the partner, not its old title.** Agent leads with provider, pairing
+role, alias and short ID, labels saved native titles as potentially old, and
+groups aliases for one session. Switch Out retains useful collaboration results
+in its existing handoff, without a second tracker or public session IDs.
+
+### v0.113.0
+
+**Codex gets a native core package.** Build a relocatable Codex marketplace
+artifact with Conductor, Switch, Visuals and Agent from the same maintained
+`skills/` tree. The package inherits the release version, includes Agent's
+optional dependency declaration, and excludes all eight legacy skills and
+Claude hooks. Building is not installation or publication; use the
+[Codex setup and update guide](docs/work/model-ready-work/packaging/START.md#install-in-codex).
+Native model jobs now depend on the host's actual capabilities, and the Out
+completion hint no longer assumes a Claude-only context command.
+
+**Measure the selection you hand off.** Switch Out saves the helper's reusable
+read arguments beside its measurement. Measurement and preparation share the
+same selector; a section reaching EOF is labelled rather than treated as a
+short excerpt. Evidence archives stay intact and available on demand.
+
+**Clarify without accidentally approving.** A factual answer during pickup does
+not authorize the next proposed job. The arrival question appears once, with a
+`--question-below` option for hosts requiring it outside the panel. Insights
+keep reported claims distinct from verified observations.
+
+Package and regression checks do not prove a successful install, automatic
+discovery, user-visible arrival or token savings. Those require an ordinary
+session running the installed version.
+
+### v0.112.0
+
+**One arrival, one decision.** Switch In now loads Conductor before rendering
+the dashboard, and the YOU box carries the arrival decision: *“Starting on X,
+approve?”* with the scope of X. The 0.110.0 two-step arrival gave two answers
+to “am I needed”: a dashboard saying nothing was needed, then Conductor asking
+for approval underneath. A fresh pickup on another project showed the cost. The
+proposed action keeps its saved scope (an unresolved design means designing,
+not building and deploying), stages carry no tick the record does not support,
+and no second brief, journey strip or copy of the task list follows. **What it
+means:** the dashboard is the whole arrival; say yes and work runs. Changed,
+not yet observed on a released pickup.
+
+**Switch Out ends on the saved-place box again.** 0.107.0 dropped the old
+close banner; Out ended on the helper's JSON. It now renders one box, from the
+helper's own save result: SESSION SAVED when the remote is verified to carry
+the exact commit, SAVED LOCALLY when only committed, NOT SAVED otherwise, each
+in words as well as tone; the tree state, the paths kept out of Git, the next
+action with its named reading set and measured size, and the day's log. It ends
+by saying the session is still open with the free-context hint. It never says
+the session exited or the context was cleared.
+
+**Four review findings fixed, one reproduced by the reviewer that would have
+swallowed its own review.** Agent could archive an inline mention of the reply
+markers followed by an ordinary update as a completed review of one word, and
+then ignore the real reply; the buffer now keeps the marker's line prefix.
+Oversized Claude socket requests are refused before a delivery record exists (a
+lock file may remain; the guide says so). Portable packaging reads the guidance
+from its home under Conductor's references, so the build is green again.
+`measure` refuses normalized aliases of the same source and names whole-file
+plus section overlap. Living pointers in TODO.md and `docs/product/` follow the
+0.111.0 memory move; their grounding lines became bare paths because the audit
+resolves those by glob. Codex implemented from a spec both sessions reviewed;
+the spec and both reviews are under `docs/work/release-111-followup/` and
+`docs/work/model-ready-work/trials/`.
+
+### v0.111.0
+
+**Switch Out leaves a lean, measured start point.** Every pickup was paying for
+the whole pointer file: on Kerd itself `## Key Decisions` had grown to 210 KB,
+97 percent of CONTEXT.md, and a 2026-09-01 measurement had already shown that
+pruning old entries was aimed at the wrong variable, while naming the untried
+option: keep the ruling in the loaded file, move the case out. Out now does
+exactly that, in four moves: rulings stay in CONTEXT.md only while they govern
+the next work, with the full case in a living `docs/decisions.md` indexed by
+ruling; Backlog rows the closure review judges done or dead move to
+`docs/backlog-archive.md` with their verdict and evidence; the start point names
+the exact reading set for the next sitting; and a new `handoff.py measure`
+sizes that set against the pickup target (bytes exact, tokens estimated at four
+bytes each and labelled so) and records the reading. Over target is information,
+never a refused save. In reads the named set first and nothing else by default.
+**What it means:** the boundary, not the reader, is responsible for pickup cost.
+**Named as a loss:** a ruling in CONTEXT.md no longer carries its argument; the
+argument is one link away, and the 2026-09-01 row records the known risk that a
+reachable record can sit unread. The first run was on Kerd's own files at this
+release; the measured reading is in CONTEXT.md.
+
+### v0.110.1
+
+**The shipped skills stop calling themselves a candidate.** Conductor, Switch
+and Visuals still carried "development candidate" headers and told the model not
+to invoke installed Conductor, the very skill Switch In loads. A Fable review of
+the four 0.107–0.110 skills found that and fourteen more; the report is at
+`docs/work/model-ready-work/trials/2026-09-11-fable-skill-review.md`. Fixed in
+this release: the candidate wording; the In approval line's precedence (saved
+next action, then first NOW item, then "no task selected"); its stated reason,
+now a deliberate check-in on arrival rather than an authority claim that
+contradicted "don't require a second yes"; the In rule living in one place
+(Conductor's SKILL.md) with the other three copies pointing at it; Conductor's
+model-guidance links, which pointed at a directory that shipped nowhere. The
+guidance now lives under `skills/conductor/references/guidance/` and ships; a
+`docs/work/SESSION.md` pointer Switch never writes; the closing link's three
+names, now one (*Open work*); and this README's "How They Fit Together", which
+still described the pre-0.107 loop. Three reproduced script defects fixed with
+tests: a `now` written as one string rendered a bullet per letter; `agent.py
+status` on an unknown request left an empty lock file in the store; a section
+heading with trailing spaces failed the handoff helper with a misleading
+message. **Named as a loss:** the Slainte claim below is corrected rather than
+built. Conductor has no close-out hook, so the release pass runs on demand.
+
+### v0.110.0
+
+**Switch In opens a Conductor session and stops on one line.** 0.108.0 had In
+restore your place and stop dead, leaving you to ask for the work yourself
+(correct on authority, but it lost the focus): nothing on screen said what the
+sitting was for. In now shows the dashboard, then opens Conductor on the restored
+place (journey strip, brief, task list) and ends on exactly one line:
+*“Starting on X — approve?”*, where X is the saved next action. One proposal,
+never two options, never an “or”. Your approval starts the work; the line is a
+deliberate check-in on arrival, so an already-authorized plan waits for the same
+line. `switch to` and Roll keep their agreed continuation untouched. **What it
+means:** every pickup lands in a session with its next move named, and the only
+thing between you and work is “yes”.
+
+**The dashboard shows the immediate work.** A `NOW` block lists the bullets
+under the project's `## Now` heading, between the frame and last session; the
+backlog stays behind the *Open work* link. It is part of the frame, so a project
+with nothing under Now shows that gap rather than hiding it. The guide's
+copy-ready example and its value-binding tests carry the new `now` list.
+
+### v0.109.0
+
+**Agent can now reach the Codex session in your terminal.** 0.108.0 talked to
+Codex only through the app-server daemon, and on a machine where every Codex
+is a TUI, that meant it could reach none of them. Agent now discovers the
+sessions you opened from Codex's own store, pairs one under a local name, sends
+through `codex queue --thread`, and reads the answer back out of that session's
+native transcript by request markers. No daemon, no reply file, no mailbox.
+Proven live on an earlier state of the tree: a request to a running TUI came
+back `reply-received` in twenty seconds; the Claude route was re-proven after
+every fix, the Codex route is owed a re-run when Codex has tokens. **What it means:** "ask Codex" works against the Codex you are actually
+using, through the one command that ships with Kerd, on any machine: no vault
+script, no symlink, nothing a consumer repo has to know about.
+
+**Five corrections from Codex's review of the design, all shipped; one more
+from a guard test after Codex ran out of tokens mid-review; eight from an
+Opus 5 review of the finished build; eight more from a Fable 5.1 review of the
+0.108.0 foundation beneath it; and eight from Fable's final pass over the whole
+diff, including a blocker in the fix for Opus's blocker.** The guard test caught an uncertain
+daemon send falling through to a second enqueue on the CLI route: the exact
+hazard Codex had named. The Opus review caught a deleted refusal: a thread a
+daemon reports offline was being handed to `codex queue`, which may be able to
+start a session. Restored, so the CLI route serves only threads no daemon can
+see. Among the rest: a marker quoted in Codex's *commentary* stream was being
+archived as a final reply: only `final_answer` (and unphased older events)
+count now. From the Fable rounds, four changes you will notice: a reply's
+markers must now sit on their own lines (an inline mention of both markers
+parsed as a reply of one word); a message above about a million characters
+is refused before anything is recorded; a slow Claude launch keeps its short
+id and waits fifteen seconds instead of five; and no error names a private
+path or repeats your prompt. **Conductor's players are subagents again.** The
+rework routed every delegated job through a fresh CLI session; the Conductor
+it replaced spun players up as native subagents at a sized model and effort,
+and that is the better default: the work stays in the session and returns
+to the caller. Restored for Claude players; the CLI runner remains for Codex,
+resumable, sandboxed and persistent jobs. A regression fixed, not a feature. Discovery lists only threads a person opened, not the subagents they
+spawned. And an uncertain enqueue (a timeout mid-send) is retained as
+`delivery-uncertain` and never followed by a second send on another route.
+**Stated, not glossed:** a thread in the store is a *selectable* conversation,
+not proof anyone is at the keyboard; it is labelled `saved thread — activity
+unknown`, and `codex queue` exit 0 means enqueued, not answered. The vault's
+reply-file bridge stays available for repos not yet on Agent.
+
+### v0.108.0
+
+**Ask the partner that already knows the work.** New `/kerd:agent` discovers
+local Claude/Codex sessions, pairs an existing conversation, or starts a fresh
+worker or ongoing partner. “Ask Claude to review” uses the established project
+partner; if the target is unclear, Kerd shows sessions to choose from. “Fresh”
+is a deliberate choice, not a silent substitute. `/kerd:agent help` explains
+the short requests, setup and limitations. Native queues carry requests; Kerd
+retrieves complete replies without a new inbox service or terminal takeover.
+Codex partners need an optional WebSocket dependency. Existing Claude partners
+may hold inbound requests for approval; pairing does not grant native trust.
+
+**Switch In restores your place and stops there.** It was telling itself to
+continue an active build in the same turn, which contradicted the welcome-back
+summary it had just shown you, so a pickup could start executing work before you
+had read where things stood. In now ends with memory, status and the saved plan
+on screen. **What it means:** arriving is arriving. Ask to continue and it hands
+over to Conductor without a second approval; `switch to` and Roll keep their
+agreed continuation untouched. **Named as a loss:** a pickup no longer resumes an
+authorized build by itself: if you relied on In carrying straight on, that is now
+one sentence from you.
+
+In also loads Conductor for orientation only, using the already-restored place;
+it does not start intake or execution. Later work stays under Conductor, with
+supporting skills supplying methods rather than replacing the workflow. This
+adds instruction reading, so reduced overall pickup time or tokens is not yet
+claimed. Ordinary-use comparisons remain to be observed.
+
+**The welcome-back dashboard stopped making Switch read code to use it.** The
+pickup guide now carries a complete, copy-ready example of the renderer's input,
+so filling it needs no trip through `where_we_are.py`. Two measured pickups spent
+three to four minutes getting oriented, with rediscovering those inputs among the
+avoidable work. The example is bound to the renderer by tests that compare whole
+rendered values, so the two cannot drift apart quietly. An absent `source` now
+reads `not recorded` instead of `None`, and the guide separates what a caller
+should supply from what the renderer actually checks.
+
+### v0.107.0
+
+**Conductor and Switch are replaced, Visuals joins them, and Kerd is eleven skills.**
+Conductor now guides **Understand → Shape → Agree → Deliver → Complete** instead of
+orient → plan → execute → close, holds a real conversation about what you want
+before building, and handles a small explicit change without dragging it through a
+full intake. Switch In opens with a welcome-back dashboard (phase, task, state,
+last session, this session, and a box that says whether you are needed) instead of
+an exhaustive report of every backlog row. Switch Out gains explicit-file saves,
+acknowledged local-only paths that are never staged, and a remote check that the
+branch carries the exact commit. Visuals draws the direction so it can be agreed at
+a glance. **What it means:** the everyday surface is the conversation and the
+dashboard; the ladder, gates and board are still there, still derived from disk,
+and still run by `drive` and the tools.
+
+**Named as losses: four automatic triggers are gone by decision, not oversight.**
+The new Conductor and Switch call no other skill, and restoring the triggers was
+considered and declined: Switch Out stays explicit, and release checks belong to
+the release task rather than firing on ordinary completion. (1) Conductor's close-out no
+longer invokes the release close-out pass, so `/kerd:slainte release` is yours to
+run at a version bump or an acceptance record. (2) Conductor's close-out no longer
+runs the session boundary; `/kerd:switch out` is standalone again, as it was before
+v0.84.0. (3) Switch Out no longer self-migrates legacy `## Current Session` /
+`### Context` shapes in TODO.md; `/kerd:tend` still detects them, but the healing
+step is gone. (4) Conductor no longer writes the `conductor: <phase> @ <time>`
+marker into `kivna/.active-modes`, which the same-turn time rule names as one of
+its legal time sources and which the SessionStart hook reads: read the clock
+instead. Nothing goes red
+when any of these stops happening, which is why they are written down here.
+
+### v0.106.0
+
+**A risk's severity and its treatment are two facts, not one field.** The ledger's one `State` column mixed how bad with what we are doing about it, so a risk that was genuinely fatal and genuinely treated could not be stated truthfully: whichever value the cell carried lied about the other fact. Now a row carries `Severity` (fatal / non-fatal) and `Treatment` (the four), `Evidence` renames to `Risk evidence`, and a new `Treatment evidence` column holds what proves the treatment: the honest `planned — <what will exist> · <expected location>` declaration before the proof can exist, a resolving citation once it does. A fatal risk advances from viability on a planned treatment; acceptance is where the citation must resolve. All 21 work records migrated in the same commit as the checker and its fixtures (no committed tree ever held mixed schemas), and every severity the old vocabulary never recorded was keyed by hand in a review worksheet committed with the migration, so a reviewed value stays distinguishable from a stated one. **What it means:** a fatal, treated risk no longer forces the ledger to lie, and a treatment is never called proven merely because its field is populated. **The limit, stated:** the machine verifies that a citation resolves; the producer decides whether it supports the treatment.
+
+### v0.105.0
+
+**Status has a template.** Session status (the switch-in summary, conductor's orient, a task report) now follows one format from the talk-format library: **Work item · Stage · Issue · Resolution path**, in plain language that works without the repository open, and the message ends on exactly one question: never a compound "X, or Y?". Born from a real correction: a status spoken in repo shorthand ("scope refused on the FATAL row") was unreadable to its own reader, and the same facts restated in this shape worked first time. **What it means:** you can act on a status message without the codebase open, and every status ends with one clear ask instead of a menu bolted onto a question. The format is canonical in `docs/design/talk-formats.md`; conductor and switch both point at it.
+
+### v0.104.0
+
+**The funnel has a driver.** `/kerd:drive <slug>` is a new skill that owns one work item across the whole ladder (frame → viability → scope → design → work handoff → loop → acceptance) over as many sessions as it takes, and hands each sitting's work to `/kerd:conductor` without changing a line of it. At the frame gate it asks a short question set: you declare the work type (never guessed), the set is copied from a seed into the work record, you edit it before anything is asked, and the frame gate counts answered against declared until every entry has an answer: the item stays at `frame` until then. One list drives what is asked, what counts as finished, and the `now > frame, next viability, after scope` line you see. **What it means:** an idea can enter the funnel by being asked six questions rather than by someone remembering the sections, and nothing already on the board moves: the check applies only to a record that carries the section. **The limit, stated:** the gate counts presence, never quality; it cannot tell whether an answer is true, and it cannot tell whether Drive or a hand wrote the section. One seed exists (`software-change`); the other gates' sets are following slices.
+
+### v0.103.0
+
+**The router told newcomers to satisfy `handoff` by producing a `contract`.** When work stops at the handoff rung, the gate names what it still needs, and it named it "contract spec", a phrase built from a rung name that was retired three days earlier. It is the first place the ladder speaks to someone who wasn't in the room, and it spoke in a word the ladder no longer uses. The line now describes the artifact instead of naming it: *work specification with Pieces and a Verify for every step*. **What it means:** the gate tells you what to make rather than what to call it, so you can act on the sentence without being taught the vocabulary first. **Deliberately unchanged:** the artifact is still the contract, and conductor and the handoff flow still say so: that is where the delegation relationship is explained and where the word earns its keep. Only the first-reader line moved.
+
+### v0.102.0
+
+**Completing v0.101.0: a record can be well-formed and still claim the opposite of its own filename.** AU10 started requiring a legal `route` and `stage` on every gate record. But `stage: designed` is perfectly legal, and on a file named `*-acceptance.md`, which exists to say the producer accepted the work, it says the reverse. The router took it anyway. Now a record whose name asserts acceptance must carry the terminal stage: `ready-to-release`, or `done` through the read-only alias that keeps the seven immutable legacy records working. Other suffixes are untouched, so a design record saying `stage: designed` is still exactly right. **What it means:** the name of a gate record and the stage inside it can no longer disagree: the filename is a claim, and the front matter now has to back it. **The limit, stated:** this checks that the two agree, never that either is true.
+
+### v0.101.0
+
+**A gate record could be invalid and still move a work item to the finish line.** The audit pinned gate-record *filenames*, and validated front matter only on files that already had some, so a record with a perfectly good name and no front matter at all fell through the gap between the two checks. That gap was load-bearing rather than cosmetic: the `ready-to-release` terminal is derived by reading the acceptance record, so an invalid file could report a work item finished while the audit stayed green. Now every `docs/gates/` record must carry a legal `route` and `stage`: AU10 refuses the ones that don't, and the terminal will not qualify a record that fails it. The retired `-goal.md` name reads under the same contract, not a weaker one. **What it means:** a gate record either meets the shape the gates README has always described, or it doesn't count: the contract was written down long before anything enforced it. **The limit, stated:** this checks the record's shape, never that its Release condition is true.
+
+### v0.100.0
+
+**A journey page could tell you a stage had no steps while the steps sat four lines away, and every gate stayed green.** The journey pages read their step definitions out of one file and look them up by the stage's display name. Rename a stage on one side and the lookup quietly misses: the page prints "Rungs not defined for this stage yet" over work that is fully written down. That is exactly what happened when the ladder folded to seven rungs: three stages were renamed, the definitions file kept the old headings, and every journey page shipped two false panels. Regenerating the pages could never have caught it, because regenerating only proves the pages match the source; it cannot notice that the source stopped matching the code. Now a check refuses the mismatch in both directions: a stage with no definition, and a definition matching no stage, and it runs in CI on every push. **What it means:** when you rename a stage, the build stops and tells you which headings to move, instead of publishing pages that quietly claim the work was never defined. **The limit, stated:** it checks that every stage *has* steps defined, never that the steps are the right ones.
+
+**Eleven places said the ladder still had eight rungs.** The seven-rung fold swept its enumerated list of sites perfectly and missed their neighbours: a stale count in the playbook, a retired `build` and `goal` inside a diagram generator, conductor still teaching that the frame must carry a fully qualified risk ledger when that check moved a rung down to scope, the README claiming `stage: done` was gone when it is still a readable alias, and the gates README telling you the router picks the *lowest* passing rung when its own code and its own line 63 both say *deepest*. All corrected. **What it means:** the documents describing the seven-rung ladder now agree with the machine that implements it, and with each other.
+
+### v0.99.0
+
+**The ladder is seven rungs now, and the two that disappeared were always doing one job.** Work used to climb `frame → viability → slice → design → contract → build → goal → loop`. Eight gates, but `build` and `goal` split a single stretch of work between them (build the thing, check the boxes, go round again), and the human-sounding name sat on the machine test. Now they fold into **`loop`**, a container checked only at its two edges: you enter with a spec whose every step carries a `Verify:`, you leave with zero unchecked pieces. What used to be called `loop` becomes **`acceptance`**, the producer's last gate. `slice` is renamed **`scope`**, `contract` is renamed **`handoff`**. **What it means:** the rung names say what happens at them. Build, verify and adjust are execution mechanics, not checkpoints to report through, so the router stopped pretending they were, and because the checks themselves never moved, every work item's reported position changed label, not substance.
+
+**Scope is where you lock in what you're building, and the gates were holding the wrong things.** The scope gate used to check your risk ledger while the *design* gate checked what you had committed to build, so the machine asked "what could kill this" where "what are we building" belonged, and asked for the commitment one rung late. Now `## Release slice` is renamed **`## Scope`** and is checked at the scope gate, with the rigor level travelling with it; design checks only that every declared concern has a sealed drawing. Viability gains its first real check too: your risk ledger must **name** a killer risk: presence only, no sizing, no evidence, because you cannot qualify the risks of a thing you have not defined yet. **What it means:** risk is read twice at two depths: named cheaply at viability, fully qualified at scope, and the rung called scope is finally the one where scope is agreed.
+
+**A retired name reads old records forever; it never writes a new one.** `slice`, `contract`, `build` and `goal` stay legal in every parser so the seven existing `-goal.md` gate records keep working, and no file on disk was renamed or rewritten. But every *trigger* moved the same day: conductor, slainte and switch now fire their completion behaviour on `docs/gates/*-acceptance.md`, because a trigger still watching a retired name is a second live name wearing an alias costume: it would have gone quiet with every drawing and gate record still looking correct. **Named as a loss:** you can no longer declare a work item finished. `stage: done` is retired (still readable on records that already carry it, never written as current), and the terminal is `ready-to-release`, which is *derived*: the machine reports it only when an acceptance record is actually on disk, and refuses the claim when it is not. Typing that you are done was a real thing you could do yesterday, and it is now something you have to produce evidence for. **The limit, stated:** the filename check validates shape, not intent: a freshly written `-goal.md` would still pass it. The machine holds the read side; the write discipline lives in `tools/gates/README.md` and the skills.
+
+### v0.98.0
+
+**Conductor now advises the session down, not just up, and effort joins the model in every sizing call.** Before, the model advisory only pushed one way: it could tell an underpowered session to move up to Opus, but a session opened at Fable on high effort for routine work sailed through unremarked, and silence approves the burn. Now conductor sizes the *pair*, model and reasoning effort together: it states what it believes the session is running (and why that belief can be stale: a mid-session `/model` switch is invisible to it), has you confirm the actual pair in the same breath as the existing gate, and names the downgrade explicitly when you're overpowered: "conducting this needs Opus medium; difficulty is bought per-call." The composer call now carries its own sized effort too, the same two levers player steps always had: tier buys capability, effort buys deliberation. **What it means:** the four-role cost model finally closes: nobody idles at premium rates between the calls that need them, and the expensive tiers are bought back per-call at exactly the effort the work earns. **The limit, stated:** no harness surface exposes the session's current model or effort to a skill, so this is stated belief plus your one-word confirmation, never detection: if that surface ever appears, detection replaces asking (the return condition is in the frame's risk ledger).
+
+**The requirements register's rules now have a refuser.** Since v0.95.0 the register (`docs/requirements/`) has declared its own law ("an unknown field is a hard error", "the audit REFUSES" when an approved statement is edited), and nothing enforced any of it: the rules were prose, exactly the gap the register itself exists to close. Now two audit rules (AU7, AU8) ride the same CI sweep as every other refusal, at no new CI step: an illegal ID or state, an unknown field, a missing Source, an `Approved` hash that no longer matches the statement it approved, a `superseded` block that never names its replacement, or a link pointing at a requirement that does not exist all turn the push red, with the exact block and defect named. Two of the catalog's rules are deliberately *reports*, not refusals, matching its own words: a link whose stamp has gone stale ("flagged for re-look") and a requirement with no parent in the trace: those print as findings and never block. Nothing is hardcoded: the legal category set comes from each project's own `categories.md`, so a consuming project's taxonomy is its own. **What it means:** editing a keyed requirement's words now gets caught by the machine, not by the producer's memory. **The limit, stated:** the hash proves the words haven't changed since approval; it cannot prove they were the right words: only reading it back can.
+
+**Kerd's hooks now ship the standard way, so updating Kerd never breaks them again.** The old mechanism wired each repo's hooks by pasting an absolute path to a specific plugin-cache version into `settings.local.json`, and Claude Code garbage-collects old cache versions, so the moment your installed version was pruned, every hook in every repo pointing at it went silently dead, including repos you never touched. That is what happened: eleven repos with broken hooks and a `/switch out` reminder that named a command that no longer exists. The fix is the mechanism plugins are *supposed* to use: `hooks/hooks.json` in the plugin, which Claude Code auto-registers the instant the plugin is enabled and resolves at runtime, so there is no version-pinned path anywhere to rot. You wire nothing; updating Kerd changes nothing to keep in sync. **What it means:** enable Kerd and its hooks work, everywhere, forever. `/kerd:tend` now *removes* leftover manual wiring instead of adding it. **Named as a loss:** the Stop hook is gone: it was the only thing that nudged "you have uncommitted changes, run switch" at turn-end, but it fired after every response (not once when you left), its reminder pointed at a dead command, and its mode half was already covered by the statusline. The uncommitted-work safety net is the thing you're giving up; the switch discipline itself is unchanged.
+
+### v0.95.0
+
+**The release pass ran on four releases at once, and what it found was a counting problem.** v0.93.0 added an eighth CI step and never swept the places that said there were seven: the README, the system map's rendered box, two design docs, and the state file. That is the exact failure this repo made a standing rule against: a change to system-wide behaviour owes a cross-cutting grep before it ships. The pass fixed all of them, and where a doc only meant "this feature adds no step", the absolute number is gone rather than corrected, a count in prose rots on someone else's release. It also mirrored five gotchas that never reached the playbook, corrected eight ownership cells in `docs/state-contract.md` against what the skills actually do (kivna's import writes TODO and the session log; conductor does not read session logs at orient), and gave `tend` its missing fourth hook: a repo wired with three of four passed hook hygiene, because the check enumerated a list that stopped being complete. **What it means:** the narrative surface now describes the repo that exists. **What this is not:** a check: nothing in CI reads the playbook or the README, so the next count to rot will rot silently too.
+
+### v0.94.0
+
+**New work now gets a frame the machine can see, instead of a line in TODO.** Kerd could route work through eight funnel stages, check every one, and render the board, and no skill had ever written the artifact that puts work *on* that board. Framing was de-skilled at v0.73.0 and moved to "the frame flow", a flow with no owner. The cost was not hypothetical: the decision to give the funnel a driver was taken in full, specced, and sat unbuilt for three days, not because anyone forgot but because it never entered through a frame, so no gate demanded anything of it and no render showed it missing. Now, when a repo routes work through entry gates, conductor asks the gates whether the work is tracked and, if it is not, the framing conversation produces the frame artifact itself: the value in your own words and in units, the grounding, a risk ledger where every risk is sized and in exactly one state, and the smallest valuable slice with its exclusions named. Your key belongs at that gate; the value statement is yours and the model's job is to write it down accurately, not author it. Where no gates exist, nothing changes. **Named as still unowned:** the design and handoff stages: nothing writes a design doc, a GO record, or a Scope section yet. Conductor sheds one piece at a time, which is its own spec's rule, not caution.
+
+### v0.93.0
+
+**The boundary now checks that it recorded what the session produced.** Switch out has always written the handoff and never verified it: the work item that fixed the boundary said so plainly, and shipped unverified because of it. On 2026-08-07 that cost something real: a session with 23 unrecorded commits could not safely be closed, because nothing could say whether closing it would lose them. Now `tools/gates/fidelity.py` compares every file the session changed against what `CONTEXT.md`, `TODO.md` and the session log actually name, and refuses at the boundary when something was produced that nothing a pickup reads points at. Its first honest run caught seven, including two tools built that day that the next session would never have found. It runs in CI on every push and skips itself unless the commit writes a session log, so it bites at the boundary and stays quiet during normal work. **What it cannot do, named:** it proves *reachability*, never *comprehension*: a path mentioned in a sentence passes even if the sentence misdescribes it. The same declared limit as grounding-was-read, and claiming more would be a green tick over a model choosing to comply.
+
+### v0.92.0
+
+**The four roles are renamed, because the old names inverted under reading.** You were the *composer* and the spec-writing agent was the *orchestrator*. In practice that swapped: asked to describe the model, the person who chose those names used "composer" for the spec-writer and "orchestrator" for the driver, in one sentence. Now the names say what the words already mean: **you are the producer** (the idea or the input, and the approvals that keep it the show you wanted to make), the **composer** is the top-tier model called as a subagent to write the score, the **conductor** is the session model directing the performance, and **players** are subagents spun up per step at a sized model and effort. Nothing about the architecture changed: the composer was always Fable, the conductor always Opus, the players always sized: only the labels were wrong. What it means: the model tiers are now stated in the roles table rather than buried in prose, and instructions that tell one role to call another can be written without inheriting a name that reads backwards.
+
+### v0.91.0
+
+**Conductor asks the machine before it asks you, and its commits name what they landed.** Two things a decision from 2026-08-04 had already called for and nothing had built. Before, conductor opened every session by asking you for anything the work might need, including things already sitting on disk, which the entry gates have been able to report since v0.69.0. Now the pre-flight inventory runs `gate.py route` first where a repo has gates, reads what it says, and asks you only for what no file can answer: credentials, hardware state, fixtures. Where no gates exist the behaviour is unchanged. Separately, a work commit running against a contract with numbered pieces now carries a `Piece: <slug>/<n>` trailer: a checked box is a claim, a commit trailer is a fact, and it is the one progress signal that cannot be falsified by ticking a box. What this is *not*, named: the driver. Conductor still does not know which work item it is on or which stage that item is at: that is framed at `docs/product/funnel-driver.md` and deliberately not built here, because conductor is the only working instance of half this system's functions and it sheds one piece at a time.
+
+### v0.90.0
+
+**The boundary lost its cheap modes, and that is a real loss.** `/switch out light` and `/switch in low` are gone: the argument is told in full under "On cheap boundaries". The same release put ladder position on both halves of the boundary (the old steps named two progress files that had never existed here, so they silently did nothing while the derived board went unread), made CONTEXT.md append-only between licensed prune events, added a no-silent-truncation rule to "read in full", and gave closure inference its fourth verdict, `dead`, for a row that is undone but whose reason has gone. Switch got shorter while gaining four rules, because deleting the modes deleted every "skip this if light" clause with them.
+
+### v0.89.0
+
+**The session's clock stays honest between phases.** Before, conductor was told once (in a section near the top of its own skill) to write its phase marker to disk. A session that drifted past that one instruction left the marker sitting at an early phase, and close-out then read a stamp that no longer matched reality; on this feature's own first live use the model went one worse and invented a stamp that had never been written. Now the write instruction sits at every phase transition, where the write actually has to happen, and close-out states the consequence plainly: if the marker is not at `execute`, no open time exists, so the session log records a close time alone rather than a plausible-looking range. Gate records gained their missing write-side instruction too: the `**Clock:**` line is now owed by the skill that writes records, not merely documented by the standard that defines it. What it means: the times in your session logs and the durations derived from your gate records come from stamps that were actually taken. What this is *not*, named: a check. `kivna/.active-modes` is gitignored, so no CI step and no hook can refuse a stale marker: this is discipline moved to where it gets used, and its honest test is whether the next session's log carries a real range.
+
+### v0.88.0
+
+**The machine consults a clock, and effort becomes data.** Before, nothing in a session knew what time it was: session logs got headings like "late-evening sitting" written at midday, and how long a task actually took was unrecoverable. Now the clock is captured where artifacts are already written: the conductor's phase marker carries a real stamp (`conductor: execute @ 2026-08-06 15:17 EDT`), which is the task's start; the work commit's git timestamp is its end; session-log headings and the switch-out banner carry real times; and new gate records can carry an optional `**Clock:**` line, so how long a rung took becomes derivable. One rule governs all of it, defined once: a time is written only when a machine produced it in the same turn: a `date` run, or a machine-written record read that turn. A remembered or estimated time is never written. There is also an opt-in statusline segment (`hooks/statusline.sh`) that shows you the time, and **composes** rather than claims the slot: hand it your existing statusline command and it prints both. What you don't get yet, named: estimates. This slice captures honest actuals; using them to predict how long the next task will take is the next slice.
+
+### v0.87.0
+
+**Trim is gone.** The token-cleanup skill's jobs all dissolved into machinery that runs anyway: completed specs are dated immutable records the gates and the progress board read in place (moving them to an archive would turn CI red by construction, since the handoff and loop rungs require them where they are); switch's closure inference cleans TODO with evidence at every boundary; doc-drift pruning belongs to the release pass. What you lose, named: `/trim` no longer answers, and nothing archives docs to `docs/archive/` anymore, deliberately, because nothing should. Kerd is nine skills now. Dead solutions stay dead; the return condition is a cleanup need the boundary, the gates, and the release pass cannot answer.
+
+### v0.86.0
+
+**The release pass now fires when a feature closes, not only when a version ships.** Before, close-out ran the doc-surface pass only if the session's work bumped the plugin version, so the session that lands a feature's acceptance record (its formal "closed as complete" moment, usually a doc-only diff with no bump) got no pass, exactly when the narrative surfaces most need checking. Now either moment fires it: a version bump, or an acceptance record landing. One definition of "release" stays (the version-field diff, CI's R1); the completion clause is a second firing moment, not a second release heuristic. What it means: no feature closes without its story being checked.
+
+### v0.85.0
+
+**Releases now check their own story.** Before, slainte was a read-only audit you had to remember to run, and nobody did: the mechanical checks moved into CI, and the judgment layer (does the README still describe what shipped? is What's New honest?) ran never. Now the release moment itself triggers it: when a conductor session's work bumps the plugin version, close-out runs tend's drift check and slainte's narrative pass before the boundary. Slainte fixes what drifted: as normal work commits under the verification gate, with skriv auditing any prose it writes, and its report names what it deliberately left alone, so restraint is visible instead of assumed. The hand-kept `.slainte` config file is gone; audit targets derive from the repo. What it means: the doc surface gets one honest pass per release instead of zero, CI keeps the mechanical layer, and `/slainte` still answers on demand.
+
+*Release notes for v0.84.0 and earlier live in git history: `git log --follow README.md`.*
+
+## License
+
+MIT

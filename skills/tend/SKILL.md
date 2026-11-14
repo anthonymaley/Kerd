@@ -1,0 +1,367 @@
+---
+name: tend
+description: "Optional tidy-up, never a required first step (start with /kerd:switch in; Switch Out creates the session log and TODO.md when missing). Use when the user says 'tend', 'check structure', 'fix drift', 'structural health check', 'set up this project', 'initialize kerd', 'scaffold', or wants to audit or converge repo structure to current Kerd conventions. Works on repos not yet set up for Kerd (says in plain words what it would add and why) and on repos already set up (detects drift, fixes gaps)."
+---
+
+# Tend (Structural Health & Convergence)
+
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; never ask whether the person is confused: answer what they asked, with one recommendation; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
+**Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
+**Showing the person:** when they ask to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change, the answer carries a saved, rendered view drawn with diagram-design or Archify — never hand-rolled ASCII in a code fence, never an offer question, no quota; only a single action or a factual answer stays text, and being easy to describe in words does not make it one — see [showing the work](../conductor/references/journey.md#visuals-belong-throughout).
+
+Audits repo infrastructure against current Kerd conventions. Shows a visual report of current vs expected state. Fixes with approval.
+
+Tend is an optional tidy-up, not a first step. Start with `/kerd:switch in`; Switch Out creates the session log and `TODO.md` when they are missing. Run tend when you want the folders and files set up in one pass, to catch drift on a repo already set up, or after a Kerd version bump to pick up new conventions. Safe to run anytime. It converges, never destroys.
+
+## Usage
+
+`/kerd:tend`: run in the root of a git repo
+
+## Boundary with Slainte
+
+- **tend**: structure and plumbing (dirs, vault, config files, naming, stray files, deprecated patterns).
+- **slainte**: content (doc accuracy, staleness, consistency, CLAUDE.md sections).
+
+## The Process
+
+### 1. Verify git
+
+Confirm `.git` exists. If not, stop: "This folder is not a git repo yet. Run `git init`, make a first commit, then run `/kerd:tend` again." A remote is optional: a repo with no remote is fine, and tend does not ask for one.
+
+### 2. Infer project identity
+
+Resolve the project name without asking questions:
+
+1. Check `kivna/vault.json` → `name` field
+2. Check `README.md` → first `# heading`
+3. Fall back to the directory name, title-cased
+
+Ask for project name and one-line description only when the chosen fixes use those answers, that is, when Tend is about to create template files on a brand new repo (no README.md, no CLAUDE.md, no docs/). On the not-yet-set-up path in step 3, which creates no template files, skip the intake.
+
+### 3. Decide which kind of repo this is
+
+Look first, and tell "confirmed absent" apart from "could not inspect". Check `kivna/vault.json`, `docs/playbook.md` and the contents of `kivna/`. A clear "no such file" is absence. A permission error, an unreadable `kivna/` or any check without a clear answer is not: stop, say which path could not be inspected and why, and do not classify the repo or apply anything.
+
+A repo is **already set up** when any of these is true: `kivna/vault.json` exists, `docs/playbook.md` exists, or `kivna/` holds anything other than `sessions/` and `.gitkeep`. Otherwise it is **not yet set up for Kerd**. The test ignores `kivna/sessions/` and `TODO.md` on purpose: Switch Out creates those on its own (with a session log inside `kivna/sessions/`), so a repo with only Switch-made session records is still new to Tend. A vault config, a playbook or extra `kivna/` content are deliberate choices, so they mark a repo as set up. Not-yet-set-up repos get the plain-words report in step 4 (no pass/fail marks on optional files). Already-set-up repos get the drift report below.
+
+### 3b. Run all checks
+
+Run each category below. Collect results into three buckets:
+- `✓` passing: no action needed
+- `✗` failing: needs creation or structural fix
+- `⚠` warning: needs cleanup or migration
+
+#### Category 1: Directory structure
+
+Check required dirs exist:
+- `kivna/`
+- `kivna/sessions/`
+- `docs/`
+
+#### Category 2: Required files
+
+Check these files exist:
+- `README.md`
+- `CLAUDE.md`
+- `CONTEXT.md`
+- `TODO.md`
+- `docs/playbook.md`
+
+**TODO shape check (drift detection):** TODO.md must be lean — `## Now` + `## Backlog` only. Flag `⚠` if it contains a `## Current Session` block, a `### Context` section, or any `## Previous/Older Session` blocks (pre-split shape, v0.60.0). **No automatic healer exists as of v0.107.0** — Switch Out self-migrated these shapes until Switch was replaced. Tend still detects them; the migration is now yours to make. Same for a missing CONTEXT.md when TODO.md exists — flag as pre-split, don't create it here.
+
+For brand new repos (user provided project name), create missing files using these templates:
+
+**README.md:**
+```
+# [Project Name]
+
+[One-line description]
+```
+
+**TODO.md:**
+```
+# TODO
+
+## Now
+
+## Backlog
+```
+
+**CONTEXT.md:**
+```
+# Context
+
+## What This Is
+[One paragraph: the project in brief]
+
+## Where We Are
+[Current working state]
+```
+
+**CLAUDE.md:**
+```
+# [Project Name]
+
+## Session Workflow
+
+When wrapping up a session (`/kerd:switch out`):
+1. Update `TODO.md`: check off completed items, add new ones.
+2. Update `docs/playbook.md`: if any new steps, tools, or config were added during the session, add them to the playbook. Always update the "Current Status" section.
+
+## Doc Impact Table
+
+| Doc | Update When |
+|-----|-------------|
+| README.md | Project description, setup steps, or structure changes |
+| docs/playbook.md | New setup steps, integrations, gotchas, tech stack changes, or status changes |
+| TODO.md | Every session close-out |
+```
+
+**docs/playbook.md:**
+```
+# Playbook: [Project Name]
+
+How to rebuild this project from scratch.
+
+## Tech Stack
+[What tools/frameworks and why they were chosen]
+
+## Setup
+[Steps to get the project running locally]
+
+## Architecture
+[Key structural decisions and why]
+
+## Integrations
+[External services, APIs, config needed]
+
+## Deployment
+[How to deploy, environment variables needed]
+
+## Gotchas
+[Things that broke, non-obvious behavior, workarounds]
+
+## Current Status
+[What's working, what's in progress, what's next]
+```
+
+For existing repos, only report missing files. Don't create them with templates. The user may have a reason for their absence, or may want to create them with project-specific content.
+
+#### Category 3: Vault integration
+
+Check:
+- `kivna/vault.json` exists and is valid JSON with `vault`, `folder`, `name` fields
+- The vault folder at the resolved path exists on disk
+- **Spine complete**: the spine is `[Name].md` (MOC) + `[Name] Status.md` + `[Name] Weekly.md`. Flag any missing spine file. The fix for a missing spine file is `/kerd:kivna scaffold` (it fills gaps and does not overwrite existing files); kivna owns vault writes, tend only detects. (Spine convention: `docs/vault-spec.md`.)
+- **No vault-side session history**: flag a `sessions/`, `sessions-of-record/`, or similar dated-log folder inside the vault folder. Session history lives in the repo (`kivna/sessions/`), never in the vault. The fix is to remove it from the vault (the repo is the system of record).
+- **No symlinks**: scan the vault folder for symlinks pointing to the repo. Each symlink is a violation.
+- **No banned files**: check for files that don't belong in the vault: `CLAUDE.md`, `README.md`, `TODO.md`, `Context.md`, `[Name] Context.md`, `[Name] Log.md`, `Log.md`, session export files, any file whose name doesn't start with the project/company name (generic names like `Decisions.md`, `Notes.md`)
+- **Self-identifying filenames**: every file in the vault folder (except the MOC) should start with the project or company name. Flag files that would collide across vaults in Obsidian's quick switcher.
+- **MOC links resolve**: every `[[wikilink]]` in the MOC should point to a file that exists in the vault folder.
+- **No append-only patterns**: flag files with multiple dated `## YYYY-MM-DD` section headers (remnants of old pattern). Exempt `[Name] Weekly.md` — it is the one sanctioned append-style spine file, and its `## Week of YYYY-MM-DD` sections are by design.
+
+If `kivna/vault.json` does not exist, the vault is simply not opted in — this is not a finding. Report one info line, never a ⚠ or ✗ state, and count the category as passing:
+
+```
+ℹ Vault integration: no vault configured — opt-in via /kerd:kivna scaffold when this project wants a knowledge base
+```
+
+If vault needs full setup, the fix is to run the `/kerd:kivna scaffold` mechanic (not to reimplement it here; kivna owns vault operations).
+
+#### Category 4: Deprecated patterns
+
+Detect files/dirs from older Kerd versions:
+- `kivna/context.md`: replaced by vault Status.md in v0.10.0 (was vault Context.md in v0.7.0)
+- `kivna/checkpoints/`: replaced by vault Status.md in v0.10.0 (was vault Context.md in v0.7.0)
+- `kivna/memories/`: replaced by vault in v0.7.0
+- `commands/`: removed in v0.7.0, plugin system loads skills directly
+- `.sotu`: renamed to `.slainte` in v0.11.0 (both since removed)
+- `.slainte`: removed in v0.85.0 — targets derive from the repo; offer deletion
+- `skills/shakh/`: renamed back to `skills/switch/` in v0.14.0
+- `skills/seach/`: intermediate name, renamed to `skills/switch/` in v0.14.0
+- `.agents/bin/ask-codex`: the old vault bridge to Codex, replaced by `/kerd:agent`. Its Codex writes every reply to `.agents/replies/`, and each write can stop for an approval. Offer to pair the thread named in `.agents/codex-session` through `/kerd:agent` (provider codex), as Agent's pairing guide describes: that ID is checked through discovery first and never swapped for another session. Before the first request, offer to amend the reply-file instruction (usually in `AGENTS.md`) on the person's go. Once a request through Agent has come back as a complete answer, list what `.agents/` holds and where the bridge is referenced (`ask-codex` lines in `CLAUDE.md`, the reply-file paragraph), and offer each obsolete file or instruction for removal on its own, keeping anything still in use; never offer the whole folder at once
+
+#### Category 5: Naming consistency
+
+Scan committed files (not gitignored) for:
+- Mixed case patterns in the same directory (e.g., `Setup.md` alongside `config.md`)
+- Inconsistent separators within a directory (kebab-case mixed with snake_case mixed with spaces)
+- Detect the project's dominant naming convention per directory and flag outliers
+
+Skip `skills/` (SKILL.md is a Kerd convention), `docs/plans/` (dated prefixes are intentional), and vault-native files.
+
+#### Category 6: Stray & stale files
+
+Scan for:
+- Screenshots (`*.png`, `*.jpg`, `*.jpeg`, `*.gif`, `*.webp`) in repo root or committed dirs
+- Temp files (`*.tmp`, `*.log`, `*.bak`, `*.swp`, `*~`)
+- `.DS_Store` anywhere in the repo
+- Files with no git commits touching them in 60+ days that aren't documentation (`.md`), config (`.json`, `.yaml`, `.toml`), or gitignore. Use `git log -1 --format=%at -- <file>` to check the most recent commit touching the file.
+- Orphaned files not referenced by any other file in the repo (check with grep for the filename across all files). Only check for files in the repo root (subdirectory files are more likely intentional).
+
+#### Category 7: .gitignore hygiene
+
+Check:
+- `.gitignore` exists
+- Contains entries for: `kivna/input/`, `kivna/output/`, `.DS_Store`
+- Untracked files (from `git status`) that suggest a missing ignore rule: group by pattern and suggest rules
+
+#### Category 8: Skill hygiene
+
+Scan all `skills/*/SKILL.md` files and key docs (`CLAUDE.md`, `README.md`, `docs/playbook.md`) for:
+- **Missing `kerd:` prefix**: any bare `/<skill>` slash-command reference that should be its `/kerd:<skill>` form (`/kerd:conductor`, `/kerd:switch`, `/kerd:skriv`, …). Check inside backtick-quoted commands and prose references. Skip README.md (allowed to use shorthand per CLAUDE.md convention).
+- **Stale skill names**: references to deprecated skill names (`sotu`, `seach`, `shakh`) in active/instructional context (not CHANGELOG, session logs, or deprecated patterns lists). Each hit is a rename that was missed.
+- **Frontmatter drift**: the `name` field in SKILL.md should match its parent directory name. The `description` field should not reference deprecated skill names.
+
+#### Category 9: Hook hygiene
+
+**Kerd hooks auto-load from the plugin (v0.96.0+).** They live in the plugin's own `hooks/hooks.json` and the harness registers them whenever the Kerd plugin is enabled — the plugin-root variable (`CLAUDE_PLUGIN_ROOT`) expands correctly there. **No per-repo wiring is needed, and none should be added.** The session-start and skill-complete hooks are silent unless the repo carries Kerd state (`kivna/.active-modes`, a `kivna/` dir), so they no-op cleanly everywhere else; the context-reading hook (v0.153.0) runs in every project by design, telling the session its token count. This is the standard plugin-hook mechanism; it never version-rots, because there is no cached version path to go stale.
+
+The only job left for tend is **migration**: find and remove *stale manual hook entries* left in `.claude/settings.local.json` by the old (pre-0.96.0) wiring mechanism. Those entries either point at a garbage-collected cache version (dead — Claude Code prunes old versions, see the playbook GC gotcha) or duplicate a hook the plugin now auto-loads (double-fire). Both are fixed by deletion.
+
+Check `.claude/settings.local.json` for hook `command` strings that reference the Kerd plugin cache (`cache/kerd-marketplace/.../hooks/`) or a `/hooks/` path that starts with the plugin-root variable written out unexpanded (`$` followed by `{CLAUDE_PLUGIN_ROOT}`; that form never expands in settings and was always inert). Any such entry is stale.
+
+If stale entries are found:
+
+```
+⚠ Hook hygiene — stale manual hook wiring found
+  ┌──────────────────┬──────────────────────────────┬──────────┐
+  │ Hook             │ Wired path                   │ Proposed │
+  ├──────────────────┼──────────────────────────────┼──────────┤
+  │ SessionStart     │ .../kerd/0.65.0/hooks/...    │ remove   │
+  │ PostToolUse      │ .../kerd/0.65.0/hooks/...    │ remove   │
+  │ UserPromptSubmit │ .../kerd/0.65.0/hooks/...    │ remove   │
+  └──────────────────┴──────────────────────────────┴──────────┘
+  Why: Kerd hooks now auto-load from the plugin (hooks/hooks.json).
+       These manual entries are dead (pruned cache version) or
+       duplicate the auto-loaded hooks. Removing them restores the
+       standard behaviour and prevents double-firing.
+  Fix: remove the Kerd hook entries from .claude/settings.local.json
+       (leave any non-Kerd hooks and other settings untouched).
+  Verify: after removal, the hooks still fire (auto-loaded) — a new
+       session in this repo prints the last-session line from
+       session-start.sh.
+```
+
+When fixing, read `.claude/settings.local.json`, remove only the Kerd hook entries (matched by the cache path, a `/hooks/` path starting with the unexpanded plugin-root variable (`$` followed by `{CLAUDE_PLUGIN_ROOT}`), or — in the Kerd source repo — a local `.../Kerd/hooks/` path), and preserve every non-Kerd hook, permission, and other setting. Do not add replacement entries — the plugin provides them.
+
+Auto-load covers the Kerd source repo too, so it needs no local hook wiring either: a repo that kept local entries *and* got the plugin's auto-loaded hooks would fire each hook twice. Hook changes under development are validated by `tests/hooks_test.sh` (which runs the local scripts directly), not by live session behaviour, so nothing is lost by letting live sessions use the cached version.
+
+### 4. Display report
+
+#### Repo not yet set up for Kerd
+
+Do not use `✓ ✗ ⚠`, category numbers, or counts like "3 failing". A new repo is not failing anything. Write it in plain words, in this order, and run the checks below only to learn what exists:
+
+1. **What I will add or change, and why.** List every creation or edit, one line each, naming the file: `kivna/` and `kivna/sessions/` if missing (where saved session logs go), and a `.gitkeep` in each of those two folders that lacks one (check each folder and each `.gitkeep` on its own: Switch may have made `kivna/sessions/` without a `.gitkeep`, and then only the missing pieces are listed); for `.gitignore`, either "create it" or "add these lines to your existing file" with the exact lines (`kivna/input/`, `kivna/output/`, `.DS_Store`, whichever are missing; they keep scratch folders out of git). Say that nothing is committed.
+2. **Optional, your call.** List each of these that is missing with one line on what it is for, never as a failure: `CLAUDE.md` (standing instructions for Claude in this repo), `docs/playbook.md` (how to rebuild the project), `TODO.md` (open work; Switch Out creates it when missing), a vault under `kivna/vault.json` (an Obsidian knowledge base; set up later with `/kerd:kivna scaffold`). These are reported and not created: no templates, and the vault is not scaffolded on this path.
+3. **Left alone.** Say that every file not named in item 1 is not changed.
+
+End with one approval question. On this path the decision block in “Putting a decision to the person” does not apply: this is an optional tidy-up that touches a few empty folders and gitignore lines and is easily undone, so it is a small, easily undone step and stays one question. Write the whole report in plain sentences for someone who is not a developer, one sentence per thing added: what it is and what it is for. Do not print the filename `.gitkeep` or call anything "small", "safe" or "idempotent"; where a placeholder is part of the list, call it "an empty placeholder file that keeps the folder in Git" the first time and say nothing more about it. Write it without the labels Problem, Facts, Known options, Recommendation, Why, Cost, What we lose or Input, and do not write an "Input: nobody else has checked" line. Say what you recommend in one clause and that nothing is committed, then ask the one question. Developer detail (filenames, per-folder checks, the full decision block) stays for repos that are already set up. Approval covers only the item 1 list, and the fix flow applies only those entries, checking each path again immediately before writing it and stopping if a path has changed or cannot be inspected. The summary line is plain too: "Will add 2 folders and 3 lines to your .gitignore. 4 optional files left for you."
+
+#### Repo already set up
+
+Format the report as a visual table. Show passing categories as one-liners. Show failing/warning categories with current vs proposed tables and a "Why" explanation.
+
+**Evidence tracking for failing/warning findings:** the "Why" cell must reference the source of the finding — which check detected it (e.g. "Category 3 vault.json check: missing field `name`" / "Category 6 staleness scan: file not touched in 60+ days per `git log -1 --format=%at -- <path>`" / "Category 9: hook path resolves to nonexistent file at `<path>`"). When proposing fixes in the Proposed column, include the verification step the user can run after the fix lands (e.g. "verify with: `cat kivna/vault.json` shows the `name` field; `git log -1 -- <path>` shows recent activity"). Findings without a source-of-detection are unverifiable; the proposed fix becomes "trust me" rather than reproducible.
+
+```
+┌─────────────────────────────────────────────────┐
+│  /kerd:tend: [project-name]                      │
+└─────────────────────────────────────────────────┘
+
+✓ Directory structure
+  kivna/  kivna/sessions/  docs/
+
+✓ Required files
+  README.md  CLAUDE.md  CONTEXT.md  TODO.md  docs/playbook.md
+
+✗ Vault integration
+  ┌──────────────────┬───────────────┬─────────────────────────────┐
+  │ Item             │ Current       │ Proposed                    │
+  ├──────────────────┼───────────────┼─────────────────────────────┤
+  │ symlinks         │ 8 found       │ remove all (vault spec      │
+  │                  │               │ prohibits repo symlinks)    │
+  │ Context.md       │ exists        │ remove (replaced by         │
+  │                  │               │ Status.md)                  │
+  │ Log.md           │ exists        │ remove (no replacement,     │
+  │                  │               │ git log is authoritative)   │
+  │ Decisions.md     │ generic name  │ rename to [Project]         │
+  │                  │               │ Architecture Decisions.md   │
+  └──────────────────┴───────────────┴─────────────────────────────┘
+  Why: vault spec requires self-identifying filenames, no symlinks,
+       no append-only files. See docs/vault-spec.md.
+
+⚠ Deprecated patterns
+  ┌──────────────────┬───────────────┬─────────────────────────────┐
+  │ Item             │ Current       │ Proposed                    │
+  ├──────────────────┼───────────────┼─────────────────────────────┤
+  │ kivna/context.md │ exists        │ remove (replaced by vault   │
+  │                  │               │ Status.md)                  │
+  │ kivna/checkpoints│ 3 files       │ remove (replaced by vault   │
+  │                  │               │ Status.md)                  │
+  └──────────────────┴───────────────┴─────────────────────────────┘
+
+⚠ Stray & stale files
+  ┌──────────────────┬───────────────┬─────────────────────────────┐
+  │ Item             │ Current       │ Proposed                    │
+  ├──────────────────┼───────────────┼─────────────────────────────┤
+  │ Screenshot*.png  │ 2 files in    │ delete or move to           │
+  │                  │ repo root     │ kivna/input/                │
+  │ .DS_Store        │ 3 locations   │ add to .gitignore, remove   │
+  └──────────────────┴───────────────┴─────────────────────────────┘
+
+✓ Naming consistency
+✓ .gitignore hygiene
+✓ Skill hygiene
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 4 passing  ·  2 warnings  ·  1 failing
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+After the report, outside its code block, put the decision as the
+[question form](../conductor/references/journey.md#question-surface-and-host-adaptation)
+sets it: the report is the Problem and Facts; Known options are fix all, pick
+individually or skip; give the Recommendation (usually fix all) with its Why, the
+Cost (files touched), What we lose (any local variation the fix overwrites) and
+Input, then ask, naming the count:
+
+> 💬 **Fix all three findings — approve?**
+
+### 5. Fix flow
+
+Before every write, check the path again; if it cannot be inspected, stop and explain. For a repo not yet set up, "yes" applies only the item 1 list of the plain report; it never runs vault scaffold or creates template files. Otherwise:
+
+**"yes" / "fix all"**: Apply all proposed fixes:
+- Create missing directories and files
+- Run `/kerd:kivna scaffold` if vault needs setup
+- Remove deprecated files (after confirmation for deletions)
+- Add missing `.gitignore` entries
+- Delete or move stray files as proposed
+- Stage all changes
+
+**"pick" / "pick individually"**: Show each `✗`/`⚠` item one at a time. Ask yes/no for each. Apply only approved fixes.
+
+**"skip" / "no"**: Do nothing. The report is the value.
+
+### 6. Summary
+
+After fixes are applied, print what was changed. Do NOT commit — structural fixes are the user's to review before they land.
+
+If this is a brand new repo and all structure was just created, suggest: "Structure ready. Run `/kerd:switch in` to start your first session, and `/kerd:switch out` to save it."
+
+## No Commit
+
+Tend does NOT commit or push. It makes structural changes and stops. Unlike conductor's work commits — which land behind a verification gate that proves the task did what it claimed — tend's changes are structural convergence with no such gate, so they stay in the working tree for the user to review. The user commits via `/kerd:switch out` or manually.
+
+## Notes
+
+- Once every fix from a run has been applied and nothing has changed since, running Tend again finds nothing left to change.
+- Tend is optional. `/kerd:switch in` is the first step on any repo; tend covers one-pass setup and later convergence.
+- For vault operations (scaffold, vault setup), tend delegates to `/kerd:kivna scaffold` rather than reimplementing vault logic.
+- The vault spec at `docs/vault-spec.md` defines what belongs in the vault. Tend checks structure against this spec.
+- Category checks are ordered so that earlier categories don't depend on later ones. Directory structure is checked before required files, vault before deprecated patterns.
+- The stale file check (60 days) uses git history, not filesystem mtime. This is intentional: mtime changes when you pull.
