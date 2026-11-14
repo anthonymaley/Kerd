@@ -7,6 +7,7 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 ## Where We Are
 
 **Position (2026-11-14 11:1x):** **Kerd 0.197.0 is released** (his "y" 11:05 to the go at Shape): main fast-forwarded 7dda1d7b → 9e1b91c6 (the day batch's three commits plus its Switch Out save); `tools/release.py ship --codex --plugin` (Haiku worker, exit 0) pushed it, entry-gate CI 43613762699 passed on 9e1b91c6, public `codex` 0895ddb1, Claude Code here installed 0.197.0 at 9e1b91c6 (read back from installed_plugins; loads on restart). The marketplace still installs from `main` (no `"ref": "plugin"`), so the slim package was not published. 0.197.0 carries what a second simulated first user, a non-developer (Sam, a launch brief), hit: walkthrough round 4 found 11 of 19 fixed, 6 partly, no blocks (the rest fixed after, not re-walked); evals 20 of 24 (from 14); the staffing grid reaches the screen (conductor-go 2/2); the chat roll's `[1m]` fix; an invited-user page (`docs/guide/invited.md`) and issue template. **Next (proposed):** re-walk Sam on 0.197.0 to confirm round 4's last fixes and count the prompts at first arrival. Why: invited people meet exactly this path next, and six findings were only partly fixed and the last fixes never re-walked. Record `notes:batch-1114/work.md`; release view `notes:batch-1114/release-0197.html`.
+**Since (2026-11-14 11:5x):** the first weekly review's follow-ups are closed: #2 to #4 were found shipped (0.195.0, 0.196.0) and #5 ruled on his "y" 11:51 (both shipped defaults stay; ruling below). Records only, no release. Studio space requests over ~5 GB, big-build timing and shared-resource conflicts go to the `weefish-*` session (his global CLAUDE.md, 2026-11-14).
 
 Phase: release done (0.197.0); next the invited round, whose who and when are his.
 
@@ -90,23 +91,26 @@ His: restart Claude Code to load 0.197.0; merge catalogue PR #3 (Fable 5.2 and t
 **Branch:** `main` (0.197.0 released). `concert/batch-1114` (worktree `~/development/product/Kerd-batch-1114`) and `concert/overnight-1113` are merged into main (fast-forward) and kept; so are `concert/review-routing`, `concert/route-repair`, `concert/openai-advice`, `concert/readme-guides`, `concert/prepare-scope` and `concert/pickup-recheck`.
 Session logs: `kivna/sessions/` (newest `2026-11-14.md`).
 
-**Pickup reading set** (update 2026-11-14 11:1x):
+## For Kerd's next pickup (you can ignore this)
+
+**Pickup reading set** (update 2026-11-14 11:5x):
 - this file complete: position (0.197.0 released), the continuation (re-walk Sam), rulings, team;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is outside the set);
 - `kivna/sessions/2026-11-14.md`, newest log;
 - `notes:batch-1114/work.md`, the batch record (agreement, defaults, every review round, position);
+- `notes:batch-1114/first-user-4.md`, round 4, the method and findings the re-walk confirms;
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `notes:batch-1114/report.html`, `notes:batch-1114/first-user-3.md` and `first-user-4.md` (walkthrough before/after), `notes:batch-1114/evals.md`, `notes:batch-1114/package.md`, `notes:overnight-1113/work.md`, `kivna/sessions/2026-11-13.md`, `notes:weekly-review/2026-11-13.md`, `notes:deeper-reading.md`, `docs/decisions.md`, `docs/backlog-archive.md`.
+Deeper: `notes:batch-1114/report.html`, `notes:batch-1114/first-user-3.md` (walkthrough round 3), `notes:batch-1114/evals.md`, `notes:batch-1114/package.md`, `notes:overnight-1113/work.md`, `kivna/sessions/2026-11-13.md`, `notes:weekly-review/2026-11-13.md`, `notes:deeper-reading.md`, `docs/decisions.md`, `docs/backlog-archive.md`.
 
-**Notes commit:** `285696a9f4f24b680b11ce34f170a08e82b34d5e` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `e4ed565956a8a7dda37456d7c617845445b86f56` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git.
 
-The observed position before this save is `main` at 9e1b91c6 (0.197.0, released); the boundary commit is this save itself, pushed to `main`.
+The observed position before this save is `main` at d5360442 (0.197.0 released, then the weekly-review #5 records commit); the boundary commit is this save itself, pushed to `main`.
 
-**Measured** 2026-11-14 11:1x, at this Out: 72,903 bytes, about 18,226 tokens (estimate), over the 8,000 target. Kept that size because the batch record (`notes:batch-1114/work.md`, ~24 KB) holds the walkthrough rounds and defaults the re-walk starts from, and TODO's Now still carries long watch rows; trimming the rows stays proposed. Carried phrases (0.197.0; Re-walk Sam; slim package; 9e1b91c6; invited round) are all in the set. `read_args` for the next pickup:
+**Measured** 2026-11-14 11:5x, at this Out: 87,219 bytes, about 21,805 tokens (estimate), over the 8,000 target. Kept that size because the batch record (~24 KB) and round 4 (`first-user-4.md`, ~12 KB, added so the re-walk starts from its method) are what the next step works from, and TODO's Now still carries long watch rows; trimming the rows stays proposed. Carried phrases (0.197.0; Re-walk Sam; slim package; weekly review #5; weefish) are all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-11-14.md",
- "--file", "notes:batch-1114/work.md", "--file", "notes:outside-the-repo.md",
- "--section", "TODO.md", "## Now"]
+ "--file", "notes:batch-1114/work.md", "--file", "notes:batch-1114/first-user-4.md",
+ "--file", "notes:outside-the-repo.md", "--section", "TODO.md", "## Now"]
 ```
