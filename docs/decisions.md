@@ -12,6 +12,7 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. TWO DEFAULTS THAT SHIPPED ON CLAUDE'S CALL STAY: `measure` REFUSES A SOURCE OUTSIDE `--scope` (0.194.0) AND `retire` REFUSES A BINDING UNDER AN HOUR OLD WHOSE LAUNCH IS UNCONFIRMED (0.193.0) — Anthony, 2026-11-14 11:51 ("y"; weekly review #5).
 1. INTERSECT IS THIS MACHINE'S DIAGRAM DEFAULT, ON WHITE PAPER FOR EVERY KERD USER; THE KERD LOOK STAYS SAVED AND REMAINS THE SITE'S LOOK; AFTER A diagram-design UPDATE, RELOAD intersect.md — Anthony, 2026-10-15 09:41 ("keep intersect"), white paper 2026-10-16 08:31; released 0.186.0. Replaces the 2026-09-21 Kerd-look ruling below ("the only diagram theme on this machine").
 1. A SONNET 5.5 READER THAT GRADES OR SCANS AGAINST A BRIEF, WITH CONDUCTOR CHECKING EVERY FINDING, RUNS AT MEDIUM; HIGH STAYS WHERE COMPLETENESS IS THE RESULT — Anthony, 2026-10-08 14:49; released 0.179.0.
 1. WHEN OPTIONS ARE LISTED AND THE QUESTION CHOOSES AMONG THEM, THE BUBBLE ASKS ABOUT THE RECOMMENDATION; A MISSING FACT, A PICK-SEVERAL CHOICE, THE ARRIVAL QUESTION AND A CHOSEN WORK'S OUTCOME KEEP THEIR OWN QUESTION — Anthony, 2026-10-06 11:41; released 0.174.0.
@@ -246,6 +247,16 @@ ruling so history is searchable by subject; find the entry by its opening words.
 192. skriv voice profile: HELD
 193. TODO is forward-only
 ## Entries, newest first
+
+- **Two defaults that shipped on Claude's call stay as built (Anthony, 2026-11-14 11:51, "y" to keeping both).** From
+  the first weekly review's #5 (`notes:weekly-review/2026-11-13.md`): behaviour that shipped without his look. `measure`
+  refuses a project source outside `--scope` (0.194.0; before it `measure` never blocked), because the scoped check
+  leaves such a source unchecked for unsaved changes, so its size could come from unsaved text; it touches only scoped
+  projects (apple-music, not yet scoped). `retire` refuses a binding under an hour old whose launch is unconfirmed
+  (0.193.0, `LAUNCH_SETTLE_SECONDS`), because that launch may still be under way; every current stale binding is older.
+  Both stop a quiet wrong result, each in a rare case, and say what to do. Left untested and accepted: non-ASCII scope
+  folder names on macOS (apple-music's is ASCII). 0.193.3 going out as a patch on Claude's default needs nothing now.
+  Nobody else checked this; read from the code at the decision.
 
 - **Intersect is this machine's diagram default, on white paper for every Kerd user (Anthony, 2026-10-15 09:41: "keep
   intersect"; 2026-10-16 08:31 on white paper: "thats not a risk its what we want"; released 0.186.0).** Replaces the

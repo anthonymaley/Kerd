@@ -28,6 +28,7 @@ Codex users install with `codex plugin marketplace add anthonymaley/Kerd --ref c
 **Site:** the orchestra look, live since 2026-10-12 (https://kerd-six.vercel.app/site/index.html): homepage hall plan, Capabilities, Examples, Docs; no version in the footer; every push deploys through Vercel's GitHub integration (one deploy arrived ~40 min late, 2026-10-14). Sketchbook `notes:homepage-redesign/work.md`.
 
 **Rulings that govern the next work** (one line each; quotes and cases in `docs/decisions.md`, except the 2026-09-23 read-only-reads ruling, which has no case there yet):
+- `measure` refuses a source outside `--scope` and `retire` refuses a binding under an hour old with an unconfirmed launch; both stay as shipped (2026-11-14, his "y" 11:51; weekly review #5).
 - Reviews go to a fresh, record-briefed reviewer from the other provider by default; standing Codex partners only for multi-turn Codex work or when he names one (2026-11-12, his "y" 10:47; built and released 0.193.0 on his 14:46 go; case `notes:review-routing/work.md`).
 - Sonnet 5.5 grading or scanning readers run at medium when Conductor checks every finding; high where completeness is the result (2026-10-08; 0.179.0).
 - When listed options are chosen among, the bubble asks about the recommendation; a missing fact, pick-several, the arrival question and a chosen work's outcome keep their own (2026-10-06; 0.174.0).
