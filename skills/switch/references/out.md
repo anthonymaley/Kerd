@@ -247,8 +247,9 @@ This carries recorded urgency, not a fresh operational verdict or authority to
 investigate; routine owed work does not become urgent to justify inclusion.
 
 When the person stated how much technical detail they want (“keep the technical
-stuff out of my way”, “show me the commands”), save it in
-CONTEXT.md's governing lines (in a new CONTEXT.md, the first line under its title),
+stuff out of my way”, “show me the commands”), save it in the governing lines of
+the project's current-context pointer (CONTEXT.md by convention; in a new
+CONTEXT.md, the first line under its title), never a second file beside it,
 in their own words and dated, as one line:
 `Person's preference (2026-11-14): “keep the technical stuff out of my way”.`
 Only a preference they stated is saved: a self-description (“I'm not a developer”)

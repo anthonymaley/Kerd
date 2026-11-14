@@ -86,13 +86,16 @@ class TechnicalDetailPreferenceCarried(unittest.TestCase):
 
     def test_out_saves_it_in_their_words_dated(self):
         text = guide("references/out.md")
-        self.assertIn("save it in CONTEXT.md's governing lines", text)
-        self.assertIn("in their own words and dated, as one line: "
+        # Codex round 5: the project's current-context pointer, whatever its name; never a second file.
+        self.assertIn("save it in the governing lines of the project's current-context pointer "
+                      "(CONTEXT.md by convention;", text)
+        self.assertIn("never a second file beside it, in their own words and dated, as one line: "
                       "`Person's preference (2026-11-14): “keep the technical stuff out of my way”.`", text)
 
     def test_in_passes_it_to_conductor(self):
-        self.assertIn("and any saved preference about technical detail (CONTEXT.md's "
-                      "`Person's preference (<date>): “…”` line), quoted in the person's words",
+        self.assertIn("and any saved preference about technical detail (the `Person's preference "
+                      "(<date>): “…”` line in the project's current-context pointer, CONTEXT.md by "
+                      "convention), quoted in the person's words",
                       guide("references/in.md"))
 
     def test_only_a_stated_preference_is_saved(self):

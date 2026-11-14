@@ -370,7 +370,8 @@ way in:
 
 Pass the restored project, full open-work context, the chosen work and pointer,
 known authority, exclusions and unresolved questions, and any saved preference
-about technical detail (CONTEXT.md's `Person's preference (<date>): “…”` line),
+about technical detail (the `Person's preference (<date>): “…”` line in the project's
+current-context pointer, CONTEXT.md by convention),
 quoted in the person's words, so Conductor's first lines follow it (no stage
 label or Kerd terms when they asked to keep the technical stuff out of the way). Resolve Conductor from this
 distribution, not another cache's file. Do not ask a second time what to move
