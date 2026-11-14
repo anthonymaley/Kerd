@@ -143,10 +143,15 @@ when first saving work. It is not a required schema or a condition for permissio
 Keep diagrams and any necessary supporting detail with this record.
 
 Update it as the conversation progresses, including the exact pending question
-or next action before each pause. When the person approves or answers, update the
-record's position (current activity, pending question, next action) in that same
-turn, so it never still reads as waiting on what they have already given
-(round 3: “Waiting on the owner's reaction” stayed after he approved). Capture the actual agreement response and
+or next action before each pause. When the person approves or answers, rewrite in
+that same turn the record's position and header lines (stage, current activity,
+pending question, next action, and any line saying something is not yet approved)
+and every field marked pending or asked that the answer resolves, so it never
+still reads as waiting on what they have already given. A “settled” note appended
+below while those lines still say otherwise leaves the record stale. (Round 3:
+“Waiting on the owner's reaction” stayed after he approved; round 4: “Drafting the
+brief itself is not yet approved” and “Format they will read it in: ASKED,
+pending” stayed after he approved and answered.) Capture the actual agreement response and
 its conditions; no invented approval or timestamps. An earlier discussion,
 draft or example is not the person's agreement to this direction. Preserve
 previous agreement when recording a material revision and its reason. Revisit

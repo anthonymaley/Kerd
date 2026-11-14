@@ -24,7 +24,7 @@ SPEC.loader.exec_module(view)
 NOW = "2026-11-13 22:00 EST"
 RESTART = "Run /clear, then /kerd:switch in to pick up from here."
 # First-user round 3 (#5): plain words, never a claim that no backup exists.
-LOCAL_LINE = "Saved on this computer only; no other copy was checked."
+LOCAL_LINE = "Saved on this computer only."
 FIRST_LINE = ("Kerd has nothing saved here yet. Tell me what you want to work on and "
               "Conductor will shape it with you.")
 
@@ -99,7 +99,7 @@ class NoRemoteOutTests(unittest.TestCase):
                                                 verdicts={"project": "ok", "notes": "local_only"}),
                                         NOW, 80, False, markdown=True))
         self.assertTrue(text.endswith(RESTART))
-        self.assertIn("your notes are saved on this computer only; no other copy was checked", text.lower())
+        self.assertIn("your notes are saved on this computer only.", text.lower())
         self.assertNotIn(LOCAL_LINE, text)
         self.assertNotIn("✓", text)
 
@@ -110,8 +110,8 @@ class NoRemoteOutTests(unittest.TestCase):
             "(`git remote` succeeds and prints nothing; a failed read is not “no remote”)",
             "A vault with no remote configured is saved without `--push`, by the same rule.",
             "that repo's verdict is `local_only`. A repo that has a remote keeps every check",
-            "For the project that line is “Saved on this computer only; no other copy was checked.”, "
-            "which never claims no backup exists;",
+            "For the project the SAVED cell reads “Saved on this computer only.”, said once and not "
+            "repeated under ATTENTION;",
             "or after a committed or remote-verified save with `handoff_ready: true` and "
             "`boundary: \"local_only\"`",
         ):
@@ -166,7 +166,7 @@ class NoRemoteOutTests(unittest.TestCase):
 
 
     def test_the_lines_follow_the_verdicts(self):
-        notes_line = "your notes are saved on this computer only; no other copy was checked"
+        notes_line = "your notes are saved on this computer only."
         both = flat(view.render_closing(closing(verdicts={"project": "local_only", "notes": "local_only"}),
                                         NOW, 80, False, markdown=True))
         self.assertIn(LOCAL_LINE, both)

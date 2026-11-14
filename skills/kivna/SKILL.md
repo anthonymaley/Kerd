@@ -50,8 +50,9 @@ Every kivna command starts here. Resolve the vault location before doing anythin
 With `work_notes` set, the vault also holds `<folder>/work/`: the home of this
 project's private working notes (sketchbooks, diagrams, evidence, drafts), one
 `<work>/work.md` per piece of work. Conductor writes it; Switch Out saves and
-pushes it, alongside the project, at the session boundary. See
-`docs/vault-spec.md` and `docs/state-contract.md`.
+pushes it, alongside the project, at the session boundary. See Kerd's own
+`../../docs/vault-spec.md` and `../../docs/state-contract.md`, resolved from this skill's folder
+(not the project's `docs/`).
 
 ## Commands
 
@@ -269,7 +270,7 @@ Show the user both export paths and a one-line summary of what's included (secti
 
 Set up the Obsidian vault folder for this project. Also triggered automatically when vault discovery fails and the user says yes.
 
-Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded from a short intake interview. The spine is the canonical convention in `docs/vault-spec.md` — that doc is the source of truth; this section is how the skill executes it.
+Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded from a short intake interview. The spine is the canonical convention in Kerd's `../../docs/vault-spec.md` (resolved from this skill's folder, not the project's `docs/`) — that doc is the source of truth; this section is how the skill executes it.
 
 #### The mechanic
 
@@ -326,7 +327,7 @@ Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded 
 
 ## Notes
 
-- The vault spec at `docs/vault-spec.md` defines what belongs in the vault and what doesn't. Kivna implements the mechanics; the spec defines the philosophy.
+- The vault spec at Kerd's `../../docs/vault-spec.md` (from this skill's folder) defines what belongs in the vault and what doesn't. Kivna implements the mechanics; the spec defines the philosophy.
 - Status.md is overwritten, not appended to. Save reports what changed but does not ask for approval (v0.60.0); do-not-save markers are the privacy control. Scaffold still gets approval — it creates files from an interview, save just reflects the session.
 - Weekly.md is the one file with dated, append-only sections. Each week's section is updated in place during the week, and new weeks are prepended. Old weeks stay for history. (Decisions, when it exists, also grows rather than being overwritten, but as one running document, not dated sections.)
 - Vault files use self-identifying names (`[Project] Status.md`, not `Status.md`). This prevents collisions in Obsidian's quick switcher across vaults.

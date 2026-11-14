@@ -28,6 +28,8 @@ project notes cannot expand a read-only trial into probes, builds or deployment.
 Resolve the current project and branch. When the restored work is a concert on
 its own branch, a checked-out branch other than the one its sketchbook records is
 a consequential contradiction for ATTENTION, not a place to continue or save.
+Each command is one plain call: one helper or git command on its own, with absolute paths (`--project /abs/project`, `git -C /abs/project …`) instead of `cd`, never `cd … &&`, `; echo`, `| head` or another command chained on, so the person can allow it once; read files with the host's file reader, not `cat` or `head`, and edit prose with the host's file-edit tool, never `python3 - <<EOF`.
+
 Before any fast-forward or work proposal,
 check for a managed Roll record in this worktree with one read-only call,
 `python3 /path/to/switch/scripts/roll_status.py --project /absolute/project`,
@@ -546,8 +548,11 @@ coherent sitting. Use `null` or `[]` for anything the work has nothing for.
 ```
 
 `project` is the project already restored, by its display name: the text of
-the first heading in its `README.md` when there is one (markup removed), else
-the folder name; never inferred from the renderer's installation path. A folder
+the first heading in its `README.md` when there is one (markup removed); with no
+README, or a README with no heading, the first heading of the project's main notes
+file at its root (the first `.md` file there by name); else the folder name; and
+when that name is itself a placeholder word (`project`, `app`, `work`), “Your
+project”. Never the literal word “project” on its own, and never inferred from the renderer's installation path. A folder
 called `project`, `app` or `work` would otherwise head the arrival with a word
 that reads as a placeholder. `phase` is the recommended item's rung, or the start point's
 recorded `Phase:` line when the item has none, shown in the grid;

@@ -87,7 +87,7 @@ class PlainWordsAtOut(unittest.TestCase):
         for markdown in (False, True):
             with self.subTest(markdown=markdown):
                 out = flat(view.render_closing(closing(), NOW, 80, False, markdown=markdown))
-                self.assertIn("Saved on this computer only; no other copy was checked.", out)
+                self.assertIn("Saved on this computer only.", out)
                 self.assertNotIn("remote", out.lower())
                 self.assertNotIn("Committed", out)
                 self.assertNotIn("backup", out.lower())
@@ -128,12 +128,14 @@ class ReviewRound1(unittest.TestCase):
         for verdicts in ({"project": "local_only"}, {"project": "local_only", "notes": "local_only"}):
             with self.subTest(verdicts=verdicts):
                 out = flat(view.render_closing(closing(verdicts=verdicts), NOW, 80, False, markdown=True))
-                self.assertIn("Saved on this computer only; no other copy was checked.", out)
+                self.assertEqual(out.count("Saved on this computer only."), 1)
                 self.assertNotIn("Kerd has no copy", out)
-        self.assertIn("Your notes are saved on this computer only; no other copy was checked.",
+                self.assertNotIn("no other copy", out)
+        self.assertIn("Your notes are saved on this computer only.",
                       flat(view.render_closing(closing(verdicts={"project": "local_only", "notes": "local_only"}),
                                                NOW, 80, False, markdown=True)))
-        self.assertIn("“Saved on this computer only; no other copy was checked.”", guide("references/out.md"))
+        self.assertIn("the SAVED cell reads “Saved on this computer only.”, said once and not repeated under "
+                      "ATTENTION", guide("references/out.md"))
 
     def test_the_box_puts_plain_words_first(self):
         cases = ((dict(saved="remote-verified", boundary="passed", verdicts={"project": "ok"}),

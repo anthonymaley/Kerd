@@ -85,6 +85,17 @@ work already scoped by Switch, the order is:
 3. Then do the substantive project reads, dispatches or edits and continue the
    authorized job. No second pickup or approval.
 
+**A person who wants the technical detail kept out of the way** (they said so, or
+are plainly not technical) gets the entry update as one plain line in their own
+terms: who does it, what they will have, where it stops and where the notes live
+(“I'll write the brief myself and stop when it's ready for you to read; our notes
+are in docs/work/harbor-hours-launch-brief/.”). No stage label
+(“Conductor · Shape”), no mention of agents or helpers unless one is started, and
+no rehearsal or sketchbook words until they matter to something the person does.
+(First-user round 4, 2026-11-14: after “keep the technical stuff out of my way”,
+the first turn opened with a stage label, “not handing any of it to other agents”,
+“rehearsal” and “the sketchbook”.)
+
 With missing context, bounded local orientation may establish the stage and job
 boundaries first; do not guess an agreement or settled split. State that limited
 orientation and resolve the split before it expands into the investigation.

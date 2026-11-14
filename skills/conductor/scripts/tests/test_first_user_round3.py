@@ -62,12 +62,12 @@ class FinishedRevisionPutsWorkDown(unittest.TestCase):
         self.assertIn("**Saved, not git words.** To a person who has not used git's words in "
                       "this work, say what the state means for their files, “saved on this "
                       "computer”, “not saved yet”, “there is no copy anywhere else”, never "
-                      "commit, push, branch, remote or working tree.", journey)
+                      "commit, uncommitted, “saved to git”, push, branch, remote or working tree.", journey)
         self.assertIn("Someone who uses those words gets them back.", journey)
         skill = read(SKILL)
         self.assertIn("To a person who has not used git's words in this work, say what it means "
                       "for their files (“saved on this computer”, “not saved yet”), never commit, "
-                      "push, branch, remote or working tree", skill)
+                      "uncommitted, push, branch, remote or working tree", skill)
 
 
 class EditOnlyTheAgreedFiles(unittest.TestCase):
@@ -118,11 +118,11 @@ class PositionLineFollowsApproval(unittest.TestCase):
 
     def test_position_updated_in_the_same_turn(self):
         record = read(REFS / "work-record.md")
-        self.assertIn("When the person approves or answers, update the record's position "
-                      "(current activity, pending question, next action) in that same turn", record)
+        self.assertIn("When the person approves or answers, rewrite in that same turn the record's "
+                      "position and header lines", record)
         skill = read(SKILL)
-        self.assertIn("When they approve or answer, update the sketchbook's position (current "
-                      "activity, pending question, next action) in that same turn", skill)
+        self.assertIn("When they approve or answer, rewrite in that same turn the sketchbook's "
+                      "position and header lines", skill)
 
 
 class OneLineBeforeDispatchGridAfter(unittest.TestCase):

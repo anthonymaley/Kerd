@@ -152,7 +152,10 @@ When `kivna/vault.json` sets `work_notes`, start it instead at
 `<notes root>/<slug>/work.md` in the private vault repo and point to it as
 `notes:<slug>/work.md`.
 Add only what the sitting actually settled: the person's words as theirs,
-proposals as proposals, nothing invented. Ask the person nothing to fill it, and
+proposals as proposals, nothing invented. When what it adds resolves a header or
+position line (stage, what is or is not yet approved) or a field marked pending or
+asked, rewrite that line too, never only append below it: a fresh reader trusts the
+header first. Ask the person nothing to fill it, and
 add no step to their closeout. Link it from the active list.
 
 ### Keep the outside-the-repo list
@@ -301,6 +304,8 @@ order, each leaving a reachable link behind:
    an estimate; the target is the trial's 8,000 unless the work agreement sets
    another (`--target`). Over target is information: prune further under the
    rules above, or record why the set must stay larger. It never blocks a save.
+   The measurement is for the record only: never tell the person the token or
+   byte figures, the target or the reading set's size.
    `measure` now warns when a source is not tracked: `prepare` refuses an
    untracked source and a `notes:` source must be tracked in the vault, while
    pickup can still read a project record the project deliberately keeps out
@@ -366,6 +371,8 @@ Existing manifests stay as reachable history, not required pickup reading.
 Inspect pending jobs before ending a sitting. A running job is not saved merely
 because its task name appears in a file. Respect existing direction on whether
 it continues; a genuine unresolved ownership issue needs a decision.
+
+Each command is one plain call: one helper or git command on its own, with absolute paths (`--project /abs/project`, `git -C /abs/project …`) instead of `cd`, never `cd … &&`, `; echo`, `| head` or another command chained on, so the person can allow it once; read files with the host's file reader, not `cat` or `head`, and edit prose with the host's file-edit tool, never `python3 - <<EOF`.
 
 Under the agreed Git authority, commit the relevant work/session files by name
 and push to the intended branch. A project with no remote configured
@@ -507,10 +514,11 @@ of that call's own result, both together:
 - `status: "boundary_ok"` with exit 0 → `passed`: the ✓ and the restart line.
 - `status: "boundary_local_only"` with exit 0 (every repo committed and clean,
   at least one with no Git remote configured) → `local_only`: no ✓, an
-  attention line for each repo the check's `verdicts` mark `local_only`, and the
-  restart line. For the project that line is “Saved on this computer only; no
-  other copy was checked.”, which never claims no backup exists; for the notes
-  repo it says the notes are saved on this computer only, in the same words. Copy the check's `verdicts` object into the box as it reads
+  restart line. For the project the SAVED cell reads “Saved on this computer
+  only.”, said once and not repeated under ATTENTION; it never claims no backup
+  exists. A local-only notes repo gets one attention line, “Your notes are saved
+  on this computer only.”. Neither the box nor Out's words say “no remote” to the
+  person unless they use git words themselves. Copy the check's `verdicts` object into the box as it reads
   (`{"project": "local_only"}`, or `{"project": "ok", "notes": "local_only"}`);
   the renderer picks the lines from it, not from `saved`. Without a complete
   `verdicts` (missing, malformed or without the project's verdict) a local-only
@@ -536,7 +544,8 @@ version field the project bumps (`package.json`, `pyproject.toml`,
 cell. A failed read or any doubt leaves it `null` and the cell shows as before.
 `first_out` is `true` only when a successful read found no earlier session log
 in `kivna/sessions/` before this Out; the box then says once what Kerd's own
-files are and that the person can ignore them. Anything else is `false`; the next step appears
+files are and that the person can ignore them. The renderer writes that line:
+do not say it in `this_session` or anywhere else. Anything else is `false`; the next step appears
 once, in Next time or first in Switch In will offer. `this_session` is what changed, in product language, not
 the files touched. `next` is the exact next action the start point names; `why`
 is the reason it comes first. `next_in` is up to two other open items the next

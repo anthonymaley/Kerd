@@ -58,14 +58,14 @@ You do not need to keep notes for these. A few notes on where you got stuck do h
 
 Do either of these, whichever is easier:
 
-- **Open a GitHub issue** using the "Something broke or confused me" form:
+- **Tell Anthony** directly, in whatever way you usually reach him. A screenshot or a
+  pasted copy of the screen is enough.
+- **Or, if you have a GitHub account, open an issue** using the "Something broke or confused me" form:
   [open a new issue](https://github.com/anthonymaley/Kerd/issues/new?template=something-broke.md).
   It asks what you were doing, what you expected, what happened, your Kerd
   version, your Claude Code version and the text of the screen. The Kerd version is
   in the heading of the arrival screen that `/kerd:switch in` shows (for example
   "Kerd 0.x.y"). For Claude Code, run `claude --version` in a terminal.
-- **Tell Anthony** directly, in whatever way you usually reach him. A screenshot or a
-  pasted copy of the screen is enough.
 
 Please do not wait until you have a tidy description. "It said something I did not
 understand, here is the screen" is a good report.

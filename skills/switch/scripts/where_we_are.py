@@ -363,10 +363,11 @@ FIRST_ARRIVAL_QUESTION = "What do you want to work on?"
 CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "boundary", "verdicts", "phase", "released",
                 "this_session", "next", "why", "next_in", "tree", "warnings", "host", "releases",
                 "first_out")
-# Plain words for a local-only save (first-user round 3, #5): true without
-# claiming no backup exists anywhere; Kerd checked only Git's remotes.
-LOCAL_ONLY_LINE = "Saved on this computer only; no other copy was checked."
-LOCAL_NOTES_LINE = "Your notes are saved on this computer only; no other copy was checked."
+# Plain words for a local-only save (first-user rounds 3 and 4): accurate,
+# and nothing that reads as a skipped check. It is the SAVED cell, said once;
+# ATTENTION does not repeat it, since a confirmed local save needs nothing.
+LOCAL_ONLY_LINE = "Saved on this computer only."
+LOCAL_NOTES_LINE = "Your notes are saved on this computer only."
 # The first Out's one line on Kerd's own files (first-user round 3, #17).
 FIRST_OUT_LINE = ("Kerd keeps its notes for next time in CONTEXT.md, TODO.md and the kivna/ folder; "
                   "you can ignore them.")
@@ -1039,7 +1040,7 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     proven = get("boundary") == "passed" or (local and consistent
                                              and saved in ("committed", "remote-verified"))
     if local and saved == "committed" and local_repos and "project" in local_repos:
-        cell = "Saved on this computer"
+        cell = LOCAL_ONLY_LINE if consistent else "Saved on this computer"
     if get("boundary") != "passed":
         badge, tone = badge.replace(" \u2713", ""), ("amber" if tone == "green" else tone)
     attention = []
@@ -1049,8 +1050,6 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
                          "so which repo is saved only on this computer is unknown and the save is not "
                          "confirmed.")
     elif local and saved_somewhere:
-        if "project" in local_repos:
-            attention.append(LOCAL_ONLY_LINE)
         if "notes" in local_repos:
             attention.append(LOCAL_NOTES_LINE)
     if local and saved_somewhere and local_repos is not None and not consistent:

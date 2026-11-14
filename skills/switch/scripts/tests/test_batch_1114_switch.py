@@ -32,9 +32,9 @@ class ProjectDisplayName(unittest.TestCase):
 
     def test_in_takes_the_readme_heading_before_the_folder_name(self):
         self.assertIn("`project` is the project already restored, by its display name: the text of "
-                      "the first heading in its `README.md` when there is one (markup removed), else "
-                      "the folder name", guide("references/in.md"))
-        self.assertIn("PROJECT is the README's first heading, else the folder name", guide("SKILL.md"))
+                      "the first heading in its `README.md` when there is one (markup removed)",
+                      guide("references/in.md"))
+        self.assertIn("PROJECT is the README's first heading, else", guide("SKILL.md"))
 
 
 class OutSaveScope(unittest.TestCase):

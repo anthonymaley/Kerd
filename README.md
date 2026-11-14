@@ -238,7 +238,7 @@ working state is meant to stay out of Git, under `.agents/` and parts of
 Switch Out saves them with Git, trying to create the session log and `TODO.md` the first
 time if they are missing (its closing box says if it could not), and it commits the files it names and nothing
 else. It pushes when you have given it the authority to push. If the project has
-no remote, a save that stays on this computer is a valid choice: Out says "Saved on this computer only; no other copy was checked" and still offers the restart line, and
+no remote, a save that stays on this computer is a valid choice: Out says "Saved on this computer only" and still offers the restart line, and
 no push permission or GitHub access is needed. If the project does have a remote
 and the saved commit has not been pushed to it, Out warns you to push before you
 switch devices and keeps the session open until you have.
@@ -372,13 +372,15 @@ writing a launch brief with no Git experience, finished the work and came back t
 them; this release fixes it. Conductor puts a document you'll use beside your own files, names its work folder from
 your words, edits only what the agreed work covers and asks before changing your own notes, asks once what format a
 document for other people should be in, puts the work down after a finished revision, and says "saved" rather than
-git's words to someone who doesn't use them. Its staffing grid now reaches the screen: on Claude Code 2.1.319 text
+git's words to someone who doesn't use them; for someone who asked to skip the technical detail its first line
+is plain, it puts the work down once they accept a draft, asks one question at a time and keeps its notes current. Its staffing grid now reaches the screen: on Claude Code 2.1.319 text
 written between tool calls is shown only as a summary, so Conductor starts its helpers in the background and ends that
-reply with the grid (in a test eval, grid shown in 4 of 6 runs, from 0 of 6). Switch In names the project from its
-README, recommends your own next item instead of saying nothing is actionable, and shows only urgent risks under
+reply with the grid in its exact shape, written into Conductor's own instructions (the go and Ready evals passed 2 of 2
+each, from 0 of 2; small samples). Switch In names the project from its
+README or main notes file, runs each check as one plain command so fewer permission prompts repeat, recommends your own next item instead of saying nothing is actionable, and shows only urgent risks under
 Attention; Switch Out names every file the sitting changed in one question, checks that the next step's files exist,
 says what Kerd's own files are the first time, keeps its measurement lines under a heading marked for Kerd, and speaks
-in plain words with the git term in brackets. The chat roll no longer refuses its own session over a `[1m]` model
+in plain words with the git term in brackets ("Saved on this computer only."). The chat roll no longer refuses its own session over a `[1m]` model
 suffix, and a wrong model no longer uses up the roll. The getting-started guide lists the permission prompts a first
 sitting asks, sets your git name before the first commit and explains git's words; a new page for invited users and a
 "Something broke or confused me" issue template say how to report a problem. `tools/plugin_release.py` builds a slim

@@ -62,14 +62,13 @@ git, set it up once:
    to commit, the folder is empty or every file is ignored: add the files you want
    saved, then repeat this step.
 
-That is enough. You do not need GitHub or any other remote: a save that stays on
-this computer is a valid way to use Kerd, and nothing in the first sitting needs
-one. Add a remote later if you want a backup or a second machine. One thing to
-know: with no remote configured, Git itself keeps your saved work only on this
-computer. A remote holds
-a backup once your work has been pushed to it, so add one and push, or arrange a
-backup another way, if you need one. Kerd's closing box says whether a save is on
-this computer only.
+That is enough. You do not need GitHub or any other online copy (Git calls one a
+*remote*): a save that stays on this computer is a valid way to use Kerd, and
+nothing in the first sitting needs one. Add one later if you want a backup or a
+second machine. One thing to know: without one, Git keeps your saved work only on
+this computer. An online copy holds a backup once your work has been sent to it
+(*pushed*), so add one and send your work there, or arrange a backup another way,
+if you need one. Kerd's closing box says when a save is on this computer only.
 
 ## Install in Claude Code
 
@@ -374,7 +373,7 @@ per-session mode state and is gitignored.
 Switch Out is the part that commits those files. It names the files it is
 saving and commits those, and it pushes when pushing has been authorized (to *push* is to send your saved work to a remote copy, such as one on GitHub). Two
 cases differ. With no remote, a save that stays on this computer is a valid
-outcome, not a failure: the closing box says "Saved on this computer only; no other copy was checked" and still offers the restart line. With a remote, if the
+outcome, not a failure: the closing box says "Saved on this computer only" and still offers the restart line. With a remote, if the
 saved commit has not been pushed to it, Out warns you to push before switching
 devices and keeps the session open until you have; the closing box tells you which
 happened. Out saves only its own records; if other files are uncommitted, new ones included
