@@ -219,6 +219,20 @@ Kerd applies the same rule to every findings job. Where a single
 pass must self-filter, name the concrete bar (“anything that could cause wrong
 behaviour, a failing test or a misleading result; omit pure style”).
 
+**Name the problems that hide past one round.** A review brief names these
+beside the coverage rule. For a wording change: search every file the change
+touches, and any file that repeats the changed claim, for the old claim, not
+only the diff; flag any absolute (“always”, “only”, “never”, a rule drawn from
+one sighting) the source does not support. For code: of every check, ask
+whether it fails closed when it cannot read, and whether it runs after the read
+it guards (check-then-act). After two Holds that find the same kind of problem,
+Conductor widens the next brief to that kind across the files the change
+touches, and says so in the brief, before another round. Why: Kerd's weekly
+review of 2026-11-06 to 2026-11-13 found the 0.193.3 guides took six rounds,
+four of them finding one old claim at a different line of `agent.md`, and code
+reviews in four changes finding check-then-act and fail-open gaps one layer per
+round.
+
 For every returned Player edit, Conductor reads the actual change set and checks
 every changed path and hunk against the score step's owned boundaries before
 relying on its verification output. A plain `git diff` is not that change set: it

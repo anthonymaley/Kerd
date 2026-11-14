@@ -327,9 +327,19 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.194.3)
+## What's New (v0.195.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.195.0
+
+**Conductor's review brief now names the problems that took several rounds to find.** Kerd's first weekly review found
+review rounds turning up the same kind of problem one layer at a time: one old claim found at a different line in each
+of four rounds, and code checks that fail open or run before the read they guard found one layer per round. A review brief now
+asks for these by name: for a wording change, search every file the change touches and any that repeats the claim, not
+only the diff, and flag absolutes the source does not support; for code, ask of every check whether it fails closed and
+whether it runs after the read it guards. After two Holds of the same kind, Conductor widens the next brief to that
+kind across the files the change touches. Agent's review routing points at the same list. Wording only; whether reviews take fewer rounds shows in use.
 
 ### v0.194.3
 
@@ -404,7 +414,7 @@ idle gap is not proof the route never stalls.
 ### v0.193.0
 
 **Reviews go to a fresh reviewer by default.** A Codex window takes a queued request only when it takes
-its next turn, so a review sent to an unattended one waits; that happened in every repo Kerd works in. Now Conductor
+its next turn, so a review sent to an unattended one waits; that happened on 2026-10-14, in work-anthony on 2026-11-05 and in Kerd on 2026-11-08. Now Conductor
 sends checkpoint, before-push and pull-request reviews to a fresh reviewer from the other provider, started through
 Agent: a fresh Codex reviewer when Claude builds, a fresh Claude reviewer when Codex builds (a different model of the
 same provider, said as such, when the other can't start). It is briefed with the records to read (the work's notes,

@@ -101,7 +101,8 @@ not shell subcommands. For execution, use the workflow below.
    provider (`start --kind worker`, read only): Codex when Claude builds, Claude
    when Codex builds, or a different model of the same provider, said as such,
    when the other can't start; briefed with record paths (sketchbook,
-   decisions, diff) and its verdict written to the sketchbook; a standing Codex
+   decisions, diff) and the problems Conductor's review guide asks for by name,
+   and its verdict written to the sketchbook; a standing Codex
    partner is for multi-turn Codex work, or when the person asks for one; the
    person's own `codex` window only while they are at it. Multi-turn work uses a
    Kerd-started Codex partner where Agent can start one and its first ask is

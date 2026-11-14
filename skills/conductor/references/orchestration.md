@@ -197,7 +197,9 @@ when Claude builds (the usual case in Claude Code), a fresh Claude reviewer when
 Codex builds. When the other provider can't start, it goes to a fresh reviewer
 on a different model of the same provider, said as such. Its brief names the records to read
 rather than retelling them: the sketchbook, the governing decisions, the diff and
-the rules that apply. Its verdict, and the route it took, are written to the
+the rules that apply, and the problems
+[review, prove and improve](execution.md#review-prove-and-improve) asks for by
+name. Its verdict, and the route it took, are written to the
 sketchbook. A standing Codex partner is for multi-turn Codex work, where Codex
 builds or investigates across several turns; it takes a review only when the
 person asks for one. That work uses a Kerd-started Codex partner where Agent can

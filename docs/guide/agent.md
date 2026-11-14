@@ -58,7 +58,8 @@ provider that Kerd starts through Agent, read only: a Codex reviewer when Claude
 builds, a Claude reviewer when Codex builds. If the other provider can't start,
 Kerd uses a different model of the same provider, as its own native subagent,
 and tells you so. Its brief
-names the records to read (the work's notes, the decisions, the diff), and its
+names the records to read (the work's notes, the decisions, the diff) and asks by name for
+the problems that tend to hide past one round, and its
 verdict is written back to the notes. A standing Codex partner is for multi-turn
 Codex work, or when you ask for one. Your own `codex` window is used only while
 you are at it. A review you send to a named partner goes to that partner. The

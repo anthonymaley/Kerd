@@ -112,7 +112,9 @@ reviewer from the other provider, started through Agent: a fresh Codex reviewer
 when Claude builds, a fresh Claude reviewer when Codex builds. When the other
 provider can't start, it uses a different model of the same provider, as a native
 subagent rather than through Agent, and says so. The reviewer is briefed with the records to read (the work's notes, the
-decisions, the diff), and its verdict is written back to the notes. A standing
+decisions, the diff) and asked by name for the problems that tend to hide past one
+round (an old claim left elsewhere, unsupported absolutes, checks that fail open
+or run before the read they guard), and its verdict is written back to the notes. A standing
 Codex partner is for multi-turn Codex work, or when you ask for one. Where you
 have an established partner, the review cadence recorded with the pairing still
 sets when reviews happen. A stalled partner is named as a gap at Ready rather
