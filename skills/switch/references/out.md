@@ -254,10 +254,14 @@ in their own words and dated, as one line:
 `Person's preference (2026-11-14): “keep the technical stuff out of my way”.`
 Only a preference they stated is saved: a self-description (“I'm not a developer”)
 or an impression shapes this sitting's words but is never saved as one.
-Reconcile an existing line rather than adding a second; drop it only when they
-take it back. It is a standing preference, not a ruling about the work, and Switch
-In passes it to Conductor, which follows it as written: less detail means a fresh
-session does not lead with Kerd's stage words; more detail means it shows them.
+Reconcile an existing line rather than adding a second, taking the sitting's
+sketchbook `How they want it:` line into account: the newest thing the person
+said wins. When they take it back, keep the line and say so,
+`Person's preference (2026-11-14): none; they took back “…”.`, so the withdrawal
+carries too. This line is the authority for the whole project. It is a standing
+preference, not a ruling about the work, and Switch In passes it to Conductor,
+which follows it as written: less detail means a fresh session does not lead with
+Kerd's stage words; more detail means it shows them; none means neither.
 
 Historical decisions needed by a future feature remain discoverable by subject;
 the active memory must include constraints that affect the next work. Be explicit

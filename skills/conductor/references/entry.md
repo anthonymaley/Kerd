@@ -102,9 +102,12 @@ never saved as a preference. On entering existing work, read that line before
 the first reply and follow it as written, from the first word, even in a fresh
 session that never heard them say it: this paragraph applies only when the line
 asks for less technical detail; a line asking for more (“show me the commands”)
-gets that instead. When Switch In passes a project preference that differs from
-the sketchbook's line, the later-dated one wins: follow it and rewrite the
-sketchbook's line to it that turn. (First-user round 5: the second
+gets that instead. When Switch In passes the project's preference line, that line
+is the authority, a “none; they took back” line included: follow it, and when the
+sketchbook's line differs, rewrite or remove it that turn to match. Only with no
+project line does the sketchbook's own line stand. A change the person makes
+mid-sitting is written to the sketchbook at once and reaches the project line at
+Switch Out. (First-user round 5: the second
 sitting opened “Conductor · Shape” because nothing had saved it.)
 
 With missing context, bounded local orientation may establish the stage and job
