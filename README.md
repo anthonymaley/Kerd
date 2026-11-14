@@ -361,9 +361,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.197.0)
+## What's New (v0.198.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.198.0
+
+**A new user's first screens get their project's name right and keep the plain words they asked for.** A fifth walk
+through Kerd as a simulated non-developer found two things that would confuse an invited person, and this release
+fixes their wording: Switch In no longer names a project after whichever notes file sorts first (it reads `README.md`,
+then `notes.md`, then the folder name), and asked what a word means, Kerd explains it and never claims it wasn't said,
+keeping git's words out of its progress lines for someone who hasn't used them. Someone who asks for technical detail
+to be kept out of the way now has that wish saved, in the work notes and in `CONTEXT.md`, so the next sitting keeps it.
+Switch Out pipes its inputs to its scripts instead of writing a temporary file; its release cell is filled from four
+reads made first; and the getting-started guide's permissions section names what a first Switch In actually asks to
+run. Wording only: no script changed, and none of it has been walked again yet.
 
 ### v0.197.0
 
