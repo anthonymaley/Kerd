@@ -7,6 +7,16 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-11-14 (Switch Out, 10:4x)
+
+**Done on `concert/batch-1114`, in 0.197.0 (unreleased)** (his 08:30 batch ask; check 3 of 3, 1,473 tests): the Backlog row "Conductor shows no staffing grid before dispatch on a go in the opening message". Cause found: Claude Code 2.1.319 shows multi-line text between tool calls only as a summary (15 traces, 4 probes); Conductor now dispatches in the background and ends the reply with the grid, its exact shape in SKILL.md; conductor-go 2/2 and conductor-ready 2/2 on the working tree, conductor-go 2/2 on fc555f1c (`notes:batch-1114/work.md`, `evals.md`). Row as it stood:
+
+- **Conductor shows no staffing grid before dispatch on a go in the opening message** (eval `conductor-go`, 2026-11-14): the go paragraph now requires it (entry.md, SKILL.md, orchestration.md; Codex reviewed, 2 rounds), but 0 of 6 valid runs showed a grid or Fit line (Sonnet 4 runs across two wordings, including one on the `Agent` call rule itself, since reverted; Opus 2 runs). Sessions write one line or nothing before the first `Agent` call. Text placement is not the lever; next is finding what is (e.g. whether the dispatch brief step can carry the row). Also: the `no-push-or-merge` grader matches the words inside a heredoc (false fail, Opus run 2). Record `notes:overnight-1113/work.md`.
+
+**Done on `concert/batch-1114`, in 0.197.0 (unreleased):** the Backlog row "Chat roll in refuses its own model": models compare with a trailing `[…]` suffix stripped, a mismatched or malformed incoming model leaves the note claimable, a malformed saved model consumes it (three fresh Codex rounds). Row as it stood:
+
+- **Chat roll in refuses its own model** (seen 2026-11-14 08:06, one sighting): `tmux_roll.py out` recorded the launch flag `claude-opus-5-5[1m]`; `roll in` is told to pass "this session's model ID", which the host gives as `claude-opus-5-5`, so the claim refused and the refusal used up the note (`chat-roll-refused-20261114T005627.json`); the pane's `ps` showed the same `[1m]` launch. Fix candidates: `in` reads the model from its own process's launch command, or compares with the `[…]` suffix stripped on both sides; a model mismatch should leave the note claimable.
+
 ## Closed 2026-11-13 (Switch Out, 17:1x)
 
 **Done, released in 0.194.2** (his "y" 16:58 to build, 17:08 to release; main a82b2706, entry-gate CI 43516743011 green, `codex` 7b8d85c2): the Backlog row "Flaky test: `test_ask … test_uncatchable_runner_death_blocks_session_reuse_and_close`". Evidence: the tests' wait loops counted only `ProcessLookupError` as gone; a shared `wait_for_group_gone` treats macOS's EPERM as not-yet-gone within the deadline (three loops), cleanup kills on EPERM wait and fail loudly; 200 of 200 repeated runs, full suite 1,238 OK, two fresh Codex rounds (Hold 1, Safe). A 1-in-~1,200 flake cannot be proven gone; its cause is closed. `notes:flaky-ask-test/work.md`.
