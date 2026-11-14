@@ -233,6 +233,26 @@ def mode_reading(path):
     return data
 
 
+MODEL_PARTS = re.compile(r"^([A-Za-z0-9._:-]+)(?:\[[A-Za-z0-9._:-]+\])?$")
+
+
+def base_model(model):
+    """The model ID without its optional context suffix such as [1m] (the launch flag may carry one
+    the host's own ID for the session does not; both name the same model), or None when the ID is
+    malformed: it needs a non-empty base and at most one non-empty bracketed suffix, last."""
+    found = MODEL_PARTS.fullmatch(model) if isinstance(model, str) and MODEL_ID.fullmatch(model) else None
+    return found.group(1) if found else None
+
+
+class Refusal(str):
+    """Why a claim is refused. consumes_note is False when the note itself is still good, so the
+    person can run `roll in` again: only a mismatch in what this session reported is like that."""
+    def __new__(cls, reason, consumes_note=True):
+        self = super().__new__(cls, reason)
+        self.consumes_note = consumes_note
+        return self
+
+
 def fresh_command(data):
     """The one command both routes start: same model, effort and permission mode."""
     parts = ["claude", "--model", shlex.quote(data["model"])]
@@ -349,7 +369,7 @@ class Chat:
         session = session or env.get("CLAUDE_CODE_SESSION_ID")
         if not session:
             raise roll.RollError("This session's ID is not available; not rolling")
-        if not MODEL_ID.match(model or ""):
+        if base_model(model) is None:
             raise roll.RollError(f"Unrecognised model ID {model!r}")
         if not claude:
             raise roll.RollError("Could not identify this session's Claude process; not rolling")
@@ -479,6 +499,9 @@ class Chat:
                 raise roll.RollError("The restart is still in progress; the note stays until it resolves")
             now = time.time() if now is None else now
             reason = self.refusal(data, model, now, start, present)
+            if reason and not reason.consumes_note:
+                # This session's reported model is what was wrong, not the note: leave it claimable.
+                raise roll.RollError(reason)
             if reason:
                 data.update(state="refused", refusal=reason)
                 (self.local / f"chat-roll-refused-{stamp(now)}.json").write_text(json.dumps(data, indent=2))
@@ -497,18 +520,26 @@ class Chat:
     def refusal(self, data, model, now, start, present):
         problem = self.checkpoint_problem(data, now)
         if problem:
-            return problem
-        if data.get("model") != model:
-            return f"This session runs {model}, the roll was saved on {data.get('model')}"
+            return Refusal(problem)
+        # Every check that spoils the note runs first; the model is last, so that a note that
+        # should be consumed is never left claimable behind a model mismatch.
         state = data.get("relaunch")
         if state == "manual":
             state = process_state(data.get("claude"), start, present)
             if state == "alive":
-                return "The previous Claude session is still running; close it first"
+                return Refusal("The previous Claude session is still running; close it first")
             if state != "gone":
-                return "The previous session cannot be shown to be closed"
+                return Refusal("The previous session cannot be shown to be closed")
         elif state != "exited":
-            return f"The relaunch did not confirm the old session ended ({state})"
+            return Refusal(f"The relaunch did not confirm the old session ended ({state})")
+        have, saved = base_model(model), base_model(data.get("model"))
+        if saved is None:
+            return Refusal("The roll note's recorded model is unreadable; start a new roll")
+        if have is None:
+            return Refusal(f"Unrecognised model ID {model!r}; run roll in again with the ID this session was launched with",
+                           consumes_note=False)
+        if have != saved:
+            return Refusal(f"This session runs {model}, the roll was saved on {data.get('model')}", consumes_note=False)
         return None
 
     def cancel(self, now=None):
@@ -545,12 +576,12 @@ def build_parser():
     out.add_argument("--handoff-record", required=True, help="Sketchbook, written last: project-relative, or notes:<path> under the notes root")
     out.add_argument("--next-action", required=True)
     out.add_argument("--approval", required=True, help="The approval boundary, verbatim from the sketchbook")
-    out.add_argument("--model", required=True, help="This session's model ID, e.g. claude-opus-5-5[1m]")
+    out.add_argument("--model", required=True, help="The model ID this session was launched with, e.g. claude-opus-5-5[1m]; kept for the restart command")
     out.add_argument("--threshold-tokens", type=int, required=True)
     again = sub.add_parser("relaunch")
     again.add_argument("--roll-id", required=True)
     inn = sub.add_parser("in")
-    inn.add_argument("--model", required=True, help="This session's model ID")
+    inn.add_argument("--model", required=True, help="This session's model ID; a bracketed context suffix such as [1m] is optional")
     sub.add_parser("cancel")
     return parser
 

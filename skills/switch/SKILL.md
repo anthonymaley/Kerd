@@ -27,8 +27,9 @@ item names the guide section with its detail: open that section before the step.
 
 - A named handoff or trial resolves its own record, repo and branch first; missing
   or mismatched stops, never a fresh start ([In](references/in.md#in)).
-- Before any fast-forward or work proposal, check `git rev-parse --git-path roll/run.json`;
-  a recorded managed run is inspected read-only with `roll_status.py`: never adopted,
+- Before any fast-forward or work proposal, run `roll_status.py` once (exit 3 alone
+  means no run; it reports the chat roll marker too); a recorded managed run is
+  inspected read-only with it: never adopted,
   its checkout unchanged, no competing work proposed, unknown state never read as no
   run; an unclaimed `roll/chat.json` is shown in ATTENTION, never acted on by
   ordinary In ([In](references/in.md#in)).
@@ -54,7 +55,9 @@ item names the guide section with its detail: open that section before the step.
 - Weigh every open item, the saved one included, and recommend exactly one with its
   Why, or say nothing is actionable rather than invent work, without loading
   Conductor; an item that only waits (to watch real use, or for the person to
-  decide) is never the recommendation: with nothing buildable in Now, say so and
+  decide) is never the recommendation, but one the person does themselves is their
+  next move, and when every open item that can move is theirs, recommend their first
+  plainly: with nothing that can move in Now, say so and
   weigh the saved item and the Backlog section's rows, skipping deferred or parked
   ones ([Compose the arrival](references/in.md#compose-the-arrival-in-switch)).
 - The weekly review line waits for history: at least 3 session logs and at least
@@ -100,8 +103,9 @@ item names the guide section with its detail: open that section before the step.
   work's sketchbook (a small fix needs none), nothing invented, asking the person
   nothing ([Add to Conductor's sketchbook](references/out.md#add-to-conductors-sketchbook));
   with `work_notes`, keep `notes:outside-the-repo.md` ([the list](references/out.md#keep-the-outside-the-repo-list)).
-- Save the selected continuation: next action and owner with its status, where it
-  stops, its pending question, its why, up to two other items as proposed, or, when
+- Save the selected continuation: next action and owner with its status (every file
+  or section it names as existing confirmed by `measure` first; a blocked check is not
+  "exists"), where it stops, its pending question, its why, up to two other items as proposed, or, when
   none can be grounded, say so; never an item that only waits as the next step:
   with nothing buildable in Now, a concrete Backlog or record item not deferred or
   parked; and every unresolved risk the active records flag
@@ -111,8 +115,10 @@ item names the guide section with its detail: open that section before the step.
   (never a phrase as a bare argument), and its reading and `read_args` are saved beside
   the set ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
 - Save named files only, under the agreed Git authority: Out's own records, and
-  other files the sitting left uncommitted (code, generated output) only after
-  naming each to the person and hearing yes; on a concert branch, stop if
+  other files the sitting created or changed and left uncommitted, untracked ones
+  too (code, generated output), only after naming each to the person and hearing yes,
+  in one speech-bubble question that leaves none unmentioned, in plain words (“saved”,
+  not “committed”); on a concert branch, stop if
   the checked-out branch is not its sketchbook's; acknowledged local paths are passed
   with `--preserve`; with `work_notes`, the vault repo is saved the same way, by its
   literal path with `git -C`; `save … --push` when pushing is authorized ([Default verified save](references/out.md#default-verified-save-when-pushing-is-authorized)).
@@ -251,7 +257,7 @@ explicit completion heading naming the Kerd version it loaded, the PROJECT · PH
 when a partner was restored or the team could not be read; none with no pairing), Where
 things stand, Last session, Open work, Recommended with its Why, attention and a
 real link to the open-work page, all in plain product English. No footer or end
-marker. The single question ends the screen as a bold speech-bubble blockquote.
+marker. PROJECT is the README's first heading, else the folder name. The single question ends the screen as a bold speech-bubble blockquote.
 The screen is reply text: paste the rendered output into the message itself, before the picker in the same message; output left in a tool result has not been shown, since the host folds it away.
 Where the host has a native picker it follows with up to four options: “Yes — <the
 recommended work>”, up to two other open items each with a one-line why, and

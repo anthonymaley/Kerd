@@ -115,7 +115,8 @@ names the guide section with its detail: open that section before the step.
   with no grid, Fit line, model/effort evidence or journey line
   ([one visible startup view](references/orchestration.md#one-visible-startup-view));
   (3) then the substantive project
-  reads, dispatches or edits, with no second pickup or approval. With missing
+  reads, dispatches or edits, with no second pickup or approval; a grid for jobs
+  being dispatched ends the response that sends them. With missing
   context, bounded local orientation may establish the stage and job boundaries
   first; do not guess an agreement or settled split. State that limited orientation
   and resolve the split before it expands into the investigation. Small explicit
@@ -192,11 +193,28 @@ names the guide section with its detail: open that section before the step.
   instead of the repo and pointed to as `notes:<work>/work.md`; without that key, it
   stays at `docs/work/<work>/work.md` and is committed with the project
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+  Name `<work>` from the person's own words for the work, never an invented label;
+  a deliverable they will use themselves (a brief, a plan, a letter) goes beside
+  their own files, where they would look, while the sketchbook and its supporting
+  material stay in their configured place (the work folder, or the vault). When they approve or answer, update the sketchbook's position (current
+  activity, pending question, next action) in that same turn
+  ([Record agreement](references/work-record.md#record-agreement-and-carry-the-work-forward)).
+- A document other people will read, its format unresolved and material to the
+  result: before drafting, ask once what they will read it in (a shared doc, slides,
+  an email, a PDF); never when the context sets it or the person said to go ahead;
+  when they don't mind, write Markdown and say so
+  ([A brief the person can use](references/understanding.md#a-brief-the-person-can-use)).
+- Edit within the agreed scope: the files the work covers, its own records and any
+  change the request explicitly asks for. A change to the person's own source
+  material outside that scope (their notes, data or other documents), even one the
+  work implies, is offered as a question first, never made and reported afterwards
+  ([Carry agreed work through delivery](references/execution.md)).
 - Speak the words the docs teach. The first time in a sitting that the work is in
   rehearsal, has a sketchbook or goes to a concert, name that word once with its
   plain gloss (“this is rehearsal: we work out what you want”; “I keep our notes,
-  the sketchbook, at docs/work/<work>/work.md”; “the concert: I build what we
-  agreed on its own branch”); after that the word can stand alone. The stage
+  the sketchbook, at <where the record actually lives>”; “the concert: I build what
+  we agreed apart from your files, and it joins them when you say”, or “on its own
+  branch” to someone who uses git's words); after that the word can stand alone. The stage
   names (Understand, Shape, Agree, Deliver, Complete) stay as they are
   ([Relaxed, useful language](references/journey.md#relaxed-useful-language)).
 - Keep the risks in view: when the person or the work names something that could
@@ -276,11 +294,15 @@ names the guide section with its detail: open that section before the step.
   reviewer job the go will dispatch, each with its Fit line, so the go approves the
   staffing the person has seen (a go that dispatches nothing carries the one plain
   line instead); the go then dispatches as shown, and a row whose
-  model, effort or route changes is shown again, with its Fit line, before its dispatch.
+  model, effort or route changes is shown again, with its Fit line, at the end of the
+  response that dispatches it.
   A go whose staffing for this work is not on screen, such as a go in the opening
-  message, approves the work, not unseen staffing: put the grid with its Fit lines in
-  a reply before the first `Agent` call, then dispatch in the same turn without asking
-  again; a rolled or managed continuation reuses the assignments its sketchbook records
+  message, approves the work, not unseen staffing: in the same turn, start every
+  dispatch on a background, stoppable route (`Agent` with `run_in_background`), then
+  end that response with the grid, its Fit lines and a line that the players can be
+  stopped, without asking again (on Claude Code 2.1.319, multi-line text between tool
+  calls reached the person only as a summary: 15 traces, 4 probes); a rolled or managed continuation reuses the
+  assignments its sketchbook records
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - A concert performs on its own branch. At the go, start `concert/<work>` from the
   current tip, as part of that same go and not a second question, and record the
@@ -310,7 +332,10 @@ names the guide section with its detail: open that section before the step.
   `subagent_type`, with effort shown as unset and unverified and the reason
   disclosed). “Per definition”, “inherited”, “the controller's” and “default” are
   not valid choices; while `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` is `1`, a native Claude
-  dispatch is not a compliant Kerd route
+  dispatch is not a compliant Kerd route. Choose each row before its call; send the
+  calls in the background and end that response with their grid rows and Fit lines,
+  no tool call after them (a route that cannot run in the background shows its row
+  first)
   ([the dispatch contract](references/model-jobs.md#prepare-work-the-chosen-model-can-do-well);
   [grid rows](references/orchestration.md#one-visible-startup-view)).
 - When a batch returns, check each player's claim against its part of the score:
@@ -370,13 +395,17 @@ names the guide section with its detail: open that section before the step.
 - Then bring one decision: merge the concert branch back into the branch it started
   from. The merge and its push need the person's go; never merge because the steps
   ran out ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
-- When the agreed goal is met and nothing is outstanding, the controlling session
+- When the agreed goal is met and nothing is outstanding, a finished revision or
+  requested change to delivered work included, the controlling session
   runs Switch Out itself, unasked, and says so in plain words naming
   `/kerd:switch out`, so a newcomer learns how to put work down; a next item that
   waits for later is named, and does not hold the Out back. Where the host gives
   no way to start the skill, the turn ends on the one question
   `> 💬 **Put this down for today with /kerd:switch out?**`
-  ([One clear finish](references/journey.md#one-clear-finish)).
+  ([One clear finish](references/journey.md#one-clear-finish)). To a person who has
+  not used git's words in this work, say what it means for their files (“saved on
+  this computer”, “not saved yet”), never commit, push, branch, remote or working tree
+  ([Relaxed, useful language](references/journey.md#relaxed-useful-language)).
 - Delivery can finish before a long-term benefit is measurable when that stopping
   point and its available evidence are agreed; never relabel unmeasured benefit as
   achieved

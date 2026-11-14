@@ -30,7 +30,17 @@ lines and stops; on success, with `--codex`, publishes the Codex package from
 that exact commit, and with `--plugin`, updates Kerd in Claude Code while the
 remote branch still holds that commit, then reads the installed commit back and
 reports any difference (the update itself follows the marketplace, so this is a
-check after the fact, not a lock). Every stop says what was already published. Anything
+check after the fact, not a lock).
+
+When the shipped commit's marketplace.json gives the kerd source `"ref": "plugin"`,
+Claude Code users install from the generated `plugin` branch, so ship on main
+keeps that branch in step: after CI passes (re-read first, like the Codex
+publish) it appends a commit built by tools/plugin_release.py from the shipped
+commit, and `--plugin` then expects the installed commit to be that branch
+commit, not main's. If origin has no plugin branch yet, ship creates it before
+pushing main, from what origin/main already serves, so no install ever points
+at a missing branch. An unreadable marketplace.json, or a ref or sha ship does
+not know, refuses before anything is pushed. Every stop says what was already published. Anything
 it cannot read or parse stops it: it never guesses a run or reports a pass it
 did not see.
 
@@ -43,6 +53,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -299,6 +310,192 @@ def remote_sha(root, branch):
     return out.split()[0] if out else None
 
 
+PLUGIN_BRANCH = "plugin"
+
+
+def repository_identity(url):
+    """One spelling for a git remote, so https, ssh and scp-style forms of the same
+    repository compare equal: ("host", "path") with the host lowercased and any
+    `.git` or trailing slash dropped; GitHub paths are case-insensitive, so they
+    are lowercased too. A local path or file:// URL becomes ("file", real path).
+    None when the form is not one of these."""
+    if not isinstance(url, str) or not url.strip():
+        return None
+    url = url.strip()
+    if url.startswith("file://"):
+        path = url[len("file://"):]
+    elif url.startswith("/"):
+        path = url
+    else:
+        path = None
+    if path is not None:
+        return ("file", re.sub(r"\.git$", "", str(Path(path).resolve()).rstrip("/")))
+    match = (re.match(r"^(?:https?|ssh|git)://(?:[^@/]+@)?([^/:]+)(?::\d+)?/(.+)$", url)
+             or re.match(r"^(?:[^@/]+@)?([^/:]+):(?!/)(.+)$", url))
+    if not match:
+        return None
+    host, path = match.group(1).lower(), match.group(2).rstrip("/")
+    path = re.sub(r"\.git$", "", path).strip("/")
+    if not path or ".." in path.split("/"):
+        return None
+    return (host, path.lower() if host == "github.com" else path)
+
+
+def push_destination(root):
+    """The one URL `git push origin` reaches, proven equal to the one ship reads
+    from. Several URLs, or a pushurl naming another repository, leave ship unable
+    to prove where the push goes, so that refuses."""
+    fetch = [u for u in git(root, "remote", "get-url", "--all", "origin").splitlines() if u.strip()]
+    push = [u for u in git(root, "remote", "get-url", "--push", "--all", "origin").splitlines() if u.strip()]
+    if len(fetch) != 1 or len(push) != 1:
+        raise Refused(f"origin has {len(fetch)} fetch and {len(push)} push URLs; can't prove where the push goes; "
+                      "set one URL")
+    if repository_identity(push[0]) is None or repository_identity(push[0]) != repository_identity(fetch[0]):
+        raise Refused(f"origin pushes to {push[0]!r} but reads from {fetch[0]!r}; can't prove where the push goes; "
+                      "set one URL")
+    return push[0]
+
+
+def plugin_ref(root, sha):
+    """The push URL when the shipped commit's marketplace sends Claude Code users to the
+    generated plugin branch (`"ref": "plugin"` on the kerd entry), False when the
+    entry has no ref (None). Anything unreadable or unexpected refuses: guessing here
+    could point every install at a branch this ship never fills. With the ref,
+    the source must be a `url` or `github` source naming the very repository ship
+    pushes to (origin), or the branch ship fills is not the one users read."""
+    name = ".claude-plugin/marketplace.json"
+    try:
+        data = json.loads(git(root, "show", f"{sha}:{name}"))
+    except ValueError as error:
+        raise Refused(f"{name} at {sha[:8]} is not readable JSON: {error}")
+    plugins = data.get("plugins") if isinstance(data, dict) else None
+    if not isinstance(plugins, list):
+        raise Refused(f"{name}: no plugins list")
+    entries = [p for p in plugins if isinstance(p, dict) and p.get("name") == "kerd"]
+    if len(entries) != 1:
+        raise Refused(f"{name}: expected one kerd entry, found {len(entries)}")
+    source = entries[0].get("source")
+    if not isinstance(source, dict):
+        raise Refused(f"{name}: the kerd entry's source is not an object: {source!r}")
+    if "sha" in source:
+        raise Refused(f"{name}: a pinned sha on the kerd source would freeze users; ship does not handle it")
+    ref = source.get("ref")
+    if ref is None:
+        return None
+    if ref != PLUGIN_BRANCH:
+        raise Refused(f"{name}: the kerd source names ref {ref!r}; ship only knows {PLUGIN_BRANCH!r}")
+    kind = source.get("source")
+    if kind == "url":
+        named = source.get("url")
+    elif kind == "github":
+        repo = source.get("repo")
+        named = f"https://github.com/{repo}" if isinstance(repo, str) and repo.count("/") == 1 else None
+    else:
+        raise Refused(f"{name}: a {kind!r} kerd source with ref {PLUGIN_BRANCH!r} is not one ship fills "
+                      "(url or github only)")
+    origin = push_destination(root)
+    wanted, have = repository_identity(named), repository_identity(origin)
+    if wanted is None or have is None:
+        raise Refused(f"{name}: cannot compare the kerd source {named!r} with origin {origin!r}")
+    if wanted != have:
+        raise Refused(f"{name}: the kerd source names {named!r}, but ship pushes to origin {origin!r}")
+    return origin
+
+
+def is_ancestor(root, older, newer):
+    return run(["git", "merge-base", "--is-ancestor", older, newer], root).returncode == 0
+
+
+def from_commit(root, sha, *args):
+    """Run a tools/ script from a worktree at the checked commit, so the code that
+    publishes is the code CI checked, never the working tree. Its scratch output
+    is removed afterwards."""
+    scratch = Path(tempfile.mkdtemp(prefix="kerd-release-"))
+    tree = scratch / "tree"
+    try:
+        added = run(["git", "worktree", "add", "--detach", str(tree), sha], root)
+        if added.returncode != 0:
+            return subprocess.CompletedProcess(args, 1, "", f"could not check out {sha[:8]}: {added.stderr.strip()}")
+        try:
+            return run([sys.executable, *[str(a).replace("{scratch}", str(scratch)) for a in args]], tree)
+        finally:
+            run(["git", "worktree", "remove", "--force", str(tree)], root)
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+
+
+def manifest_version(text, label):
+    try:
+        data = json.loads(text)
+    except ValueError as error:
+        raise Refused(f"{label} is not readable JSON: {error}")
+    version = data.get("version") if isinstance(data, dict) else None
+    if not (isinstance(version, str) and SEMVER.match(version)):
+        raise Refused(f"{label} has no MAJOR.MINOR.PATCH version: {version!r}")
+    return data, version
+
+
+def plugin_package(root, tip, history):
+    """Validate origin's plugin tip as a Kerd package before main moves: it must
+    carry release.json, .claude-plugin/plugin.json (name kerd, same version) and
+    hooks/hooks.json, and be built from a commit in `history` (origin/main's
+    history). Returns (version, source commit). Anything else refuses."""
+    fetched = run(["git", "fetch", "-q", "--no-tags", "origin", tip], root)
+    if fetched.returncode != 0:
+        raise Refused(f"could not fetch {PLUGIN_BRANCH} tip {tip[:8]}: {fetched.stderr.strip()}")
+    label = f"{PLUGIN_BRANCH} tip {tip[:8]}"
+    release, version = manifest_version(git(root, "show", f"{tip}:release.json"), f"{label} release.json")
+    manifest, manifest_v = manifest_version(git(root, "show", f"{tip}:.claude-plugin/plugin.json"),
+                                            f"{label} plugin.json")
+    if manifest.get("name") != "kerd" or manifest_v != version:
+        raise Refused(f"{label}: plugin.json ({manifest.get('name')!r} {manifest_v}) does not match "
+                      f"release.json ({version})")
+    git(root, "cat-file", "-e", f"{tip}:hooks/hooks.json")
+    source = release.get("source_commit")
+    if not (isinstance(source, str) and re.fullmatch(r"[0-9a-f]{40}", source)):
+        raise Refused(f"{label}: unreadable source_commit {source!r}")
+    if run(["git", "cat-file", "-e", f"{source}^{{commit}}"], root).returncode != 0:
+        raise Refused(f"{label} was built from {source[:8]}, which is not in this checkout; run git fetch origin")
+    if not is_ancestor(root, source, history):
+        raise Refused(f"{label} was built from {source[:8]}, which is not in origin/main's history")
+    return version, source
+
+
+def append_plugin(root, sha, source, before, destination, version):
+    """Append one plugin-branch commit built from `source`, using the publisher in
+    the shipped commit `sha`, pushed to `destination` onto exactly the tip
+    `before` that ship checked (None: no branch yet). The publisher refuses any
+    other tip and its push carries a lease on it. Afterwards the commit it names
+    must be origin's tip, have `before` as its only parent and carry this
+    source and version. Returns (new tip, None) or (None, why it failed)."""
+    result = from_commit(root, sha, "tools/plugin_release.py", "--ref", source, "--remote", destination,
+                         "--expect-tip", before or "none", "--publish", "{scratch}/build")
+    if result.stdout.strip():
+        print(result.stdout.strip())
+    if result.returncode != 0:
+        return None, f"exit {result.returncode}: {result.stderr.strip()}"
+    named = re.findall(r"^Published plugin branch: ([0-9a-f]{40})$", result.stdout, re.M)
+    if len(named) != 1:
+        return None, "the publisher did not name exactly one published commit"
+    made = named[0]
+    after = remote_sha(root, PLUGIN_BRANCH)
+    if after != made:
+        return None, f"origin/{PLUGIN_BRANCH} is {after and after[:8]}, not the published {made[:8]}"
+    fetched = run(["git", "fetch", "-q", "--no-tags", "origin", made], root)
+    if fetched.returncode != 0:
+        return None, f"could not fetch the published {made[:8]}: {fetched.stderr.strip()}"
+    parents = git(root, "rev-list", "--parents", "-n", "1", made).split()[1:]
+    if parents != ([before] if before else []):
+        return None, f"the published {made[:8]} has parents {parents}, not {before or 'none'}"
+    try:
+        release = json.loads(git(root, "show", f"{made}:release.json"))
+    except ValueError as error:
+        return None, f"the published {made[:8]} has no readable release.json: {error}"
+    if release != {"version": version, "source_commit": git(root, "rev-parse", f"{source}^{{commit}}")}:
+        return None, f"the published {made[:8]} records {release}, not {version} from {source[:8]}"
+    return made, None
+
+
 def ship(root, codex=False, plugin=False, deadline_seconds=900):
     root = Path(root)
     if not (isinstance(deadline_seconds, (int, float)) and 0 <= deadline_seconds < 86400):
@@ -316,10 +513,58 @@ def ship(root, codex=False, plugin=False, deadline_seconds=900):
         raise Refused("release check failed:\n" + rules.stdout + rules.stderr)
     if git(root, "rev-parse", "HEAD") != sha or git(root, "status", "--porcelain", "--untracked-files=no"):
         raise Refused("HEAD or tracked files changed while checking; run ship again")
-    version = current_version(root)
+    # Read from the commit being shipped, not the working tree, so nothing that
+    # changes on disk after the checks above can alter what is compared below.
+    _manifest, version = manifest_version(git(root, "show", f"{sha}:.claude-plugin/plugin.json"),
+                                          f"plugin.json at {sha[:8]}")
     already = remote_sha(root, branch) == sha
+    # The plugin branch is what Claude Code users install once the marketplace
+    # names it. Read from the shipped commit; unreadable refuses (exit 2).
+    destination = plugin_ref(root, sha)
+    if destination and branch != "main":
+        print(f"ship: marketplace names the {PLUGIN_BRANCH} branch; it is appended only from main, not {branch}")
+        destination = None
+    slim = bool(destination)
+    plugin_tip = remote_sha(root, PLUGIN_BRANCH) if slim else None
+    bootstrap = None
+    if slim:
+        # Everything the plugin path depends on is proven here, before main moves:
+        # after the main push there is no taking it back.
+        history = remote_sha(root, branch)
+        if history is None:
+            raise Refused(f"origin has no {branch}")
+        if run(["git", "cat-file", "-e", f"{history}^{{commit}}"], root).returncode != 0:
+            raise Refused(f"origin/{branch} {history[:8]} is not in this checkout; run git fetch origin")
+        if not is_ancestor(root, history, sha):
+            raise Refused(f"origin/{branch} {history[:8]} is not an ancestor of {sha[:8]}")
+        have = label = None
+        if plugin_tip:
+            have, _source = plugin_package(root, plugin_tip, history)
+            label = f"origin/{PLUGIN_BRANCH}"
+        elif not already:  # the first plugin commit will be built from origin/main
+            _data, have = manifest_version(git(root, "show", f"{history}:.claude-plugin/plugin.json"),
+                                           f"origin/{branch} {history[:8]} plugin.json")
+            label = f"origin/{branch} {history[:8]}"
+        if have is not None and as_tuple(version) <= as_tuple(have):
+            # Claude Code updates on a new version only: an equal or lower one
+            # would leave users on the old package while main says otherwise.
+            raise Refused(f"version {version} is not newer than {have} on {label}; bump the version (prep) first")
+    if slim and plugin_tip is None:
+        if already:
+            print(f"ship: WARNING origin/{branch} already names a {PLUGIN_BRANCH} branch that does not exist; "
+                  "it is created after CI passes")
+        else:
+            # First switch: pushing main would point every install at a missing
+            # branch, so the branch is created first, from what origin/main already
+            # serves (the release users install today), before main moves.
+            bootstrap = history
+            _data, bootstrap_version = manifest_version(
+                git(root, "show", f"{bootstrap}:.claude-plugin/plugin.json"), f"origin/{branch} plugin.json")
     print(f"ship: {version} at {sha[:8]} on {branch}")
-    print(f"    will: push {sha[:8]} to {branch}; wait for entry-gate on {sha[:8]}"
+    print(f"    will: "
+          + (f"create {PLUGIN_BRANCH} from origin/{branch} {bootstrap[:8]}; " if bootstrap else "")
+          + f"push {sha[:8]} to {branch}; wait for entry-gate on {sha[:8]}"
+          + (f"; append {PLUGIN_BRANCH} from {sha[:8]}" if slim else "")
           + ("; publish codex" if codex else "") + ("; update Kerd in Claude Code" if plugin else ""))
     published = []
 
@@ -335,6 +580,13 @@ def ship(root, codex=False, plugin=False, deadline_seconds=900):
         except Unread as error:
             raise Refused(f"before pushing: {error}")
     try:
+        if bootstrap:
+            if remote_sha(root, branch) != bootstrap:
+                return stop(4, f"origin/{branch} moved before the {PLUGIN_BRANCH} branch was created; {branch} not pushed")
+            plugin_tip, why = append_plugin(root, sha, bootstrap, None, destination, bootstrap_version)
+            if why:
+                return stop(1, f"{PLUGIN_BRANCH}: first build from {bootstrap[:8]} FAILED ({why}); {branch} not pushed")
+            published.append(f"{PLUGIN_BRANCH} branch at {plugin_tip[:8]} from {bootstrap[:8]}")
         if already:
             print(f"pushed: not needed, origin/{branch} already holds {sha[:8]}; using its newest push run")
         else:
@@ -368,20 +620,22 @@ def ship(root, codex=False, plugin=False, deadline_seconds=900):
             return stop(1, "ci: failed")
         attempt = state.get("attempt")
         print(f"ci: run {run_id} attempt {attempt} passed")
+        target = sha  # The commit Claude Code should report as installed.
+        if slim:
+            if (not still_green(root, run_id, sha, attempt) or remote_sha(root, branch) != sha
+                    or remote_sha(root, PLUGIN_BRANCH) != plugin_tip):
+                return stop(4, f"ci: run {run_id}, origin/{branch} or origin/{PLUGIN_BRANCH} changed "
+                               f"before the {PLUGIN_BRANCH} append")
+            new, why = append_plugin(root, sha, sha, plugin_tip, destination, version)
+            if why:
+                return stop(1, f"{PLUGIN_BRANCH}: append FAILED ({why})")
+            published.append(f"{PLUGIN_BRANCH} branch at {new[:8]} from {sha[:8]}")
+            plugin_tip = target = new
         if codex:
             if not still_green(root, run_id, sha, attempt):
                 return stop(4, f"ci: run {run_id} changed before the codex publish")
             # The publisher runs from a worktree at the checked commit, so its own code is what CI checked.
-            scratch = Path(tempfile.mkdtemp(prefix="kerd-codex-"))
-            tree = scratch / "tree"
-            added = run(["git", "worktree", "add", "--detach", str(tree), sha], root)
-            if added.returncode != 0:
-                return stop(1, f"codex: could not check out {sha[:8]}: {added.stderr.strip()}")
-            try:
-                result = run([sys.executable, "tools/codex_release.py", "--ref", sha, "--publish",
-                              str(scratch / "build")], tree)
-            finally:
-                run(["git", "worktree", "remove", "--force", str(tree)], root)
+            result = from_commit(root, sha, "tools/codex_release.py", "--ref", sha, "--publish", "{scratch}/build")
             print(result.stdout.strip())
             if result.returncode != 0:
                 return stop(1, f"codex: publish FAILED (exit {result.returncode}): {result.stderr.strip()}")
@@ -389,16 +643,18 @@ def ship(root, codex=False, plugin=False, deadline_seconds=900):
         if plugin:
             for command in (["plugin", "marketplace", "update", "kerd-marketplace"],
                             ["plugin", "update", "kerd@kerd-marketplace"]):
-                if not still_green(root, run_id, sha, attempt) or remote_sha(root, branch) != sha:
+                if (not still_green(root, run_id, sha, attempt) or remote_sha(root, branch) != sha
+                        or (slim and remote_sha(root, PLUGIN_BRANCH) != plugin_tip)):
                     return stop(4, f"ci: run {run_id} or origin/{branch} changed before claude {' '.join(command)}")
                 updated = run([claude_cmd(), *command], root)
                 if updated.returncode != 0:
                     return stop(1, f"plugin: claude {' '.join(command)} FAILED: {updated.stderr.strip()}")
             got = installed_commit()
-            if got != sha:
+            if got != target:
                 published.append(f"Claude Code plugin at {got or 'an unread commit'}")
-                return stop(4, f"plugin: installed commit is {got or 'unreadable'}, not the checked {sha[:8]}")
-            published.append(f"Claude Code plugin at {sha[:8]} (loads on restart)")
+                expected = f"the {PLUGIN_BRANCH} branch commit {target[:8]}" if slim else f"the checked {sha[:8]}"
+                return stop(4, f"plugin: installed commit is {got or 'unreadable'}, not {expected}")
+            published.append(f"Claude Code plugin at {target[:8]} (loads on restart)")
         return stop(0, "ship: done")
     except (Unread, Refused) as error:
         return stop(4, f"ci: {error}")

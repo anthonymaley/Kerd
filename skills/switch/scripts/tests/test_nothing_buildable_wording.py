@@ -19,8 +19,9 @@ def flat(rel):
 class NothingBuildableWordingTests(unittest.TestCase):
     def test_in_treats_watching_as_not_buildable(self):
         text = flat("references/in.md")
-        self.assertIn("**Watching is not buildable.**", text)
-        self.assertIn("nothing in Now can be built; it holds things to watch and your decisions", text)
+        # First-user round 3 (#4): "can move" in the person's words, not "built".
+        self.assertIn("**Watching is not work that can move.**", text)
+        self.assertIn("nothing on the list can move yet; it holds things to watch and your decisions", text)
         self.assertIn("read the project's Backlog section (that one section, not the archive)", text)
         # codex-tui 2026-10-07: concrete is not eligible; weigh, never auto-pick.
         self.assertIn("A row the records defer, park or hold until something happens is not eligible.", text)

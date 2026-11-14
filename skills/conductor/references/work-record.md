@@ -129,13 +129,24 @@ The record must not claim the solution is built just because direction is agreed
 Keep one readable record per work package, normally
 `docs/work/<short-work-name>/work.md`, or `notes:<short-work-name>/work.md` in
 the private vault repo when `kivna/vault.json` sets `work_notes`; use a suitable
-existing location instead when the project already has one. Read
+existing location instead when the project already has one. Name
+`<short-work-name>` from the person's own words for the work (“the launch brief”
+→ `launch-brief`), never a label they have not used; first-user round 3
+(2026-11-14) put a brief in `docs/work/overture/`, and the person had to ask what
+“overture” was. The record, its diagrams and supporting detail stay in the
+record's own location (the work folder, or the vault when `work_notes` is set). A deliverable the person will use themselves (a brief, a plan, a letter)
+goes beside their own files, where they would look for it, unless they name
+another place; code goes where the project keeps its code. Say where it is in
+plain words. Read
 [the writing aid](work-record.md)
 when first saving work. It is not a required schema or a condition for permission.
 Keep diagrams and any necessary supporting detail with this record.
 
 Update it as the conversation progresses, including the exact pending question
-or next action before each pause. Capture the actual agreement response and
+or next action before each pause. When the person approves or answers, update the
+record's position (current activity, pending question, next action) in that same
+turn, so it never still reads as waiting on what they have already given
+(round 3: “Waiting on the owner's reaction” stayed after he approved). Capture the actual agreement response and
 its conditions; no invented approval or timestamps. An earlier discussion,
 draft or example is not the person's agreement to this direction. Preserve
 previous agreement when recording a material revision and its reason. Revisit

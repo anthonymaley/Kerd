@@ -23,7 +23,8 @@ SPEC.loader.exec_module(view)
 
 NOW = "2026-11-13 22:00 EST"
 RESTART = "Run /clear, then /kerd:switch in to pick up from here."
-LOCAL_LINE = "Saved on this computer; no Git remote is configured."
+# First-user round 3 (#5): plain words, never a claim that no backup exists.
+LOCAL_LINE = "Saved on this computer only; no other copy was checked."
 FIRST_LINE = ("Kerd has nothing saved here yet. Tell me what you want to work on and "
               "Conductor will shape it with you.")
 
@@ -62,7 +63,9 @@ class NoRemoteOutTests(unittest.TestCase):
                 lowered = text.lower()
                 for gone in ("failed", "push", "keep this session open", "boundary check"):
                     self.assertNotIn(gone, lowered)
-                self.assertIn("Committed on this computer", out)
+                self.assertIn("Saved on this computer", out)
+                self.assertNotIn("Committed on this computer", out)
+                self.assertNotIn("remote", lowered)
 
     def test_a_remote_with_an_unpushed_commit_is_unchanged(self):
         failures = ["No branch on a configured remote, as checked by this fetch, contains this commit."]
@@ -74,7 +77,7 @@ class NoRemoteOutTests(unittest.TestCase):
                                                     markdown=markdown))
                     self.assertNotIn(RESTART, text)
                     self.assertNotIn(LOCAL_LINE, text)
-                    self.assertIn("Committed, not pushed", text)
+                    self.assertIn("not yet copied to your remote (committed, not pushed)", text)
                     self.assertIn("Keep this session open and resolve the boundary check", text)
                     if markdown:  # the terminal panel wraps long lines inside its border
                         self.assertIn("push before switching devices", text)
@@ -96,8 +99,7 @@ class NoRemoteOutTests(unittest.TestCase):
                                                 verdicts={"project": "ok", "notes": "local_only"}),
                                         NOW, 80, False, markdown=True))
         self.assertTrue(text.endswith(RESTART))
-        self.assertIn("the notes repo has no git remote configured, so the notes are saved on this "
-                      "computer only", text.lower())
+        self.assertIn("your notes are saved on this computer only; no other copy was checked", text.lower())
         self.assertNotIn(LOCAL_LINE, text)
         self.assertNotIn("✓", text)
 
@@ -108,7 +110,8 @@ class NoRemoteOutTests(unittest.TestCase):
             "(`git remote` succeeds and prints nothing; a failed read is not “no remote”)",
             "A vault with no remote configured is saved without `--push`, by the same rule.",
             "that repo's verdict is `local_only`. A repo that has a remote keeps every check",
-            "For the project that line is “Saved on this computer; no Git remote is configured.”;",
+            "For the project that line is “Saved on this computer only; no other copy was checked.”, "
+            "which never claims no backup exists;",
             "or after a committed or remote-verified save with `handoff_ready: true` and "
             "`boundary: \"local_only\"`",
         ):
@@ -163,7 +166,7 @@ class NoRemoteOutTests(unittest.TestCase):
 
 
     def test_the_lines_follow_the_verdicts(self):
-        notes_line = "the notes repo has no git remote configured, so the notes are saved on this computer only"
+        notes_line = "your notes are saved on this computer only; no other copy was checked"
         both = flat(view.render_closing(closing(verdicts={"project": "local_only", "notes": "local_only"}),
                                         NOW, 80, False, markdown=True))
         self.assertIn(LOCAL_LINE, both)

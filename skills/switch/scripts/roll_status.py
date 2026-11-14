@@ -39,6 +39,17 @@ class StatusError(Exception):
     """An expected, safely reportable status-reading failure."""
 
 
+class NoRecord(StatusError):
+    """A successful read found no run record: no managed Roll is recorded.
+
+    Kept apart from every other failure so Switch In can tell "no run" (exit 3)
+    from "could not tell" (exit 1), which it must never read as no run.
+    """
+
+
+NO_RECORD_EXIT = 3
+
+
 def safe_text(value: str) -> str:
     """Return saved text that cannot issue controls or create extra lines."""
     value = ANSI_ESCAPE.sub("", value)
@@ -85,7 +96,7 @@ def read_record(git_dir: Path) -> dict[str, Any]:
     try:
         raw = ledger_path.read_text(encoding="utf-8")
     except FileNotFoundError as exc:
-        raise StatusError("No Roll status record was found for this worktree.") from exc
+        raise NoRecord("No Roll status record was found for this worktree.") from exc
     except (OSError, UnicodeError) as exc:
         raise StatusError("The Roll status record could not be read.") from exc
 
@@ -195,17 +206,45 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def chat_marker_line(git_dir: Path) -> str | None:
+    """The chat roll marker, read in the same call so In needs no second probe.
+
+    `roll/chat.json` exists only while a chat roll is unclaimed (claiming
+    renames it). A marker that cannot be checked is reported, never taken as
+    absent.
+    """
+    try:
+        os.stat(git_dir / "roll" / "chat.json")
+    except FileNotFoundError:
+        return None
+    except OSError:
+        return "Chat roll marker: could not be checked (not read as absent)."
+    return ("Chat roll marker: an unclaimed chat roll is waiting (roll/chat.json); "
+            "only /kerd:switch roll in claims it.")
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    git_dir = None
     try:
         root, git_dir = resolve_git_paths(args.project)
         record = read_record(git_dir)
         panel = make_panel(root, record)
+    except NoRecord as exc:
+        print(f"Roll status unavailable: {exc}", file=sys.stderr)
+        marker = chat_marker_line(git_dir)
+        if marker:
+            print(marker)
+        return NO_RECORD_EXIT
     except StatusError as exc:
         print(f"Roll status unavailable: {exc}", file=sys.stderr)
+        marker = chat_marker_line(git_dir) if git_dir is not None else None
+        if marker:
+            print(marker)
         return 1
 
-    print(panel)
+    marker = chat_marker_line(git_dir)
+    print(panel + ("\n" + marker if marker else ""))
     return 0
 
 

@@ -25,7 +25,7 @@ not been seen in real use yet.
   git operations, and its helper scripts are Python. Check with `git --version`
   and `python3 --version`.
 - **A project folder that git is tracking.** If your work is not in git yet, the
-  next section shows how to start; it takes two commands and no account.
+  next section shows how to start; the steps are listed there and need no account.
 
 You do not need CI, custom hooks, or any wiring inside your own project. Kerd's
 own hooks come from the plugin and load themselves when the plugin is enabled.
@@ -50,9 +50,15 @@ git, set it up once:
    again to check it is gone from the list.
 4. Run `git add .`, then `git diff --cached --name-only`. That prints the files
    that are about to be saved; check there is nothing in it you meant to leave out.
+   Before the first commit, tell git who you are, once, so the save carries your
+   name: run `git config --global user.name "Your Name"` and
+   `git config --global user.email "you@example.com"` (use your own name and
+   email; they stay on this computer unless you later push). Some machines, macOS
+   among them, will otherwise save under a name git guesses from your computer and
+   print a long warning. If that already happened, fix the save you just made with
+   `git commit --amend --reset-author --no-edit` after setting the two lines above.
    Then run `git commit -m "First save"`. This records those files as the first
-   saved version. If git says it does not know who you are, it prints the two
-   `git config` lines to run; do those and commit again. If it says there is nothing
+   saved version. If it says there is nothing
    to commit, the folder is empty or every file is ignored: add the files you want
    saved, then repeat this step.
 
@@ -67,10 +73,17 @@ this computer only.
 
 ## Install in Claude Code
 
+Type these two commands in a terminal, not inside a Claude Code session.
+`claude plugin …` is a command for the terminal; a session does not run it.
+
 ```
 claude plugin marketplace add anthonymaley/Kerd
 claude plugin install kerd@kerd-marketplace
 ```
+
+If the first command prints "SSH clone failed, retrying with HTTPS", that is
+normal when you have no GitHub key set up. It retries and succeeds; you do not
+need to do anything.
 
 To try a version without adopting it, point Claude Code at a local checkout for
 one session:
@@ -151,17 +164,22 @@ files set up. It gives one of two reports, depending on the project:
   not passing. A failing line there is a gap against Kerd's layout, not a sign
   that something is wrong with your project.
 
-Either way it then asks for your approval, for example:
+Either way it then asks for your approval. On a project not yet set up, that is
+one plain question after a short list of what would be added, and nothing is
+committed. On a project already set up, it is the drift report's question, for
+example:
 
 > 💬 **Fix all three findings — approve?**
 
-Tend changes only what its report lists, and only after you approve. On a brand
-new repo with no README, CLAUDE.md or `docs/`, it asks once for a project name and
-a one-line description. On an existing repo it reports what is missing and leaves
-the writing of your own files to you.
+Tend changes only what its report lists, and only after you approve. The
+not-yet-set-up path creates no template files, so it does not ask for a project
+name or description; that question comes only if you choose fixes that create
+template files in a brand new repo with no README, CLAUDE.md or `docs/`. On an
+existing repo it reports what is missing and leaves the writing of your own files
+to you.
 
 Tend changes files and stops. It never commits: structural convergence has no
-verification gate behind it, so it stays in your working tree for you to read.
+verification gate behind it, so it stays as unsaved changes in your project folder for you to read.
 If there is no `.git`, tend stops and tells you to run `git init` and make a first
 commit; a remote is optional. And the Obsidian vault is opt in: no
 `kivna/vault.json` is not a finding, it is one information line, and
@@ -170,22 +188,34 @@ commit; a remote is optional. And the Obsidian vault is opt in: no
 ## Permission prompts
 
 Claude Code may ask before it runs commands, depending on your permission
-settings, and Kerd runs some. With default settings you will probably see prompts
-when Switch opens or saves a sitting, because Switch uses its own helper
-scripts. They look like this, with a long path through Claude Code's plugin
-folder (these are partial shapes: the real command has more in it):
+settings, and Kerd runs some. In normal permission mode, the first `/kerd:switch in`
+in a project typically asks for three kinds of thing. In plain words:
+
+- **Reading Kerd's own guide for Switch In.** Switch In may stop to ask to read a
+  file in the plugin's folder (a path under `~/.claude/plugins/cache/kerd-marketplace/`,
+  ending in `references/in.md`). That is Kerd's written instructions for itself,
+  and it sits outside your project, which is why Claude Code asks. Approve it.
+- **Git checks.** Short read-only questions to git about your project: whether the
+  folder is a git repository, what has changed, what was saved last. They change
+  nothing.
+- **The arrival script.** Kerd's helper that gathers what the project knows and
+  draws the arrival screen. It looks like this, with a long path through the plugin
+  folder (a partial shape; the real command has more in it):
 
 ```
 python3 /Users/you/.claude/plugins/cache/kerd-marketplace/kerd/<version>/skills/switch/scripts/where_we_are.py ...
 python3 /Users/you/.claude/plugins/cache/kerd-marketplace/kerd/<version>/skills/switch/scripts/handoff.py ...
 ```
 
-These are the scripts that ship inside the Kerd plugin you installed: they read
-the project's own notes, draw the arrival screen, and save with git. Approving
-them is safe in the sense that they are Kerd's own files, and Kerd is open source
-so you can read them first. Read any other command in the prompt on its own
-merits. Check the whole command in the prompt, including its arguments and
-anything chained onto it, before you approve.
+Putting a sitting down (`/kerd:switch out`) asks for the save script and for git
+commands that record the save.
+
+Approving these is safe: the guide and the scripts are Kerd's own files, they
+ship inside the plugin you installed, and Kerd is open source so you can read them
+first. The git checks only look. Read any other command in the prompt on its own
+merits, and check the whole command, including its arguments and anything chained
+onto it, before you approve. Expect a good few prompts in a first sitting; that is
+the permission setting, not a sign that something is wrong.
 
 If you would rather not approve the same command each time, the prompt may offer
 an option to stop asking for that command; use it if it is offered. Otherwise you
@@ -219,9 +249,9 @@ what you want to work on.
 
 The second arrival is where it earns its keep. This one is an illustration, for an
 invented project (a small tool that exports a list of customer requests to a
-spreadsheet), shortened:
+spreadsheet), shortened. The heading shows 0.x.y where yours shows the version you installed:
 
-> **TALLY · SWITCH IN COMPLETE ✓ · Kerd 0.196.0**
+> **TALLY · SWITCH IN COMPLETE ✓ · Kerd 0.x.y**
 >
 > | PROJECT | PHASE | NEXT |
 > | --- | --- | --- |
@@ -291,9 +321,11 @@ recorded. At Ready you are shown a rendered view of what will be built with a
 short summary, and asked for the go where you have not already given it. After
 that the work is performed as a **concert**: the agreed plan is written down as a
 score, handed to several agents at once, and each return is checked. It runs on a
-branch of its own, `concert/<work>`, so `main` never holds half-built work. The result
-is compared with the goals you agreed before it is called done, and then you are asked
-one thing: merge that branch back. Nothing reaches `main` without your go.
+branch of its own, `concert/<work>`, so `main` never holds half-built work. (A
+*branch* is a separate line of saved work in git; `main` is the line that holds your
+finished work.) The result is compared with the goals you agreed before it is
+called done, and then you are asked one thing: whether to *merge* that branch back,
+which means folding its work into `main`. Nothing reaches `main` without your go.
 
 Small work never needs any of that. It just gets delivered.
 
@@ -321,11 +353,14 @@ Read that first word before you close anything.
 
 ## What appears in your repo, and who commits it
 
+(A *commit* is one saved version in git. A *repo* is your project folder once git is tracking it.)
+
 Kerd's memory is plain Markdown in your project. Nothing is hidden, nothing is
 binary, and you can open all of it in an editor:
 
 - `CONTEXT.md`, what is currently true about the project. Overwritten each
-  sitting, never a diary.
+  sitting, never a diary. Its last section is Kerd's own note for the next
+  pickup; you can skip it.
 - `TODO.md`, the open work: `## Now` for the current focus, `## Backlog` for what
   is queued.
 - `kivna/sessions/YYYY-MM-DD.md`, one dated log per day of what was done,
@@ -337,14 +372,15 @@ One file is deliberately not committed: `kivna/.active-modes`, which holds
 per-session mode state and is gitignored.
 
 Switch Out is the part that commits those files. It names the files it is
-saving and commits those, and it pushes when pushing has been authorized. Two
+saving and commits those, and it pushes when pushing has been authorized (to *push* is to send your saved work to a remote copy, such as one on GitHub). Two
 cases differ. With no remote, a save that stays on this computer is a valid
-outcome, not a failure: the closing box says "Saved on this computer; no Git remote is configured" and still offers the restart line. With a remote, if the
+outcome, not a failure: the closing box says "Saved on this computer only; no other copy was checked" and still offers the restart line. With a remote, if the
 saved commit has not been pushed to it, Out warns you to push before switching
 devices and keeps the session open until you have; the closing box tells you which
-happened. Out saves only its own records; if other files are uncommitted (your code, a
-generated export), it names them and asks which to include. Conductor commits the work it builds as it goes, per
-task that passed its verification. Tend commits nothing at all. If none of that
+happened. Out saves only its own records; if other files are uncommitted, new ones included
+(your code, a generated export), it names them all in one question and asks which to
+include. One you leave out stays on your computer, unsaved; one you say should never
+be saved goes into `.gitignore`. Tend commits nothing at all. If none of that
 is what you want, do not run Out, and commit by hand.
 
 What it costs to run, rehearsal against a concert, is in the README under
@@ -390,8 +426,8 @@ in words. See [Codex package distribution](codex-distribution.md) for limits,
 verification and maintainer publication, or the packaged
 [guide](../work/model-ready-work/packaging/START.md) for runtime setup and local builds.
 
-In Codex the slash commands are not there: Codex 0.156.1 rejected `/switch` and
-`/kerd` as unrecognized. Say it in words instead. Opening is "Switch in.", putting
+In Codex the slash commands are not there: Codex 0.156.1 did not recognize
+the Kerd commands typed with a slash. Say it in words instead. Opening is "Switch in.", putting
 it down is "Switch out.", and the work is "Use Kerd Conductor to help me …". Tend
 is not in the Codex package, which is fine: it is optional.
 
@@ -452,6 +488,8 @@ to use and the warning that this repo has no tags yet, so a commit SHA is the
 only durable thing to cite today.
 
 ## Where to go next
+
+Invited to try Kerd? Read [If you were invited](invited.md) first.
 
 What has not been seen in real use yet: [known limits](known-limits.md).
 

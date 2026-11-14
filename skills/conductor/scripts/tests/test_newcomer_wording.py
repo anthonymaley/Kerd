@@ -88,25 +88,83 @@ class InlineEntryIsOnePlainLine(unittest.TestCase):
         self.assertIn("and the task/who/model/effort grid for the controller and every composer, "
                       "player and reviewer job the go will dispatch, each with its Fit line", skill)
 
-    def test_go_without_ready_still_shows_the_grid_before_dispatch(self):
+    def test_go_without_ready_still_shows_the_grid(self):
         """Eval conductor-go, 4 of 4 runs: a go in the opening prompt showed no grid
         or Fit line (three still dispatched), since the go text assumed a Ready."""
         entry = read(REFS / "entry.md")
         for phrase in ("staffing for this work is not on screen",
-                       "Before the first `Agent` call",
-                       "a row for the controller and every job about to be dispatched",
+                       "a row for the controller and every",
                        "a Fit line for each",
-                       "dispatch in the same turn",
                        "the go is not put to the person again",
                        "Work that dispatches nothing gives the one plain line instead",
-                       "assignments its sketchbook already records under that go without showing them again",
-                       "a job not in that record gets its row and Fit line first"):
+                       "assignments its sketchbook already records under that go without showing them again"):
             self.assertIn(phrase, entry)
         skill = read(SKILL)
         self.assertIn("staffing for this work is not on screen", skill)
-        self.assertIn("before the first `Agent` call", skill)
         view = section(REFS / "orchestration.md", "## One visible startup view")
         self.assertIn("staffing for this work is not on screen", view)
+
+    def test_grid_ends_the_response_that_dispatches(self):
+        """On Claude Code 2.1.319 (15 conductor-go traces + 4 probes), multi-line text
+        after a tool result and before another tool call reached the trace only as a
+        one-sentence summary: a grid written before the Agent call never showed. Rows
+        are chosen before the call and shown at the end of the response that sends it."""
+        old_order = ("Before the first `Agent` call", "before the first `Agent` call",
+                     "before its dispatch", "Fit line first",
+                     "before dispatching it if its model", "in a Fit line before re-dispatch",
+                     "send the `Agent` calls in the background",
+                     "prose between tool calls reaches the person only as a short summary")
+        files = {"SKILL.md": read(SKILL), "entry.md": read(REFS / "entry.md"),
+                 "orchestration.md": read(REFS / "orchestration.md"),
+                 "execution.md": read(REFS / "execution.md"),
+                 "model-jobs.md": read(REFS / "model-jobs.md")}
+        for name, text in files.items():
+            for phrase in old_order:
+                self.assertNotIn(phrase, text, f"{name} still asks for the grid before dispatch")
+        entry = files["entry.md"]
+        for phrase in ("start every dispatch on a background route the person can stop "
+                       "(`Agent` with `run_in_background`), then end that response with that same grid",
+                       "one line saying the players can be stopped, with no tool call after it",
+                       "on Claude Code 2.1.319, multi-line text after a tool result and before another "
+                       "call reached the person only as a one-sentence summary (15 traces, 4 probes)",
+                       "a route that cannot run in the background shows its row first instead",
+                       "a job not in that record gets its row and Fit line at the end of the response that dispatches it",
+                       "show it again, with its Fit line, at the end of the response that dispatches it"):
+            self.assertIn(phrase, entry)
+        skill = files["SKILL.md"]
+        for phrase in ("start every dispatch on a background, stoppable route (`Agent` with "
+                       "`run_in_background`), then end that response with the grid",
+                       "line that the players can be stopped",
+                       "is shown again, with its Fit line, at the end of the response that dispatches it",
+                       "Choose each row before its call; send the calls in the background and end that "
+                       "response with their grid rows and Fit lines, no tool call after them "
+                       "(a route that cannot run in the background shows its row first)",
+                       "a grid for jobs being dispatched ends the response that sends them"):
+            self.assertIn(phrase, skill)
+        view = section(REFS / "orchestration.md", "## One visible startup view")
+        for phrase in ("**Where the grid goes once work starts.** Each row is chosen before its call "
+                       "and shown after it.",
+                       "every dispatch the go covers starts on a background route the person can stop: "
+                       "`Agent` with `run_in_background`, the Agent helper's `start` (it returns at once), "
+                       "or `ask.py run … --background` for a CLI worker",
+                       "with no tool call after them",
+                       "a route, CLI or partner, that cannot run in the background has its row shown as "
+                       "the turn's first text, before any tool call of that turn, or the response says "
+                       "plainly that its row could not be shown first",
+                       "15 `conductor-go` traces and 4 probes on Claude Code 2.1.319",
+                       "other hosts and versions are untested",
+                       "changes on retry, shown at the end of the response that dispatches it",
+                       "Those choices are made, and match the call, before it is sent; the row itself is "
+                       "shown at the end of the response that sends it"):
+            self.assertIn(phrase, view)
+        execution = files["execution.md"]
+        self.assertIn("state each change's reason in a Fit line at the end of the response that "
+                      "re-dispatches it, and record it with the step", execution)
+        self.assertIn("A dispatch a go covers starts in the background, so its row can end the response "
+                      "that sends it; a foreground-only CLI or partner route shows its row as the turn's "
+                      "first text, before any tool call, or says plainly it could not", execution)
+        self.assertIn("Omit `--background` for foreground work, never for a dispatch a go covers",
+                      files["model-jobs.md"])
 
     def test_skill_entry_must_hold_matches_the_guides(self):
         skill = read(SKILL)
@@ -140,8 +198,8 @@ class DocWordsAreGlossedOnce(unittest.TestCase):
         self.assertIn("Speak the words the docs teach.", skill)
         self.assertIn("name that word once with its plain gloss", skill)
         for gloss in ("“this is rehearsal: we work out what you want”",
-                      "“I keep our notes, the sketchbook, at docs/work/<work>/work.md”",
-                      "“the concert: I build what we agreed on its own branch”"):
+                      "“I keep our notes, the sketchbook, at <where the record actually lives>”",
+                      "“the concert: I build what we agreed apart from your files, and it joins them when you say”"):
             self.assertIn(gloss, skill)
         self.assertIn("The stage names (Understand, Shape, Agree, Deliver, Complete) stay as they are", skill)
 
@@ -178,7 +236,8 @@ class FinishNamesSwitchOut(unittest.TestCase):
 
     def test_skill_finish_must_hold(self):
         skill = read(SKILL)
-        self.assertIn("When the agreed goal is met and nothing is outstanding, the controlling "
+        self.assertIn("When the agreed goal is met and nothing is outstanding, a finished "
+                      "revision or requested change to delivered work included, the controlling "
                       "session runs Switch Out itself, unasked, and says so in plain words "
                       "naming `/kerd:switch out`", skill)
         self.assertIn("`> 💬 **Put this down for today with /kerd:switch out?**`", skill)

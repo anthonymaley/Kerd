@@ -300,7 +300,10 @@ python3 /path/to/conductor/scripts/ask.py --project /path/to/project run \
   --model VERIFIED_MODEL --effort SUPPORTED_EFFORT --background
 ```
 
-Omit `--background` for foreground work. Omit model/effort only when deliberately
+Omit `--background` for foreground work, never for a dispatch a go covers: that
+starts in the background so its row can end the response that sends it, or, on a
+route that cannot, its row is shown as the turn's first text before any tool call
+([where the grid goes](orchestration.md#one-visible-startup-view)). Omit model/effort only when deliberately
 using native defaults; record that choice and any unknown resolved value.
 Omit `--write` for review. Add it only for an authorized editing job, with the
 file boundary stated in its prompt. Claude workers have file tools, not Bash

@@ -16,7 +16,7 @@ money, cannot be undone or falls outside what you agreed. You decide when
 rehearsal ends, and nothing is performed that you have not agreed.
 
 **Who it is for:** people already working in Claude Code, in a project folder
-tracked by Git. If your work is not in Git yet, [two commands set it
+tracked by Git. If your work is not in Git yet, [a few steps set it
 up](docs/guide/getting-started.md#if-your-work-isnt-in-git-yet), and you do not
 need GitHub. Kerd does not replace Claude Code. **How new it is:** picking work up
 and putting it down has been in daily use for months. Rehearsal and the concert
@@ -95,6 +95,10 @@ claude plugin marketplace add anthonymaley/Kerd
 claude plugin install kerd@kerd-marketplace
 ```
 
+Type these in a terminal, not inside a Claude Code session. If the first prints
+"SSH clone failed, retrying with HTTPS", that is normal without a GitHub key; it
+succeeds on the retry.
+
 **Try a version before adopting it**, without installing it:
 
 ```
@@ -109,7 +113,7 @@ records one line of usage in your `~/.claude.json`. Tested in a throwaway
 profile on 2026-09-20. Which copy's skill text a running session prefers has not
 been tested.
 
-**If your work is not in Git yet,** [two short steps set it
+**If your work is not in Git yet,** [a few steps set it
 up](docs/guide/getting-started.md#if-your-work-isnt-in-git-yet), and a remote such
 as GitHub is optional.
 
@@ -148,9 +152,9 @@ work on and Conductor will shape it with you.") and you answer with what you wan
 to work on. When you come back for a second sitting it looks like this. The grid
 has no TEAM cell when there is no Claude or Codex pairing, as here; it says "not
 recorded" if the team could not be read. This is an illustration for an invented
-project, shortened, not output from a real one:
+project, shortened (the heading shows 0.x.y where yours shows the version you installed), not output from a real one:
 
-> **TALLY · SWITCH IN COMPLETE ✓ · Kerd 0.196.0**
+> **TALLY · SWITCH IN COMPLETE ✓ · Kerd 0.x.y**
 >
 > | PROJECT | PHASE | NEXT |
 > | --- | --- | --- |
@@ -181,7 +185,7 @@ go. When you stop:
 
 That saves the place: what changed, what got settled, and what the next Switch In
 will offer, the recommended next step first, each with its reason.
-The following sitting starts from it, here, or on another machine once the saved work has been pushed and is available there.
+The following sitting starts from it, here, or on another machine once the saved work has been pushed (sent to a remote copy, such as one on GitHub) and is available there.
 
 That is the whole path: `/kerd:switch in`, work, `/kerd:switch out`. Claude Code
 may ask before Kerd runs its own helper scripts, depending on your permission
@@ -234,7 +238,7 @@ working state is meant to stay out of Git, under `.agents/` and parts of
 Switch Out saves them with Git, trying to create the session log and `TODO.md` the first
 time if they are missing (its closing box says if it could not), and it commits the files it names and nothing
 else. It pushes when you have given it the authority to push. If the project has
-no remote, a save that stays on this computer is a valid choice: Out says "Saved on this computer; no Git remote is configured" and still offers the restart line, and
+no remote, a save that stays on this computer is a valid choice: Out says "Saved on this computer only; no other copy was checked" and still offers the restart line, and
 no push permission or GitHub access is needed. If the project does have a remote
 and the saved commit has not been pushed to it, Out warns you to push before you
 switch devices and keeps the session open until you have.
@@ -357,9 +361,28 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.196.0)
+## What's New (v0.197.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.197.0
+
+**Kerd is ready for its first invited users, developers or not.** A second simulated first user, a product marketer
+writing a launch brief with no Git experience, finished the work and came back to it, and found what still confused
+them; this release fixes it. Conductor puts a document you'll use beside your own files, names its work folder from
+your words, edits only what the agreed work covers and asks before changing your own notes, asks once what format a
+document for other people should be in, puts the work down after a finished revision, and says "saved" rather than
+git's words to someone who doesn't use them. Its staffing grid now reaches the screen: on Claude Code 2.1.319 text
+written between tool calls is shown only as a summary, so Conductor starts its helpers in the background and ends that
+reply with the grid (in a test eval, grid shown in 4 of 6 runs, from 0 of 6). Switch In names the project from its
+README, recommends your own next item instead of saying nothing is actionable, and shows only urgent risks under
+Attention; Switch Out names every file the sitting changed in one question, checks that the next step's files exist,
+says what Kerd's own files are the first time, keeps its measurement lines under a heading marked for Kerd, and speaks
+in plain words with the git term in brackets. The chat roll no longer refuses its own session over a `[1m]` model
+suffix, and a wrong model no longer uses up the roll. The getting-started guide lists the permission prompts a first
+sitting asks, sets your git name before the first commit and explains git's words; a new page for invited users and a
+"Something broke or confused me" issue template say how to report a problem. `tools/plugin_release.py` builds a slim
+install package (1.6 MB instead of 39 MB) that `ship` can publish; users are not switched to it yet.
 
 ### v0.196.0
 

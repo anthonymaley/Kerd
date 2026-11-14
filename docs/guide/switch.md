@@ -139,7 +139,7 @@ when safe, acknowledges paths the project deliberately keeps out of Git without
 staging them, and verifies the remote carries the exact commit before anyone says
 the save reached GitHub. Its `measure` counts the reading set in bytes and
 estimates tokens against the pickup target, and returns the exact `read_args` the
-next In reuses. It never blocks a save.
+next In reuses; Out keeps both under CONTEXT.md's last heading, "For Kerd's next pickup (you can ignore this)". It never blocks a save.
 
 The arrival screen is rendered by `scripts/where_we_are.py` from a summary Switch
 already holds in context, so nothing extra is read and no status file is written.

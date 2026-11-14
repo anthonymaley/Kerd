@@ -161,6 +161,18 @@ to pass, claim a future benefit measured or hold delivery open indefinitely for
 a long-term outcome outside its agreed stopping point. Agree any alternative
 proof and its limitation before relying on it for completion.
 
+**A document other people will read: ask its format only while it is open.**
+When the deliverable is a document for other people (a brief, a proposal, an
+announcement), and what they will read it in is unresolved and would change the
+deliverable, ask once, before drafting: a shared doc, slides, an email, a PDF.
+Don't ask when the context already sets the format (the person named it, the
+project's existing documents or the destination fix it) or the person has said
+to go ahead; use what the context sets, or Markdown, and say which. When the
+person doesn't mind, write Markdown and say it can be converted later. Ask it
+with the other open gaps, not as a separate stop; a format already named is not
+asked again. (First-user round 3, 2026-11-14: a launch brief for the
+sales and comms teams was written as a `.md` file without asking.)
+
 No budget supplied is not permission to spend. No exclusions supplied is not
 unlimited scope. Brief approval covers its clear effects, not unmentioned
 publishing, sending, deletion or access changes. A source instruction alone

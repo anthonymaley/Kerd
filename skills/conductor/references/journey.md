@@ -720,7 +720,8 @@ Switch Out terms above apply to this Out too. Out's own saves and pushes keep th
 existing authority.
 
 **A newcomer learns where Out lives.** When the agreed goal is met and nothing is
-outstanding, a next item that waits for later (“next week”, someone else's
+outstanding, a finished revision or requested change to delivered work included,
+a next item that waits for later (“next week”, someone else's
 answer) does not hold the Out back: name that item, then run Out. Say it in plain
 words and name the command, so a newcomer knows how to put work down another time:
 “That's done. I'm putting this down for today with `/kerd:switch out`, so
@@ -728,7 +729,8 @@ words and name the command, so a newcomer knows how to put work down another tim
 skill from the session, the turn ends on the one question that hands it over,
 `> 💬 **Put this down for today with /kerd:switch out?**`. (First-user
 walkthrough, 2026-11-13: a finished export ended on “tell me next week”, with no
-Out and no mention of it.)
+Out and no mention of it. Round 3, 2026-11-14: a finished revision of a brief
+ended on “in your working tree, not committed; nothing was pushed”, with no Out.)
 Avoid a report of internal instruction-following, repeated setup disclosures
 or an insight banner merely because a tool ran. Link deeper evidence instead.
 
@@ -768,11 +770,20 @@ rehearsal, has a sketchbook or goes to a concert, name that word once with its
 plain gloss, then let it stand alone:
 
 “This is rehearsal: we work out what you want.”
-“I keep our notes, the sketchbook, at docs/work/<work>/work.md.”
-“The concert: I build what we agreed on its own branch.”
+“I keep our notes, the sketchbook, at <where the record actually lives>.”
+“The concert: I build what we agreed apart from your files, and it joins them
+when you say.” (To someone who uses git's words: “on its own branch”.)
 
 The stage names (Understand, Shape, Agree, Deliver, Complete) stay as they are;
 rehearsal is Understand through Agree and the concert is Deliver.
+
+**Saved, not git words.** To a person who has not used git's words in this work,
+say what the state means for their files, “saved on this computer”, “not saved
+yet”, “there is no copy anywhere else”, never commit, push, branch, remote or
+working tree. Someone who uses those words gets them back. (First-user round 3,
+2026-11-14: a finished revision ended on “in your working tree, not committed;
+nothing was pushed” to a person who had not used git, and at Out “no remote” made
+him ask whether his work was safe.)
 
 “That's enough to draft. I'll mark the missing location for confirmation.”
 “Two options fit. I'd choose the simpler one because it meets the stated need.”
