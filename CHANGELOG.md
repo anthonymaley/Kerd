@@ -8,7 +8,7 @@ fixes their wording: Switch In no longer names a project after whichever notes f
 then `notes.md`, then the folder name), and asked what a word means, Kerd explains it and never claims it wasn't said,
 keeping git's words out of its progress lines for someone who hasn't used them. Someone who asks for technical detail
 to be kept out of the way now has that wish saved, in the work notes and in `CONTEXT.md`, so the next sitting keeps it.
-Switch Out pipes its inputs to its scripts instead of writing a temporary file; its release cell is filled from four
+Switch Out pipes its inputs to its scripts by default instead of writing a temporary file (a file only you can read on a machine shared with other accounts, or where a host cannot pipe); its release cell is filled from four
 reads made first; and the getting-started guide's permissions section names what a first Switch In actually asks to
 run. Wording only: no script changed, and none of it has been walked again yet.
 

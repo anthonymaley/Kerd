@@ -124,8 +124,8 @@ names the guide section with its detail: open that section before the step.
   staffing approval. A person who asked to keep technical detail out of the way, or
   is plainly not technical, gets one plain line: no stage label, no agents or helpers
   unless one is started, no rehearsal or sketchbook words until they matter
-  ([Enter work](references/entry.md#enter-work-not-another-pickup)). Save that
-  preference in their words on the sketchbook's `How they want it:` line, and read
+  ([Enter work](references/entry.md#enter-work-not-another-pickup)). Save a
+  preference they stated in their words on the sketchbook's `How they want it:` line, and read
   that line back on entering existing work before the first reply.
 - Sustained authorized local work requiring automatic context continuation enters
   [managed Conductor](references/managed-conductor.md) from the outset, using only

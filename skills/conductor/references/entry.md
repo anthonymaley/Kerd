@@ -95,8 +95,10 @@ no rehearsal or sketchbook words until they matter to something the person does.
 (First-user round 4, 2026-11-14: after “keep the technical stuff out of my way”,
 the first turn opened with a stage label, “not handing any of it to other agents”,
 “rehearsal” and “the sketchbook”.)
-Save that preference in their words on the sketchbook's `How they want it:` line
-([the record](work-record.md)). On entering existing work, read that line before
+When they stated it, save that preference in their words on the sketchbook's
+`How they want it:` line ([the record](work-record.md)); being plainly not
+technical, or saying “I'm not a developer”, shapes this sitting's words but is
+never saved as a preference. On entering existing work, read that line before
 the first reply and follow it as written, from the first word, even in a fresh
 session that never heard them say it: this paragraph applies only when the line
 asks for less technical detail; a line asking for more (“show me the commands”)

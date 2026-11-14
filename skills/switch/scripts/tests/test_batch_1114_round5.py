@@ -93,6 +93,22 @@ class TechnicalDetailPreferenceCarried(unittest.TestCase):
                       "`Person's preference (<date>): “…”` line), quoted in the person's words",
                       guide("references/in.md"))
 
+    def test_only_a_stated_preference_is_saved(self):
+        # Codex round 3: a self-description is not a stated preference.
+        text = guide("references/out.md")
+        self.assertNotIn("“I'm not a developer”, “show me the commands”), save it", text)
+        self.assertIn("a self-description (“I'm not a developer”) or an impression shapes this "
+                      "sitting's words but is never saved as one", text)
+
+
+class OutKeepsProgressLinesPlain(unittest.TestCase):
+    """New 3, in Switch Out's own guide (Codex round 3): Out need not load Conductor's."""
+
+    def test_progress_lines_and_never_deny_a_word(self):
+        text = guide("references/out.md")
+        self.assertIn("That includes the short progress lines between steps, which the person sees too", text)
+        self.assertIn("never claim it wasn't said", text)
+
 
 if __name__ == "__main__":
     unittest.main()

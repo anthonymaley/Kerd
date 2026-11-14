@@ -54,8 +54,11 @@ class SaveHowTheyWantIt(unittest.TestCase):
 
     def test_entry_reads_it_back(self):
         entry = read(REFS / "entry.md")
-        self.assertIn("Save that preference in their words on the sketchbook's `How they want "
-                      "it:` line", entry)
+        self.assertIn("When they stated it, save that preference in their words on the "
+                      "sketchbook's `How they want it:` line", entry)
+        # Codex round 3: a self-description is never saved as a preference.
+        self.assertIn("saying “I'm not a developer”, shapes this sitting's words but is never "
+                      "saved as a preference", entry)
         self.assertIn("On entering existing work, read that line before the first reply and "
                       "follow it as written, from the first word, even in a fresh session that "
                       "never heard them say it", entry)
@@ -63,9 +66,9 @@ class SaveHowTheyWantIt(unittest.TestCase):
         self.assertIn("this paragraph applies only when the line asks for less technical detail; "
                       "a line asking for more (“show me the commands”) gets that instead.", entry)
         skill = read(SKILL)
-        self.assertIn("Save that preference in their words on the sketchbook's `How they want "
-                      "it:` line, and read that line back on entering existing work before the "
-                      "first reply.", skill)
+        self.assertIn("Save a preference they stated in their words on the sketchbook's `How "
+                      "they want it:` line, and read that line back on entering existing work "
+                      "before the first reply.", skill)
 
 
 class GuidePromptsMatchAFirstArrival(unittest.TestCase):
