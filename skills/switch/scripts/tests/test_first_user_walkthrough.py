@@ -396,7 +396,8 @@ class HandoverExampleTests(unittest.TestCase):
     def test_model_effort_evidence_is_conditional(self):
         text = guide("references/in.md")
         self.assertIn("with current model/effort evidence only for jobs dispatched to contributors "
-                      "(one task Conductor does itself gets one plain line instead)", text)
+                      "(one task Conductor does itself gets one plain line instead; a saved preference "
+                      "for less technical detail drops the stage label too)", text)
         self.assertNotIn("Shape, current model/effort evidence, owner", text)
 
 
