@@ -97,8 +97,10 @@ the first turn opened with a stage label, “not handing any of it to other agen
 “rehearsal” and “the sketchbook”.)
 Save that preference in their words on the sketchbook's `How they want it:` line
 ([the record](work-record.md)). On entering existing work, read that line before
-the first reply: if it is there, this paragraph applies from the first word, even
-in a fresh session that never heard them say it. (First-user round 5: the second
+the first reply and follow it as written, from the first word, even in a fresh
+session that never heard them say it: this paragraph applies only when the line
+asks for less technical detail; a line asking for more (“show me the commands”)
+gets that instead. (First-user round 5: the second
 sitting opened “Conductor · Shape” because nothing had saved it.)
 
 With missing context, bounded local orientation may establish the stage and job

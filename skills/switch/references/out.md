@@ -253,7 +253,8 @@ in their own words and dated, as one line:
 `Person's preference (2026-11-14): “keep the technical stuff out of my way”.`
 Reconcile an existing line rather than adding a second; drop it only when they
 take it back. It is a standing preference, not a ruling about the work, and Switch
-In passes it to Conductor so a fresh session does not lead with Kerd's stage words.
+In passes it to Conductor, which follows it as written: less detail means a fresh
+session does not lead with Kerd's stage words; more detail means it shows them.
 
 Historical decisions needed by a future feature remain discoverable by subject;
 the active memory must include constraints that affect the next work. Be explicit
@@ -325,8 +326,12 @@ order, each leaving a reachable link behind:
    with one phrase per line that only its owner can read, or `--carry-file -`
    to pipe them on stdin. Never pass a phrase as a bare argument: argv is
    visible to other local accounts on the machine. **Pipe them on stdin**, one
-   phrase per line, with the shell's own `printf` (a builtin, so the phrases
-   never reach a process list):
+   phrase per line, with the shell's own `printf`. That keeps them out of the
+   helper's arguments, but a host that runs the whole command through `sh -c`
+   still shows that shell's command line, phrases included, so a carry phrase
+   never holds a secret. On a machine shared with other accounts, write them to
+   an owner-only file instead (`mktemp` creates one readable only by you) and say
+   so:
 
    ```sh
    printf '%s\n' 'first finding' 'second finding' | python3 /path/to/switch/scripts/handoff.py \
@@ -334,11 +339,12 @@ order, each leaving a reachable link behind:
      --file kivna/sessions/<date>.md --carry-file -
    ```
 
-   Do not make a temporary file for them: `mktemp`, a write and an `rm` outside
-   the project are three permission prompts a new user cannot judge. Every Out
-   input that accepts `-` goes on stdin the same way (`measure --carry-file -`,
-   the closing box's `--closing -`). Only where a host cannot pipe at all, make
-   the file with `mktemp`, remove it after the call, and say so in that turn;
+   Otherwise do not make a temporary file for them: `mktemp`, a write and an `rm`
+   outside the project are three permission prompts a new user cannot judge. Every
+   Out input that accepts `-` goes on stdin the same way (`measure --carry-file -`,
+   the closing box's `--closing -`). Only on a shared machine or where a host
+   cannot pipe at all, make the file with `mktemp`, remove it after the call, and
+   say so in that turn;
    never a fixed name in a shared folder such as
    `/tmp`, where another project's run can read or overwrite it. A phrase `measure` reports
    as not in the reading set is fixed by writing it into CONTEXT.md or TODO.md,

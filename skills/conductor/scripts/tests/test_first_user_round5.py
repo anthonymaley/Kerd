@@ -52,9 +52,12 @@ class SaveHowTheyWantIt(unittest.TestCase):
         entry = read(REFS / "entry.md")
         self.assertIn("Save that preference in their words on the sketchbook's `How they want "
                       "it:` line", entry)
-        self.assertIn("On entering existing work, read that line before the first reply: if it "
-                      "is there, this paragraph applies from the first word, even in a fresh "
-                      "session that never heard them say it.", entry)
+        self.assertIn("On entering existing work, read that line before the first reply and "
+                      "follow it as written, from the first word, even in a fresh session that "
+                      "never heard them say it", entry)
+        # Codex round 1: a saved wish for MORE detail must not switch on the plain-words rule.
+        self.assertIn("this paragraph applies only when the line asks for less technical detail; "
+                      "a line asking for more (“show me the commands”) gets that instead.", entry)
         skill = read(SKILL)
         self.assertIn("Save that preference in their words on the sketchbook's `How they want "
                       "it:` line, and read that line back on entering existing work before the "

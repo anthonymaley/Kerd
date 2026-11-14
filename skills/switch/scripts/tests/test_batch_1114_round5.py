@@ -44,9 +44,12 @@ class OutInputsOnStdin(unittest.TestCase):
         self.assertIn("**Pipe them on stdin**", text)
         self.assertIn("printf '%s\\n' 'first finding' 'second finding' | python3", text)
         self.assertIn("--carry-file -", text)
-        self.assertIn("Do not make a temporary file for them", text)
-        self.assertIn("Only where a host cannot pipe at all, make the file with `mktemp`, remove it after "
-                      "the call, and say so in that turn", text)
+        self.assertIn("Otherwise do not make a temporary file for them", text)
+        self.assertIn("Only on a shared machine or where a host cannot pipe at all, make the file with "
+                      "`mktemp`, remove it after the call, and say so in that turn", text)
+        # Codex round 1: piping does not hide the phrases from a host's `sh -c` command line.
+        self.assertIn("a carry phrase never holds a secret", text)
+        self.assertNotIn("never reach a process list", text)
 
     def test_in_and_skill_md_agree(self):
         self.assertIn("Every Switch input that accepts `-` goes on stdin, never through a temporary file",
