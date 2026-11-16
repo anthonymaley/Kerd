@@ -25,6 +25,8 @@ full read of its prompting guide, beside the unchanged Sonnet 5 profile, because
 Code's `sonnet` alias moved to Sonnet 5.5 on 2026-09-28.
 The 2026-10-09 addition is a Haiku 5.5 profile (`anthropic/haiku-5-5.md`), from Anthropic's
 docs only, with no matched Kerd comparison yet.
+The 2026-11-16 addition is a Fable 5.2 profile (`anthropic/fable-5-2.md`), from Anthropic's docs only,
+beside the unchanged Fable 5.1 profile, which the models overview still lists.
 No model default, pricing, native permission or account setting changed.
 
 ## What is stored
