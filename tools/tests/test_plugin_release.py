@@ -6,13 +6,36 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from tools.plugin_release import ROOT, commit, git, main, prepare, publish, select, tracked
+from tools.plugin_release import (ROOT, branch_marketplace, commit, git, main, prepare, publish, select,
+                                  tracked)
 
 
 def bare_git(bare, *args):
     """git inside a bare fixture remote: --git-dir names it explicitly, which safe.bareRepository=explicit allows."""
     return subprocess.run(["git", "--git-dir", str(bare), *args], check=True, capture_output=True,
                           text=True).stdout.strip()
+
+
+OVERTONE = {
+    ".claude-plugin/plugin.json": json.dumps({"name": "overtone", "version": "0.10.1"}),
+    "hooks/hooks.json": json.dumps({"modules": ["./index.tsx"]}),
+    "hooks/index.tsx": "export default {}\n",
+    "types/index.d.ts": "export {}\n",
+    "tests/logic.test.ts": "// shipped as tracked\n",
+}
+
+
+def marketplace(version, kerd_source=None, extra=None, overtone_source="./mods/overtone", **top):
+    """The shape main's marketplace.json has: kerd from the plugin branch, overtone by relative path."""
+    kerd = {"name": "kerd",
+            "source": kerd_source or {"source": "url", "url": "https://example.invalid/Kerd.git",
+                                      "ref": "plugin"},
+            "description": "Kerd fixture", "version": version, "strict": True}
+    overtone = {"name": "overtone", "source": overtone_source, "description": "Overtone fixture",
+                "version": "0.10.1"}
+    return {"name": "kerd-marketplace", "owner": {"name": "Fixture Owner"},
+            "metadata": {"description": "Fixture marketplace", "version": version},
+            "plugins": [kerd, overtone, *(extra or [])], **top}
 
 
 class PluginReleaseTests(unittest.TestCase):
@@ -39,9 +62,12 @@ class PluginReleaseTests(unittest.TestCase):
         self.write("hooks/session-start.sh", "exit 0\n")
         self.write("README.md", "Kerd\n")
         self.write("LICENSE", "Fixture license\n")
+        # Overtone, the companion mod: its whole tracked folder ships, TypeScript included.
+        for name, text in OVERTONE.items():
+            self.write(f"mods/overtone/{name}", text)
         for private in ("CONTEXT.md", "TODO.md", "CHANGELOG.md", "docs/big.png", "evals/case.json",
                         "site/index.html", "kivna/sessions/log.md", "Sensei Input/notes.md",
-                        "mods/overtone/.claude-plugin/plugin.json", "tools/release.py"):
+                        "mods/other/.claude-plugin/plugin.json", "tools/release.py"):
             self.write(private, "not for users\n")
         self.version("1.0.0")
         self.remote = self.root / "remote.git"
@@ -54,10 +80,9 @@ class PluginReleaseTests(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text)
 
-    def version(self, version):
+    def version(self, version, **changes):
         self.write(".claude-plugin/plugin.json", json.dumps({"name": "kerd", "version": version}))
-        self.write(".claude-plugin/marketplace.json", json.dumps(
-            {"metadata": {"version": version}, "plugins": [{"name": "kerd", "version": version}]}))
+        self.write(".claude-plugin/marketplace.json", json.dumps(marketplace(version, **changes)))
         self.commit(version)
 
     def commit(self, message):
@@ -81,18 +106,19 @@ class PluginReleaseTests(unittest.TestCase):
         before = git(self.repo, "status", "--porcelain")
         output, release, report, made, parent = self.build("package")
         self.assertEqual(release, {"version": "1.0.0", "source_commit": head})
-        self.assertEqual(self.files(output), [
-            ".claude-plugin/plugin.json", "LICENSE", "README.md", "agents/opus-high.md",
-            "hooks/hooks.json", "hooks/session-start.sh", "release.json",
+        self.assertEqual(self.files(output), sorted([
+            ".claude-plugin/marketplace.json", ".claude-plugin/plugin.json", "LICENSE", "README.md",
+            "agents/opus-high.md", "hooks/hooks.json", "hooks/session-start.sh", "release.json",
             "skills/switch/SKILL.md", "skills/switch/scripts/where_we_are.py",
-            "skills/visuals/LICENSE", "skills/visuals/SKILL.md"])
+            "skills/visuals/LICENSE", "skills/visuals/SKILL.md",
+            *(f"mods/overtone/{name}" for name in OVERTONE)]))
         self.assertNotIn("uncommitted", (output / "skills/switch/SKILL.md").read_text())
         self.assertEqual(git(self.repo, "status", "--porcelain"), before)
         self.assertIsNone(parent)
         self.assertEqual(git(output, "rev-parse", "refs/heads/plugin"), made)
         self.assertEqual(git(output, "status", "--porcelain"), "")
         self.assertLess(report["bytes"], report["source_bytes"])
-        self.assertEqual(report["files"], 11)
+        self.assertEqual(report["files"], 12 + len(OVERTONE))
 
     def test_nothing_is_pushed_without_publish(self):
         self.build("package")
@@ -244,6 +270,71 @@ class PluginReleaseTests(unittest.TestCase):
             publish(third, release, str(self.remote))
         self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/plugin"), first_commit)
 
+    def test_the_branch_is_a_marketplace_generated_from_the_commit(self):
+        output, _release, _report, _made, _parent = self.build("package")
+        source = marketplace("1.0.0")
+        generated = json.loads((output / ".claude-plugin/marketplace.json").read_text())
+        for key in ("name", "owner", "metadata"):
+            self.assertEqual(generated[key], source[key])
+        kerd, overtone = generated["plugins"]
+        # kerd's own plugin root is the branch root, where plugin.json sits.
+        self.assertEqual(kerd, {**source["plugins"][0], "source": "./"})
+        self.assertEqual(overtone, source["plugins"][1])
+        self.assertTrue((output / ".claude-plugin/plugin.json").is_file())
+        self.assertTrue((output / "mods/overtone/.claude-plugin/plugin.json").is_file())
+        # Overtone's folder is exactly what git tracks there, no more.
+        tracked_overtone = git(self.repo, "ls-files", "mods/overtone").splitlines()
+        shipped = [p for p in self.files(output) if p.startswith("mods/")]
+        self.assertEqual(shipped, sorted(tracked_overtone))
+        for name, text in OVERTONE.items():
+            self.assertEqual((output / "mods/overtone" / name).read_text(), text)
+
+    def test_marketplace_entries_and_sources_it_cannot_classify_refuse(self):
+        cases = {
+            "unknown entry": (dict(extra=[{"name": "stranger", "source": "./mods/stranger"}]),
+                              "must be exactly kerd, overtone"),
+            "dotdot": (dict(overtone_source="./mods/../mods/overtone"), "may not contain \\.\\."),
+            "parent": (dict(overtone_source="../overtone"), "must start with ./"),
+            "other folder": (dict(overtone_source="./mods/other"), "must be ./mods/overtone"),
+            "bare kerd": (dict(kerd_source="./"), "not a form the generator can classify"),
+            "kerd subdir": (dict(kerd_source={"source": "git-subdir", "url": "x", "path": "y"}),
+                            "not a form the generator can classify"),
+            "kerd sha": (dict(kerd_source={"source": "url", "url": "x", "ref": "plugin", "sha": "a" * 40}),
+                         "not a form the generator can classify"),
+            "kerd main": (dict(kerd_source={"source": "github", "repo": "o/r", "ref": "main"}),
+                          "ref must be 'plugin'"),
+            "top field": (dict(renames={"old": None}), "unknown top-level field"),
+        }
+        for name, (changes, message) in cases.items():
+            with self.subTest(name):
+                base = git(self.repo, "rev-parse", "HEAD")
+                self.version("1.0.0", **changes)
+                output = self.root / name.replace(" ", "-")
+                with self.assertRaisesRegex(ValueError, message):
+                    prepare(output, repo=self.repo)
+                self.assertFalse(output.exists())
+                git(self.repo, "reset", "-q", "--hard", base)
+
+    def test_a_missing_overtone_folder_or_typescript_outside_a_mod_refuses(self):
+        cases = {
+            "no overtone": (lambda: (self.repo / "mods/overtone/.claude-plugin/plugin.json").unlink(),
+                            "mods/overtone/.claude-plugin/plugin.json"),
+            "ts in skills": (lambda: self.write("skills/switch/scripts/x.ts", "x\n"),
+                             "Review new package file type"),
+            "new type in mod": (lambda: self.write("mods/overtone/hooks/logo.png", "png"),
+                                "Review new package file type"),
+        }
+        for name, (change, message) in cases.items():
+            with self.subTest(name):
+                base = git(self.repo, "rev-parse", "HEAD")
+                change()
+                self.commit(name)
+                output = self.root / name.replace(" ", "-")
+                with self.assertRaisesRegex(ValueError, message):
+                    prepare(output, repo=self.repo)
+                self.assertFalse(output.exists())
+                git(self.repo, "reset", "-q", "--hard", base)
+
     def test_this_repository_packages_cleanly(self):
         # The real tree must pass the allowlist: a new file type or a hook script
         # moved outside hooks/ shows up here before it reaches a release.
@@ -255,8 +346,18 @@ class PluginReleaseTests(unittest.TestCase):
         self.assertIn("docs/vault-spec.md", chosen)
         self.assertIn("docs/state-contract.md", chosen)
         allowed_docs = {"docs/vault-spec.md", "docs/state-contract.md"}
+        # Overtone's folder ships exactly as tracked, and the generated catalog lists both plugins.
+        overtone = git(ROOT, "ls-tree", "-r", "--name-only", head, "mods/overtone").splitlines()
+        self.assertTrue(overtone)
+        self.assertEqual([p for p in chosen if p.startswith("mods/")], sorted(overtone))
+        source = json.loads(git(ROOT, "show", f"{head}:.claude-plugin/marketplace.json"))
+        generated = branch_marketplace(source, chosen)
+        self.assertEqual([(e["name"], e["source"]) for e in generated["plugins"]],
+                         [("kerd", "./"), ("overtone", "./mods/overtone")])
+        self.assertEqual({k: generated[k] for k in ("name", "owner", "metadata")},
+                         {k: source[k] for k in ("name", "owner", "metadata")})
         for path in chosen:
-            if path in allowed_docs:
+            if path in allowed_docs or path in overtone:
                 continue
             self.assertFalse(path.startswith(("docs/", "evals/", "site/", "kivna/", "mods/", "tools/")), path)
             self.assertNotRegex(path, r"^skills/[^/]+/scripts/tests/")

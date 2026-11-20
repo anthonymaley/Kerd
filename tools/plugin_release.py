@@ -4,7 +4,17 @@
 Installing Kerd from its marketplace used to copy the whole repository (docs,
 images, evals, site, Kerd's own records) into every user's plugin cache. This
 tool builds only what the installed plugin reads at runtime, from one exact
-commit, into a fresh directory that is a git repository on branch `plugin`.
+commit, into a fresh directory that is a git repository on branch `plugin`:
+`.claude-plugin/plugin.json`, `skills/`, `agents/`, `hooks/`, README.md,
+LICENSE, the two docs Kivna reads, `release.json`, overtone's tracked folder
+`mods/overtone/`, and a `.claude-plugin/marketplace.json`.
+
+That marketplace.json makes the branch a marketplace of its own
+(`claude plugin marketplace add owner/repo#plugin`). It is generated from the
+same commit's `.claude-plugin/marketplace.json`, never kept by hand: same
+`name`, `owner` and `metadata`; the kerd entry's source becomes `"./"` (the
+branch root, where plugin.json sits) and overtone keeps `./mods/overtone`. Any
+other plugin entry, field or source form refuses the build.
 
 The new commit's parent is the remote's current `plugin` tip when one exists,
 so the branch only ever appends. Nothing is pushed unless --publish is given,
@@ -13,8 +23,9 @@ and even then the push is leased on the checked tip
 checkout, its index and user configuration are never changed.
 
 Fail-closed: a file the allowlist cannot classify, a symlink, a missing
-required file, a hook script hooks.json names but the tree lacks, or a remote
-that cannot be read all refuse the build rather than being treated as absent.
+required file, a hook script hooks.json names but the tree lacks, a marketplace
+entry or source the generator cannot classify, or a remote that cannot be read
+all refuse the build rather than being treated as absent.
 """
 import argparse
 import json
@@ -29,12 +40,15 @@ BRANCH = "plugin"
 MAIN = "refs/heads/main"
 
 # What the installed plugin reads at runtime. Everything else in the repository
-# (the rest of docs/, evals/, site/, examples/, kivna/, tools/, tests/, mods/, CONTEXT.md,
-# TODO.md, CHANGELOG.md, ...) stays out of the user's plugin cache.
+# (the rest of docs/, evals/, site/, examples/, kivna/, tools/, tests/, the rest of mods/,
+# CONTEXT.md, TODO.md, CHANGELOG.md, ...) stays out of the user's plugin cache.
 INCLUDE_FILES = (".claude-plugin/plugin.json", "README.md", "LICENSE",
                  # Kivna names these as its source of truth.
                  "docs/vault-spec.md", "docs/state-contract.md")
 INCLUDE_DIRS = ("skills", "agents", "hooks")
+# Companion plugins the generated marketplace lists by relative source: entry name
+# -> folder. Each folder is copied exactly as tracked, through the same allowlist.
+MODS = {"overtone": "mods/overtone"}
 # Inside the included directories, these are development-only and skipped.
 EXCLUDE_PARTS = ("__pycache__",)
 EXCLUDE_NAMES = (".DS_Store",)
@@ -42,6 +56,10 @@ EXCLUDE_SKILL_TESTS = re.compile(r"^skills/[^/]+/scripts/tests/")
 # A new file type inside an included directory is a decision, not a default.
 SUFFIXES = {".md", ".py", ".sh", ".json", ".html", ".txt"}
 NAMES = {"LICENSE"}
+# Decision (slim marketplace): a mod is a hooks module written in TypeScript
+# (`.ts`, `.tsx`, and `.d.ts`, whose suffix is `.ts`). Allowed inside a MODS folder
+# only; anywhere else they still refuse as a new type.
+MOD_SUFFIXES = {".ts", ".tsx"}
 # Kerd's own working records must never reach users, wherever they sit. A match
 # anywhere in an included path refuses the build rather than being skipped, so a
 # record that strays into skills/ is seen, not silently shipped or dropped.
@@ -49,8 +67,17 @@ NAMES = {"LICENSE"}
 PRIVATE_NAMES = {"CONTEXT.md", "TODO.md", "MEMORY.md", "CLAUDE.md", "vault.json", "settings.local.json"}
 PRIVATE_DIRS = {"sessions", ".claude", ".git", "Sensei Input"}
 PRIVATE_PATHS = (("docs", "work"), ("kivna", "sessions"))
-REQUIRED = (".claude-plugin/plugin.json", "hooks/hooks.json", "README.md", "LICENSE")
+REQUIRED = (".claude-plugin/plugin.json", "hooks/hooks.json", "README.md", "LICENSE",
+            *(f"{folder}/.claude-plugin/plugin.json" for folder in MODS.values()))
 HOOK_PATH = re.compile(r"\$\{CLAUDE_PLUGIN_ROOT\}/([^\"'\s]+)")
+MARKETPLACE = ".claude-plugin/marketplace.json"
+# The generated marketplace.json knows exactly these fields. Anything else in the
+# source's file refuses rather than being dropped or copied unread.
+MARKETPLACE_KEYS = ("name", "owner", "metadata", "plugins")
+ENTRY_KEYS = {"name", "source", "description", "version", "strict"}
+# The kerd entry on main points Claude Code at this branch; those are the only
+# remote forms the generator turns into "./".
+KERD_SOURCE_TYPES = {"url": {"source", "url", "ref"}, "github": {"source", "repo", "ref"}}
 
 
 def release_version(value):
@@ -103,12 +130,17 @@ def private(path):
     return None
 
 
+def in_mod(path):
+    return any(path.startswith(folder + "/") for folder in MODS.values())
+
+
 def select(entries):
     """Apply the allowlist. Returns the sorted package paths or raises."""
     chosen = []
     for path, (mode, kind, _size) in sorted(entries.items()):
         top = path.split("/", 1)[0]
-        if path not in INCLUDE_FILES and top not in INCLUDE_DIRS:
+        mod = in_mod(path)
+        if path not in INCLUDE_FILES and top not in INCLUDE_DIRS and not mod:
             continue
         pure = PurePosixPath(path)
         if (any(part in EXCLUDE_PARTS for part in pure.parts) or pure.name in EXCLUDE_NAMES
@@ -121,10 +153,71 @@ def select(entries):
             raise ValueError(f"Linked file is not packaged: {path}")
         if kind != "blob":
             raise ValueError(f"Submodule or non-file entry is not packaged: {path}")
-        if path not in INCLUDE_FILES and pure.suffix not in SUFFIXES and pure.name not in NAMES:
+        if (path not in INCLUDE_FILES and pure.suffix not in SUFFIXES and pure.name not in NAMES
+                and not (mod and pure.suffix in MOD_SUFFIXES)):
             raise ValueError(f"Review new package file type: {path}")
         chosen.append(path)
     return chosen
+
+
+def relative_source(value, label):
+    """A relative plugin source as Claude Code reads one: starts with ./, no
+    `..`, forward slashes only. Returns the folder it names ("" for the root)."""
+    if not isinstance(value, str) or not value.startswith("./"):
+        raise ValueError(f"{label}: a relative source must start with ./, got {value!r}")
+    if ".." in value or "\\" in value or "//" in value[1:]:
+        raise ValueError(f"{label}: relative source {value!r} may not contain .., a backslash or //")
+    return value[2:].rstrip("/")
+
+
+def branch_marketplace(source, chosen):
+    """The plugin branch's own marketplace.json, generated from the shipped
+    commit's: same name, owner and metadata; kerd at the branch root ("./");
+    each mod at its own folder. Fail-closed on anything it cannot classify."""
+    if not isinstance(source, dict):
+        raise ValueError(f"{MARKETPLACE} is not a JSON object")
+    unknown = sorted(set(source) - set(MARKETPLACE_KEYS))
+    if unknown:
+        raise ValueError(f"{MARKETPLACE}: unknown top-level field(s) {', '.join(unknown)}; "
+                         "teach the generator before shipping them")
+    for key in ("name", "owner", "plugins"):
+        if key not in source:
+            raise ValueError(f"{MARKETPLACE}: missing {key}")
+    plugins = source["plugins"]
+    if not isinstance(plugins, list) or not all(isinstance(entry, dict) for entry in plugins):
+        raise ValueError(f"{MARKETPLACE}: plugins must be a list of objects")
+    names = [entry.get("name") for entry in plugins]
+    expected = sorted(["kerd", *MODS])
+    if sorted(map(str, names)) != expected:
+        raise ValueError(f"{MARKETPLACE}: plugin entries must be exactly {', '.join(expected)}; "
+                         f"found {', '.join(map(str, names)) or 'none'}")
+    present = set(chosen)
+    generated = []
+    for entry in plugins:
+        name = entry["name"]
+        label = f"{MARKETPLACE} entry {name}"
+        unknown = sorted(set(entry) - ENTRY_KEYS)
+        if unknown:
+            raise ValueError(f"{label}: unknown field(s) {', '.join(unknown)}")
+        if "source" not in entry:
+            raise ValueError(f"{label}: no source")
+        src = entry["source"]
+        if name == "kerd":
+            kind = src.get("source") if isinstance(src, dict) else None
+            if kind not in KERD_SOURCE_TYPES or set(src) - KERD_SOURCE_TYPES[kind]:
+                raise ValueError(f"{label}: source {src!r} is not a form the generator can classify")
+            if src.get("ref") != BRANCH:
+                raise ValueError(f"{label}: source ref must be {BRANCH!r}, got {src.get('ref')!r}")
+            generated.append({key: ("./" if key == "source" else value) for key, value in entry.items()})
+            continue
+        folder = relative_source(src, label)
+        if folder != MODS[name] or src != f"./{MODS[name]}":
+            raise ValueError(f"{label}: source must be ./{MODS[name]}, got {src!r}")
+        if f"{folder}/.claude-plugin/plugin.json" not in present:
+            raise ValueError(f"{label}: {folder}/.claude-plugin/plugin.json is not in the package")
+        generated.append(dict(entry))
+    return {key: (generated if key == "plugins" else source[key])
+            for key in MARKETPLACE_KEYS if key in source}
 
 
 def strings(value):
@@ -178,21 +271,25 @@ def prepare(destination, ref="HEAD", repo=ROOT):
             raise ValueError("Plugin manifest name must be kerd")
         version = manifest["version"]
         release_version(version)
-        marketplace = json.loads((snapshot / ".claude-plugin/marketplace.json").read_text())
+        marketplace = json.loads((snapshot / MARKETPLACE).read_text())
         if (marketplace["metadata"]["version"] != version
                 or marketplace["plugins"][0]["version"] != version):
             raise ValueError("Source release versions disagree")
         check_complete(chosen, snapshot)
+        catalog = json.dumps(branch_marketplace(marketplace, chosen), indent=2, ensure_ascii=False) + "\n"
         # Validated before the destination exists, so a refusal leaves nothing behind.
         destination.mkdir(parents=True)
         for path in chosen:
             target = destination / path
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(snapshot / path, target)
+        (destination / MARKETPLACE).write_text(catalog, encoding="utf-8")
     release = {"version": version, "source_commit": commit}
     (destination / "release.json").write_text(json.dumps(release, indent=2) + "\n")
-    report = {"files": len(chosen) + 1,
-              "bytes": sum(entries[p][2] for p in chosen) + (destination / "release.json").stat().st_size,
+    written = ("release.json", MARKETPLACE)
+    report = {"files": len(chosen) + len(written),
+              "bytes": sum(entries[p][2] for p in chosen)
+              + sum((destination / name).stat().st_size for name in written),
               "source_files": len(entries),
               "source_bytes": sum(size for _mode, _kind, size in entries.values())}
     return release, report
