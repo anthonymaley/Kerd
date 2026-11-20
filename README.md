@@ -404,9 +404,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.200.0)
+## What's New (v0.200.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.200.1
+
+**0.200.1: Codex gets the chief-of-staff release too.** 0.200.0 reached Claude Code but stopped before publishing for Codex: the Codex package builder did not know the new test fixture files (`.txt` and `.json` golden outputs under a skill's `tests/fixtures/`). It now accepts them as reviewed data, only inside a `tests/fixtures` folder. Nothing else changes.
 
 ### v0.200.0
 

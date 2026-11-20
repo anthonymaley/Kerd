@@ -19,6 +19,15 @@ PACK = Path(__file__).resolve().parents[1]
 SKILLS = ("conductor", "switch", "visuals", "agent")
 SUFFIXES = {".md", ".py", ".html"}
 REVIEWED_FILES = {Path("skills/agent/scripts/requirements.txt")}
+# Test fixtures: golden outputs the skill tests compare against (0.200.0, Switch's
+# chief-of-staff off-path goldens). Reviewed as data, only inside a tests/fixtures folder.
+FIXTURE_SUFFIXES = {".txt", ".json"}
+
+
+def reviewed_fixture(relative):
+    parts = relative.parts
+    return (relative.suffix in FIXTURE_SUFFIXES
+            and any(parts[i:i + 2] == ("tests", "fixtures") for i in range(len(parts) - 1)))
 AGENT_LEVELS = ("low", "medium", "high", "xhigh", "max")
 
 
@@ -37,7 +46,8 @@ def inputs(pack):
                 continue
             if path.is_file():
                 if (path.suffix not in SUFFIXES and path.name != "LICENSE"
-                        and path.relative_to(root) not in REVIEWED_FILES):
+                        and path.relative_to(root) not in REVIEWED_FILES
+                        and not reviewed_fixture(path.relative_to(root))):
                     raise ValueError(f"Review new package file type: {path}")
                 result[path.relative_to(root)] = path
     for name in SKILLS:

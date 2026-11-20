@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.200.1
+
+**0.200.1: Codex gets the chief-of-staff release too.** 0.200.0 reached Claude Code but stopped before publishing for Codex: the Codex package builder did not know the new test fixture files (`.txt` and `.json` golden outputs under a skill's `tests/fixtures/`). It now accepts them as reviewed data, only inside a `tests/fixtures` folder. Nothing else changes.
+
 ## 0.200.0
 
 **0.200.0: an optional chief of staff can read every project's plan.** If you run one coordinating session, a chief of staff, over several projects, a file at `~/.config/kerd/chief-of-staff.json` names the projects it watches. In those projects, Conductor and Switch Out keep a ranked `### Queue` table at the top of `TODO.md`'s `## Now`: rank, task id, task, outcome, status, ETA and depends-on, with an `Updated` time. They write it only through a new helper, `cos.py write`, which checks the config again and refuses if the file changed underneath, as its last steps before writing (a change in the instant between that check and the write can still be lost). The chief of staff reads the tables on its own schedule; Kerd sends nothing. Switch In in the chief of staff's own project shows its role. Without the file, nothing changes: the same screens, records and steps as 0.199.0.
