@@ -319,6 +319,8 @@ class PluginReleaseTests(unittest.TestCase):
             "top field": (dict(renames={"old": None}), "unknown field\\(s\\) renames"),
             # Review finding 1: a url source with no url must not become "./".
             "kerd url missing": (dict(kerd_source={"source": "url", "ref": "plugin"}), "missing url"),
+            # Review r2 (low): a non-string source type is refused, not a TypeError.
+            "kerd source type a list": (dict(kerd_source={"source": [], "ref": "plugin"}), "not a form the generator can classify"),
             "kerd repo missing": (dict(kerd_source={"source": "github", "ref": "plugin"}), "missing repo"),
             "kerd ref missing": (dict(kerd_source={"source": "url", "url": "https://github.com/o/r.git"}),
                                  "missing ref"),

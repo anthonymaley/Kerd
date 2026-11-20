@@ -244,7 +244,7 @@ def branch_marketplace(source, chosen):
         src = entry["source"]
         if name == "kerd":
             kind = src.get("source") if isinstance(src, dict) else None
-            if kind not in KERD_SOURCE_SCHEMAS:
+            if not isinstance(kind, str) or kind not in KERD_SOURCE_SCHEMAS:
                 raise ValueError(f"{label}: source {src!r} is not a form the generator can classify")
             check_schema(src, KERD_SOURCE_SCHEMAS[kind], f"{label} source ({kind})")
             if src["ref"] != BRANCH:
