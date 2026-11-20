@@ -165,6 +165,45 @@ class OffPathGoldenTests(Fixture):
             with self.subTest(run=name):
                 self.assertEqual(self.helper(name), self.golden(name))
 
+    def config_present(self):
+        """A config this process can stat, so handoff goes on to load cos.py."""
+        config = self.base / "chief-of-staff.json"
+        config.write_text(json.dumps({"repo": str(self.project), "projects": "all", "skip": []}))
+        return patch.object(handoff, "COS_CONFIG", str(config))
+
+    def test_no_config_never_loads_cos_py(self):
+        """Review finding 2: the config's existence is checked before cos.py is imported or run."""
+        marker = self.base / "imported"
+        sentinel = self.base / "sentinel_cos.py"
+        sentinel.write_text(f"open({str(marker)!r}, 'w').close()\n"
+                            "def signal(*a, **k):\n"
+                            "    return {'on': True, 'is_cos_repo': False, 'why': 'x', 'config_error': None}\n")
+        before = set(sys.modules)
+        with patch.object(handoff, "COS_SCRIPT", sentinel), \
+                patch.object(handoff, "COS_CONFIG", str(self.base / "absent.json")), \
+                patch.object(handoff.importlib.util, "spec_from_file_location") as spec:
+            self.assertIsNone(handoff.chief_of_staff_signal(self.project, []))
+        spec.assert_not_called()
+        self.assertFalse(marker.exists())
+        self.assertNotIn("kerd_switch_cos", set(sys.modules) - before)
+        # The control: with the config present the same sentinel is loaded.
+        with patch.object(handoff, "COS_SCRIPT", sentinel), self.config_present():
+            self.assertEqual(handoff.chief_of_staff_signal(self.project, [])["on"], True)
+        self.assertTrue(marker.exists())
+
+    def test_no_config_never_loads_cos_py_end_to_end(self):
+        """Through the real helper: an empty HOME, and a cos.py the run must never touch."""
+        scripts = self.base / "scripts"
+        shutil.copytree(SCRIPTS, scripts, ignore=shutil.ignore_patterns("tests", "__pycache__"))
+        marker = self.base / "imported"
+        (scripts / "cos.py").write_text(f"open({str(marker)!r}, 'w').close()\nraise SystemExit(9)\n")
+        for name in RUNS:
+            with self.subTest(run=name):
+                code, out, err = run_helper(scripts / "handoff.py", self.project, self.home, RUNS[name])
+                self.assertEqual((code, err), (0, b""), err.decode())
+                self.assertEqual(out, self.golden(name))
+                self.assertFalse(marker.exists())
+
     def test_a_broken_cos_module_never_changes_the_off_path(self):
         broken = self.base / "cos.py"
         for body in ("raise RuntimeError('broken at import')\n",
@@ -173,11 +212,12 @@ class OffPathGoldenTests(Fixture):
                      "def signal(*a, **k):\n    return 'not a dict'\n",
                      "def signal(*a, **k):\n    return {'on': True, 'is_cos_repo': False, 'why': object()}\n"):
             broken.write_text(body)
-            with self.subTest(body=body.splitlines()[0]), patch.object(handoff, "COS_SCRIPT", broken):
+            with self.subTest(body=body.splitlines()[0]), patch.object(handoff, "COS_SCRIPT", broken), \
+                    self.config_present():
                 self.assertIsNone(handoff.chief_of_staff_signal(self.project, []))
 
     def test_a_missing_cos_module_is_off(self):
-        with patch.object(handoff, "COS_SCRIPT", self.base / "absent.py"):
+        with patch.object(handoff, "COS_SCRIPT", self.base / "absent.py"), self.config_present():
             self.assertIsNone(handoff.chief_of_staff_signal(self.project, []))
 
 
@@ -290,6 +330,16 @@ class RealSignalTests(Fixture):
         self.configure({"repo": str(self.project), "projects": "all", "skip": []})
         out = json.loads(self.helper("pickup"))
         self.assertIs(out["chief_of_staff"]["is_cos_repo"], True)
+
+    def test_cos_repo_skipped_or_unlisted_reports_no_role(self):
+        """Review finding 4: is_cos_repo is true only when the signal is on."""
+        for name, config in (
+                ("skipped", {"repo": str(self.project), "projects": "all", "skip": [str(self.project)]}),
+                ("unlisted", {"repo": str(self.project), "projects": [str(self.base / "other")]})):
+            with self.subTest(case=name):
+                self.configure(config)
+                signal = json.loads(self.helper("pickup"))["chief_of_staff"]
+                self.assertEqual((signal["on"], signal["is_cos_repo"]), (False, False))
 
     def test_invalid_config_carries_its_error_and_is_off(self):
         folder = self.home / ".config" / "kerd"

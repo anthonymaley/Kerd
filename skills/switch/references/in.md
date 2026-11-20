@@ -184,10 +184,12 @@ make no extra call to find it.
 - `on: true` means Conductor keeps the project's `### Queue` table this sitting and
   Out tidies it; `on: false` means neither does. `why` is for the session, not the
   screen.
-- `is_cos_repo: true` (this is the chief of staff's own project): put
-  `"role": "chief of staff"` in the summary JSON; the renderer shows it as a ROLE
-  cell. Nothing else changes, and the arrival never resumes the chief of staff's
-  checks or scans: In restores and never executes.
+- `on: true` and `is_cos_repo: true` (this is the chief of staff's own project,
+  and the config covers it): put `"role": "chief of staff"` in the summary JSON;
+  the renderer shows it as a ROLE cell. Nothing else changes, and the arrival never resumes the chief of staff's
+  checks or scans: In restores and never executes. With `on: false` (the chief of
+  staff's repo skipped, opted out or not in `projects`) there is no role: the helper
+  reports `is_cos_repo: false` then, and the summary leaves `role` out.
 - `config_error` set (not null): the config could not be used, so the chief of
   staff is off for every project. Put one line in `warnings` naming which problem
   it is (unreadable, invalid JSON, or the bad key), never more than one.

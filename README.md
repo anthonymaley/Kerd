@@ -377,8 +377,12 @@ problem it found.
 `### Queue` table at the top of `TODO.md`'s `## Now`: rank, task, outcome,
 status, ETA and dependencies, with an `Updated` time. It rewrites the table when
 it adds, starts, finishes, slips, blocks or reorders a task, and Switch Out
-tidies and checks it, always through `skills/switch/scripts/cos.py`. Switch In
-in the chief of staff's own project shows a ROLE cell reading “chief of staff”.
+tidies and checks it, always through `skills/switch/scripts/cos.py`. Its write
+re-checks the config and compares `TODO.md` with what it read as its last steps
+before replacing the file, and refuses if either changed; a write by another
+program in the microseconds between that final check and the replace can still
+be lost. Switch In in the chief of staff's own project shows a ROLE cell reading
+“chief of staff” when the file covers that project too.
 Kerd sends nothing anywhere: the chief of staff reads the table on its own
 scans. It takes effect from a Switch In; a sitting started without one keeps no
 table. A hand-kept `docs/work/queue.md` stays yours: Kerd never writes it or reads
@@ -406,7 +410,7 @@ Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELO
 
 ### v0.200.0
 
-**0.200.0: an optional chief of staff can read every project's plan.** If you run one coordinating session, a chief of staff, over several projects, a file at `~/.config/kerd/chief-of-staff.json` names the projects it watches. In those projects, Conductor and Switch Out keep a ranked `### Queue` table at the top of `TODO.md`'s `## Now`: rank, task id, task, outcome, status, ETA and depends-on, with an `Updated` time. They write it only through a new helper, `cos.py write`, which checks the config again just before writing and refuses if the file changed underneath. The chief of staff reads the tables on its own schedule; Kerd sends nothing. Switch In in the chief of staff's own project shows its role. Without the file, nothing changes: the same screens, records and steps as 0.199.0.
+**0.200.0: an optional chief of staff can read every project's plan.** If you run one coordinating session, a chief of staff, over several projects, a file at `~/.config/kerd/chief-of-staff.json` names the projects it watches. In those projects, Conductor and Switch Out keep a ranked `### Queue` table at the top of `TODO.md`'s `## Now`: rank, task id, task, outcome, status, ETA and depends-on, with an `Updated` time. They write it only through a new helper, `cos.py write`, which checks the config again and refuses if the file changed underneath, as its last steps before writing (a change in the instant between that check and the write can still be lost). The chief of staff reads the tables on its own schedule; Kerd sends nothing. Switch In in the chief of staff's own project shows its role. Without the file, nothing changes: the same screens, records and steps as 0.199.0.
 
 ### v0.199.0
 

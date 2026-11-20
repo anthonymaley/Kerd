@@ -90,6 +90,32 @@ class ChiefOfStaffWordingTests(unittest.TestCase):
         self.assertIn("the project keeps two lists and should choose one", text)
         self.assertIn("never Kerd's", text)
 
+    def test_compare_and_swap_claim_is_narrowed(self):
+        """Review finding 1: no lock, so every guide states the window it cannot close."""
+        limit = "between the final check and the replace can still be lost"
+        self.assertIn("`cos.py write` is a compare-and-swap at the last moment, not a lock", read(RECORD))
+        self.assertIn(limit, read(RECORD))
+        self.assertIn("That write is a compare-and-swap at the last moment, not a lock", read(CONTRACT))
+        self.assertIn("between that final check and the replace can still be lost", read(CONTRACT))
+        self.assertIn("between that final check and the replace can still be lost", read(README))
+        cos_doc = read("skills/switch/scripts/cos.py")
+        self.assertIn("compare-and-swap at the last moment, not a locked one", cos_doc)
+        self.assertIn("between that final check and the replace can still be lost", cos_doc)
+        for rel in (CONDUCTOR, RECORD, IN, OUT, CONTRACT, README, "CHANGELOG.md",
+                    "skills/switch/scripts/cos.py"):
+            text = read(rel).lower()
+            for promise in ("atomic compare", "atomically compare", "atomic cas", "fully atomic"):
+                self.assertNotIn(promise, text, rel)
+
+    def test_role_needs_the_signal_on(self):
+        """Review finding 4: ROLE only when on and is_cos_repo."""
+        text = read(IN)
+        self.assertIn("`on: true` and `is_cos_repo: true` (this is the chief of staff's own "
+                      'project, and the config covers it): put `"role": "chief of staff"`', text)
+        self.assertIn("With `on: false` (the chief of staff's repo skipped, opted out or not in "
+                      "`projects`) there is no role", text)
+        self.assertIn("“chief of staff” when the file covers that project too", read(README))
+
     def test_out_runs_check_and_mentions_reorders(self):
         text = read(OUT)
         self.assertIn("scripts/cos.py check --project P [--scope S]`", text)

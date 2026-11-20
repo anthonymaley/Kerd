@@ -220,7 +220,8 @@ passes it. Rank is the array order, so a reorder is just the new order:
   lowercase letters, digits and hyphens, at most 40 characters, no names of people
   or secrets. `status` is `queued`, `in progress` or `blocked`, with an optional
   short `qualifier`. `eta` is a plain estimate or empty for `unknown`; no invented
-  precision. `depends` lists ids in the same table.
+  precision. `depends` lists ids in the same table. No field may hold a backslash
+  or a line break (`cos.py` refuses them); a `|` is fine, it is escaped.
 - There is no `done` status. Finishing a task means writing the table without its
   row. Before writing a table without a finished row, record the completion in that
   task's own record (its work record, or the record its Task cell links): what
@@ -236,6 +237,11 @@ passes it. Rank is the array order, so a reorder is just the new order:
   missing or has no `## Now`; say so once and leave the table to Switch Out. Exit
   5: `TODO.md` changed underneath; re-read `TODO.md` and retry once, and if it
   fails again, say so and leave the table to Switch Out.
+- `cos.py write` is a compare-and-swap at the last moment, not a lock: its config
+  re-check and its comparison of `TODO.md` with what it read are its last steps
+  before it replaces the file. A write by another program in the microseconds
+  between the final check and the replace can still be lost. Editors and edit
+  tools take no lock, so none is taken here.
 - `docs/work/queue.md` is not Kerd's: Conductor never writes it and never reads its
   contents. A project that keeps one by hand keeps it; choosing between the two
   lists is that project's own decision, never Kerd's.

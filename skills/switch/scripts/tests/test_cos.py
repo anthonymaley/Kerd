@@ -201,7 +201,7 @@ class ConfigTests(Base):
 
     def test_tilde_is_expanded(self):
         with patch.dict(os.environ, {"HOME": str(self.base)}):
-            self.configure(projects=["~/work/app"], repo="~/work/cosplay")
+            self.configure(projects=["~/work/app", "~/work/cosplay"], repo="~/work/cosplay")
             self.assertTrue(self.sig()["on"])
             self.assertTrue(self.sig(self.cos_repo)["is_cos_repo"])
 
@@ -369,13 +369,35 @@ class MatchingTests(Base):
         self.assertTrue(self.sig(tree)["on"])
 
     def test_is_cos_repo(self):
-        self.configure(projects=[str(self.project)])
+        self.configure(projects="all")
         self.assertFalse(self.sig()["is_cos_repo"])
         sig = self.sig(self.cos_repo)
-        self.assertTrue(sig["is_cos_repo"], "the role shows whether or not the repo is listed")
-        self.assertFalse(sig["on"])
-        self.configure(projects="all", skip=[str(self.cos_repo)])
-        self.assertTrue(self.sig(self.cos_repo)["is_cos_repo"])
+        self.assertEqual((sig["on"], sig["is_cos_repo"]), (True, True))
+        self.configure(projects=[str(self.cos_repo)])
+        sig = self.sig(self.cos_repo)
+        self.assertEqual((sig["on"], sig["is_cos_repo"]), (True, True))
+
+    def test_is_cos_repo_false_unless_on(self):
+        """Review finding 4: a skipped, opted-out or unlisted chief-of-staff repo shows no role."""
+        cases = {
+            "skipped": lambda: self.configure(projects="all", skip=[str(self.cos_repo)]),
+            "skipped parent": lambda: self.configure(projects="all", skip=[str(self.cos_repo.parent)]),
+            "unlisted": lambda: self.configure(projects=[str(self.project)]),
+            "empty projects": lambda: self.configure(projects=[]),
+            "opted out": lambda: (self.configure(projects="all"),
+                                  self.vault(self.cos_repo, {"chief_of_staff": False})),
+            "invalid vault": lambda: (self.configure(projects="all"), self.vault(self.cos_repo, "{")),
+        }
+        for name, make in cases.items():
+            with self.subTest(name=name):
+                shutil.rmtree(self.cos_repo / "kivna", ignore_errors=True)
+                make()
+                sig = self.sig(self.cos_repo)
+                self.assertFalse(sig["on"], sig)
+                self.assertIs(sig["is_cos_repo"], False, sig)
+                code, out, _ = run_cli("status", "--project", str(self.cos_repo), "--config", str(self.config))
+                self.assertEqual(code, 3)
+                self.assertIs(out["is_cos_repo"], False)
 
 
 # ------------------------------------------------------------------- write
@@ -438,8 +460,35 @@ class WriteTests(Base):
     def test_block_lower_in_now_is_moved_to_first(self):
         self.todo("## Now\n\n- row one\n\n### Queue\n\n" + HEADER + "\n" + SEPARATOR + "\n\nUpdated: x\n\n- row two\n")
         self.assertEqual(self.write([])[0], 0)
-        self.assertEqual(self.path.read_text(), "## Now\n\n" + self.block([]) + "\n- row one\n\n- row two\n")
+        # Exactly the block's lines leave: the blank line before it and the one after it both stay.
+        self.assertEqual(self.path.read_text(), "## Now\n\n" + self.block([]) + "\n- row one\n\n\n- row two\n")
         self.assertEqual(self.check()[0], 0)
+
+    def test_relocation_keeps_every_byte_outside_the_block(self):
+        """Review finding 5: lifting a lower block out of Now removes exactly its lines."""
+        old_block = ("### Queue\n\n" + HEADER + "\n" + SEPARATOR + "\n"
+                     "| 1 | old | Old | O | queued | unknown | — |\n\nUpdated: x\n")
+        cases = {
+            "blank before, blanks and whitespace after": (
+                "# T\n\n## Now\n\n- row one\n  \n\n", "\n\n  \n- row two\n\n## Backlog\n- b\n"),
+            "no blank after Now heading": (
+                "# T\n\n## Now\n- row one\n\n", "\n\n\n- row two\n## Backlog\n"),
+            "block last in Now": ("# T\n\n## Now\n\n- row one\n\n", "\n\n## Backlog\n"),
+            "block last in file": ("# T\n\n## Now\n\n- row one\n\n", ""),
+            "trailing spaces kept": ("## Now\n\n- one  \n \t\n", " \n\t\n- two\n"),
+        }
+        head_end = "## Now\n"
+        for name, (before, after) in cases.items():
+            with self.subTest(name=name):
+                self.todo(before + old_block + after)
+                code, out = self.write([])
+                self.assertEqual(code, 0, out)
+                cut = before.index(head_end) + len(head_end)
+                rest = before[cut:]
+                gap = "" if rest.startswith("\n") else "\n"
+                expected = before[:cut] + "\n" + self.block([]) + gap + rest + after
+                self.assertEqual(self.path.read_text(), expected)
+                self.assertEqual(self.check()[0], 0)
 
     def test_crlf_file_keeps_its_line_endings(self):
         self.path.write_bytes(b"## Now\r\n\r\n- row\r\n")
@@ -471,6 +520,17 @@ class WriteTests(Base):
             "id leading hyphen": {"id": "-a"},
             "id too long": {"id": "a" * 41},
             "id not string": {"id": 3},
+            "id trailing newline": {"id": "a-task\n"},
+            "id short trailing newline": {"id": "x\n"},
+            "id trailing carriage return": {"id": "x\r"},
+            "id tab": {"id": "x\t"},
+            "backslash in task": {"task": "a\\b"},
+            "backslash in linked task": {"task": "a\\b", "link": "docs/a.md"},
+            "backslash in outcome": {"outcome": "back\\|slash"},
+            "backslash in qualifier": {"status": "blocked", "qualifier": "wait\\here"},
+            "backslash in eta": {"eta": "\\"},
+            "link with backslash": {"link": "docs\\a.md"},
+            "depends with backslash": {"depends": ["a\\b"]},
             "task too long": {"task": "x" * 121},
             "outcome empty": {"outcome": "  "},
             "eta too long": {"eta": "x" * 31},
@@ -510,16 +570,34 @@ class WriteTests(Base):
         self.assertEqual(code, 2)
         self.assertIn("not valid JSON", out["errors"][0])
 
-    def test_pipes_and_backslashes_escaped(self):
-        rows = [{"id": "esc", "task": "a|b\\c", "outcome": "back\\|slash", "status": "in progress",
-                 "qualifier": "wait\\here", "eta": "1|2", "link": "https://x.org/p?q=1#f"}]
+    def test_pipes_escaped(self):
+        rows = [{"id": "esc", "task": "a|b", "outcome": "|edge|", "status": "in progress",
+                 "qualifier": "wait here", "eta": "1|2", "link": "https://x.org/p?q=1#f"},
+                {"id": "esc-2", "task": "plain | pipe", "outcome": "o", "status": "queued", "eta": "|"}]
         self.assertEqual(self.write(rows)[0], 0)
-        line = [l for l in self.path.read_text().splitlines() if l.startswith("| 1 |")][0]
-        self.assertEqual(line, "| 1 | esc | [a\\|b\\\\c](https://x.org/p?q=1#f) | back\\\\\\|slash | "
-                               "in progress (wait\\\\here) | 1\\|2 | — |")
+        lines = [l for l in self.path.read_text().splitlines() if l.startswith(("| 1 |", "| 2 |"))]
+        self.assertEqual(lines, [
+            "| 1 | esc | [a\\|b](https://x.org/p?q=1#f) | \\|edge\\| | in progress (wait here) | 1\\|2 | — |",
+            "| 2 | esc-2 | plain \\| pipe | o | queued | \\| | — |",
+        ])
         code, out = self.check()
         self.assertEqual(code, 0, out)
         self.assertEqual(out["rows"], normalized(rows))
+
+    def test_backslash_refused_in_every_rendered_field(self):
+        """Review finding 6: Cosplay unescapes only `\\|`, so a backslash is invalid input."""
+        base = {"id": "a-task", "task": "Task", "outcome": "Out", "status": "blocked", "qualifier": "q",
+                "eta": "soon", "link": "docs/a.md"}
+        for key in ("id", "task", "outcome", "qualifier", "eta", "link"):
+            with self.subTest(field=key):
+                code, out = self.write([dict(base, **{key: base[key] + "\\"})])
+                self.assertEqual(code, 2, out)
+                self.assertTrue(out["errors"])
+                self.assertEqual(self.path.read_text(), TODO)
+        code, _, _ = run_cli("write", "--project", str(self.project), "--config", str(self.config),
+                             stdin=json.dumps([dict(base, task="a\\b")]))
+        self.assertEqual(code, 2)
+        self.assertEqual(self.path.read_text(), TODO)
 
     def test_text_is_trimmed(self):
         rows = [{"id": "t", "task": "  padded  ", "outcome": " o ", "status": "queued", "eta": "   "}]
@@ -609,6 +687,62 @@ class WriteTests(Base):
         self.assertEqual(self.path.read_text(), changed)
         self.assertEqual(self.leftovers(), [])
 
+    def test_final_check_and_hash_compare_are_the_last_steps_before_replace(self):
+        """Review finding 1: config re-check, hash compare, then os.replace, nothing between."""
+        events = []
+        real_signal, real_hash, real_replace = cos.signal, cos._current_hash, os.replace
+
+        def signal(*args, **kwargs):
+            events.append("signal")
+            return real_signal(*args, **kwargs)
+
+        def current_hash(*args, **kwargs):
+            events.append("hash")
+            return real_hash(*args, **kwargs)
+
+        def replace(*args, **kwargs):
+            events.append("replace")
+            return real_replace(*args, **kwargs)
+
+        with patch.object(cos, "signal", signal), patch.object(cos, "_current_hash", current_hash), \
+                patch.object(cos.os, "replace", replace):
+            code, out = self.write(ROWS, before_commit=lambda: events.append("before_commit"))
+        self.assertEqual(code, 0, out)
+        self.assertEqual(events, ["signal", "before_commit", "signal", "hash", "replace"])
+
+    def test_change_during_final_config_check_is_caught(self):
+        """A write that lands while the config is re-checked is seen by the hash compare after it."""
+        changed = TODO + "- added during the config check\n"
+        calls = []
+        real_signal = cos.signal
+
+        def signal(*args, **kwargs):
+            calls.append(1)
+            if len(calls) == 2:
+                self.path.write_text(changed)
+            return real_signal(*args, **kwargs)
+
+        with patch.object(cos, "signal", signal):
+            code, out = self.write(ROWS)
+        self.assertEqual(code, 5, out)
+        self.assertEqual(self.path.read_text(), changed)
+        self.assertEqual(self.leftovers(), [])
+
+    def test_change_after_the_hash_compare_is_lost_as_the_guide_says(self):
+        """The narrowed claim: compare-and-swap at the last moment, not a lock. A write by another
+        program between the final check and os.replace is lost; this pins that honest limit."""
+        real_hash = cos._current_hash
+
+        def current_hash(path):
+            value = real_hash(path)
+            Path(path).write_text(TODO + "- lost\n")
+            return value
+
+        with patch.object(cos, "_current_hash", current_hash):
+            code, _ = self.write(ROWS)
+        self.assertEqual(code, 0)
+        self.assertNotIn("- lost", self.path.read_text())
+
     def test_race_todo_removed_before_replace(self):
         self.assertEqual(self.write(ROWS, before_commit=self.path.unlink)[0], 5)
         self.assertFalse(self.path.exists())
@@ -643,8 +777,8 @@ class CheckTests(Base):
 
     def test_check_agrees_with_write(self):
         cases = [[], ROWS, ROWS[:1],
-                 [{"id": "x", "task": "a\\", "outcome": "|", "status": "blocked", "qualifier": "(nested",
-                   "eta": "\\", "depends": []}]]
+                 [{"id": "x", "task": "a|", "outcome": "|", "status": "blocked", "qualifier": "(nested",
+                   "eta": "|x|", "depends": []}]]
         for rows in cases:
             with self.subTest(rows=len(rows)):
                 self.written(rows)
@@ -685,12 +819,17 @@ class CheckTests(Base):
             ("| queued |", "| done |", "done row"),
             ("| 2 | walk-sam-6 |", "| 2 | cos-support |", "appears twice"),
             ("| 2 | walk-sam-6 |", "| 2 | Walk_Sam |", "must match"),
+            ("| 2 | walk-sam-6 |", "| 2 | walk-sam-6\x07 |", "must match"),
             (f"\nUpdated: {STAMP}\n", "\n", "missing Updated"),
             (f"Updated: {STAMP}", "Updated: 2026-11-20T10:40:00", "offset"),
             (f"Updated: {STAMP}", "Updated: yesterday", "offset"),
             ("| 2 | walk-sam-6 |", "| 7 | walk-sam-6 |", "rank"),
             ("| cos-support |\n| 3", "| nope |\n| 3", "not a task id"),
             ("Walk Sam \\| round 6", "Walk Sam \\x round 6", "stray backslash"),
+            ("Walk Sam \\| round 6", "Walk Sam \\\\ round 6", "stray backslash"),
+            ("Findings in first-user-6", "Findings in first\\\\user-6", "stray backslash"),
+            ("| unknown | cos-support |", "| un\\known | cos-support |", "ETA"),
+            ("(review)", "(rev\\iew)", "qualifier"),
             ("(review)", "(rev)iew)", "qualifier"),
             ("(notes:chief-of-staff/design.md)", "(/abs/path)", "link"),
             ("| unknown | cos-support |", "|  | cos-support |", "ETA"),
@@ -746,7 +885,30 @@ class CosplayParserTests(Base):
         self.assertEqual((code, out["rows"]), (0, []))
 
     def test_populated_queue_same_rows(self):
-        self.assertEqual(self.write(ROWS)[0], 0)
+        self.assert_agree(ROWS)
+
+    def test_pipes_in_task_outcome_and_eta_read_the_same(self):
+        """Review finding 6: `|` round-trips identically through check and Cosplay's parser."""
+        rows = [
+            {"id": "pipe-task", "task": "a | b", "outcome": "x|y", "status": "queued", "eta": "1|2"},
+            {"id": "pipe-link", "task": "c|d", "link": "notes:x/y.md", "outcome": "|edge|",
+             "status": "blocked", "qualifier": "wait", "eta": "|", "depends": ["pipe-task"]},
+            {"id": "pipe-end", "task": "ends with|", "outcome": "|starts", "status": "in progress",
+             "eta": "a || b"},
+        ]
+        out = self.assert_agree(rows)
+        self.assertEqual([r["task"] for r in out], ["a | b", "c|d", "ends with|"])
+        self.assertEqual([r["outcome"] for r in out], ["x|y", "|edge|", "|starts"])
+        self.assertEqual([r["eta"] for r in out], ["1|2", "|", "a || b"])
+
+    def test_id_with_control_character_refused_and_readers_agree(self):
+        """Review finding 3: an id with a trailing newline never reaches the file."""
+        self.assertEqual(self.write([dict(ROWS[0], id="x\n", depends=[])])[0], 2)
+        self.assertEqual(self.path.read_text(), TODO)
+        self.assert_agree([dict(ROWS[0], id="x", depends=[])])
+
+    def assert_agree(self, rows):
+        self.assertEqual(self.write(rows)[0], 0)
         parsed = self.parse()
         code, out = self.check()
         self.assertEqual(code, 0, out)
@@ -764,6 +926,8 @@ class CosplayParserTests(Base):
                 self.assertEqual(theirs["status"], status)
                 self.assertEqual(theirs["eta"], ours["eta"])
                 self.assertEqual(theirs["depends_on"], ", ".join(ours["depends"]) or "—")
+        self.assertEqual(out["rows"], normalized(rows))
+        return out["rows"]
 
 
 if __name__ == "__main__":

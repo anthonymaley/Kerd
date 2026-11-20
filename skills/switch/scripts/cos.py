@@ -18,6 +18,16 @@ the project or a parent of it -> on; anything else -> off.
 
 The project is realpath(--project), joined with one --scope when given (a scoped project
 is its scope folder). More than one --scope, or a scope outside the project, is off.
+`is_cos_repo` is true only when the signal is on and the project is the config's `repo`.
+
+`write` is a compare-and-swap at the last moment, not a locked one: it re-checks the config
+and compares TODO.md's SHA-256 with the one it read as the very last steps before
+os.replace. A write by another program in the microseconds between that final check and the
+replace can still be lost; nothing here can stop that, because editors take no lock.
+
+Field grammar: every rendered field is one line; a backslash is refused in every field
+(Cosplay's reader unescapes only `\\|`), and `|` is written as `\\|`. `check` reads the same
+grammar back. Whole-field patterns use fullmatch, so a trailing newline never slips past `$`.
 Standard library only.
 """
 
@@ -44,7 +54,7 @@ EXIT_NO_NOW = 4
 EXIT_CHANGED = 5
 
 STATUSES = ("queued", "in progress", "blocked")
-ID_PATTERN = re.compile(r"^[a-z0-9][a-z0-9-]{0,39}$")
+ID_PATTERN = re.compile(r"[a-z0-9][a-z0-9-]{0,39}")  # always fullmatch
 COLUMNS = ("Rank", "Task id", "Task", "Outcome", "Status", "ETA", "Depends on")
 NO_DEPENDS = "—"  # an em dash, as `## Now` writes "none"
 UNKNOWN_ETA = "unknown"
@@ -56,10 +66,10 @@ ROW_KEYS = {"id", "task", "link", "outcome", "status", "qualifier", "eta", "depe
 
 NOW_HEADING = re.compile(r"^##[ \t]+now\b", re.I)
 SECTION_END = re.compile(r"^#{1,2}(?:[ \t]|$)")
-QUEUE_HEADING = re.compile(r"^###[ \t]+Queue[ \t]*$")
+QUEUE_HEADING = re.compile(r"###[ \t]+Queue[ \t]*")  # fullmatch on a bare line
 FENCE = re.compile(r"^\s*(```|~~~)")
-UPDATED = re.compile(r"^Updated:(.*)$")
-SEPARATOR_CELL = re.compile(r"^:?-{3,}:?$")
+UPDATED = re.compile(r"Updated:(.*)")  # fullmatch on a bare line
+SEPARATOR_CELL = re.compile(r":?-{3,}:?")  # fullmatch
 LINK_CHARS_REFUSED = set("()[]<>|\\\"'`")
 
 
@@ -177,7 +187,8 @@ def vault_opt_out(folder: str) -> tuple:
 
 
 def _result(on: bool, is_cos_repo: bool, why: str, config_error=None) -> dict:
-    return {"on": on, "is_cos_repo": is_cos_repo, "why": why, "config_error": config_error}
+    """`is_cos_repo` is reported only when on: a skipped, opted-out or unlisted repo shows no role."""
+    return {"on": on, "is_cos_repo": bool(on and is_cos_repo), "why": why, "config_error": config_error}
 
 
 def signal(project: str, scopes: list[str] | None = None, config_path: str | None = None) -> dict | None:
@@ -223,8 +234,8 @@ def off_payload(sig) -> dict:
 # --------------------------------------------------------------- field grammar
 
 def escape(text: str) -> str:
-    """One table cell's text: backslash and pipe escaped."""
-    return text.replace("\\", "\\\\").replace("|", "\\|")
+    """One table cell's text: `|` written as `\\|`. A backslash never reaches here (refused)."""
+    return text.replace("|", "\\|")
 
 
 def _single_line(text: str) -> bool:
@@ -264,6 +275,9 @@ def _text(row: dict, key: str, where: str, errors: list, limit: int, required: b
     if not _single_line(value):
         errors.append(f"{where}: {key} has a line break or control character")
         return None
+    if "\\" in value:
+        errors.append(f"{where}: {key} has a backslash")
+        return None
     value = value.strip()
     if not value and not empty_ok:
         errors.append(f"{where}: {key} is empty")
@@ -293,7 +307,7 @@ def validate_rows(data) -> tuple:
             errors.append(f"{where}: unknown key(s) {', '.join(unknown)}")
         out = {}
         task_id = row.get("id")
-        if not isinstance(task_id, str) or not ID_PATTERN.match(task_id):
+        if not isinstance(task_id, str) or not ID_PATTERN.fullmatch(task_id):
             errors.append(f"{where}: id must match {ID_PATTERN.pattern}")
             task_id = None
         elif task_id in ids:
@@ -409,7 +423,7 @@ def scan(lines: list) -> tuple:
         if SECTION_END.match(line):
             end = i
             break
-        if QUEUE_HEADING.match(line):
+        if QUEUE_HEADING.fullmatch(line):
             queues.append(i)
     return now, end, queues
 
@@ -428,7 +442,7 @@ def block_end(lines: list, start: int, stop: int) -> int:
     j = end
     while j < stop and _blank(lines[j]):
         j += 1
-    if j < stop and UPDATED.match(_bare(lines[j])):
+    if j < stop and UPDATED.fullmatch(_bare(lines[j])):
         end = j + 1
     return end
 
@@ -440,15 +454,18 @@ def _first_child(lines: list, now: int, queue: int) -> bool:
 # --------------------------------------------------------------------- parsing
 
 def split_cells(line: str):
-    """Cells of a table row with escapes kept, or None when the row is not `| ... |`."""
+    """Cells of a table row with escapes kept, or None when the row is not `| ... |`.
+
+    Split as Cosplay's reader splits: a `|` right after a backslash is part of the cell, every
+    other `|` ends one. Any other backslash stays in the cell, for `unescape` to refuse."""
     text = line.strip()
     if not (text.startswith("|") and text.endswith("|")) or len(text) < 2:
         return None
     cells, current, i = [], "", 1
     while i < len(text):
         char = text[i]
-        if char == "\\" and i + 1 < len(text):
-            current += text[i:i + 2]
+        if char == "\\" and i + 1 < len(text) and text[i + 1] == "|":
+            current += "\\|"
             i += 2
             continue
         if char == "|":
@@ -463,11 +480,11 @@ def split_cells(line: str):
 
 
 def unescape(raw: str):
-    """Undo `escape`; None when a backslash escapes anything but a backslash or a pipe."""
+    """Undo `escape`; None for any backslash that is not `\\|` (write refuses backslashes)."""
     out, i = "", 0
     while i < len(raw):
         if raw[i] == "\\":
-            if i + 1 < len(raw) and raw[i + 1] in "\\|":
+            if i + 1 < len(raw) and raw[i + 1] == "|":
                 out += raw[i + 1]
                 i += 2
                 continue
@@ -483,10 +500,10 @@ def _parse_row(cells: list, n: int, errors: list) -> dict:
     row = {}
     if rank != str(n):
         errors.append(f"{where}: rank is {rank!r}, expected {n}")
-    if not ID_PATTERN.match(task_id):
+    if not ID_PATTERN.fullmatch(task_id):
         errors.append(f"{where}: task id {task_id!r} must match {ID_PATTERN.pattern}")
     row["id"] = task_id
-    linked = re.match(r"^\[([^\[\]]*)\]\(([^()]*)\)$", task_raw)
+    linked = re.fullmatch(r"\[([^\[\]]*)\]\(([^()]*)\)", task_raw)
     if linked:
         task_raw, link = linked.group(1), linked.group(2)
         problem = link_problem(link)
@@ -511,7 +528,7 @@ def _parse_row(cells: list, n: int, errors: list) -> dict:
     elif not outcome.strip() or len(outcome) > MAX_TEXT:
         errors.append(f"{where}: outcome is empty or longer than {MAX_TEXT} characters")
     row["outcome"] = outcome
-    status = re.match(r"^(queued|in progress|blocked)(?: \((.*)\))?$", status_raw)
+    status = re.fullmatch(r"(queued|in progress|blocked)(?: \((.*)\))?", status_raw)
     if status_raw == "done" or status_raw.startswith("done "):
         errors.append(f"{where}: a done row should have left the table")
         row["status"] = "done"
@@ -542,7 +559,7 @@ def parse_block(lines: list) -> tuple:
     """(rows, Updated stamp, errors) for a `### Queue` block (lines without endings), in the
     grammar `render_block` writes."""
     errors = []
-    if not lines or not QUEUE_HEADING.match(lines[0]):
+    if not lines or not QUEUE_HEADING.fullmatch(lines[0]):
         return [], None, ["no ### Queue heading"]
     i = 1
     while i < len(lines) and _blank(lines[i]):
@@ -554,8 +571,8 @@ def parse_block(lines: list) -> tuple:
     while i < len(lines) and _blank(lines[i]):
         i += 1
     stamp = None
-    if i < len(lines) and UPDATED.match(lines[i]):
-        value = UPDATED.match(lines[i]).group(1).strip()
+    if i < len(lines) and UPDATED.fullmatch(lines[i]):
+        value = UPDATED.fullmatch(lines[i]).group(1).strip()
         try:
             parsed = datetime.fromisoformat(value)
         except ValueError:
@@ -573,7 +590,7 @@ def parse_block(lines: list) -> tuple:
         errors.append("columns must be: " + " | ".join(COLUMNS))
         return [], stamp, errors
     separator = split_cells(table[1])
-    if separator is None or len(separator) != len(COLUMNS) or not all(SEPARATOR_CELL.match(c) for c in separator):
+    if separator is None or len(separator) != len(COLUMNS) or not all(SEPARATOR_CELL.fullmatch(c) for c in separator):
         errors.append("the second table line is not the separator row")
         return [], stamp, errors
     body = table[2:]
@@ -649,12 +666,9 @@ def compose(text: str, rows: list, stamp: str) -> tuple:
         start = queues[0]
         stop = block_end(lines, start, end)
         return "".join(lines[:start]) + block + "".join(lines[stop:]), None, None
-    if queues:  # the block exists further down Now: lift it out, then place it first
+    if queues:  # the block exists further down Now: lift out exactly its lines, then place it first
         start = queues[0]
         stop = block_end(lines, start, end)
-        if start > 0 and _blank(lines[start - 1]):
-            while stop < len(lines) and stop < end and _blank(lines[stop]):
-                stop += 1
         lines = lines[:start] + lines[stop:]
     head = lines[now]
     if not head.endswith("\n"):
@@ -666,10 +680,23 @@ def compose(text: str, rows: list, stamp: str) -> tuple:
     return "".join(lines[:now]) + head + inserted + "".join(after), None, None
 
 
+def _current_hash(path: str) -> str | None:
+    try:
+        with open(path, "rb") as current:
+            return _hash(current.read())
+    except OSError:
+        return None
+
+
 def write_queue(project: str, scopes, rows_json: str, config_path: str | None = None,
                 now: datetime | None = None, before_commit=None) -> tuple:
     """(exit code, payload). `before_commit` is a test seam called after the read, before the
-    final config re-check and hash compare."""
+    final config re-check and hash compare.
+
+    Compare-and-swap at the last moment: the config re-check and the hash compare are the very
+    last steps before os.replace, with nothing in between. A write by another program in the
+    microseconds between the final check and the replace can still be lost; no lock is taken,
+    because the other writers (editors, an agent's edit tool) take none."""
     sig = signal(project, scopes, config_path)
     if sig is None or not sig["on"]:
         return EXIT_OFF, off_payload(sig)
@@ -684,6 +711,7 @@ def write_queue(project: str, scopes, rows_json: str, config_path: str | None = 
     original, text, problem = _read_todo(path)
     if problem:
         return EXIT_NO_NOW, {"error": problem}
+    original_hash = _hash(original)
     stamp = clock_stamp(now)
     updated, kind, message = compose(text, rows, stamp)
     if kind is not None:
@@ -699,15 +727,11 @@ def write_queue(project: str, scopes, rows_json: str, config_path: str | None = 
         os.chmod(temp, mode)
         if before_commit is not None:
             before_commit()
+        # The last moment: config re-check, hash compare, replace. Nothing goes between them.
         sig = signal(project, scopes, config_path)
         if sig is None or not sig["on"]:
             return EXIT_OFF, off_payload(sig)
-        try:
-            with open(path, "rb") as current:
-                now_bytes = current.read()
-        except OSError:
-            now_bytes = None
-        if _hash(now_bytes) != _hash(original):
+        if _current_hash(path) != original_hash:
             return EXIT_CHANGED, {"error": "TODO.md changed underneath; re-read and retry"}
         os.replace(temp, path)
         temp = None

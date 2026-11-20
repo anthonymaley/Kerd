@@ -872,16 +872,33 @@ def prepare(root, branch, record, files=(), sections=(), sync=False, expected_co
 
 # The optional chief of staff (design: kerd/work/chief-of-staff/design.md).
 # cos.py owns the config and its rules; this helper only asks it, after a
-# successful prepare or pickup, and adds its answer. With no config file (or one
-# that cannot be stat'ed) the answer is None and the output keeps 0.199.0's
-# bytes. A missing or broken cos.py is the same silent off: nothing it does can
-# change the off path, print into this output or leave bytecode beside it.
+# successful prepare or pickup, and adds its answer. The config's existence is
+# checked here first, with one stat: with no config file (or one that cannot be
+# stat'ed) cos.py is never loaded, the answer is None and the output keeps
+# 0.199.0's bytes. A missing or broken cos.py is the same silent off: nothing it
+# does can change the off path, print into this output or leave bytecode beside it.
 COS_SCRIPT = Path(__file__).resolve().with_name("cos.py")
+COS_CONFIG = "~/.config/kerd/chief-of-staff.json"  # the same path as cos.CONFIG_PATH
 QUEUE_MD = Path("docs") / "work" / "queue.md"
 
 
+def chief_of_staff_config():
+    """The config path when it can be stat'ed, else None (absent: cos.py is not loaded)."""
+    try:
+        path = os.path.expanduser(COS_CONFIG)
+        os.stat(path)
+    except (OSError, ValueError):
+        return None
+    return path
+
+
 def chief_of_staff_signal(root, scope):
-    """cos.signal for this project, or None (off, nothing shown) on any failure."""
+    """cos.signal for this project, or None (off, nothing shown) on any failure.
+
+    No config file means None before cos.py is imported or run."""
+    config = chief_of_staff_config()
+    if config is None:
+        return None
     writes = sys.dont_write_bytecode
     try:
         sys.dont_write_bytecode = True
@@ -889,7 +906,7 @@ def chief_of_staff_signal(root, scope):
             spec = importlib.util.spec_from_file_location("kerd_switch_cos", COS_SCRIPT)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            signal = module.signal(str(root), list(scope) or None)
+            signal = module.signal(str(root), list(scope) or None, config)
         if not isinstance(signal, dict) or not isinstance(signal.get("on"), bool):
             return None
         json.dumps(signal)
