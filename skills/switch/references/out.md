@@ -7,6 +7,7 @@ Contents:
   - [Add to Conductor's sketchbook](#add-to-conductors-sketchbook): what the sitting settled
   - [Keep the outside-the-repo list](#keep-the-outside-the-repo-list): live links outside the repository
   - [Save the selected continuation](#save-the-selected-continuation): the next action, its boundary, urgent risks
+  - [Tidy the chief of staff's queue table](#tidy-the-chief-of-staffs-queue-table): only when the sitting's signal is on; `cos.py write`, then `cos.py check`
   - [Leave a lean start point](#leave-a-lean-start-point): rulings, closed rows, the reading set, `measure`, the named-file save and the `boundary` check
   - [Close with the saved-place box](#close-with-the-saved-place-box): the closing renderer, its JSON shape and the restart line
 - [Default verified save when pushing is authorized](#default-verified-save-when-pushing-is-authorized): `save --push`, `pickup`, `prepare` and `boundary` shapes
@@ -273,6 +274,29 @@ Use the existing handoff/work record; do not add a parallel manifest or duplicat
 source text. This lets the next pickup reuse the outgoing session's knowledge
 of the work instead of rediscovering the entire repository. Preserve unresolved
 decisions and authority even when the next action looks simple.
+
+### Tidy the chief of staff's queue table
+
+Only when this sitting's signal is on: its Switch In's `prepare` or `pickup`
+output carried `chief_of_staff` with `"on": true`
+([Carry the chief of staff signal](in.md#carry-the-chief-of-staff-signal)). With
+the signal off or absent, a cold start or a hand pickup included, none of this
+exists: no `cos.py` call, no table, nothing said.
+
+When it is on, tidy the `### Queue` table at the top of `## Now` through
+`python3 <this skill dir>/scripts/cos.py write --project P [--scope S]`, never by
+hand: the full rows as JSON on stdin in rank order (the shape is in
+[Conductor's queue table](../../conductor/references/work-record.md#keep-the-chief-of-staffs-queue-table)),
+without any task this sitting finished, whose completion goes in the session log
+and in that task's own record. Skip the write when the table already matches. Then
+run `python3 <this skill dir>/scripts/cos.py check --project P [--scope S]`, which
+only reads. A nonzero `check`, or a `write` refused with exit 2, 4 or 5 after one
+re-read and retry for 5, goes into the box's `warnings` as one plain line; exit 3
+means the chief of staff was switched off: leave the table and say so once in
+`warnings`. Out never writes or reads the contents of `docs/work/queue.md`.
+
+The session log mentions a reorder like any other change: the new order and why,
+in the sitting's account.
 
 ### Leave a lean start point
 

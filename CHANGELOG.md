@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.200.0
+
+**0.200.0: an optional chief of staff can read every project's plan.** If you run one coordinating session, a chief of staff, over several projects, a file at `~/.config/kerd/chief-of-staff.json` names the projects it watches. In those projects, Conductor and Switch Out keep a ranked `### Queue` table at the top of `TODO.md`'s `## Now`: rank, task id, task, outcome, status, ETA and depends-on, with an `Updated` time. They write it only through a new helper, `cos.py write`, which checks the config again just before writing and refuses if the file changed underneath. The chief of staff reads the tables on its own schedule; Kerd sends nothing. Switch In in the chief of staff's own project shows its role. Without the file, nothing changes: the same screens, records and steps as 0.199.0.
+
 ## 0.199.0
 
 **0.199.0: Kerd's installed plugin is 1.6 MB, not 39 MB.** Claude Code now installs Kerd from a generated `plugin` branch that holds only what runs: skills, agents, hooks, the plugin manifest, README and licence. Before, it copied the whole repository, docs, site and evals included, about 39 MB. The install command is unchanged; the marketplace's own copy of the repository is unchanged too. `tools/release.py ship` keeps the branch in step: it creates it the first time, appends each release after CI passes and never force-pushes.

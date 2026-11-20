@@ -1,0 +1,28 @@
+**FIXTURE · SWITCH IN COMPLETE ✓ · Kerd 0.199.0**
+
+| PROJECT | PHASE | NEXT | TEAM |
+| --- | --- | --- | --- |
+| Fixture | Deliver: 2 of 3 done | Finish the fixture task | Codex (reviewer) |
+
+**Where things stand:** The fixture project is half built and its tests pass.
+
+**Last session:** The first two pieces were built.
+
+**Open work**
+
+1. Finish the fixture task
+2. **Codex:** review the fixture
+
+**Recommended:** Finish the fixture task
+
+**Why:** It unblocks the review.
+
+**ATTENTION**
+
+- One fixture warning.
+
+> **★ Insight**
+>
+> A fixture insight.
+
+> 💬 **Start a Conductor session?**

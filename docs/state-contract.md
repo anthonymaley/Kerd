@@ -68,6 +68,7 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 - `## Backlog` is append-only (items added, never silently removed outside closure inference).
 - **Closed rows leave with their reason (Switch Out, from v0.111.0).** Rows the closure review judges done or dead move to `docs/backlog-archive.md` with verdict, evidence and date; open and unsure rows stay. Age alone closes nothing.
 - conductor writes the plan, switch writes the wrap-up. They don't conflict because conductor runs within a session and switch runs at the boundary.
+- **The `### Queue` table (only with a chief of staff configured).** When `~/.config/kerd/chief-of-staff.json` turns a chief of staff on for this project, `## Now` opens with a ranked `### Queue` table. It is part of `## Now`, with the same owners: Conductor's plan (when it adds, starts, finishes, slips or blocks, or reorders a task) and Switch Out's wrap-up (tidy, then `cos.py check`). It is written only through `skills/switch/scripts/cos.py write`, never by hand, and only when that sitting's Switch In reported the chief of staff on. A finished task leaves the table; its completion is recorded in its own record and the session log, as today. Without the config, no table exists and nothing here changes. Kerd never writes or reads the contents of a hand-kept `docs/work/queue.md`.
 
 ## kivna/.active-modes
 

@@ -353,6 +353,42 @@ off, uninstall it:
 claude plugin uninstall overtone@kerd-marketplace
 ```
 
+### A chief of staff (optional)
+
+If you run a separate chief-of-staff session that keeps an eye on several
+projects, Kerd can keep a ranked task list for it to read. It is off unless you
+create one file, `~/.config/kerd/chief-of-staff.json`:
+
+```json
+{
+  "repo": "/Users/you/development/cosplay",
+  "projects": "all",
+  "skip": ["/Users/you/development/3of3"]
+}
+```
+
+`repo` is the chief of staff's own project. `projects` is `"all"` or a list of
+project paths, and `skip` lists paths to leave out. A project can also opt out
+with `"chief_of_staff": false` in its `kivna/vault.json`. A file Kerd can't read
+or that doesn't validate turns it off everywhere, and Switch In says which
+problem it found.
+
+**What changes when it is on.** In a project it covers, Conductor keeps a
+`### Queue` table at the top of `TODO.md`'s `## Now`: rank, task, outcome,
+status, ETA and dependencies, with an `Updated` time. It rewrites the table when
+it adds, starts, finishes, slips, blocks or reorders a task, and Switch Out
+tidies and checks it, always through `skills/switch/scripts/cos.py`. Switch In
+in the chief of staff's own project shows a ROLE cell reading “chief of staff”.
+Kerd sends nothing anywhere: the chief of staff reads the table on its own
+scans. It takes effect from a Switch In; a sitting started without one keeps no
+table. A hand-kept `docs/work/queue.md` stays yours: Kerd never writes it or reads
+its contents, and when a covered project has one, Switch In suggests the project choose
+one list.
+
+**Without the file, nothing changes:** the same screens, records and tool calls,
+no table and no ROLE cell. To switch it off, delete the file, or skip or opt
+out the project.
+
 ## Naming
 
 Gaelic-inspired where it adds character:
@@ -364,9 +400,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.199.0)
+## What's New (v0.200.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.200.0
+
+**0.200.0: an optional chief of staff can read every project's plan.** If you run one coordinating session, a chief of staff, over several projects, a file at `~/.config/kerd/chief-of-staff.json` names the projects it watches. In those projects, Conductor and Switch Out keep a ranked `### Queue` table at the top of `TODO.md`'s `## Now`: rank, task id, task, outcome, status, ETA and depends-on, with an `Updated` time. They write it only through a new helper, `cos.py write`, which checks the config again just before writing and refuses if the file changed underneath. The chief of staff reads the tables on its own schedule; Kerd sends nothing. Switch In in the chief of staff's own project shows its role. Without the file, nothing changes: the same screens, records and steps as 0.199.0.
 
 ### v0.199.0
 

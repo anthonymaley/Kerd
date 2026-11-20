@@ -2,6 +2,9 @@
 """Small Git handoff primitives. Memory judgment and session control stay with Switch."""
 
 import argparse
+import contextlib
+import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -867,6 +870,57 @@ def prepare(root, branch, record, files=(), sections=(), sync=False, expected_co
     return packet
 
 
+# The optional chief of staff (design: kerd/work/chief-of-staff/design.md).
+# cos.py owns the config and its rules; this helper only asks it, after a
+# successful prepare or pickup, and adds its answer. With no config file (or one
+# that cannot be stat'ed) the answer is None and the output keeps 0.199.0's
+# bytes. A missing or broken cos.py is the same silent off: nothing it does can
+# change the off path, print into this output or leave bytecode beside it.
+COS_SCRIPT = Path(__file__).resolve().with_name("cos.py")
+QUEUE_MD = Path("docs") / "work" / "queue.md"
+
+
+def chief_of_staff_signal(root, scope):
+    """cos.signal for this project, or None (off, nothing shown) on any failure."""
+    writes = sys.dont_write_bytecode
+    try:
+        sys.dont_write_bytecode = True
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            spec = importlib.util.spec_from_file_location("kerd_switch_cos", COS_SCRIPT)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            signal = module.signal(str(root), list(scope) or None)
+        if not isinstance(signal, dict) or not isinstance(signal.get("on"), bool):
+            return None
+        json.dumps(signal)
+        return signal
+    except (Exception, SystemExit):
+        return None
+    finally:
+        sys.dont_write_bytecode = writes
+
+
+def with_chief_of_staff(result, root):
+    """Add the signal key, and queue_md_present when on; unchanged when None.
+
+    The project is the scope folder when there is exactly one scope (design
+    v2.1 C); cos.py decides on/off for more than one, and only reads presence
+    of docs/work/queue.md, never its contents.
+    """
+    scope = result.get("scope") or []
+    signal = chief_of_staff_signal(root, scope)
+    if signal is None:
+        return result
+    result["chief_of_staff"] = signal
+    if signal["on"] is True:
+        project = root / scope[0] if len(scope) == 1 else root
+        try:
+            result["queue_md_present"] = (project / QUEUE_MD).is_file()
+        except OSError:
+            result["queue_md_present"] = False
+    return result
+
+
 def private_problem(info):
     if stat.S_ISLNK(info.st_mode):
         return "it is a symbolic link"
@@ -1022,11 +1076,13 @@ def main():
         elif args.action == "save":
             result = publish(root, args.branch, args.file, args.message, args.push, preserve=args.preserve)
         elif args.action == "prepare":
-            result = prepare(root, args.branch, args.record, args.file, args.section, args.sync,
-                             args.commit, args.preserve, args.notes_commit, scope=args.scope)
+            result = with_chief_of_staff(
+                prepare(root, args.branch, args.record, args.file, args.section, args.sync,
+                        args.commit, args.preserve, args.notes_commit, scope=args.scope), root)
         else:
-            result = pickup(root, args.branch, args.record, args.sync, args.commit, args.preserve,
-                            args.notes_commit, scope=args.scope)
+            result = with_chief_of_staff(
+                pickup(root, args.branch, args.record, args.sync, args.commit, args.preserve,
+                       args.notes_commit, scope=args.scope), root)
         print(json.dumps(result, indent=2))
         return 0
     except (HandoffError, OSError, ValueError) as exc:

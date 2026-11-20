@@ -1,0 +1,15 @@
+{
+  "status": "record_loaded",
+  "branch": "main",
+  "commit": "133f92cfbb29586ba5b3569f5d7e5b1995410bc3",
+  "notes_commit": null,
+  "record": "area/record.md",
+  "bytes": 54,
+  "content": "# Area record\n\nA scoped project inside a shared repo.\n",
+  "overtaken_revisions": [],
+  "preserved_local_only": [],
+  "scope": [
+    "area"
+  ],
+  "note": "Record loading is not proof of complete context restoration or permission to execute"
+}
