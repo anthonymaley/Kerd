@@ -2,6 +2,16 @@
 
 ## Now
 
+### Queue
+
+| Rank | Task id | Task | Outcome | Status | ETA | Depends on |
+|---|---|---|---|---|---|---|
+| 1 | cos-support | [Chief-of-staff support (0.200.0)](notes:chief-of-staff/design.md) | Optional queue table and CoS role, trialled in Kerd, released on his go | in progress (trial in Kerd) | today | — |
+| 2 | slim-marketplace | [Slim marketplace from the plugin branch](notes:batch-1114/package.md) | marketplace add clones ~2 MB, not 59 MB | blocked (his decision) | unknown | — |
+| 3 | sam-round6 | [Walk Sam again (round 6)](notes:batch-1114/first-user-5.md) | Round-5 fixes confirmed or reopened before invites, on the settled install | queued | ~1 sitting | slim-marketplace |
+
+Updated: 2026-11-20T11:24:54-05:00
+
 - **Chief-of-staff support, optional (design, held at review):** asked by Anthony's chief-of-staff session cosplay-b1 (2026-11-20 08:46); his "y" 09:15 (relayed) to build the design as written after a fresh Codex review; both review rounds Hold (8 + 8 findings). **Narrowing approved 09:20 (his "y", relayed by cosplay-b1):** ranked table in `## Now` for configured projects, kept by Conductor and Switch Out with a fresh config check before each edit; the CoS role at Switch In in the Cosplay repo; Cosplay pulls; no event files, Kerd never writes Krutho's `queue.md`. **Next (agreed):** write the narrowed design in full, one fresh Codex review; when it clears, build on `concert/chief-of-staff`, then the work-anthony trial; push or release go goes to him through cosplay-b1. Tell cosplay-b1 of review results, build ready for trial, any slip. `notes:chief-of-staff/design.md`.
 - **Walk Sam again on 0.199.0 (round 6, proposed):** round 5 (on 0.197.0, `notes:batch-1114/first-user-5.md`) found 2 confuses and 5 cosmetics; their fixes are in 0.198.0 (wording only, unwalked); 0.199.0 (main 6224b5ed) adds the slim install. Same method, from `main` at 6224b5ed, and also install it once from the marketplace into an isolated config so Sam meets the slim package; confirm the project name, the never-denied word, the saved detail preference carried to sitting 2, Out's piped inputs (fewer prompts) and the release cell; count first-arrival prompts; write `notes:batch-1114/first-user-6.md`. Stops at findings.
 - **Slim marketplace too (proposed; his decision):** since 0.199.0 the plugin copy is 1.6 MB, but `marketplace add anthonymaley/Kerd` still clones `main` (59 MB). Making the `plugin` branch a marketplace (kerd at `./`, overtone's tree included) cuts that to ~2.2 MB but changes the install command in README, site and getting-started. `notes:batch-1114/package.md` "Still open".
