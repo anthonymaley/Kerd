@@ -71,13 +71,63 @@ REQUIRED = (".claude-plugin/plugin.json", "hooks/hooks.json", "README.md", "LICE
             *(f"{folder}/.claude-plugin/plugin.json" for folder in MODS.values()))
 HOOK_PATH = re.compile(r"\$\{CLAUDE_PLUGIN_ROOT\}/([^\"'\s]+)")
 MARKETPLACE = ".claude-plugin/marketplace.json"
-# The generated marketplace.json knows exactly these fields. Anything else in the
-# source's file refuses rather than being dropped or copied unread.
+
+
+def _text(value):
+    return isinstance(value, str) and bool(value.strip())
+
+
+# The generated marketplace.json knows exactly these fields, at every level. A field
+# it does not list, a missing required one or a wrong type refuses the build rather
+# than being dropped or copied unread. Each schema: field -> (required, what, check).
+TEXT = ("a non-empty string", _text)
+FLAG = ("true or false", lambda value: isinstance(value, bool))
+OBJECT = ("an object", lambda value: isinstance(value, dict))
+LIST = ("a list", lambda value: isinstance(value, list))
+MARKETPLACE_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")
 MARKETPLACE_KEYS = ("name", "owner", "metadata", "plugins")
-ENTRY_KEYS = {"name", "source", "description", "version", "strict"}
-# The kerd entry on main points Claude Code at this branch; those are the only
-# remote forms the generator turns into "./".
-KERD_SOURCE_TYPES = {"url": {"source", "url", "ref"}, "github": {"source", "repo", "ref"}}
+MARKETPLACE_SCHEMA = {
+    "name": (True, "a marketplace name (letters, digits, . _ -, no ..)",
+             lambda value: isinstance(value, str) and bool(MARKETPLACE_NAME.fullmatch(value))
+             and ".." not in value),
+    "owner": (True, *OBJECT), "metadata": (False, *OBJECT), "plugins": (True, *LIST)}
+OWNER_SCHEMA = {"name": (True, *TEXT), "email": (False, *TEXT), "url": (False, *TEXT)}
+METADATA_SCHEMA = {"description": (False, *TEXT), "version": (False, *TEXT)}
+ENTRY_SCHEMA = {"name": (True, *TEXT), "source": (True, "a source", lambda value: value is not None),
+                "description": (False, *TEXT), "version": (False, *TEXT), "strict": (False, *FLAG)}
+# The kerd entry on main points Claude Code at this branch; these are the only
+# remote forms the generator turns into "./", each with exactly these fields.
+GITHUB_URL = re.compile(r"https://github\.com/[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?/"
+                        r"(?![.]{1,2}(?:\.git)?$)[A-Za-z0-9._-]+?(?:\.git)?")
+GITHUB_REPO = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?/(?![.]{1,2}$)[A-Za-z0-9._-]+")
+KERD_SOURCE_SCHEMAS = {
+    "url": {"source": (True, *TEXT),
+            "url": (True, "an https://github.com/owner/name URL",
+                    lambda value: isinstance(value, str) and bool(GITHUB_URL.fullmatch(value))),
+            "ref": (True, *TEXT)},
+    "github": {"source": (True, *TEXT),
+               "repo": (True, "owner/name",
+                        lambda value: isinstance(value, str) and bool(GITHUB_REPO.fullmatch(value))),
+               "ref": (True, *TEXT)},
+}
+
+
+def check_schema(value, schema, label):
+    """Refuse an object with a field the schema does not list, a missing required
+    field, or a field whose value fails its check."""
+    if not isinstance(value, dict):
+        raise ValueError(f"{label} must be an object, got {type(value).__name__}")
+    unknown = sorted(set(value) - set(schema))
+    if unknown:
+        raise ValueError(f"{label}: unknown field(s) {', '.join(unknown)}; "
+                         "teach the generator before shipping them")
+    for field, (required, what, check) in schema.items():
+        if field not in value:
+            if required:
+                raise ValueError(f"{label}: missing {field}")
+            continue
+        if not check(value[field]):
+            raise ValueError(f"{label}: {field} must be {what}, got {value[field]!r}")
 
 
 def release_version(value):
@@ -174,19 +224,14 @@ def branch_marketplace(source, chosen):
     """The plugin branch's own marketplace.json, generated from the shipped
     commit's: same name, owner and metadata; kerd at the branch root ("./");
     each mod at its own folder. Fail-closed on anything it cannot classify."""
-    if not isinstance(source, dict):
-        raise ValueError(f"{MARKETPLACE} is not a JSON object")
-    unknown = sorted(set(source) - set(MARKETPLACE_KEYS))
-    if unknown:
-        raise ValueError(f"{MARKETPLACE}: unknown top-level field(s) {', '.join(unknown)}; "
-                         "teach the generator before shipping them")
-    for key in ("name", "owner", "plugins"):
-        if key not in source:
-            raise ValueError(f"{MARKETPLACE}: missing {key}")
+    check_schema(source, MARKETPLACE_SCHEMA, f"{MARKETPLACE} (top level)")
+    check_schema(source["owner"], OWNER_SCHEMA, f"{MARKETPLACE} owner")
+    if "metadata" in source:
+        check_schema(source["metadata"], METADATA_SCHEMA, f"{MARKETPLACE} metadata")
     plugins = source["plugins"]
-    if not isinstance(plugins, list) or not all(isinstance(entry, dict) for entry in plugins):
-        raise ValueError(f"{MARKETPLACE}: plugins must be a list of objects")
-    names = [entry.get("name") for entry in plugins]
+    for index, entry in enumerate(plugins):
+        check_schema(entry, ENTRY_SCHEMA, f"{MARKETPLACE} plugins[{index}]")
+    names = [entry["name"] for entry in plugins]
     expected = sorted(["kerd", *MODS])
     if sorted(map(str, names)) != expected:
         raise ValueError(f"{MARKETPLACE}: plugin entries must be exactly {', '.join(expected)}; "
@@ -196,17 +241,13 @@ def branch_marketplace(source, chosen):
     for entry in plugins:
         name = entry["name"]
         label = f"{MARKETPLACE} entry {name}"
-        unknown = sorted(set(entry) - ENTRY_KEYS)
-        if unknown:
-            raise ValueError(f"{label}: unknown field(s) {', '.join(unknown)}")
-        if "source" not in entry:
-            raise ValueError(f"{label}: no source")
         src = entry["source"]
         if name == "kerd":
             kind = src.get("source") if isinstance(src, dict) else None
-            if kind not in KERD_SOURCE_TYPES or set(src) - KERD_SOURCE_TYPES[kind]:
+            if kind not in KERD_SOURCE_SCHEMAS:
                 raise ValueError(f"{label}: source {src!r} is not a form the generator can classify")
-            if src.get("ref") != BRANCH:
+            check_schema(src, KERD_SOURCE_SCHEMAS[kind], f"{label} source ({kind})")
+            if src["ref"] != BRANCH:
                 raise ValueError(f"{label}: source ref must be {BRANCH!r}, got {src.get('ref')!r}")
             generated.append({key: ("./" if key == "source" else value) for key, value in entry.items()})
             continue

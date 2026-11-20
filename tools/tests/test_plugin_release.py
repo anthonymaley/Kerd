@@ -25,17 +25,30 @@ OVERTONE = {
 }
 
 
-def marketplace(version, kerd_source=None, extra=None, overtone_source="./mods/overtone", **top):
+def marketplace(version, kerd_source=None, extra=None, overtone_source="./mods/overtone", kerd_extra=None,
+                **top):
     """The shape main's marketplace.json has: kerd from the plugin branch, overtone by relative path."""
     kerd = {"name": "kerd",
-            "source": kerd_source or {"source": "url", "url": "https://example.invalid/Kerd.git",
+            "source": kerd_source or {"source": "url", "url": "https://github.com/example/Kerd.git",
                                       "ref": "plugin"},
-            "description": "Kerd fixture", "version": version, "strict": True}
+            "description": "Kerd fixture", "version": version, "strict": True, **(kerd_extra or {})}
     overtone = {"name": "overtone", "source": overtone_source, "description": "Overtone fixture",
                 "version": "0.10.1"}
     return {"name": "kerd-marketplace", "owner": {"name": "Fixture Owner"},
             "metadata": {"description": "Fixture marketplace", "version": version},
             "plugins": [kerd, overtone, *(extra or [])], **top}
+
+
+def fixture_marketplace(version="1.0.0", **changes):
+    """marketplace() with top-level fields replaced (None removes one)."""
+    top = {k: v for k, v in changes.items() if k in ("name", "owner", "metadata", "plugins")}
+    data = marketplace(version, **{k: v for k, v in changes.items() if k not in top})
+    for key, value in top.items():
+        if value is None:
+            data.pop(key)
+        else:
+            data[key] = value
+    return data
 
 
 class PluginReleaseTests(unittest.TestCase):
@@ -300,10 +313,26 @@ class PluginReleaseTests(unittest.TestCase):
             "kerd subdir": (dict(kerd_source={"source": "git-subdir", "url": "x", "path": "y"}),
                             "not a form the generator can classify"),
             "kerd sha": (dict(kerd_source={"source": "url", "url": "x", "ref": "plugin", "sha": "a" * 40}),
-                         "not a form the generator can classify"),
+                         "unknown field\\(s\\) sha"),
             "kerd main": (dict(kerd_source={"source": "github", "repo": "o/r", "ref": "main"}),
                           "ref must be 'plugin'"),
-            "top field": (dict(renames={"old": None}), "unknown top-level field"),
+            "top field": (dict(renames={"old": None}), "unknown field\\(s\\) renames"),
+            # Review finding 1: a url source with no url must not become "./".
+            "kerd url missing": (dict(kerd_source={"source": "url", "ref": "plugin"}), "missing url"),
+            "kerd repo missing": (dict(kerd_source={"source": "github", "ref": "plugin"}), "missing repo"),
+            "kerd ref missing": (dict(kerd_source={"source": "url", "url": "https://github.com/o/r.git"}),
+                                 "missing ref"),
+            "kerd url empty": (dict(kerd_source={"source": "url", "url": "", "ref": "plugin"}),
+                               "url must be an https://github.com/owner/name URL"),
+            "kerd url http": (dict(kerd_source={"source": "url", "url": "http://github.com/o/r", "ref": "plugin"}),
+                              "url must be"),
+            "kerd url other host": (dict(kerd_source={"source": "url", "url": "https://gitlab.com/o/r",
+                                                      "ref": "plugin"}), "url must be"),
+            "kerd url not string": (dict(kerd_source={"source": "url", "url": 7, "ref": "plugin"}), "url must be"),
+            "kerd repo shape": (dict(kerd_source={"source": "github", "repo": "o/r/x", "ref": "plugin"}),
+                                "repo must be owner/name"),
+            "kerd repo dotdot": (dict(kerd_source={"source": "github", "repo": "o/..", "ref": "plugin"}),
+                                 "repo must be owner/name"),
         }
         for name, (changes, message) in cases.items():
             with self.subTest(name):
@@ -314,6 +343,46 @@ class PluginReleaseTests(unittest.TestCase):
                     prepare(output, repo=self.repo)
                 self.assertFalse(output.exists())
                 git(self.repo, "reset", "-q", "--hard", base)
+
+    def test_malformed_or_unknown_schema_fields_refuse(self):
+        # Review finding 2: every level is checked for required fields, types and unknown fields.
+        chosen = ["mods/overtone/.claude-plugin/plugin.json"]
+        self.assertEqual(branch_marketplace(fixture_marketplace(), chosen)["plugins"][0]["source"], "./")
+        overtone = marketplace("1.0.0")["plugins"][1]
+        cases = {
+            "not an object": ([], "must be an object"),
+            "name missing": (fixture_marketplace(name=None), "missing name"),
+            "name not string": (fixture_marketplace(name=5), "name must be a marketplace name"),
+            "name dotdot": (fixture_marketplace(name="kerd..x"), "name must be a marketplace name"),
+            "name space": (fixture_marketplace(name="kerd market"), "name must be a marketplace name"),
+            "owner missing": (fixture_marketplace(owner=None), "missing owner"),
+            "owner string": (fixture_marketplace(owner="Anthony"), "owner must be an object"),
+            "owner no name": (fixture_marketplace(owner={"email": "a@b.c"}), "owner: missing name"),
+            "owner empty name": (fixture_marketplace(owner={"name": " "}), "name must be a non-empty string"),
+            "owner unknown": (fixture_marketplace(owner={"name": "A", "twitter": "x"}),
+                              "owner: unknown field\\(s\\) twitter"),
+            "metadata list": (fixture_marketplace(metadata=[]), "metadata must be an object"),
+            "metadata unknown": (fixture_marketplace(metadata={"version": "1.0.0", "pluginRoot": "./p"}),
+                                 "metadata: unknown field\\(s\\) pluginRoot"),
+            "metadata version type": (fixture_marketplace(metadata={"version": 1}),
+                                      "version must be a non-empty string"),
+            "plugins object": (fixture_marketplace(plugins={}), "plugins must be a list"),
+            "entry not object": (fixture_marketplace(plugins=["kerd", overtone]), "plugins\\[0\\] must be an object"),
+            "entry name type": (fixture_marketplace(plugins=[{"name": 1, "source": "./"}, overtone]),
+                                "name must be a non-empty string"),
+            "entry no source": (fixture_marketplace(plugins=[{"name": "kerd"}, overtone]), "missing source"),
+            "strict string": (fixture_marketplace(kerd_extra={"strict": "yes"}), "strict must be true or false"),
+            "description number": (fixture_marketplace(kerd_extra={"description": 3}),
+                                   "description must be a non-empty string"),
+            "version empty": (fixture_marketplace(kerd_extra={"version": ""}), "version must be a non-empty string"),
+            "entry unknown": (fixture_marketplace(kerd_extra={"category": "workflow"}),
+                              "unknown field\\(s\\) category"),
+            "finding 1": (fixture_marketplace(kerd_source={"source": "url", "ref": "plugin"}), "missing url"),
+        }
+        for name, (data, message) in cases.items():
+            with self.subTest(name):
+                with self.assertRaisesRegex(ValueError, message):
+                    branch_marketplace(data, chosen)
 
     def test_a_missing_overtone_folder_or_typescript_outside_a_mod_refuses(self):
         cases = {
