@@ -39,7 +39,9 @@ class HandoffTests(unittest.TestCase):
         self.original = self.git(self.source, "rev-parse", "HEAD")
 
     def git(self, root, *args):
-        result = subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True)
+        # A bare fixture remote is named with --git-dir, which safe.bareRepository=explicit allows.
+        bare = (Path(root) / "HEAD").is_file() and (Path(root) / "objects").is_dir()
+        result = subprocess.run(["git", "--git-dir" if bare else "-C", str(root), *args], capture_output=True, text=True)
         if result.returncode:
             self.fail(f"Fixture git {args[0]} failed: {result.stderr}")
         return result.stdout.strip()

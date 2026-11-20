@@ -1,0 +1,29 @@
+[1;36m FIXTURE                                     [0m[32mSWITCH IN COMPLETE ✓ · Kerd 0.199.0[0m
+[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+ [2mPROJECT[0m Fixture
+ [2mPHASE  [0m Deliver: 2 of 3 done
+ [2mNEXT   [0m Finish the fixture task
+ [2mTEAM   [0m Codex (reviewer)
+
+[2m WHERE THINGS STAND[0m
+   The fixture project is half built and its tests pass.
+
+[2m LAST SESSION[0m
+   The first two pieces were built.
+
+[2m OPEN WORK[0m
+   1. Finish the fixture task
+   2. Codex: review the fixture
+
+[2m RECOMMENDED[0m
+   Finish the fixture task
+   Why: It unblocks the review.
+
+[31m╭─ ⚠ NEEDS ATTENTION ──────────────────────────────────────────────────────────╮[0m
+[31m│[0m One fixture warning.                                                         [31m│[0m
+[31m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+
+ [33m★[0m A fixture insight.
+
+[1m💬 Start a Conductor session?[0m

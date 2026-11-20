@@ -1,0 +1,13 @@
+{
+  "status": "record_loaded",
+  "branch": "main",
+  "commit": "133f92cfbb29586ba5b3569f5d7e5b1995410bc3",
+  "notes_commit": null,
+  "record": "CONTEXT.md",
+  "bytes": 99,
+  "content": "# Context\n\n## Now\n\nFixture project for the chief-of-staff off-path golden.\n\n## Next\n\nNothing else.\n",
+  "overtaken_revisions": [],
+  "preserved_local_only": [],
+  "scope": [],
+  "note": "Record loading is not proof of complete context restoration or permission to execute"
+}

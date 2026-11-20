@@ -1,0 +1,32 @@
+{
+  "status": "pickup_prepared",
+  "branch": "main",
+  "commit": "133f92cfbb29586ba5b3569f5d7e5b1995410bc3",
+  "notes_commit": null,
+  "clean_at_check": true,
+  "synchronized": false,
+  "sources": [
+    {
+      "file": "CONTEXT.md",
+      "selection": "complete file",
+      "content": "# Context\n\n## Now\n\nFixture project for the chief-of-staff off-path golden.\n\n## Next\n\nNothing else.\n",
+      "reaches_eof": true
+    },
+    {
+      "file": "TODO.md",
+      "selection": "complete file",
+      "content": "# TODO\n\n## Now\n\n- [ ] Golden fixture task\n\n## Backlog\n\n- Nothing yet\n",
+      "reaches_eof": true
+    },
+    {
+      "file": "CONTEXT.md",
+      "selection": "## Now (including child sections)",
+      "content": "## Now\n\nFixture project for the chief-of-staff off-path golden.\n\n",
+      "reaches_eof": false
+    }
+  ],
+  "preserved_local_only": [],
+  "scope": [],
+  "overtaken_revisions": [],
+  "note": "Caller-selected saved records, not fresh operational verification. Selection completeness and restored meaning still need assessment. No session is resumed and no execution authority is granted by this packet."
+}

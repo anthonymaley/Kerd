@@ -1,0 +1,28 @@
+{
+  "status": "pickup_prepared",
+  "branch": "main",
+  "commit": "133f92cfbb29586ba5b3569f5d7e5b1995410bc3",
+  "notes_commit": null,
+  "clean_at_check": true,
+  "synchronized": false,
+  "sources": [
+    {
+      "file": "area/record.md",
+      "selection": "complete file",
+      "content": "# Area record\n\nA scoped project inside a shared repo.\n",
+      "reaches_eof": true
+    },
+    {
+      "file": "area/TODO.md",
+      "selection": "complete file",
+      "content": "# Area TODO\n\n## Now\n\n- [ ] Scoped fixture task\n",
+      "reaches_eof": true
+    }
+  ],
+  "preserved_local_only": [],
+  "scope": [
+    "area"
+  ],
+  "overtaken_revisions": [],
+  "note": "Caller-selected saved records, not fresh operational verification. Selection completeness and restored meaning still need assessment. No session is resumed and no execution authority is granted by this packet."
+}

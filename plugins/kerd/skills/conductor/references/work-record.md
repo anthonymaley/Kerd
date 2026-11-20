@@ -4,6 +4,7 @@ Contents:
 
 - The record template and how to keep it: headings as a writing aid, the risks section, score-and-delivery lines
 - [Record agreement and carry the work forward](#record-agreement-and-carry-the-work-forward): where the record lives, capturing agreement, the next authorized action, status requests and save or pickup
+- [Keep the chief of staff's queue table](#keep-the-chief-of-staffs-queue-table): only when Switch In reported a chief of staff on; the five moments, `cos.py write` and its exit codes
 
 Write in the person's language. Use only the detail this work needs; these
 headings are a writing aid, not a parser contract. If the project has a suitable
@@ -186,3 +187,61 @@ For an explicitly requested session save or pickup, use
 [Switch](../../switch/SKILL.md). It carries a work pointer and session
 history, not another copy of the plan. Do not assume a local save transferred
 native model sessions elsewhere.
+
+## Keep the chief of staff's queue table
+
+This section exists only when this sitting's Switch In reported `chief_of_staff`
+on: its `prepare` or `pickup` output carried `"on": true`. With the signal off or
+absent, none of this exists and nothing is said about it: a cold start (Conductor
+with no Switch In this sitting) and a hand pickup (Switch In done by hand, or from
+records the caller supplied) carry no signal, so the chief of staff is off for that
+sitting. Conductor then never calls `cos.py`, never touches a `### Queue` block and
+never mentions a chief of staff. A config added mid-sitting takes effect at the next
+helper-run Switch In.
+
+When it is on, the project's `TODO.md` `## Now` opens with a ranked `### Queue`
+table that the chief of staff reads on its own scans. Conductor keeps it at five
+moments: when it **adds** a task, **starts** one, **finishes** one, when one
+**slips or blocks**, and when it **reorders** tasks. At each, it writes the whole
+table, never a single row, by calling
+
+    python3 <switch skill dir>/scripts/cos.py write --project P [--scope S]
+
+with the full rows as JSON on stdin. `<switch skill dir>` is the Switch skill
+beside this one (`../../switch` from this guide); `P` is the project's absolute
+path, and `--scope S` is passed when the project is a scoped folder, as Switch
+passes it. Rank is the array order, so a reorder is just the new order:
+
+```json
+[{"id": "cos-support", "task": "Chief-of-staff support", "link": "notes:chief-of-staff/design.md", "outcome": "Optional table and role, trialled in Kerd", "status": "in progress", "qualifier": "review", "eta": "~1 sitting", "depends": []}]
+```
+
+- `id` is a short slug written once and never changed or reused in the project:
+  lowercase letters, digits and hyphens, at most 40 characters, no names of people
+  or secrets. `status` is `queued`, `in progress` or `blocked`, with an optional
+  short `qualifier`. `eta` is a plain estimate or empty for `unknown`; no invented
+  precision. `depends` lists ids in the same table. No field may hold a backslash
+  or a line break (`cos.py` refuses them); a `|` is fine, it is escaped.
+- There is no `done` status. Finishing a task means writing the table without its
+  row. Before writing a table without a finished row, record the completion in that
+  task's own record (its work record, or the record its Task cell links): what
+  finished, the evidence and the date. The session log stays Switch Out's. This
+  step is model-followed; nothing checks it.
+- Never edit the `### Queue` block by hand: it is written only through `cos.py
+  write`, which validates the rows, stamps `Updated:` from the clock and touches
+  nothing else in `TODO.md`. Other Now lines are edited as today.
+- Exit 0: written. Exit 2: the rows are invalid; fix what it names and write again.
+  Exit 3: the chief of staff was switched off (config removed, project skipped or
+  opted out): say so once, in one plain line, and stop updating the table for the
+  rest of the sitting, with no further `cos.py` calls. Exit 4: `TODO.md` is
+  missing or has no `## Now`; say so once and leave the table to Switch Out. Exit
+  5: `TODO.md` changed underneath; re-read `TODO.md` and retry once, and if it
+  fails again, say so and leave the table to Switch Out.
+- `cos.py write` is a compare-and-swap at the last moment, not a lock: its config
+  re-check and its comparison of `TODO.md` with what it read are its last steps
+  before it replaces the file. A write by another program in the microseconds
+  between the final check and the replace can still be lost. Editors and edit
+  tools take no lock, so none is taken here.
+- `docs/work/queue.md` is not Kerd's: Conductor never writes it and never reads its
+  contents. A project that keeps one by hand keeps it; choosing between the two
+  lists is that project's own decision, never Kerd's.
