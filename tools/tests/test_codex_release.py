@@ -12,6 +12,12 @@ import unittest
 from tools.codex_release import PACKAGING, ROOT, git, prepare, publish
 
 
+def bare_git(bare, *args):
+    """git inside a bare fixture remote: --git-dir names it explicitly, which safe.bareRepository=explicit allows."""
+    return subprocess.run(["git", "--git-dir", str(bare), *args], check=True, capture_output=True,
+                          text=True).stdout.strip()
+
+
 class CodexReleaseTests(unittest.TestCase):
     def test_public_guides_share_the_install_and_update_commands(self):
         for name in ("docs/guide/getting-started.md", "docs/guide/codex-distribution.md",
@@ -101,20 +107,20 @@ class CodexReleaseTests(unittest.TestCase):
         release = prepare(first, repo=self.repo)
         first_commit = publish(first, release, repo=self.repo)
         # Publishing adds codex only; the fixture's main is the one it pushed itself.
-        self.assertEqual(git(self.remote, "for-each-ref", "--format=%(refname)"),
+        self.assertEqual(bare_git(self.remote, "for-each-ref", "--format=%(refname)"),
                          "refs/heads/codex\nrefs/heads/main")
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/main"), source_head)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/main"), source_head)
         self.assertEqual(git(self.repo, "rev-parse", "HEAD"), source_head)
         self.version("1.0.1")
         second = self.root / "second"
         second_commit = publish(second, prepare(second, repo=self.repo), repo=self.repo)
-        self.assertEqual(git(self.remote, "rev-parse", f"{second_commit}^"), first_commit)
+        self.assertEqual(bare_git(self.remote, "rev-parse", f"{second_commit}^"), first_commit)
         self.write("skills/switch/SKILL.md", "changed without version bump")
         self.version("1.0.1")
         third = self.root / "third"
         with self.assertRaisesRegex(ValueError, "new release version"):
             publish(third, prepare(third, repo=self.repo), repo=self.repo)
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/codex"), second_commit)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/codex"), second_commit)
 
     def test_a_commit_missing_from_main_cannot_publish(self):
         first = self.root / "first"
@@ -128,7 +134,7 @@ class CodexReleaseTests(unittest.TestCase):
         local = self.root / "local"
         with self.assertRaisesRegex(ValueError, "not on origin's main"):
             publish(local, prepare(local, repo=self.repo), repo=self.repo)
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/codex"), current)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/codex"), current)
         self.push_main()
         pushed = self.root / "pushed"
         self.assertNotEqual(publish(pushed, prepare(pushed, repo=self.repo), repo=self.repo), current)
@@ -141,7 +147,7 @@ class CodexReleaseTests(unittest.TestCase):
         old_package = self.root / "old"
         with self.assertRaisesRegex(ValueError, "not an ancestor"):
             publish(old_package, prepare(old_package, ref=old, repo=self.repo), repo=self.repo)
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/codex"), current)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/codex"), current)
 
     def test_a_previous_source_missing_here_says_to_fetch(self):
         # Another checkout moved main and published; this one has not fetched since.
@@ -158,7 +164,7 @@ class CodexReleaseTests(unittest.TestCase):
         stale = self.root / "stale"
         with self.assertRaisesRegex(ValueError, f"{missing} is not in this checkout; run git fetch origin"):
             publish(stale, prepare(stale, repo=self.repo), repo=self.repo)
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/codex"), current)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/codex"), current)
 
     def test_descendant_cannot_publish_a_lower_version(self):
         first = self.root / "first"
@@ -167,7 +173,7 @@ class CodexReleaseTests(unittest.TestCase):
         older = self.root / "older-version"
         with self.assertRaisesRegex(ValueError, "go backwards"):
             publish(older, prepare(older, repo=self.repo), repo=self.repo)
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/codex"), current)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/codex"), current)
 
     def test_mismatched_release_versions_create_no_artifact(self):
         self.write(".claude-plugin/plugin.json", json.dumps({"name": "kerd", "version": "1.0.2"}))
@@ -183,7 +189,7 @@ class CodexReleaseTests(unittest.TestCase):
     def test_codex_installs_and_updates_from_a_git_marketplace(self):
         first = self.root / "first"
         publish(first, prepare(first, repo=self.repo), repo=self.repo)
-        git(self.remote, "update-server-info")
+        bare_git(self.remote, "update-server-info")
 
         class QuietHandler(http.server.SimpleHTTPRequestHandler):
             def log_message(self, *args):
@@ -213,7 +219,7 @@ class CodexReleaseTests(unittest.TestCase):
         self.version("1.0.1")
         second = self.root / "second"
         publish(second, prepare(second, repo=self.repo), repo=self.repo)
-        git(self.remote, "update-server-info")
+        bare_git(self.remote, "update-server-info")
         codex("marketplace", "upgrade", "kerd-core")
         after_refresh = codex("list", "--marketplace", "kerd-core")["installed"][0]["version"]
         updated = codex("add", "kerd@kerd-core")

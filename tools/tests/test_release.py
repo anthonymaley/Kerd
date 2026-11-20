@@ -111,6 +111,9 @@ def release_source():
 
 
 def sh(cwd, *cmd):
+    # A bare fixture remote is named with --git-dir, which safe.bareRepository=explicit allows.
+    if cmd[0] == "git" and (Path(cwd) / "HEAD").is_file() and (Path(cwd) / "objects").is_dir():
+        cmd = ("git", "--git-dir", str(cwd), *cmd[1:])
     return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, check=True).stdout.strip()
 
 
@@ -561,7 +564,7 @@ class ReleaseTests(unittest.TestCase):
         self.green(sha)
         # The fake claude records the plugin tip as installed, as a real update would.
         claude = self.bin / "claude"
-        claude.write_text(FAKE_CLAUDE + f'tip=$(git -C {self.remote} rev-parse plugin)\n'
+        claude.write_text(FAKE_CLAUDE + f'tip=$(git --git-dir {self.remote} rev-parse plugin)\n'
                           f'printf \'{{"plugins": {{"kerd@kerd-marketplace": [{{"gitCommitSha": "%s"}}]}}}}\' "$tip" > {self.installed}\n')
         code, out = self.call(release.ship, self.repo, plugin=True, deadline_seconds=5)
         self.assertEqual(code, 0, out)

@@ -9,6 +9,12 @@ from unittest.mock import patch
 from tools.plugin_release import ROOT, commit, git, main, prepare, publish, select, tracked
 
 
+def bare_git(bare, *args):
+    """git inside a bare fixture remote: --git-dir names it explicitly, which safe.bareRepository=explicit allows."""
+    return subprocess.run(["git", "--git-dir", str(bare), *args], check=True, capture_output=True,
+                          text=True).stdout.strip()
+
+
 class PluginReleaseTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
@@ -90,23 +96,23 @@ class PluginReleaseTests(unittest.TestCase):
 
     def test_nothing_is_pushed_without_publish(self):
         self.build("package")
-        self.assertEqual(git(self.remote, "for-each-ref", "--format=%(refname)"), "refs/heads/main")
+        self.assertEqual(bare_git(self.remote, "for-each-ref", "--format=%(refname)"), "refs/heads/main")
 
     def test_publish_appends_and_refuses_a_changed_same_version(self):
         first, release, _report, first_commit, _ = self.build("first")
         publish(first, release, str(self.remote))
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/plugin"), first_commit)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/plugin"), first_commit)
         self.version("1.0.1")
         git(self.repo, "push", "-q", "origin", "HEAD:refs/heads/main")
         second, release, _report, second_commit, parent = self.build("second")
         self.assertEqual(parent, first_commit)
         publish(second, release, str(self.remote))
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/plugin^"), first_commit)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/plugin^"), first_commit)
         self.write("skills/switch/SKILL.md", "changed without a version bump\n")
         self.commit("same version")
         with self.assertRaisesRegex(ValueError, "new release version"):
             self.build("third")
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/plugin"), second_commit)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/plugin"), second_commit)
 
     def test_rollback_and_lower_version_refuse(self):
         old = git(self.repo, "rev-parse", "HEAD")
@@ -119,7 +125,7 @@ class PluginReleaseTests(unittest.TestCase):
         self.version("0.9.9")
         with self.assertRaisesRegex(ValueError, "go backwards"):
             self.build("lower")
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/plugin"), made)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/plugin"), made)
 
     def test_source_missing_from_main_cannot_publish(self):
         output, release, _r, _m, _p = self.build("local")
@@ -127,7 +133,7 @@ class PluginReleaseTests(unittest.TestCase):
         later, release, _r, _m, _p = self.build("later")
         with self.assertRaisesRegex(ValueError, "not on the remote's main"):
             publish(later, release, str(self.remote))
-        self.assertEqual(git(self.remote, "for-each-ref", "--format=%(refname)"), "refs/heads/main")
+        self.assertEqual(bare_git(self.remote, "for-each-ref", "--format=%(refname)"), "refs/heads/main")
 
     def test_unreadable_remote_refuses_rather_than_starting_a_new_branch(self):
         output = self.root / "package"
@@ -233,10 +239,10 @@ class PluginReleaseTests(unittest.TestCase):
         self.assertEqual(parent, second_commit)
         # Between this build's fetch and its push the branch is wound back. A plain
         # push would now fast-forward over the rewind; the lease on the parent refuses.
-        subprocess.run(["git", "-C", str(self.remote), "update-ref", "refs/heads/plugin", first_commit], check=True)
+        subprocess.run(["git", "--git-dir", str(self.remote), "update-ref", "refs/heads/plugin", first_commit], check=True)
         with self.assertRaisesRegex(ValueError, "stale info|rejected"):
             publish(third, release, str(self.remote))
-        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/plugin"), first_commit)
+        self.assertEqual(bare_git(self.remote, "rev-parse", "refs/heads/plugin"), first_commit)
 
     def test_this_repository_packages_cleanly(self):
         # The real tree must pass the allowlist: a new file type or a hook script
