@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.201.0
+
+**0.201.0: A much smaller first install.** New Claude Code users now add the marketplace from the slim `plugin` branch (`claude plugin marketplace add anthonymaley/Kerd#plugin`), so a first install writes about 7 MB instead of about 63 MB (measured in an isolated install). Existing installs keep working and need no action. The `plugin` branch now carries a generated `marketplace.json` and overtone's folder, so it stands on its own.
+
 ## 0.200.1
 
 **0.200.1: Codex gets the chief-of-staff release too.** 0.200.0 reached Claude Code but stopped before publishing for Codex: the Codex package builder did not know the new test fixture files (`.txt` and `.json` golden outputs under a skill's `tests/fixtures/`). It now accepts them as reviewed data, only inside a `tests/fixtures` folder. Nothing else changes.

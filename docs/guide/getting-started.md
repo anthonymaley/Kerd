@@ -76,13 +76,15 @@ Type these two commands in a terminal, not inside a Claude Code session.
 `claude plugin …` is a command for the terminal; a session does not run it.
 
 ```
-claude plugin marketplace add anthonymaley/Kerd
+claude plugin marketplace add anthonymaley/Kerd#plugin
 claude plugin install kerd@kerd-marketplace
 ```
 
 If the first command prints "SSH clone failed, retrying with HTTPS", that is
 normal when you have no GitHub key set up. It retries and succeeds; you do not
 need to do anything.
+
+The `#plugin` part fetches only the small `plugin` branch (about 7 MB written in all, where the whole repository was about 63 MB), not the whole repository. If you installed Kerd before, it keeps working with no change; you do not need to re-add anything.
 
 To try a version without adopting it, point Claude Code at a local checkout for
 one session:
