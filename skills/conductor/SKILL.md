@@ -395,6 +395,12 @@ names the guide section with its detail: open that section before the step.
   report actual guidance, saved-prompt and dispatch transitions; do not leave these
   facts until asked
   ([Make the conversation easy to use](references/journey.md#make-the-conversation-easy-to-use)).
+- Only when this sitting's Switch In reported a chief of staff on (never on a cold
+  start or a hand pickup), keep its `### Queue` table at five moments (adds, starts,
+  finishes, slips or blocks, reorders a task) through `cos.py write` alone, never by
+  hand, the completion recorded in the task's own record before its row leaves;
+  exit 3 means it was switched off: say so once and stop. Off or absent, none of it
+  exists ([the queue table](references/work-record.md#keep-the-chief-of-staffs-queue-table)).
 
 ### Finish
 
@@ -473,7 +479,7 @@ names the guide section with its detail: open that section before the step.
 - [Model jobs](references/model-jobs.md): the dispatch contract, and asking another
   model or an established partner to contribute.
 - [Work record](references/work-record.md): when first saving work, recording
-  agreement and carrying the work forward.
+  agreement and carrying the work forward, and a chief of staff's queue table.
 - [Weekly review](references/weekly-review.md): “make this a skill”, pasted notes
   that hold decisions, and the weekly review Switch In offers.
 - [Managed Conductor](references/managed-conductor.md): sustained authorized work

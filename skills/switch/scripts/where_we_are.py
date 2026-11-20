@@ -352,6 +352,10 @@ SUMMARY_KEYS = ("project", "where", "open_work", "recommendation",
 OPEN_WORK_KEYS = ("project", "phase", "where", "open_work", "recommendation", "last_session",
                   "team", "question", "documents", "warnings", "insight", "base", "restored",
                   "restore_note", "first_arrival")
+# Read only when a caller sets it, so the guide's example (which every caller
+# copies) leaves it out: `role`, a ROLE cell after PROJECT, set only in the chief
+# of staff's own project. Absent, empty or not a string: no cell, 0.199.0's grid.
+ARRIVAL_OPTIONAL_KEYS = ("role",)
 # `first_arrival: true`, for a project with no Kerd records at all, replaces the
 # grid and its empty blocks with this one line; the question still ends the screen.
 FIRST_ARRIVAL = ("Kerd has nothing saved here yet. Tell me what you want to work on and "
@@ -824,7 +828,9 @@ def open_work_head(summary, width, color, markdown):
         return lines + ["   " + line for line in wrap(FIRST_ARRIVAL, width - 3)] + [""]
     blocks = (("Where things stand", get("where"), "not recorded"),
               ("Last session", get("last_session"), "no completed job is recorded"))
-    grid = (("PROJECT", project), ("PHASE", str(get("phase") or UNRECORDED)),
+    role = get("role").strip() if isinstance(get("role"), str) else ""
+    grid = (("PROJECT", project), *((("ROLE", role),) if role else ()),
+            ("PHASE", str(get("phase") or UNRECORDED)),
             ("NEXT", str(recommendation.get("text") or ("Nothing on the list can move yet" if items
                                                   else "Nothing actionable is open"))),
             *((label, value) for label, value, _ in team_rows(get("team"))))

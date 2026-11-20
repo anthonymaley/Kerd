@@ -3,6 +3,7 @@
 Contents:
 
 - [In](#in): named handoffs first, a managed Roll record, Git synchronization, the pickup reading set and the coverage check
+  - [Carry the chief of staff signal](#carry-the-chief-of-staff-signal): only when `prepare` or `pickup` output carries it; role, warnings, off on a hand pickup
   - [Compose the arrival in Switch](#compose-the-arrival-in-switch): weigh every open item, one recommendation
   - [Restore the existing team](#restore-the-existing-team): pairing, succession, the arrival notice and stale pairings
   - [Enter Conductor from the answer](#enter-conductor-from-the-answer): what each answer to the arrival question opens
@@ -171,6 +172,36 @@ The short display may show only the next action; it must not imply that omitted
 choices are settled or that it is the complete working state.
 This is a coverage check of material already loaded, not an instruction to read
 the whole archive. A small input is useful only if its meaning survives.
+
+### Carry the chief of staff signal
+
+Only `prepare` and `pickup` carry it. With no chief-of-staff config on this
+machine their output has no `chief_of_staff` key, and nothing here applies: no
+role, no warning, no mention. When the output carries `chief_of_staff`, carry it
+into the session as this sitting's signal; Conductor and Out read it from there and
+make no extra call to find it.
+
+- `on: true` means Conductor keeps the project's `### Queue` table this sitting and
+  Out tidies it; `on: false` means neither does. `why` is for the session, not the
+  screen.
+- `on: true` and `is_cos_repo: true` (this is the chief of staff's own project,
+  and the config covers it): put `"role": "chief of staff"` in the summary JSON;
+  the renderer shows it as a ROLE cell. Nothing else changes, and the arrival never resumes the chief of staff's
+  checks or scans: In restores and never executes. With `on: false` (the chief of
+  staff's repo skipped, opted out or not in `projects`) there is no role: the helper
+  reports `is_cos_repo: false` then, and the summary leaves `role` out.
+- `config_error` set (not null): the config could not be used, so the chief of
+  staff is off for every project. Put one line in `warnings` naming which problem
+  it is (unreadable, invalid JSON, or the bad key), never more than one.
+- On, with `queue_md_present: true` beside `chief_of_staff` in the output: the
+  project also keeps `docs/work/queue.md` by hand, so there are two lists. Put one line in `warnings` saying the project keeps
+  two lists and should choose one; choosing, and any move, is that project's own
+  decision on its own yes, never Kerd's. In only knows the file exists; it never
+  reads its contents.
+
+A hand pickup (Switch In done by hand) or an arrival from records the caller
+supplied runs no helper, so it has no signal: the chief of staff is off for that
+sitting, and nothing is said about it. The next helper-run Switch In restores it.
 
 ### Compose the arrival in Switch
 
@@ -599,6 +630,10 @@ recommendation. The arrival's `stale` list never fills `team`; it becomes the
 one retire line in Open work ([Restore the existing team](#restore-the-existing-team)).
 A consequential routing problem belongs in `warnings`;
 routine unconfirmed notice delivery is not a blocker or an availability claim.
+
+`role` appears only in the chief of staff's own project, as
+[Carry the chief of staff signal](#carry-the-chief-of-staff-signal) says; leave it
+out everywhere else.
 
 Given a correctly shaped JSON object, fields are not required: a missing or null
 one degrades to a plain “not recorded” line or an explicit “nothing open”
