@@ -15,6 +15,8 @@ ROOT = Path(__file__).resolve().parents[4]
 SKILLS = ROOT / "skills"
 CONDUCTOR = SKILLS / "conductor" / "SKILL.md"
 SWITCH = SKILLS / "switch" / "SKILL.md"
+AGENT = SKILLS / "agent" / "SKILL.md"
+IN = SKILLS / "switch" / "references" / "in.md"
 JOURNEY = SKILLS / "conductor" / "references" / "journey.md"
 README = ROOT / "README.md"
 
@@ -24,8 +26,9 @@ RULE = (
     "merge, asked 10:20”) and the turn ends on a named wait for that answer, its bubble and decision "
     "block not repeated; it is asked again only when a fact behind it changes, then as a fresh "
     "question. A scheduled or recurring check that finds nothing new ends on one line naming the "
-    "next check, never a question. Switch In’s “Start a Conductor session?” belongs to each arrival "
-    "and is never a repeat — see [asking once]({link})."
+    "next check, never a question. Switch In's question belongs to an arrival the person started; an "
+    "arrival a scheduled or automatic run starts asks nothing new: it names any question still open "
+    "and ends on a named wait — see [asking once]({link})."
 )
 
 
@@ -48,13 +51,14 @@ def journey_section(heading):
 class AskOnceRuleTests(unittest.TestCase):
     def test_conductor_and_switch_carry_the_same_rule(self):
         for path, link in ((CONDUCTOR, "references/journey.md#ask-once"),
-                           (SWITCH, "../conductor/references/journey.md#ask-once")):
+                           (SWITCH, "../conductor/references/journey.md#ask-once"),
+                           (AGENT, "../conductor/references/journey.md#ask-once")):
             with self.subTest(skill=path.parent.name):
                 text = path.read_text(encoding="utf-8")
                 self.assertEqual(text.count(RULE.format(link=link)), 1)
 
     def test_rule_sits_with_the_question_form_before_must_hold(self):
-        for path in (CONDUCTOR, SWITCH):
+        for path in (CONDUCTOR, SWITCH, AGENT):
             with self.subTest(skill=path.parent.name):
                 body = path.read_text(encoding="utf-8").split("\n---\n", 1)[1]
                 paragraphs = [p for p in body.split("\n\n") if p.strip()]
@@ -109,10 +113,12 @@ class AskOnceGuideTests(unittest.TestCase):
                       "open ones.", self.section)
 
     def test_fixed_questions_and_the_first_asking_are_untouched(self):
-        self.assertIn("Switch In's “Start a Conductor session?” belongs to each arrival and is never a "
-                      "repeat", self.section)
+        self.assertIn("Switch In's question belongs to an arrival the person started: they ran Switch "
+                      "In, so its question answers their own request and is not a repeat.", self.section)
+        self.assertIn("An arrival a scheduled or automatic run starts asks nothing new: it names any "
+                      "question still open and ends on a named wait.", self.section)
         self.assertIn("A decision still gets its decision block the first time it is put", self.section)
-        self.assertIn("a declined Switch Out keeps its own rule", self.section)
+        self.assertIn("A declined Switch Out keeps its own rule", self.section)
         # The arrival question itself is unchanged.
         self.assertIn("For ordinary In, **“Start a Conductor session?”** ends the screen, once",
                       read(JOURNEY))
@@ -122,6 +128,16 @@ class AskOnceGuideTests(unittest.TestCase):
                       self.section)
         self.assertIn("The table never replaces asking here: the person is still asked once, in this "
                       "window.", self.section)
+
+    def test_switch_in_ruling_on_automatic_arrivals(self):
+        """Review r1 finding 2, the controller's ruling: the person's own arrival keeps its question;
+        a scheduled or automatic one asks nothing new."""
+        guide = read(IN)
+        self.assertIn("The question belongs to an arrival the person started; an arrival a scheduled or "
+                      "automatic run starts asks nothing new: leave `question` out of the summary, name "
+                      "any question still open with the time it was asked, and end on a named wait", guide)
+        self.assertIn("Ordinary In always supplies this question", guide)
+        self.assertNotIn("belongs to each arrival and is never a repeat", read(SWITCH))
 
     def test_turn_endings_point_at_it(self):
         journey = read(JOURNEY)

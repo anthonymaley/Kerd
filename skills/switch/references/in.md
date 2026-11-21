@@ -536,7 +536,11 @@ time or end marker. Ordinary In always supplies this question, including when
 nothing is actionable; on a first arrival the renderer asks “What do you want
 to work on?” in its place, with no picker. Do not add a second question; the open items are its
 context, the recommendation its proposed answer. The renderer places the
-question; do not append it yourself. Where the host offers a native picker,
+question; do not append it yourself. The question belongs to an arrival the person
+started; an arrival a scheduled or automatic run starts asks nothing new: leave
+`question` out of the summary, name any question still open with the time it was
+asked, and end on a named wait
+([ask once](../../conductor/references/journey.md#ask-once)). Where the host offers a native picker,
 follow the rendered output with up to four options: **“Yes — <the recommended
 work>”**, naming the work it opens; up to two other open items from this
 arrival's weighing, each named by the work it opens with a one-line why; and

@@ -288,9 +288,11 @@ finds nothing new ends on one line naming the next check and when it runs (“No
 new; next check 14:05.”), never a question and never a repeat of the open ones. A
 check that does find something reports it in the usual shape.
 
-This does not touch the questions that are fixed by design: Switch In's “Start a
-Conductor session?” belongs to each arrival and is never a repeat, and a declined
-Switch Out keeps its own rule for when it comes back. A decision still gets its
+This does not touch the questions that are fixed by design. Switch In's question
+belongs to an arrival the person started: they ran Switch In, so its question
+answers their own request and is not a repeat. An arrival a scheduled or automatic
+run starts asks nothing new: it names any question still open and ends on a named
+wait. A declined Switch Out keeps its own rule for when it comes back. A decision still gets its
 decision block the first time it is put; asking once changes only what later turns
 do while it is open.
 
