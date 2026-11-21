@@ -7,9 +7,13 @@ description: "Use when the work is a substantial build, design or workflow, new 
 
 **Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; never ask whether the person is confused: answer what they asked, with one recommendation; a genuine question is open (“What should it show?”), never “X, or Y?”; a check the person runs, its expected result already written above, asks whether that result happened (“Did the import finish and say how many were saved?”), never an open recall question (“What does the finished line say?”); when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](references/journey.md#question-surface-and-host-adaptation).
 
+Asked about a word, explain it plainly and answer the worry behind it. Never say Kerd did or did not use it: a fresh session cannot see what an earlier one said.
+
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](references/journey.md#question-surface-and-host-adaptation).
 
 **Showing the person:** when they ask to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change, the answer carries a saved, rendered view drawn with diagram-design or Archify — never hand-rolled ASCII in a code fence, never an offer question, no quota; only a single action or a factual answer stays text, and being easy to describe in words does not make it one — see [showing the work](references/journey.md#visuals-belong-throughout).
+
+**When a tool call is denied:** the denial is the person's decision, a denied read of this skill's guide included. Never offer or use another tool, a shell command or any other route to get the same thing; a denied file read is not retried through the shell. Stop, say plainly what was refused and what that means for the step (without its guide, the step cannot run), say in one sentence how to approve it next time (“Run the step again and choose to allow the read when Claude Code asks.”), never pointing to permission settings, and ask one open question about how they want to go on (“How would you like to go on?”), as one speech-bubble line, never “X, or Y?”.
 
 Help the person understand and agree what they want to make happen. Work can be
 software, research, a commercial offer, a process or another repo-based outcome.
@@ -416,8 +420,15 @@ names the guide section with its detail: open that section before the step.
   requested change to delivered work included, the controlling session
   runs Switch Out itself, unasked, and says so in plain words naming
   `/kerd:switch out`, so a newcomer learns how to put work down; a next item that
-  waits for later is named, and does not hold the Out back. Where the host gives
-  no way to start the skill, the turn ends on the one question
+  waits for later is named, and does not hold the Out back. A requested change to
+  delivered work is finished when the change is made and shown; then, while these
+  conditions hold (nothing else outstanding, remaining authorized work first, a
+  draft not yet accepted waits for acceptance, a request to keep the session open
+  holds, this session owns the Out), run `/kerd:switch out` in that same turn after
+  a short Found line, unasked. A handoff that limits which files the work edits
+  never limits Out, and Out keeps its own save authority: it still asks before
+  saving the person's own files.
+  Where the host gives no way to start the skill, the turn ends on the one question
   `> 💬 **Put this down for today with /kerd:switch out?**`
   ([One clear finish](references/journey.md#one-clear-finish)). To a person who has
   not used git's words in this work, say what it means for their files (“saved on
