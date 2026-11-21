@@ -133,9 +133,16 @@ class AskOnceGuideTests(unittest.TestCase):
         """Review r1 finding 2, the controller's ruling: the person's own arrival keeps its question;
         a scheduled or automatic one asks nothing new."""
         guide = read(IN)
-        self.assertIn("The question belongs to an arrival the person started; an arrival a scheduled or "
-                      "automatic run starts asks nothing new: leave `question` out of the summary, name "
-                      "any question still open with the time it was asked, and end on a named wait", guide)
+        self.assertIn("The question belongs to an arrival the person started. An arrival a scheduled or "
+                      "automatic run starts asks nothing new: set `\"automatic\": true` in the summary, "
+                      "which leaves every arrival question off the screen, the first-arrival one included",
+                      guide)
+        self.assertIn("and no picker follows. After the unchanged screen, in the caller's own line, name "
+                      "any question still open with the time it was asked and end on a named wait", guide)
+        self.assertIn("`\"automatic\": true` appears only when a scheduled or automatic run, not the "
+                      "person, started the arrival", guide)
+        self.assertIn("Its summary sets `\"automatic\": true`, so the rendered screen carries no question "
+                      "(not even the first-arrival one) and no picker", read(JOURNEY))
         self.assertIn("Ordinary In always supplies this question", guide)
         self.assertNotIn("belongs to each arrival and is never a repeat", read(SWITCH))
 

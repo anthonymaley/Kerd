@@ -436,5 +436,57 @@ class ArrivalRoleTests(unittest.TestCase):
             self.assertIn(f"- {view.md(line)}", out)
 
 
+class ArrivalAutomaticTests(unittest.TestCase):
+    """Review r2 (0.203.0): `"automatic": true` suppresses every arrival question, the
+    first-arrival one included, so an arrival nobody asked for asks nothing new. Absent or
+    anything but true, the screen is the golden's, byte for byte."""
+
+    @staticmethod
+    def without_question(text):
+        lines = text.split("\n")
+        cut = next(i for i, line in enumerate(lines) if "💬" in line)
+        lines = lines[:cut]
+        while lines and not lines[-1].strip():
+            lines.pop()
+        return "\n".join(lines)
+
+    def test_key_absent_or_not_true_is_byte_identical(self):
+        for value in ({}, {"automatic": False}, {"automatic": None}, {"automatic": "true"},
+                      {"automatic": 1}):
+            for name, options in RENDERS.items():
+                with self.subTest(value=value, render=name):
+                    out = render(dict(SUMMARY, **value), **options)
+                    self.assertEqual(out, (GOLDEN / name).read_text(encoding="utf-8"))
+
+    def test_automatic_normal_arrival_ends_on_its_content(self):
+        for name, options in RENDERS.items():
+            with self.subTest(render=name):
+                out = render(dict(SUMMARY, automatic=True), **options)
+                golden = (GOLDEN / name).read_text(encoding="utf-8")
+                self.assertNotIn("💬", out)
+                self.assertNotIn("Start a Conductor session?", out)
+                self.assertEqual(out, self.without_question(golden))
+                self.assertTrue(out.splitlines()[-1].strip())
+
+    def test_automatic_first_arrival_asks_nothing_either(self):
+        first = {"project": "Fixture", "first_arrival": True, "restored": "yes",
+                 "question": {"text": "Start a Conductor session?"}}
+        for name, options in RENDERS.items():
+            with self.subTest(render=name):
+                asked = render(first, **options)
+                self.assertIn("What do you want to work on?", asked)
+                out = render(dict(first, automatic=True), **options)
+                self.assertNotIn("💬", out)
+                self.assertNotIn("What do you want to work on?", out)
+                self.assertNotIn("Start a Conductor session?", out)
+                self.assertEqual(out, self.without_question(asked))
+                self.assertIn("Kerd has nothing saved here yet.", out)
+                self.assertTrue(out.splitlines()[-1].strip())
+
+    def test_automatic_stays_out_of_the_guide_example(self):
+        self.assertIn("automatic", view.ARRIVAL_OPTIONAL_KEYS)
+        self.assertNotIn("automatic", view.OPEN_WORK_KEYS)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -537,9 +537,12 @@ nothing is actionable; on a first arrival the renderer asks “What do you want
 to work on?” in its place, with no picker. Do not add a second question; the open items are its
 context, the recommendation its proposed answer. The renderer places the
 question; do not append it yourself. The question belongs to an arrival the person
-started; an arrival a scheduled or automatic run starts asks nothing new: leave
-`question` out of the summary, name any question still open with the time it was
-asked, and end on a named wait
+started. An arrival a scheduled or automatic run starts asks nothing new: set
+`"automatic": true` in the summary, which leaves every arrival question off the
+screen, the first-arrival one included, so the screen ends on its last content
+(attention, documents or open work), and no picker follows. After the unchanged
+screen, in the caller's own line, name any question still open with the time it was
+asked and end on a named wait
 ([ask once](../../conductor/references/journey.md#ask-once)). Where the host offers a native picker,
 follow the rendered output with up to four options: **“Yes — <the recommended
 work>”**, naming the work it opens; up to two other open items from this
@@ -647,7 +650,9 @@ routine unconfirmed notice delivery is not a blocker or an availability claim.
 
 `role` appears only in the chief of staff's own project, as
 [Carry the chief of staff signal](#carry-the-chief-of-staff-signal) says; leave it
-out everywhere else.
+out everywhere else. `"automatic": true` appears only when a scheduled or automatic
+run, not the person, started the arrival; leave it out of every arrival the person
+started, where it defaults to false and the screen is unchanged.
 
 Given a correctly shaped JSON object, fields are not required: a missing or null
 one degrades to a plain “not recorded” line or an explicit “nothing open”
