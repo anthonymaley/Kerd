@@ -406,7 +406,10 @@ about technical detail (the whole `Person's preference (<date>): …` line in th
 current-context pointer, CONTEXT.md by convention, a `none; they took back “…”` line
 included, so Conductor clears an older sketchbook line),
 quoted in the person's words, so Conductor's first lines follow it (no stage
-label or Kerd terms when they asked to keep the technical stuff out of the way). Resolve Conductor from this
+label or Kerd terms when they asked to keep the technical stuff out of the way).
+Carry only the exclusions the person stated. Never add your own (“edit X only”,
+“nothing committed”): Kerd's own records and the closing save are part of every
+sitting. Resolve Conductor from this
 distribution, not another cache's file. Do not ask a second time what to move
 forward, and do not substitute related backlog work for an excluded item. When
 native invocation is unavailable, read Conductor's work-entry section and the
