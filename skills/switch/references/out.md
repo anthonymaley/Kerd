@@ -472,7 +472,9 @@ To the person, Out “saves”: it does not “commit by name”, and a project 
 remote is “saved on this computer only”, never “no remote”. Git words reach the
 person only when they use git words themselves; the helper calls and records keep them.
 That includes the short progress lines between steps, which the person sees too
-(“checking what's saved”, not “whether there's a remote”). Asked what a word means,
+(“checking what's saved”, not “whether there's a remote”): narration never says
+push, pushed, remote or “nowhere to push to”, only what it means for their files
+(“saved on this computer”). Asked what a word means,
 explain it plainly and answer the worry behind it; never claim it wasn't said.
 Files the project already ignores are not in the question: the project chose
 to ignore them. When that list cannot be read (`git status` fails), say the
