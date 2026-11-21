@@ -6,9 +6,9 @@
 
 | Rank | Task id | Task | Outcome | Status | ETA | Depends on |
 |---|---|---|---|---|---|---|
-| 1 | round6-fixes | [Round-6 fixes: refusal rule, revision ends in Out, never deny own words](notes:batch-1114/first-user-6.md) | Round 6 confusions fixed and probed before invites | in progress | ~1 sitting | — |
+| 1 | round6-fixes | [Round-6 fixes: refusal rule, revision ends in Out, never deny own words](notes:batch-1114/first-user-6.md) | Round 6 confusions fixed and probed before invites | blocked | after the 17:00 reset | — |
 
-Updated: 2026-11-21T08:07:19-05:00
+Updated: 2026-11-21T10:31:12-05:00
 
 - **Watch the chief-of-staff queue in real use (0.200.0/0.200.1):** after each project's Kerd restarts on 0.200.1, Conductor and Switch Out keep the `### Queue` table through `cos.py write` in Kerd and Cosplay (both in `~/.config/kerd/chief-of-staff.json`), Cosplay's Switch In shows ROLE: chief of staff, and Cosplay's scans read them; first real sitting not yet seen. Decisions reach Anthony through his chief of staff, cosplay-b1; a push still needs his go typed in the Kerd window. `notes:chief-of-staff/design.md`.
 - **Round-6 fixes (agreed 2026-11-21 08:20, his "y" relayed by cosplay-f1; release needs its own go):** round 6 on 0.201.0 (2026-11-20/21, `notes:batch-1114/first-user-6.md`) found 15 of 24 fixed, 5 partly, 3 not fixed, 7 new (0 blocks); sitting-2 reruns show the missing save after a revision is systematic (4 of 4). Three proposals in that record's "Proposed fixes": (1) safety first: a denied tool call is never routed around (draft uncommitted on local branch `concert/round6-fixes`, worktree `~/development/product/Kerd-r6`, unmerged; suite 1,599 pass with it); (2) a finished revision ends in Out unasked and Switch In's handoff carries only exclusions the person stated, plus an eval; (3) never deny Kerd's own words. Held 2026-11-20 23:28 by his chief of staff (observe, share, agree, act): built only on his yes, then a fresh Codex review, a probe rerun and his ship go.
