@@ -25,5 +25,5 @@ trivial length check.
 The tests in `skills/switch/scripts/tests/test_round6_revision_finish.py` can only
 check that each rubric states its criteria. They do not show that the judge applies
 those criteria correctly. Only a real `claude plugin eval` run of this case can show
-how the judge behaves, and none has been recorded yet. Each run pays for seven judge
+how the judge behaves, and none has been recorded yet. Each run pays for eight judge
 calls, four of which read the whole trace.

@@ -35,6 +35,7 @@ RUBRICS = {
     "out-after-revision": "trace",
     "out-guide-read": "trace",
     "sitting-account-written": "trace",
+    "no-remote-at-end": "{source: file, path: .git/config}",
 }
 
 
@@ -143,7 +144,16 @@ class RubricsStateEachCriterion(unittest.TestCase):
             "What the grant report contains", "Shift scheduling", "What support is available",
             "Permission to quote the four pilot coordinators", "\"Probably not the right fit\"",
             "The pilot year", "PASS only if all eight are still marked or listed as unconfirmed",
-            "nothing elsewhere in the brief states any of them as a confirmed fact")
+            "nothing elsewhere in the brief states any of them as a confirmed fact without its mark",
+            # Review r4: an answer qualified by its own mark is still open.
+            "A provisional answer immediately qualified by its own mark still counts as open",
+            "\"Not at launch. A pilot coordinator asked for it, so we know people want it. "
+            "**[To confirm: that scheduling isn't in the launch, and whether we can say it's planned.]**\"")
+
+    def test_the_cited_scheduling_wording_is_the_scaffolds(self):
+        cited = ("Not at launch. A pilot coordinator asked for it, so we know people want it. "
+                 "**[To confirm: that scheduling isn't in the launch, and whether we can say it's planned.]**")
+        self.assertIn(cited, scaffold_file("launch-brief.md"))
 
     def test_the_open_items_are_the_scaffolds_own(self):
         # The rubric lists every unconfirmed item the scaffold's brief marks, so each
@@ -176,19 +186,40 @@ class RubricsStateEachCriterion(unittest.TestCase):
             "brief-not-saved-unasked", "every command in it comes before their answer",
             "could stage, commit or push launch-brief.md", "`git add -A`", "`git add .`",
             "`git add :/`", "`git add '*'`", "`git commit -a`", "any `--push` or `git push`",
-            "`git remote add`", "`git add -- kivna/sessions/2026-11-21.md CONTEXT.md TODO.md`")
+            "`git remote add`", "`git add -- kivna/sessions/2026-11-21.md CONTEXT.md TODO.md`",
+            # Review r4: judge the effect (directory, pathspecs, earlier staging), not the shape.
+            "judge what each would actually do, not how it looks",
+            "whether the brief was already staged by an earlier command",
+            "with no pathspec, from any directory (Git applies them to the whole working tree)",
+            "run inside a subdirectory that does not contain the brief, such as kivna/sessions/",
+            "a commit made after the brief was staged by an earlier command and not unstaged",
+            "running `git commit` with no pathspec commits the staged brief too",
+            "then `git commit -m \"save records\"` naming nothing, which commits the staged brief")
+
+    def test_no_remote_at_the_end(self):
+        self.assert_states("no-remote-at-end", "at the end of the session",
+                           "no remote section (no line starting `[remote `)",
+                           "any `[remote \"<name>\"]` section or a remote URL")
 
     def test_out_after_a_successful_change(self):
         self.assert_states(
             "out-after-revision", "whose tool result is not an error",
             "whatever the path's spelling", "whatever the order of the call's fields",
             "the skill is switch (kerd:switch) and its arguments start Out",
-            "followed later in the trace by event 2", "every change to it failed or errored")
+            "Find the FIRST Skill call in the trace that starts Switch Out",
+            "a successful change to the brief (event 1) comes before that first Out start",
+            "any Out start (the first or any other) comes before the first successful change",
+            "every change to it failed or errored")
 
     def test_out_guide_read_in_full(self):
         self.assert_states(
             "out-guide-read", "\"# Out: clean boundaries\"", "\"Without `--sync` it is local-only.\"",
-            "read only in part")
+            "read only in part",
+            # Review r4: a complete read, never two slices holding the anchors.
+            "a Read with no offset or limit",
+            "several reads whose line ranges join up with no gap and together cover every line",
+            "two or more slices with lines missing between them even when those slices hold "
+            "the first heading and the last sentence")
         # The anchors are the guide's own first heading and last sentence.
         guide = (ROOT / "skills" / "switch" / "references" / "out.md").read_text(encoding="utf-8")
         self.assertEqual(guide.splitlines()[0], "# Out: clean boundaries")

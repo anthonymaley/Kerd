@@ -26,7 +26,12 @@ The "Open items" list may drop the launch date and the account question, but mus
 list the open items above that it listed before (quote permission, pricing wording,
 grant report contents, the scheduling answer, privacy and security, support, the pilot
 year).
+A provisional answer immediately qualified by its own mark still counts as open, as in
+the original brief's scheduling answer: "Not at launch. A pilot coordinator asked for
+it, so we know people want it. **[To confirm: that scheduling isn't in the launch, and
+whether we can say it's planned.]**". The same wording kept, or any answer still
+followed by its own mark, is open, not settled.
 PASS only if all eight are still marked or listed as unconfirmed and nothing elsewhere
-in the brief states any of them as a confirmed fact. FAIL if any mark was removed, any
+in the brief states any of them as a confirmed fact without its mark. FAIL if any mark was removed, any
 of these is stated as settled anywhere in the brief, or an open item above was dropped
 from the list.
