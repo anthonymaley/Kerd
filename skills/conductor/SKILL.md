@@ -11,6 +11,8 @@ description: "Use when the work is a substantial build, design or workflow, new 
 
 **Showing the person:** when they ask to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change, the answer carries a saved, rendered view drawn with diagram-design or Archify — never hand-rolled ASCII in a code fence, never an offer question, no quota; only a single action or a factual answer stays text, and being easy to describe in words does not make it one — see [showing the work](references/journey.md#visuals-belong-throughout).
 
+**When a tool call is denied:** the denial is the person's decision, a denied read of this skill's guide included. Never offer or use another tool, a shell command or any other route to get the same thing; a denied file read is not retried through the shell. Stop, say plainly what was refused and what that means for the step (without its guide, the step cannot run), say in one sentence how to approve it next time (“Run the step again and choose to allow the read when Claude Code asks.”), never pointing to permission settings, and ask one open question about how they want to go on (“How would you like to go on?”), as one speech-bubble line, never “X, or Y?”.
+
 Help the person understand and agree what they want to make happen. Work can be
 software, research, a commercial offer, a process or another repo-based outcome.
 The conversation should feel like a capable partner, not a form or a gate ladder.
