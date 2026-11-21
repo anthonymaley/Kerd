@@ -722,7 +722,14 @@ existing authority.
 **A newcomer learns where Out lives.** When the agreed goal is met and nothing is
 outstanding, a finished revision or requested change to delivered work included,
 a next item that waits for later (“next week”, someone else's
-answer) does not hold the Out back: name that item, then run Out. Say it in plain
+answer) does not hold the Out back: name that item, then run Out. A requested
+change to delivered work is finished when the change is made and shown; then, while
+these conditions hold (nothing else outstanding, remaining authorized work first, a
+draft not yet accepted waits for acceptance, a request to keep the session open
+holds, this session owns the Out), run `/kerd:switch out` in that same turn after a
+short Found line, unasked. A handoff that limits which files the work edits never
+limits Out, and Out keeps its own save authority: it still asks before saving the
+person's own files. Say it in plain
 words and name the command, so a newcomer knows how to put work down another time:
 “That's done. I'm putting this down for today with `/kerd:switch out`, so
 `/kerd:switch in` picks it up next time.” Where the host gives no way to start a
@@ -730,7 +737,10 @@ skill from the session, the turn ends on the one question that hands it over,
 `> 💬 **Put this down for today with /kerd:switch out?**`. (First-user
 walkthrough, 2026-11-13: a finished export ended on “tell me next week”, with no
 Out and no mention of it. Round 3, 2026-11-14: a finished revision of a brief
-ended on “in your working tree, not committed; nothing was pushed”, with no Out.)
+ended on “in your working tree, not committed; nothing was pushed”, with no Out.
+Round 6, 2026-11-21: 0 of 4 revisions of an accepted brief ran Out; two ended with
+no question, two asked the put-down question though the host could start Out, and
+a handoff saying “edit launch-brief.md only” left Kerd's records untouched.)
 
 **A draft for review is done when it is accepted.** When the work is a draft the
 person will review, the goal is met when they accept it, not when it is first

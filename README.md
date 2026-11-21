@@ -406,9 +406,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.201.0)
+## What's New (v0.202.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.202.0
+
+**0.202.0: Kerd respects a refusal, finishes a revision, and stops arguing about words.** From a sixth simulated first-user walkthrough. When you refuse a tool call, Kerd now stops, says what was refused and how to approve it next time, and never offers another route to the same thing (Switch, Conductor, Agent and Visuals). After a requested change to delivered work, Conductor starts Switch Out by itself in the same turn, under its usual finish conditions, and Out still asks before saving your own files; Switch In hands Conductor only the limits you stated. Asked what a word means, Kerd explains it and the worry behind it, never whether it used the word. A new eval case, `conductor-revision-out`, checks the revision finish.
 
 ### v0.201.0
 
