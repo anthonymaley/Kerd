@@ -6,9 +6,10 @@
 
 | Rank | Task id | Task | Outcome | Status | ETA | Depends on |
 |---|---|---|---|---|---|---|
-| 1 | round6-leftovers | [Round-6 cosmetic leftovers and a revision-finish rerun](notes:batch-1114/first-user-6.md) | Found line before Out, refusal names /kerd:switch in, unasked Out seen holding | queued | ~1 sitting | — |
+| 1 | cos-ask-once | [Chief-of-staff use: ask once, an Asks table, per-project relay rule](notes:cos-mode/work.md) | He is asked each decision once, with a default, in the window where it counts | in progress | ~1.5 sittings | — |
+| 2 | round6-leftovers | [Round-6 cosmetic leftovers and a revision-finish rerun](notes:batch-1114/first-user-6.md) | Found line before Out, refusal names /kerd:switch in, unasked Out seen holding | queued | ~1 sitting | — |
 
-Updated: 2026-11-21T11:30:01-05:00
+Updated: 2026-11-21T13:36:44-05:00
 
 - **Watch the chief-of-staff queue in real use (0.200.0/0.200.1):** after each project's Kerd restarts on 0.200.1, Conductor and Switch Out keep the `### Queue` table through `cos.py write` in Kerd and Cosplay (both in `~/.config/kerd/chief-of-staff.json`), Cosplay's Switch In shows ROLE: chief of staff, and Cosplay's scans read them; first real sitting not yet seen. Decisions reach Anthony through his chief of staff, cosplay-b1; a push still needs his go typed in the Kerd window. `notes:chief-of-staff/design.md`.
 - **Round-6 cosmetic leftovers and a revision-finish rerun (proposed):** 0.202.0 shipped the three round-6 fixes (2026-11-21 11:29). Left, each seen once: no Found line before Out's save question after a revision; the refusal reply's "run the step again" doesn't name `/kerd:switch in`; "the saved place" reached the person. Fix them, then rerun sitting 2 three times to see whether the unasked Out holds. `notes:batch-1114/first-user-6.md`.
