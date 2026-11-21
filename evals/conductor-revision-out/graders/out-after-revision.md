@@ -1,11 +1,7 @@
 ---
-type: tool_order
+type: regex
 weight: 1
-before:
-  tool: Edit
-  input_match: 'launch-brief\.md'
-after:
-  tool: Skill
-  input_match: '^(?=[\s\S]*"skill"\s*:\s*"(?:kerd:)?switch")(?=[\s\S]*"args"\s*:\s*"\s*out\b)'
+target: trace
+pattern: '"name":"(?:Edit|Write)","input":\{"file_path":"[^"]*/launch-brief\.md"[\s\S]*"name":"Skill","input":\{(?=[^}]*"skill":"(?:kerd:)?switch")(?=[^}]*"args":"\s*out\b)'
 ---
-Out started after the brief was revised, in the same turn, not before the change was made.
+Out started after the brief was changed, in the same turn: an Edit or Write on launch-brief.md comes before the Skill call that starts `/kerd:switch out`.
