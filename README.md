@@ -215,6 +215,12 @@ in real use yet: [known limits](docs/guide/known-limits.md).
 
 Every command, one line each: [reference](docs/guide/reference.md).
 
+**You are asked once.** A question Kerd has put to you and you haven't answered yet
+is not asked again on the next turn, or the one after. The report says what is still
+open and when it was asked, and waits for your answer; it asks again only when
+something behind the question changes. A check that runs on a timer and finds
+nothing new says so in one line, with the time of the next check.
+
 Kerd also runs a small release rules check in CI, the checks GitHub runs on a
 push: it catches version drift and a mismatched capability list between the
 plugin manifests on every push. What keeps the work itself honest is
@@ -391,8 +397,21 @@ table. A hand-kept `docs/work/queue.md` stays yours: Kerd never writes it or rea
 its contents, and when a covered project has one, Switch In suggests the project choose
 one list.
 
+**Decisions are asked once.** Under the queue, an `### Asks` table lists the
+decisions Kerd has put to you that are still open: the question, the default that
+runs unless you object, why, which tasks it holds up, whether it is a decision or an
+operation (a push, release, install or live change), when it was asked, and where
+your answer counts. Conductor adds a row when it first asks you and takes it out once
+your answer is recorded, through `cos.py ask`. The chief of staff reads it to show you
+the two or three decisions that matter, instead of asking you again from its own window.
+Where an answer counts is each project's own rule, in its `kivna/vault.json`:
+`"chief_of_staff_relay": "decisions"` lets an answer you give the chief of staff count
+for a decision, never for a push, release, install or live change; `"none"`, the
+default when the key is missing, means you answer in that project's window. Kerd's
+own repo says `"none"`.
+
 **Without the file, nothing changes:** the same screens, records and tool calls,
-no table and no ROLE cell. To switch it off, delete the file, or skip or opt
+no tables and no ROLE cell. To switch it off, delete the file, or skip or opt
 out the project.
 
 ## Naming
@@ -406,9 +425,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.202.0)
+## What's New (v0.203.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.203.0
+
+**0.203.0: Asked once.** A question you have not answered yet is never asked again just to end a turn: Kerd names it with the time it was asked and waits, asks again only when something behind it changes, and a routine check with nothing new ends on one line (Conductor, Switch and Agent). With a chief of staff configured, `cos.py ask` keeps an `### Asks` table beside the queue in each project's plan: one row per decision, with its default, what it blocks, when it was asked and where your answer counts, so your chief of staff reads it instead of asking again. A per-project `chief_of_staff_relay` in `kivna/vault.json` says whether a relayed answer counts for decisions; it never covers a push, release, install or live change, and it is "none" unless set. Without a chief of staff nothing changes.
 
 ### v0.202.0
 
