@@ -483,6 +483,47 @@ class ArrivalAutomaticTests(unittest.TestCase):
                 self.assertIn("Kerd has nothing saved here yet.", out)
                 self.assertTrue(out.splitlines()[-1].strip())
 
+    # Review r3: a sparse summary (no where, open_work, recommendation or first_arrival)
+    # takes the older layout. Its goldens were rendered by main at 90c50f78, before the
+    # key existed, never by the code under test.
+    SPARSE = {"project": "Fixture",
+              "question": {"text": "Start a Conductor session?", "proposed": "Finish the fixture task"},
+              "warnings": ["One fixture warning."], "restored": "yes"}
+    SPARSE_RENDERS = {"sparse_plain.txt": RENDERS["arrival_plain.txt"],
+                      "sparse_color.txt": RENDERS["arrival_color.txt"],
+                      "sparse_markdown.txt": RENDERS["arrival_markdown.txt"]}
+
+    def test_sparse_summary_key_absent_is_byte_identical(self):
+        for value in ({}, {"automatic": False}, {"automatic": "true"}):
+            for name, options in self.SPARSE_RENDERS.items():
+                with self.subTest(value=value, render=name):
+                    out = render(dict(self.SPARSE, **value), **options)
+                    self.assertEqual(out, (GOLDEN / name).read_text(encoding="utf-8"))
+
+    def test_sparse_automatic_summary_asks_nothing(self):
+        """The older layout goes through the same check: no question, the proposal kept."""
+        for summary in (dict(self.SPARSE, automatic=True),
+                        {"project": "Fixture", "question": {"text": "Start a Conductor session?"},
+                         "automatic": True}):
+            for name, options in self.SPARSE_RENDERS.items():
+                with self.subTest(keys=sorted(summary), render=name):
+                    out = render(summary, **options)
+                    self.assertNotIn("💬", out)
+                    self.assertNotIn("Start a Conductor session?", out)
+                    self.assertIn("END OF PICKUP", out.splitlines()[-1] if not options["markdown"]
+                                  else out)
+        for name, options in self.SPARSE_RENDERS.items():
+            with self.subTest(render=name, proposal="kept"):
+                out = render(dict(self.SPARSE, automatic=True), **options)
+                self.assertEqual(out, self.without_question((GOLDEN / name).read_text(encoding="utf-8")))
+                self.assertIn("Finish the fixture task", out)
+
+    def test_every_layout_uses_the_one_check(self):
+        import inspect
+        source = inspect.getsource(view.render_dashboard) + inspect.getsource(view.dashboard_tail)
+        self.assertNotIn('get("question")', source)
+        self.assertEqual(source.count("shown_question("), 2)
+
     def test_automatic_stays_out_of_the_guide_example(self):
         self.assertIn("automatic", view.ARRIVAL_OPTIONAL_KEYS)
         self.assertNotIn("automatic", view.OPEN_WORK_KEYS)
