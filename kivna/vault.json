@@ -3,6 +3,7 @@
   "folder": "kerd",
   "name": "Kerd",
   "work_notes": "vault",
+  "chief_of_staff_relay": "none",
   "private_paths": [
     "kerd-laptop-result.patch",
     "docs/guide/reference-from-readme.md",

@@ -216,6 +216,25 @@ class OffPathGoldenTests(Fixture):
                     self.config_present():
                 self.assertIsNone(handoff.chief_of_staff_signal(self.project, []))
 
+    def test_ask_and_check_without_config_change_nothing(self):
+        """0.203.0: `cos.py ask` with no config is the same silent off: exit 3, the no-config
+        payload, TODO.md's bytes untouched, and the helpers still print the golden bytes."""
+        todo = self.project / "TODO.md"
+        before = todo.read_bytes()
+        ask = json.dumps({"id": "merge-go", "question": "Merge?", "default": "Hold", "why": "Review due"})
+        for argv, stdin in ((["ask"], ask), (["ask", "--again"], ask), (["ask", "--answered", "merge-go"], ""),
+                            (["check"], ""), (["write"], "[]")):
+            with self.subTest(argv=argv):
+                result = subprocess.run([sys.executable, str(SCRIPTS / "cos.py"), *argv, "--project",
+                                         str(self.project)], input=stdin.encode(), env=clean_env(self.home),
+                                        capture_output=True)
+                self.assertEqual((result.returncode, result.stderr), (3, b""))
+                self.assertEqual(json.loads(result.stdout), {"on": False, "why": "no config"})
+                self.assertEqual(todo.read_bytes(), before)
+        for name in RUNS:
+            with self.subTest(run=name):
+                self.assertEqual(self.helper(name), self.golden(name))
+
     def test_a_missing_cos_module_is_off(self):
         with patch.object(handoff, "COS_SCRIPT", self.base / "absent.py"), self.config_present():
             self.assertIsNone(handoff.chief_of_staff_signal(self.project, []))
@@ -312,10 +331,23 @@ class RealSignalTests(Fixture):
         out = json.loads(self.helper("pickup"))
         self.assertIs(out["chief_of_staff"]["on"], True)
         self.assertIs(out["chief_of_staff"]["is_cos_repo"], False)
+        self.assertEqual(out["chief_of_staff"]["relay"], "none")
+        self.assertIsNone(out["chief_of_staff"]["relay_warning"])
         self.assertIs(out["queue_md_present"], False)
         golden = json.loads(self.golden("pickup"))
         self.assertEqual({k: v for k, v in out.items() if k not in ("chief_of_staff", "queue_md_present")},
                          golden)
+
+    def test_relay_rule_travels_with_the_signal(self):
+        self.configure({"repo": str(self.base / "elsewhere"), "projects": "all"})
+        (self.project / "kivna").mkdir()
+        (self.project / ".git" / "info" / "exclude").write_text("kivna/\n")
+        (self.project / "kivna" / "vault.json").write_text(json.dumps({"chief_of_staff_relay": "decisions"}))
+        self.assertEqual(json.loads(self.helper("pickup"))["chief_of_staff"]["relay"], "decisions")
+        (self.project / "kivna" / "vault.json").write_text(json.dumps({"chief_of_staff_relay": "yes"}))
+        signal = json.loads(self.helper("pickup"))["chief_of_staff"]
+        self.assertEqual(signal["relay"], "none")
+        self.assertIn("read as", signal["relay_warning"])
 
     def test_excluded_project_gains_only_the_machine_key(self):
         self.configure({"repo": str(self.base / "elsewhere"), "projects": [str(self.base / "other")],
