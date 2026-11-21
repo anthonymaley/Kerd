@@ -26,17 +26,17 @@ LATER_STAMP = "2026-11-20T11:00:00-05:00"
 
 ASK = {"id": "merge-go", "question": "Merge concert/cos-ask-once into main and push?",
        "default": "Hold until the Codex review is back", "why": "The review is due at 15:00",
-       "blocks": ["cos-support"], "link": "notes:cos-mode/work.md"}
+       "blocks": ["cos-support"], "link": "notes:cos-mode/work.md", "operation": True}
 NAME = {"id": "pick-name", "question": "Which name | for the helper?", "default": "Keep cos.py",
-        "why": "Nothing reads it by name yet"}
+        "why": "Nothing reads it by name yet", "operation": False}
 RELEASE = {"id": "ship-it", "question": "Release 0.203.0?", "default": "Hold", "why": "It is a go",
            "operation": True}
 
-ASK_HEADER = "| Ask id | Question | Default | Why | Blocks | Asked | Answer where |"
-ASK_SEPARATOR = "|---|---|---|---|---|---|---|"
+ASK_HEADER = "| Ask id | Question | Default | Why | Blocks | Kind | Asked | Answer where |"
+ASK_SEPARATOR = "|---|---|---|---|---|---|---|---|"
 ASK_LINE = ("| merge-go | [Merge concert/cos-ask-once into main and push?](notes:cos-mode/work.md) | "
             "Hold until the Codex review is back | The review is due at 15:00 | cos-support | "
-            f"{STAMP} | this window |")
+            f"operation | {STAMP} | this window |")
 
 
 def asks_block(*rows):
@@ -74,6 +74,28 @@ class AskTableTests(AskBase):
         self.assertEqual(out["asks"][0]["asked"], STAMP)
         self.assertEqual(out["asks"][0]["answer_where"], "this window")
         self.assertNotIn("operation", out["asks"][0])
+        self.assertEqual(out["asks"][0]["kind"], "operation")
+
+    def test_first_ask_without_a_queue_checks_clean_end_to_end(self):
+        """Review r1 finding 4: ask and check agree on an Asks table with no Queue yet."""
+        args = ("--project", str(self.project), "--config", str(self.config))
+        code, out, err = base.run_cli("ask", *args, stdin=json.dumps(NAME))
+        self.assertEqual(code, 0, err)
+        code, out, err = base.run_cli("check", *args)
+        self.assertEqual(code, 0, (out, err))
+        self.assertEqual((out["rows"], out["updated"], [a["id"] for a in out["asks"]]),
+                         ([], None, ["pick-name"]))
+        self.assertEqual(base.run_cli("ask", "--answered", "pick-name", *args)[0], 0)
+        self.assertEqual(self.path.read_text(), TODO)
+        self.assertEqual(base.run_cli("check", *args)[0], 2, "neither table: as before")
+
+    def test_asks_alone_must_open_now(self):
+        self.ask(ASK)
+        text = self.path.read_text()
+        self.path.write_text(text.replace("## Now\n\n", "## Now\n\nA line first.\n\n", 1))
+        code, out = self.check()
+        self.assertEqual(code, 2)
+        self.assertIn("### Asks is not the first block of ## Now (there is no ### Queue yet)", out["errors"])
 
     def test_ask_sits_directly_under_the_queue(self):
         self.queue()
@@ -229,6 +251,8 @@ class AskOnceTests(AskBase):
             "blocks bad id": ({"blocks": ["Cos"]}, None),
             "blocks twice": ({"blocks": ["a", "a"]}, None),
             "operation a string": ({"operation": "yes"}, None),
+            "operation null": ({"operation": None}, None),
+            "operation missing": ({}, "operation"),
             "link absolute": ({"link": "/etc/passwd"}, None),
             "link http": ({"link": "http://x.org"}, None),
         }
@@ -245,6 +269,9 @@ class AskOnceTests(AskBase):
         del row["default"]
         self.assertIn("every ask carries the default", self.ask(row)[1]["errors"][0])
         self.assertIn("stamped from the clock", self.ask(dict(ASK, asked=STAMP))[1]["errors"][0])
+        row = dict(ASK)
+        del row["operation"]
+        self.assertIn("operation is missing", self.ask(row)[1]["errors"][0])
         self.assertEqual(self.ask([ASK])[0], 2, "one object, not a list")
         code, out = cos.ask_decision(str(self.project), None, "{", config_path=str(self.config))
         self.assertEqual(code, 2)
@@ -327,7 +354,35 @@ class RelayTests(AskBase):
         self.relay("decisions")
         self.assertEqual(self.ask(NAME)[1]["asks"][-1]["answer_where"], "relay ok")
         self.assertEqual(self.ask(RELEASE)[1]["asks"][-1]["answer_where"], "this window")
-        self.assertEqual(self.ask(dict(ASK, operation=False))[1]["asks"][-1]["answer_where"], "relay ok")
+        self.assertEqual(self.ask(ASK)[1]["asks"][-1]["answer_where"], "this window")
+        self.assertEqual(self.ask(dict(ASK, id="merge-2", operation=False))[1]["asks"][-1]["answer_where"],
+                         "relay ok")
+        self.assertEqual([a["kind"] for a in cos._open_asks(self.path.read_text())[0]],
+                         ["decision", "operation", "operation", "decision"])
+
+    def test_an_operation_without_the_flag_is_never_relayed(self):
+        """Review r1 finding 1: an unclassified release ask is refused, so it can never read relay ok."""
+        self.relay("decisions")
+        unflagged = {k: v for k, v in RELEASE.items() if k != "operation"}
+        code, out = self.ask(unflagged)
+        self.assertEqual(code, 2)
+        self.assertIn("operation is missing", out["errors"][0])
+        self.assertEqual(self.path.read_text(), TODO)
+        code, _, _ = base.run_cli("ask", "--project", str(self.project), "--config", str(self.config),
+                                  stdin=json.dumps(unflagged))
+        self.assertEqual(code, 2)
+        self.assertEqual(self.path.read_text(), TODO)
+
+    def test_check_refuses_an_operation_row_reading_relay_ok(self):
+        self.relay("decisions")
+        self.queue([])
+        self.assertEqual(self.ask(RELEASE)[0], 0)
+        text = self.path.read_text()
+        self.assertIn("| operation | ", text)
+        self.path.write_text(text.replace("| this window |", "| relay ok |", 1))
+        code, out = self.check()
+        self.assertEqual(code, 2)
+        self.assertIn("ask 1: an operation is answered in this window, never by relay", out["errors"])
 
     def test_a_relay_taken_back_reaches_every_open_row(self):
         self.queue([])
@@ -459,8 +514,9 @@ class CheckAsksTests(AskBase):
             ("| Ask id |", "| Id |", "Asks columns must be"),
             (f"| {STAMP} |", "| 2026-11-20 10:40 |", "offset"),
             ("| this window |", "| anywhere |", "answer where"),
+            ("| operation |", "| push |", "kind must be one of"),
             ("| merge-go |", "| Merge_Go |", "must match"),
-            (f"| cos-support | {STAMP} |", f"| Cos Support | {STAMP} |", "blocks"),
+            ("| cos-support | operation |", "| Cos Support | operation |", "blocks"),
             ("| Hold until the Codex review is back |", "|  |", "default is empty"),
             ("| The review is due at 15:00 |", "| due \\ soon |", "why has a stray backslash"),
             ("(notes:cos-mode/work.md)", "(/abs)", "link"),

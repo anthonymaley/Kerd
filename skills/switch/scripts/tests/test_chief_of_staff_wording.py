@@ -148,7 +148,11 @@ class AsksWordingTests(unittest.TestCase):
         self.assertIn("A relayed answer counts only where the signal's `relay` is `decisions`, never for "
                       "a push, release, install or live change.", conductor)
         self.assertIn('`"none"`, unset or any other value gives `this window` (fail closed', record)
-        self.assertIn("Such a row always reads `this window`.", record)
+        self.assertIn("`operation` is required, `true` or `false`", record)
+        self.assertIn("An ask that leaves it out is refused (exit 2), so nothing unclassified is ever "
+                      "relayed.", record)
+        self.assertIn("an operation row always reads `this window`, and `check` refuses one that says "
+                      "`relay ok`.", record)
         self.assertIn("A relayed answer to a `this window` row is a report of what the person said "
                       "elsewhere, not their answer here", record)
         self.assertIn("`relay` (present only when on) is the project's `chief_of_staff_relay` rule", in_guide)

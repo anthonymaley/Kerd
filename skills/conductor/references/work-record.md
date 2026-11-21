@@ -250,7 +250,8 @@ passes it. Rank is the array order, so a reorder is just the new order:
 ### The asks table: open decisions
 
 Under the same signal, every decision Needs you names for the person also goes in
-an `### Asks` table directly under `### Queue`, so the chief of staff can see what
+an `### Asks` table directly under `### Queue` (or first in `## Now` while there is
+no queue yet; `check` accepts either), so the chief of staff can see what
 is already asked, and where the answer counts, without asking the person again from
 its own window. It is written only through
 
@@ -269,9 +270,12 @@ with one decision as JSON on stdin, at the moment it is first asked here:
   holds up (empty for none); `link` points at the record with the decision block.
   The helper stamps `Asked` from the clock and fills `Answer where`; never send
   either.
-- `operation` is `true` when the answer would approve a push, merge, release,
-  install, deletion, live change or anything sent to someone. Such a row always
-  reads `this window`. Otherwise `Answer where` follows the project's relay rule:
+- `operation` is required, `true` or `false`: `true` when the answer would approve
+  a push, merge, release, install, deletion, live change or anything sent to
+  someone, `false` for a decision. An ask that leaves it out is refused (exit 2), so
+  nothing unclassified is ever relayed. The row's `Kind` reads `operation` or
+  `decision`; an operation row always reads `this window`, and `check` refuses one
+  that says `relay ok`. Otherwise `Answer where` follows the project's relay rule:
   `kivna/vault.json` `"chief_of_staff_relay": "decisions"` gives `relay ok`, and
   `"none"`, unset or any other value gives `this window` (fail closed; an invalid
   value also carries `relay_warning` in the signal). The signal Switch In carried

@@ -85,7 +85,7 @@ SEPARATOR_CELL = re.compile(r":?-{3,}:?")  # fullmatch
 LINK_CHARS_REFUSED = set("()[]<>|\\\"'`")
 
 ASKS_HEADING = re.compile(r"###[ \t]+Asks[ \t]*")  # fullmatch on a bare line
-ASK_COLUMNS = ("Ask id", "Question", "Default", "Why", "Blocks", "Asked", "Answer where")
+ASK_COLUMNS = ("Ask id", "Question", "Default", "Why", "Blocks", "Kind", "Asked", "Answer where")
 ASK_KEYS = {"id", "question", "default", "why", "blocks", "link", "operation"}
 ASK_STAMPED = {"asked": "asked is stamped from the clock; leave it out",
                "answer_where": "answer_where comes from chief_of_staff_relay; leave it out"}
@@ -94,6 +94,7 @@ RELAY_KEY = "chief_of_staff_relay"
 RELAY_VALUES = ("none", "decisions")
 THIS_WINDOW = "this window"
 RELAY_OK = "relay ok"
+KINDS = ("decision", "operation")  # an operation approves a push, release, install or live change
 NO_BLOCKS = NO_DEPENDS
 KEEP = object()  # compose_now: keep the existing block as it is
 
@@ -707,9 +708,11 @@ def _id_list(value, where: str, key: str, errors: list) -> list:
 
 
 def validate_ask(data) -> tuple:
-    """(normalized ask, errors) for one open decision: id, question, default and why are
-    required (a decision without a default is refused); blocks lists task ids; link and
-    operation (true for a push, release, install or live change) are optional."""
+    """(normalized ask, errors) for one open decision: id, question, default, why and
+    operation are required (a decision without a default is refused, and so is one that does
+    not say whether it is an operation: true when the answer would approve a push, merge,
+    release, install, deletion, live change or anything sent out). blocks lists task ids;
+    link is optional."""
     errors, where = [], "ask"
     if not isinstance(data, dict):
         return None, ["the ask must be one JSON object"]
@@ -745,10 +748,13 @@ def validate_ask(data) -> tuple:
         if ask[key] == NO_BLOCKS:
             errors.append(f"{where}: {key} is only a dash")
     ask["blocks"] = _id_list(data.get("blocks", []), where, "blocks", errors)
-    operation = data.get("operation", False)
-    if not isinstance(operation, bool):
+    if "operation" not in data:  # fail closed: an unclassified ask is never relayed
+        errors.append(f"{where}: operation is missing; say true when the answer would approve a "
+                      "push, merge, release, install, deletion, live change or anything sent out, "
+                      "false for a decision")
+    elif not isinstance(data["operation"], bool):
         errors.append(f"{where}: operation is not true or false")
-    ask["operation"] = operation is True
+    ask["operation"] = data.get("operation") is not False
     return ask, errors
 
 
@@ -760,7 +766,7 @@ def render_asks(asks: list) -> list:
         if ask.get("link"):
             question = f"[{question}]({ask['link']})"
         cells = [ask["id"], question, escape(ask["default"]), escape(ask["why"]),
-                 ", ".join(ask["blocks"]) or NO_BLOCKS, ask["asked"], ask["answer_where"]]
+                 ", ".join(ask["blocks"]) or NO_BLOCKS, ask["kind"], ask["asked"], ask["answer_where"]]
         lines.append("| " + " | ".join(cells) + " |")
     return lines
 
@@ -813,7 +819,7 @@ def parse_asks(lines: list) -> tuple:
         if cells is None or len(cells) != len(ASK_COLUMNS):
             errors.append(f"{where}: expected {len(ASK_COLUMNS)} cells")
             continue
-        ask_id, question_raw, default_raw, why_raw, blocks_raw, asked, answer_where = cells
+        ask_id, question_raw, default_raw, why_raw, blocks_raw, kind, asked, answer_where = cells
         ask = {"id": ask_id}
         if not ID_PATTERN.fullmatch(ask_id):
             errors.append(f"{where}: ask id {ask_id!r} must match {ID_PATTERN.pattern}")
@@ -844,8 +850,13 @@ def parse_asks(lines: list) -> tuple:
         if problem:
             errors.append(f"{where}: asked {asked!r} {problem}")
         ask["asked"] = asked
+        if kind not in KINDS:
+            errors.append(f"{where}: kind must be one of {', '.join(KINDS)}")
+        ask["kind"] = kind
         if answer_where not in (THIS_WINDOW, RELAY_OK):
             errors.append(f"{where}: answer where must be {THIS_WINDOW!r} or {RELAY_OK!r}")
+        elif kind == "operation" and answer_where == RELAY_OK:
+            errors.append(f"{where}: an operation is answered in this window, never by relay")
         ask["answer_where"] = answer_where
         asks.append(ask)
     return asks, errors
@@ -1080,6 +1091,7 @@ def ask_decision(project: str, scopes, ask_json: str | None = None, answered: st
         asks = [ask for ask in asks if ask["id"] != answered]
     else:
         operation = new.pop("operation")
+        new["kind"] = "operation" if operation else "decision"
         new["asked"] = clock_stamp(now)
         new["answer_where"] = RELAY_OK if relay == "decisions" and not operation else THIS_WINDOW
         if new["id"] in ids and not again:
@@ -1110,7 +1122,8 @@ def ask_decision(project: str, scopes, ask_json: str | None = None, answered: st
 
 def check_queue(project: str, scopes, config_path: str | None = None) -> tuple:
     """(exit code, payload) for the `### Queue` table and, when present, the `### Asks` table
-    directly under it. Read-only: never writes."""
+    directly under it. An Asks table with no Queue yet is valid as Now's first block (a project
+    can have decisions before it has a queue); neither table is invalid. Read-only."""
     sig = signal(project, scopes, config_path)
     if sig is None or not sig["on"]:
         return EXIT_OFF, off_payload(sig)
@@ -1122,23 +1135,26 @@ def check_queue(project: str, scopes, config_path: str | None = None) -> tuple:
     now, end, queues, asks_at = scan_now(lines)
     if now is None:
         return EXIT_INVALID, {"valid": False, "errors": ["TODO.md has no ## Now section"]}
-    if not queues:
+    if not queues and not asks_at:
         return EXIT_INVALID, {"valid": False, "errors": ["## Now has no ### Queue heading"]}
-    errors = []
+    errors, rows, stamp, queue_span = [], [], None, None
     if len(queues) > 1:
         errors.append("## Now holds more than one ### Queue block")
-    if not _first_child(lines, now, queues[0]):
-        errors.append("### Queue is not the first block of ## Now")
-    stop = block_end(lines, queues[0], end)
-    rows, stamp, block_errors = parse_block([_bare(line) for line in lines[queues[0]:stop]])
-    errors += block_errors
+    if queues:
+        if not _first_child(lines, now, queues[0]):
+            errors.append("### Queue is not the first block of ## Now")
+        queue_span = (queues[0], block_end(lines, queues[0], end))
+        rows, stamp, block_errors = parse_block([_bare(line) for line in lines[slice(*queue_span)]])
+        errors += block_errors
     relay, asks = sig.get("relay", "none"), []
     if len(asks_at) > 1:
         errors.append("## Now holds more than one ### Asks block")
     elif asks_at:
         span = (asks_at[0], asks_end(lines, asks_at[0], end))
-        if not _adjacent(lines, (queues[0], stop), span):
+        if queue_span is not None and not _adjacent(lines, queue_span, span):
             errors.append("### Asks does not directly follow the ### Queue block")
+        if queue_span is None and not _first_child(lines, now, span[0]):
+            errors.append("### Asks is not the first block of ## Now (there is no ### Queue yet)")
         asks, ask_errors = parse_asks([_bare(line) for line in lines[span[0]:span[1]]])
         errors += ask_errors
         if relay != "decisions":

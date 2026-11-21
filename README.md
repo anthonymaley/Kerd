@@ -399,7 +399,8 @@ one list.
 
 **Decisions are asked once.** Under the queue, an `### Asks` table lists the
 decisions Kerd has put to you that are still open: the question, the default that
-runs unless you object, why, which tasks it holds up, when it was asked, and where
+runs unless you object, why, which tasks it holds up, whether it is a decision or an
+operation (a push, release, install or live change), when it was asked, and where
 your answer counts. Conductor adds a row when it first asks you and takes it out once
 your answer is recorded, through `cos.py ask`. The chief of staff reads it to show you
 the two or three decisions that matter, instead of asking you again from its own window.
