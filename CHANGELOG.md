@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.203.0
+
+**0.203.0: Asked once.** A question you have not answered yet is never asked again just to end a turn: Kerd names it with the time it was asked and waits, asks again only when something behind it changes, and a routine check with nothing new ends on one line (Conductor, Switch and Agent). With a chief of staff configured, `cos.py ask` keeps an `### Asks` table beside the queue in each project's plan: one row per decision, with its default, what it blocks, when it was asked and where your answer counts, so your chief of staff reads it instead of asking again. A per-project `chief_of_staff_relay` in `kivna/vault.json` says whether a relayed answer counts for decisions; it never covers a push, release, install or live change, and it is "none" unless set. Without a chief of staff nothing changes.
+
 ## 0.202.0
 
 **0.202.0: Kerd respects a refusal, finishes a revision, and stops arguing about words.** From a sixth simulated first-user walkthrough. When you refuse a tool call, Kerd now stops, says what was refused and how to approve it next time, and never offers another route to the same thing (Switch, Conductor, Agent and Visuals). After a requested change to delivered work, Conductor starts Switch Out by itself in the same turn, under its usual finish conditions, and Out still asks before saving your own files; Switch In hands Conductor only the limits you stated. Asked what a word means, Kerd explains it and the worry behind it, never whether it used the word. A new eval case, `conductor-revision-out`, checks the revision finish.

@@ -425,9 +425,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.202.0)
+## What's New (v0.203.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.203.0
+
+**0.203.0: Asked once.** A question you have not answered yet is never asked again just to end a turn: Kerd names it with the time it was asked and waits, asks again only when something behind it changes, and a routine check with nothing new ends on one line (Conductor, Switch and Agent). With a chief of staff configured, `cos.py ask` keeps an `### Asks` table beside the queue in each project's plan: one row per decision, with its default, what it blocks, when it was asked and where your answer counts, so your chief of staff reads it instead of asking again. A per-project `chief_of_staff_relay` in `kivna/vault.json` says whether a relayed answer counts for decisions; it never covers a push, release, install or live change, and it is "none" unless set. Without a chief of staff nothing changes.
 
 ### v0.202.0
 
