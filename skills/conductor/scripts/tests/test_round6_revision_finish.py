@@ -1,6 +1,6 @@
 """A finished revision of delivered work ends in Switch Out, in the same turn.
 
-First-user round 6 (batch-1114, first-user-6.md, Proposal 2; sitting-2 reruns
+First-user round 6 (a simulated first-user walkthrough, Proposal 2; sitting-2 reruns
 2026-11-21): 0 of 4 revisions of an accepted brief ran Out; two ended with no
 question, two asked "Put this down for today…?" though Claude Code can start Out.
 A handoff saying "Edit launch-brief.md only" also kept Kerd's records out. The rule

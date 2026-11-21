@@ -1,6 +1,6 @@
 # conductor-revision-out
 
-First-user round 6, sitting 2 (batch-1114, first-user-6.md): the person brings the
+First-user round 6, sitting 2 (a simulated first-user walkthrough): the person brings the
 product team's answers, and Conductor revises a launch brief that was already
 delivered and accepted. In round 6, 0 of 4 such revisions ran Switch Out afterwards.
 The case checks that Conductor makes the change, starts `/kerd:switch out` itself in

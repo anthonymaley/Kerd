@@ -1,6 +1,6 @@
 """Never deny Kerd's own words; Out's progress lines keep push and remote out.
 
-First-user round 6 (batch-1114, first-user-6.md, Proposal 3): asked about a push, a
+First-user round 6 (a simulated first-user walkthrough, Proposal 3): asked about a push, a
 fresh session said "I didn't say anything about a push earlier", though sitting 1's
 in-between line had said "without a push since there's nowhere to push to". A fresh
 session cannot see what an earlier one said, so it must not claim either way. Switch

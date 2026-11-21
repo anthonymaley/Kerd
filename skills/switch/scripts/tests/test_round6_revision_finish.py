@@ -1,6 +1,6 @@
 """Switch In's handoff adds no exclusions of its own; the sitting-2 eval case is sound.
 
-First-user round 6 (batch-1114, first-user-6.md, Proposal 2; sitting-2 reruns
+First-user round 6 (a simulated first-user walkthrough, Proposal 2; sitting-2 reruns
 2026-11-21): after Sam brought the product team's answers, 0 of 4 revisions of the
 accepted brief ran Switch Out. Kerd's own records were left alone whenever Switch In's
 handoff said "Edit launch-brief.md only"; the run whose handoff named them updated

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Harbor Hours: the first-user round-6 project (batch-1114, first-user-6.md) as it
+# Harbor Hours: the first-user round-6 project (a simulated first-user walkthrough) as it
 # stood after sitting 1, commit 4618b2b there: a launch brief written, accepted
 # and saved on this computer, with its open questions waiting on the product team.
 # No remote, as in the round. Fixed identities and dates keep the commit IDs the
