@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.202.0
+
+**0.202.0: Kerd respects a refusal, finishes a revision, and stops arguing about words.** From a sixth simulated first-user walkthrough. When you refuse a tool call, Kerd now stops, says what was refused and how to approve it next time, and never offers another route to the same thing (Switch, Conductor, Agent and Visuals). After a requested change to delivered work, Conductor starts Switch Out by itself in the same turn, under its usual finish conditions, and Out still asks before saving your own files; Switch In hands Conductor only the limits you stated. Asked what a word means, Kerd explains it and the worry behind it, never whether it used the word. A new eval case, `conductor-revision-out`, checks the revision finish.
+
 ## 0.201.0
 
 **0.201.0: A much smaller first install.** New Claude Code users now add the marketplace from the slim `plugin` branch (`claude plugin marketplace add anthonymaley/Kerd#plugin`), so a first install writes about 7 MB instead of about 63 MB (measured in an isolated install). Existing installs keep working and need no action. The `plugin` branch now carries a generated `marketplace.json` and overtone's folder, so it stands on its own.
