@@ -91,7 +91,7 @@ not, it says that too.
 Needs git and Python 3.10 or newer (macOS or Linux).
 
 ```
-claude plugin marketplace add anthonymaley/Kerd
+claude plugin marketplace add anthonymaley/Kerd#plugin
 claude plugin install kerd@kerd-marketplace
 ```
 
@@ -99,7 +99,9 @@ Type these in a terminal, not inside a Claude Code session. If the first prints
 "SSH clone failed, retrying with HTTPS", that is normal without a GitHub key; it
 succeeds on the retry.
 
-Installing copies about 1.5 MB of plugin files (skills, agents and hooks), not
+The `#plugin` part fetches only the small `plugin` branch (about 7 MB written in all, where the whole repository was about 63 MB), not the whole repository. If you installed Kerd before, it keeps working with no change; you do not need to re-add anything.
+
+Installing copies about 2.5 MB of plugin files (skills, agents, hooks and the overtone mod's folder), not
 the whole repository.
 
 **Try a version before adopting it**, without installing it:
@@ -404,9 +406,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.200.1)
+## What's New (v0.201.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.201.0
+
+**0.201.0: A much smaller first install.** New Claude Code users now add the marketplace from the slim `plugin` branch (`claude plugin marketplace add anthonymaley/Kerd#plugin`), so a first install writes about 7 MB instead of about 63 MB (measured in an isolated install). Existing installs keep working and need no action. The `plugin` branch now carries a generated `marketplace.json` and overtone's folder, so it stands on its own.
 
 ### v0.200.1
 
