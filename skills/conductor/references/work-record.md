@@ -5,6 +5,7 @@ Contents:
 - The record template and how to keep it: headings as a writing aid, the risks section, score-and-delivery lines
 - [Record agreement and carry the work forward](#record-agreement-and-carry-the-work-forward): where the record lives, capturing agreement, the next authorized action, status requests and save or pickup
 - [Keep the chief of staff's queue table](#keep-the-chief-of-staffs-queue-table): only when Switch In reported a chief of staff on; the five moments, `cos.py write` and its exit codes
+  - [The asks table: open decisions](#the-asks-table-open-decisions): `cos.py ask`, its default, `--again`, `--answered` and where a relayed answer counts
 
 Write in the person's language. Use only the detail this work needs; these
 headings are a writing aid, not a parser contract. If the project has a suitable
@@ -245,3 +246,52 @@ passes it. Rank is the array order, so a reorder is just the new order:
 - `docs/work/queue.md` is not Kerd's: Conductor never writes it and never reads its
   contents. A project that keeps one by hand keeps it; choosing between the two
   lists is that project's own decision, never Kerd's.
+
+### The asks table: open decisions
+
+Under the same signal, every decision Needs you names for the person also goes in
+an `### Asks` table directly under `### Queue`, so the chief of staff can see what
+is already asked, and where the answer counts, without asking the person again from
+its own window. It is written only through
+
+    python3 <switch skill dir>/scripts/cos.py ask --project P [--scope S]
+
+with one decision as JSON on stdin, at the moment it is first asked here:
+
+```json
+{"id": "merge-go", "question": "Merge concert/cos-ask-once into main and push?", "default": "Hold until the Codex review is back", "why": "The review is due at 15:00", "blocks": ["cos-support"], "link": "notes:cos-mode/work.md", "operation": true}
+```
+
+- `default` is required: the choice that runs unless the person objects, so the chief
+  of staff can show two or three real decisions and let the rest run on their
+  defaults. `question`, `default` and `why` are one line each, at most 120
+  characters, with no backslash or line break; `blocks` lists the Queue's task ids it
+  holds up (empty for none); `link` points at the record with the decision block.
+  The helper stamps `Asked` from the clock and fills `Answer where`; never send
+  either.
+- `operation` is `true` when the answer would approve a push, merge, release,
+  install, deletion, live change or anything sent to someone. Such a row always
+  reads `this window`. Otherwise `Answer where` follows the project's relay rule:
+  `kivna/vault.json` `"chief_of_staff_relay": "decisions"` gives `relay ok`, and
+  `"none"`, unset or any other value gives `this window` (fail closed; an invalid
+  value also carries `relay_warning` in the signal). The signal Switch In carried
+  reports it as `relay`; `cos.py status` prints it fresh.
+- Whether a relayed answer counts: only when the row says `relay ok`, only for that
+  decision as asked, and never for an operation. A relayed answer to a `this window`
+  row is a report of what the person said elsewhere, not their answer here: ask
+  them once, in this window, and name the relay in the question.
+- Ask once. An id already open is refused (exit 2, naming when it was asked): the
+  decision is still open and is not asked again. When a fact behind it changes,
+  send the restated decision with `--again`, which replaces the row with a fresh
+  time, and ask the person again in full.
+- When the decision is answered, record the answer in its task's own record first
+  (what was decided, by whom, where and when), then take the row out with
+  `cos.py ask --answered ID --project P [--scope S]` (no stdin). The last row
+  leaving removes the block. A decision withdrawn because the work changed leaves the
+  same way, with the reason recorded.
+- Never edit the `### Asks` block by hand. Exit codes are `write`'s: 0 written, 2
+  invalid (fix what it names; a damaged table is refused rather than rewritten: say
+  so once, in one plain line), 3 switched off (stop, as for the queue), 4 no
+  `TODO.md` or `## Now`, 5 changed underneath (re-read and retry once; a relay rule
+  changed underneath is the same). It is the same compare-and-swap at the last
+  moment, not a lock, as `write`.

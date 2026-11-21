@@ -5,6 +5,7 @@ Contents:
 - [Make the conversation easy to use](#make-the-conversation-easy-to-use): report shape, task list, delegation grid, decisions and when views appear
 - [The conversation frame](#the-conversation-frame): what to show at entry, resume, decisions and stage changes
 - [Question surface and host adaptation](#question-surface-and-host-adaptation): the speech bubble, the decision block, pickers
+  - [Ask once](#ask-once): a question still open is named with its time, never asked again; quiet scheduled checks
 - [Visuals belong throughout](#visuals-belong-throughout): the rendered-view default and the required tools
 - [Show the direction](#show-the-direction): drawing the product view and the direction summary
 - [Make answers feel consequential](#make-answers-feel-consequential): showing what an answer changed
@@ -263,6 +264,42 @@ JOURNEY  [NOW: Shape] → Agree → Deliver → Complete
 > 💬 **Add a short delivery guide to the package — approve?**
 ```
 
+### Ask once
+
+A question is asked once. Once it has been put to the person and is still
+unanswered, a later turn does not ask it again to have something to end on: a
+recurring check, a wake-up after a job or a report that lands while the question is
+open would otherwise put the same bubble on screen every time, and the person reads
+that as being asked over and over. Instead, the report names it, with the time it
+was asked, in Needs you (“your go for the merge, asked 10:20, still open”), and the
+turn ends on a named wait for that answer: what it waits on, that the session
+resumes when the person answers, and what this turn did meanwhile or why nothing
+else can move. The bubble and the decision block went with the first asking and are
+not repeated; the person can scroll back to them, and a link to the record that
+holds them is enough.
+
+Ask it again only when a fact behind it changes: the cost, the risk, the options, or
+something the recommendation depended on. Then it is a fresh question, put in full,
+with its block, saying what changed. Time passing is not a changed fact, and neither
+is a new turn, a roll or a new report.
+
+A scheduled or recurring check (a loop, a timed scan, a chief of staff's tick) that
+finds nothing new ends on one line naming the next check and when it runs (“Nothing
+new; next check 14:05.”), never a question and never a repeat of the open ones. A
+check that does find something reports it in the usual shape.
+
+This does not touch the questions that are fixed by design: Switch In's “Start a
+Conductor session?” belongs to each arrival and is never a repeat, and a declined
+Switch Out keeps its own rule for when it comes back. A decision still gets its
+decision block the first time it is put; asking once changes only what later turns
+do while it is open.
+
+With a chief of staff on, the open decision also goes in the project's `### Asks`
+table through `cos.py ask`, never by hand, so the chief of staff can see it is asked
+and batch it, rather than asking the person again from its own window
+([the asks table](work-record.md#the-asks-table-open-decisions)). The table never
+replaces asking here: the person is still asked once, in this window.
+
 ## Visuals belong throughout
 
 During understanding, showing the relationship is the default, not something to
@@ -365,7 +402,9 @@ Inline work with nothing dispatched keeps its plain treatment: no grid or Fit li
 2. **The ending follows Needs you.** When Needs you names a decision, the turn ends
    on a bubble asking exactly what Needs you says, using only terms that already
    appear in the three lines; a consequential one keeps its decision block directly
-   above the bubble. When Needs you is “nothing”, the turn does not stop there: it
+   above the bubble. A decision already asked and still unanswered is not asked
+   again: it is named with its time and the turn ends on a named wait, as
+   [ask once](#ask-once) says. When Needs you is “nothing”, the turn does not stop there: it
    keeps working, ends on a named wait for the job, as
    [a turn ends carrying on](#delivery-has-a-working-view-too) says, or ends on
    one of the quiet endings that section keeps (agreed completion, a pause the
@@ -633,7 +672,9 @@ return to the person.
 goal is clear and the authority already covers the next step, so the turn takes
 it; or the next step needs information, a decision or permission the person
 holds, and the turn ends on one question they can answer cold: what is blocked,
-what it is waiting for, and what follows each answer. Running out of steps in
+what it is waiting for, and what follows each answer. A question already asked and
+still open is not asked again: the turn names it with its time and ends on a named
+wait for the answer ([ask once](#ask-once)). Running out of steps in
 the current item is not a reason to stop, and neither is the end of a document,
 a stage or a report. This holds in rehearsal as much as in the concert:
 rehearsal's own tasks — research, drafts, checks, reviews, the score being
@@ -671,7 +712,8 @@ every re-wait, including one right after a worker's notification, says what this
 turn did or why nothing else can move. A host or global rule that accepts a named wait as a
 turn ending does not lift this: it says how to end a turn, not when waiting is
 allowed. A bare “nothing is needed from you” or
-a status tick without the job and how it resumes is not that line. Claim an
+a status tick without the job and how it resumes is not that line; a scheduled check
+that found nothing new is, when its one line names the next check and its time. Claim an
 automatic wake-up only where the route provides one. **Answering a partner's
 contribution** (a review, findings, a reply from Codex or another session) in an
 interactive session still ends with a line to the person: what the partner said,

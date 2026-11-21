@@ -122,5 +122,49 @@ class ChiefOfStaffWordingTests(unittest.TestCase):
         self.assertIn("The session log mentions a reorder like any other change", text)
 
 
+class AsksWordingTests(unittest.TestCase):
+    """0.203.0 (design: eolas vault kerd/work/cos-mode/work.md): open decisions go in the
+    `### Asks` table through `cos.py ask` alone, with a default, and a relayed answer counts
+    only where the project's relay rule says so, never for an operation."""
+
+    def test_asks_written_only_through_cos_py_ask(self):
+        self.assertIn("put each decision Needs you names in its `### Asks` table through `cos.py ask` "
+                      "alone, never by hand, with a default, still asking it once here", read(CONDUCTOR))
+        self.assertIn("python3 <switch skill dir>/scripts/cos.py ask --project P [--scope S]", read(RECORD))
+        self.assertIn("Never edit the `### Asks` block by hand.", read(RECORD))
+        self.assertIn("scripts/cos.py ask --project P [--scope S]`, never by hand", read(OUT))
+        self.assertIn("written only through `skills/switch/scripts/cos.py ask`, never by hand", read(CONTRACT))
+
+    def test_default_required_and_ask_once_in_the_helper(self):
+        record = read(RECORD)
+        self.assertIn("`default` is required: the choice that runs unless the person objects", record)
+        self.assertIn("An id already open is refused (exit 2, naming when it was asked)", record)
+        self.assertIn("send the restated decision with `--again`", record)
+        self.assertIn("record the answer in its task's own record first", record)
+        self.assertIn("`cos.py ask --answered ID --project P [--scope S]` (no stdin)", record)
+
+    def test_relay_rule_wording(self):
+        conductor, record, in_guide = read(CONDUCTOR), read(RECORD), read(IN)
+        self.assertIn("A relayed answer counts only where the signal's `relay` is `decisions`, never for "
+                      "a push, release, install or live change.", conductor)
+        self.assertIn('`"none"`, unset or any other value gives `this window` (fail closed', record)
+        self.assertIn("Such a row always reads `this window`.", record)
+        self.assertIn("A relayed answer to a `this window` row is a report of what the person said "
+                      "elsewhere, not their answer here", record)
+        self.assertIn("`relay` (present only when on) is the project's `chief_of_staff_relay` rule", in_guide)
+        self.assertIn("so it reads as `none`; put one line in `warnings` saying so.", in_guide)
+        readme = read(README)
+        self.assertIn('`"chief_of_staff_relay": "decisions"` lets an answer you give the chief of staff '
+                      "count for a decision, never for a push, release, install or live change", readme)
+        self.assertIn("Kerd's own repo says `\"none\"`.", readme)
+
+    def test_out_keeps_open_decisions_and_does_not_ask_them_again(self):
+        out = read(OUT)
+        self.assertIn("an open decision the sitting asked that is not in the table goes in through "
+                      "`cos.py ask`, with its default", out)
+        self.assertIn("Switch Out does not ask it again: the box's next step names it with the time it "
+                      "was asked.", out)
+
+
 if __name__ == "__main__":
     unittest.main()

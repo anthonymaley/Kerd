@@ -7,7 +7,7 @@ Contents:
   - [Add to Conductor's sketchbook](#add-to-conductors-sketchbook): what the sitting settled
   - [Keep the outside-the-repo list](#keep-the-outside-the-repo-list): live links outside the repository
   - [Save the selected continuation](#save-the-selected-continuation): the next action, its boundary, urgent risks
-  - [Tidy the chief of staff's queue table](#tidy-the-chief-of-staffs-queue-table): only when the sitting's signal is on; `cos.py write`, then `cos.py check`
+  - [Tidy the chief of staff's queue table](#tidy-the-chief-of-staffs-queue-table): only when the sitting's signal is on; `cos.py write`, open decisions through `cos.py ask`, then `cos.py check`
   - [Leave a lean start point](#leave-a-lean-start-point): rulings, closed rows, the reading set, `measure`, the named-file save and the `boundary` check
   - [Close with the saved-place box](#close-with-the-saved-place-box): the closing renderer, its JSON shape and the restart line
 - [Default verified save when pushing is authorized](#default-verified-save-when-pushing-is-authorized): `save --push`, `pickup`, `prepare` and `boundary` shapes
@@ -294,6 +294,16 @@ only reads. A nonzero `check`, or a `write` refused with exit 2, 4 or 5 after on
 re-read and retry for 5, goes into the box's `warnings` as one plain line; exit 3
 means the chief of staff was switched off: leave the table and say so once in
 `warnings`. Out never writes or reads the contents of `docs/work/queue.md`.
+
+The `### Asks` table under it holds the decisions still open for the person, and it
+too is written only through `python3 <this skill dir>/scripts/cos.py ask --project P [--scope S]`,
+never by hand ([the asks table](../../conductor/references/work-record.md#the-asks-table-open-decisions)).
+Before saving, an open decision the sitting asked that is not in the table goes in
+through `cos.py ask`, with its default; one the sitting saw answered leaves through
+`cos.py ask --answered ID`, after the answer is recorded in its task's own record.
+An open decision stays in the table across the roll or the next sitting, and Switch
+Out does not ask it again: the box's next step names it with the time it was asked.
+The same `check` validates both tables; its exit codes and warnings are as above.
 
 The session log mentions a reorder like any other change: the new order and why,
 in the sitting's account.

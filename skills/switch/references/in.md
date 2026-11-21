@@ -181,9 +181,16 @@ role, no warning, no mention. When the output carries `chief_of_staff`, carry it
 into the session as this sitting's signal; Conductor and Out read it from there and
 make no extra call to find it.
 
-- `on: true` means Conductor keeps the project's `### Queue` table this sitting and
-  Out tidies it; `on: false` means neither does. `why` is for the session, not the
-  screen.
+- `on: true` means Conductor keeps the project's `### Queue` table and its
+  `### Asks` table of open decisions this sitting and Out tidies them; `on: false`
+  means neither does. `why` is for the session, not the screen.
+- `relay` (present only when on) is the project's `chief_of_staff_relay` rule:
+  `decisions` means an answer the chief of staff relays counts for a decision,
+  never for a push, release, install or live change; `none` (also the reading when
+  unset) means the person answers in this window. Carry it with the signal;
+  Conductor reads it there. `relay_warning` set (not null): the value in
+  `kivna/vault.json` is neither, so it reads as `none`; put one line in `warnings`
+  saying so.
 - `on: true` and `is_cos_repo: true` (this is the chief of staff's own project,
   and the config covers it): put `"role": "chief of staff"` in the summary JSON;
   the renderer shows it as a ROLE cell. Nothing else changes, and the arrival never resumes the chief of staff's
