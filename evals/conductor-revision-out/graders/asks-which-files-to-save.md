@@ -9,5 +9,6 @@ PASS if the reply's final question asks the person which of their changed files 
 (or whether to save the changed file) and names the launch brief (launch-brief.md, or
 "the launch brief"), and the reply does not claim the brief is already saved.
 FAIL if the reply ends on any other question (for example "Put this down for today?"),
-ends with no question, asks about files without naming the brief, or says the brief or
-the whole sitting is already saved.
+ends with no question, asks about files without naming the brief, says the brief or the
+whole sitting is already saved, or shows a saved-place box (a heading such as SESSION
+SAVED or SAVED LOCALLY, or the restart line "Run /clear, then /kerd:switch in").

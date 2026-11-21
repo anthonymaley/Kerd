@@ -5,20 +5,15 @@ First-user round 6 (batch-1114, first-user-6.md, Proposal 2; sitting-2 reruns
 accepted brief ran Switch Out. Kerd's own records were left alone whenever Switch In's
 handoff said "Edit launch-brief.md only"; the run whose handoff named them updated
 them. These tests pin the wording in in.md and check the eval case
-`evals/conductor-revision-out` is well formed and its graders tell a pass from the
-round-6 endings. They check the words and patterns, not that a model follows them.
+`evals/conductor-revision-out` is well formed.
 
-Codex review of the first cut (Hold, five findings): the revised brief is the
-person's own file, so Out must ask before saving it and the single-turn case ends
-on that question, not the closing box; the session account may be a new sitting
-heading in the day's existing log; each requested fact and both unanswered
-questions are checked; any --push through the helper counts as a push.
-Review r2: regex cannot judge meaning, so the brief's facts, the save question and the
-session account are model-graded rubrics (`type: llm`); regex stays for the mechanical
-checks, whose tests below include the slips they must catch.
+Three Codex review rounds on the case's regex graders each found another edge case, so
+every grader except a trivial non-empty check is now a model-judged rubric
+(`type: llm`). These tests can only check that each rubric states its criteria; how
+the judge applies them is shown only by a real `claude plugin eval` run (the case's
+README says so).
 """
 from pathlib import Path
-import json
 import os
 import re
 import subprocess
@@ -32,6 +27,15 @@ HANDOFF_RULE = (
     "Carry only the exclusions the person stated. Never add your own (“edit X only”, "
     "“nothing committed”): Kerd's own records and the closing save are part of every sitting."
 )
+RUBRICS = {
+    "brief-answers-in": "{source: file, path: launch-brief.md}",
+    "brief-open-questions-kept": "{source: file, path: launch-brief.md}",
+    "asks-which-files-to-save": "last_message",
+    "brief-not-saved-unasked": "trace",
+    "out-after-revision": "trace",
+    "out-guide-read": "trace",
+    "sitting-account-written": "trace",
+}
 
 
 def flat(text):
@@ -39,54 +43,25 @@ def flat(text):
 
 
 def front_matter(path):
-    """Front matter as a flat dict; one level of nesting becomes `parent.key`."""
     text = path.read_text(encoding="utf-8")
     head = text.split("---\n", 2)
     if len(head) < 3 or head[0] != "":
         raise AssertionError(f"{path.name}: no front matter")
-    fields, parent = {}, None
+    fields = {}
     for line in head[1].splitlines():
-        key, _, value = line.strip().partition(":")
-        value = value.strip()
-        if line.startswith("  ") and parent:
-            fields[f"{parent}.{key}"] = value
-        else:
-            fields[key] = value
-            parent = key if value == "" else None
+        key, _, value = line.partition(":")
+        fields[key.strip()] = value.strip()
     return fields, head[2]
 
 
-def quoted(value):
-    """A single-quoted YAML scalar, as the graders write their patterns."""
-    assert value.startswith("'") and value.endswith("'"), value
-    return value[1:-1].replace("''", "'")
-
-
-def rx(name, key="pattern"):
-    fields = front_matter(CASE / "graders" / f"{name}.md")[0]
-    flags = re.I if fields.get("flags") == "i" else 0
-    return re.compile(quoted(fields[key]), flags)
-
-
-def bash(command):
-    """A Bash call's input as the graders' input_match sees it (compact JSON)."""
-    return json.dumps({"command": command, "description": "x"}, separators=(",", ":"))
-
-
-def call(name, **inputs):
-    """One tool_use as it sits in the trace."""
-    return json.dumps({"type": "tool_use", "id": "toolu_1", "name": name, "input": inputs},
-                      separators=(",", ":"), ensure_ascii=False)
+def rubric(name):
+    return flat(front_matter(CASE / "graders" / f"{name}.md")[1])
 
 
 def scaffold_file(name):
     scaffold = (CASE / "scaffold.sh").read_text(encoding="utf-8")
     body = scaffold[scaffold.index(f"cat > {name} <<'EOT'\n"):]
     return body[body.index("\n") + 1:body.index("\nEOT\n") + 1]
-
-
-BRIEF = scaffold_file("launch-brief.md")
-LOG = scaffold_file("kivna/sessions/2026-11-20.md")
 
 
 class HandoffCarriesOnlyStatedExclusions(unittest.TestCase):
@@ -119,179 +94,115 @@ class EvalCaseShape(unittest.TestCase):
         self.assertIn("Edit launch-brief.md only", body)
         self.assertNotIn("committed", body)
 
-    def test_every_grader_has_a_type_weight_and_compiling_patterns(self):
-        for path in sorted((CASE / "graders").glob("*.md")):
-            with self.subTest(grader=path.name):
-                fields, body = front_matter(path)
-                self.assertIn(fields.get("type"), ("regex", "tool_used", "llm"))
-                if fields["type"] == "llm":
-                    self.assertIn("focus", fields)
-                    self.assertIn("PASS", body)
-                    self.assertIn("FAIL", body)
-                self.assertEqual(fields.get("weight"), "1")
-                self.assertTrue(body.strip())
-                for key in ("pattern", "input_match", "before.input_match", "after.input_match"):
-                    if key in fields:
-                        re.compile(quoted(fields[key]))
-
-    def test_the_closing_box_is_not_required_in_a_single_turn(self):
-        self.assertFalse((CASE / "graders" / "ends-on-closing-line.md").exists())
-
-    def test_out_graders_match_their_sources(self):
-        theirs = front_matter(ROOT / "evals" / "switch-out-clean" / "graders" / "out-guide-read.md")[0]
-        self.assertEqual(rx("out-guide-read").pattern, quoted(theirs["pattern"]))
-
-    def test_meaning_is_model_graded(self):
-        # Review r2: these judge meaning, so they are rubrics, never regex.
-        for name, focus in (("brief-answers-in", "{source: file, path: launch-brief.md}"),
-                            ("brief-open-questions-kept", "{source: file, path: launch-brief.md}"),
-                            ("asks-which-files-to-save", "last_message"),
-                            ("sitting-account-written", "trace")):
+    def test_graders_are_rubrics_but_one_non_empty_check(self):
+        names = sorted(p.stem for p in (CASE / "graders").glob("*.md"))
+        self.assertEqual(names, sorted([*RUBRICS, "reply-not-empty"]))
+        for name, focus in RUBRICS.items():
             with self.subTest(grader=name):
-                fields, _ = front_matter(CASE / "graders" / f"{name}.md")
+                fields, body = front_matter(CASE / "graders" / f"{name}.md")
                 self.assertEqual(fields["type"], "llm")
+                self.assertEqual(fields["weight"], "1")
                 self.assertEqual(fields["focus"], focus)
-        for gone in ("brief-fact-browser", "brief-fact-apps", "brief-fact-no-account",
-                     "brief-account-mark-removed", "brief-fact-date-confirmed",
-                     "privacy-still-to-confirm", "pricing-still-to-confirm",
-                     "ends-on-save-question-naming-brief", "session-log-written"):
-            with self.subTest(gone=gone):
-                self.assertFalse((CASE / "graders" / f"{gone}.md").exists())
+                self.assertIn("PASS", body)
+                self.assertIn("FAIL", body)
+        fields, _ = front_matter(CASE / "graders" / "reply-not-empty.md")
+        self.assertEqual((fields["type"], fields["target"]), ("regex", "last_message"))
+        self.assertEqual(fields["pattern"], "'^[\\s\\S]{300,}$'")
+        re.compile(fields["pattern"][1:-1])
+
+    def test_readme_says_what_the_tests_cannot_prove(self):
+        readme = flat((CASE / "README.md").read_text(encoding="utf-8"))
+        self.assertIn("can only check that each rubric states its criteria", readme)
+        self.assertIn("Only a real `claude plugin eval` run of this case can show how the judge "
+                      "behaves, and none has been recorded yet.", readme)
+        self.assertIn("`context.history_file`", readme)
 
 
-class RubricsStateTheExactChecks(unittest.TestCase):
-    def rubric(self, name):
-        return flat(front_matter(CASE / "graders" / f"{name}.md")[1])
+class RubricsStateEachCriterion(unittest.TestCase):
+    def assert_states(self, name, *checks):
+        text = rubric(name)
+        for check in checks:
+            with self.subTest(grader=name, check=check):
+                self.assertIn(check, text)
 
     def test_brief_answers(self):
-        text = self.rubric("brief-answers-in")
-        for check in ("works in any phone browser", "iPhone and Android apps are available at launch",
-                      "volunteers need no account, and the coordinator sends them a link",
-                      "no longer carries a \"To confirm\" mark", "stated as 10 February (2027) and confirmed",
-                      "not called tentative", "PASS only if all five hold", "does not work in a browser"):
-            with self.subTest(check=check):
-                self.assertIn(check, text)
+        self.assert_states(
+            "brief-answers-in", "works in any phone browser",
+            "iPhone and Android apps are available at launch",
+            "volunteers need no account, and the coordinator sends them a link",
+            "no longer carries a \"To confirm\" mark", "stated as 10 February (2027) and confirmed",
+            "not called tentative anywhere in the brief",
+            "nothing anywhere else may still say the opposite of these answers",
+            "the \"Open items\" list must not still call the date tentative",
+            "PASS only if all five hold and nothing elsewhere contradicts them",
+            "\"does not work in a browser\"")
 
-    def test_open_questions(self):
-        text = self.rubric("brief-open-questions-kept")
-        for check in ("privacy and security question", "price after 25 volunteers",
-                      "PASS only if both are still marked \"To confirm\""):
-            with self.subTest(check=check):
-                self.assertIn(check, text)
-        # Both start open in the scaffold's brief, so "still" is true of the start state.
-        self.assertRegex(BRIEF, r"private and secure\?\*\*\n\*\*\[To confirm\.\]\*\*")
-        self.assertRegex(BRIEF, r"\$19 a month\. \*\*\[To confirm")
+    def test_every_other_open_item_stays_open(self):
+        self.assert_states(
+            "brief-open-questions-kept", "privacy and security question", "price after 25 volunteers",
+            "What the grant report contains", "Shift scheduling", "What support is available",
+            "Permission to quote the four pilot coordinators", "\"Probably not the right fit\"",
+            "The pilot year", "PASS only if all eight are still marked or listed as unconfirmed",
+            "nothing elsewhere in the brief states any of them as a confirmed fact")
+
+    def test_the_open_items_are_the_scaffolds_own(self):
+        # The rubric lists every unconfirmed item the scaffold's brief marks, so each
+        # anchor below must be in that brief.
+        brief = scaffold_file("launch-brief.md")
+        for anchor in ("**[To confirm: whether $19 is a flat monthly price",
+                       "**[To confirm: exactly what's in the report",
+                       "**[To confirm: that scheduling isn't in the launch",
+                       "**Is our volunteers' information private and secure?**\n**[To confirm.]**",
+                       "**What support is available?**\n**[To confirm.]**",
+                       "**[Quotes: confirm permission before use.]**",
+                       "**Probably not the right fit (our suggestion, please confirm):**",
+                       "7. Confirm the pilot year."):
+            with self.subTest(anchor=anchor):
+                self.assertIn(anchor, brief)
+        # "[To confirm" appears 8 times: the Status line's legend, the five open FAQ items
+        # above (price, grant report, scheduling, privacy, support) and the two answered
+        # ones (account, launch date). A ninth would be an item the rubric does not list.
+        self.assertEqual(brief.count("[To confirm"), 8)
 
     def test_save_question(self):
-        text = self.rubric("asks-which-files-to-save")
-        for check in ("final question asks the person which of their changed files to save",
-                      "names the launch brief", "does not claim the brief is already saved",
-                      "\"Put this down for today?\""):
-            with self.subTest(check=check):
-                self.assertIn(check, text)
+        self.assert_states(
+            "asks-which-files-to-save",
+            "final question asks the person which of their changed files to save",
+            "names the launch brief", "does not claim the brief is already saved",
+            "\"Put this down for today?\"", "SESSION SAVED or SAVED LOCALLY")
+
+    def test_brief_not_saved_before_the_answer(self):
+        self.assert_states(
+            "brief-not-saved-unasked", "every command in it comes before their answer",
+            "could stage, commit or push launch-brief.md", "`git add -A`", "`git add .`",
+            "`git add :/`", "`git add '*'`", "`git commit -a`", "any `--push` or `git push`",
+            "`git remote add`", "`git add -- kivna/sessions/2026-11-21.md CONTEXT.md TODO.md`")
+
+    def test_out_after_a_successful_change(self):
+        self.assert_states(
+            "out-after-revision", "whose tool result is not an error",
+            "whatever the path's spelling", "whatever the order of the call's fields",
+            "the skill is switch (kerd:switch) and its arguments start Out",
+            "followed later in the trace by event 2", "every change to it failed or errored")
+
+    def test_out_guide_read_in_full(self):
+        self.assert_states(
+            "out-guide-read", "\"# Out: clean boundaries\"", "\"Without `--sync` it is local-only.\"",
+            "read only in part")
+        # The anchors are the guide's own first heading and last sentence.
+        guide = (ROOT / "skills" / "switch" / "references" / "out.md").read_text(encoding="utf-8")
+        self.assertEqual(guide.splitlines()[0], "# Out: clean boundaries")
+        self.assertTrue(guide.rstrip().endswith("Without `--sync` it is local-only."))
 
     def test_sitting_account(self):
-        text = self.rubric("sitting-account-written")
-        for check in ("a new dated log file under kivna/sessions/ other than 2026-11-20.md",
-                      "a new \"## \" sitting heading added to 2026-11-20.md followed by that account",
-                      "only the earlier sitting's existing account was reworded"):
-            with self.subTest(check=check):
-                self.assertIn(check, text)
-        # The rubric names sitting 1's heading as it is in the scaffold.
-        self.assertIn("## Sitting: Harbor Hours launch brief", LOG)
-
-
-class OutAfterTheRevision(unittest.TestCase):
-    rx = rx("out-after-revision")
-    OUT = call("Skill", skill="kerd:switch", args="out")
-
-    def test_edit_or_write_on_the_brief_then_out_passes(self):
-        for change in (call("Edit", file_path="/w/launch-brief.md", old_string="a", new_string="b"),
-                       call("Write", file_path="/w/launch-brief.md", content="# Brief\n")):
-            with self.subTest(change=change[:40]):
-                self.assertTrue(self.rx.search(change + "\n" + self.OUT))
-        self.assertTrue(self.rx.search(call("Edit", file_path="/w/launch-brief.md", old_string="a",
-                                            new_string="b") + "\n" + call("Skill", args="out", skill="switch")))
-
-    def test_out_first_or_another_file_or_another_skill_fails(self):
-        edit = call("Edit", file_path="/w/launch-brief.md", old_string="a", new_string="b")
-        self.assertFalse(self.rx.search(self.OUT + "\n" + edit))
-        self.assertFalse(self.rx.search(call("Edit", file_path="/w/notes.md", old_string="a",
-                                             new_string="b") + "\n" + self.OUT))
-        self.assertFalse(self.rx.search(edit + "\n" + call("Skill", skill="kerd:switch", args="in")))
-        self.assertFalse(self.rx.search(call("Read", file_path="/w/launch-brief.md") + "\n" + self.OUT))
-
-
-class OutStartsUnaskedAndAsksAboutTheBrief(unittest.TestCase):
-    QUESTION = ("> 💬 **These files of yours changed and aren't saved yet: launch-brief.md. "
-                "Should I save it too?**")
-    PLAIN = "> 💬 **The launch brief changed and isn't saved yet. Should I save it too?**"
-    PUT_DOWN = "That's updated.\n\n> 💬 **Put this down for today with /kerd:switch out?**"
-    SILENT = "I didn't touch `TODO.md`. Your to-do list is yours, so say if you want it updated."
-    BOX = "**HARBOR HOURS · SAVED LOCALLY**\n\nRun /clear, then /kerd:switch in to pick up from here."
-
-    def test_switch_out_skill_call(self):
-        out = rx("switch-out-ran", "input_match")
-        for given in ('{"skill":"kerd:switch","args":"out"}', '{"args": "out", "skill": "switch"}'):
-            with self.subTest(call=given):
-                self.assertTrue(out.search(given))
-        for given in ('{"skill":"kerd:switch","args":"in"}', '{"skill":"kerd:conductor","args":"out"}',
-                      '{"skill":"kerd:switch"}'):
-            with self.subTest(call=given):
-                self.assertFalse(out.search(given))
-
-    def test_no_box_before_the_answer(self):
-        box = rx("no-closing-box")  # not_contains: a match is a slip
-        self.assertTrue(box.search(self.BOX))
-        self.assertTrue(box.search("**HARBOR HOURS · SESSION SAVED ✓**"))
-        self.assertFalse(box.search(self.QUESTION))
-
-    def test_round6_put_down_ending_is_a_slip(self):
-        put_down = rx("no-put-down-question")
-        self.assertTrue(put_down.search(self.PUT_DOWN))
-        self.assertFalse(put_down.search(self.QUESTION))
-
-    def test_brief_is_not_saved_before_the_answer(self):
-        saved = rx("brief-not-saved-unasked", "input_match")  # max 0: a match is a slip
-        for cmd in ("python3 /s/handoff.py --project /p save --file launch-brief.md --file TODO.md",
-                    "git -C /p add launch-brief.md", "git -C /p commit -m x -- launch-brief.md",
-                    # Review r2: broad staging sweeps the brief in without naming it.
-                    "git -C /p add -A", "git add .", "git -C /p add --all", "git add -u",
-                    "git -C /p add . && git -C /p commit -m x", "git commit -a -m x",
-                    "git -C /p commit -am x", "git commit --all -m x",
-                    "python3 /s/handoff.py --project /p save --push --file CONTEXT.md"):
-            with self.subTest(cmd=cmd):
-                self.assertTrue(saved.search(bash(cmd)))
-        for cmd in ("git -C /p status --short", "git -C /p diff -- launch-brief.md",
-                    "python3 /s/handoff.py --project /p save --file CONTEXT.md --file TODO.md",
-                    "git -C /p add CONTEXT.md TODO.md kivna/sessions/2026-11-21.md",
-                    "git -C /p add ./CONTEXT.md", "git -C /p commit -m x -- CONTEXT.md",
-                    "git -C /p commit --amend --no-edit", "git -C /p log --all --oneline"):
-            with self.subTest(cmd=cmd):
-                self.assertFalse(saved.search(bash(cmd)))
-
-
-class NothingPushed(unittest.TestCase):
-    rx = rx("nothing-pushed", "input_match")  # max 0: a match is a slip
-
-    def test_pushes_are_caught(self):
-        for cmd in ("git push", "git -C /p push origin main",
-                    "python3 /s/handoff.py --project /p save --push --file CONTEXT.md",
-                    "python3 $H --project /p save --file CONTEXT.md --push",
-                    "H=/s/handoff.py; python3 $H --project . save --push --file a.md"):
-            with self.subTest(cmd=cmd):
-                self.assertTrue(self.rx.search(bash(cmd)))
-
-    def test_local_saves_and_reads_are_not(self):
-        for cmd in ("git config --get push.default", "git -C /p remote",
-                    "python3 /s/handoff.py --project /p save --file CONTEXT.md"):
-            with self.subTest(cmd=cmd):
-                self.assertFalse(self.rx.search(bash(cmd)))
-
-    def test_an_added_remote_is_caught(self):
-        added = rx("no-remote-added")  # not_contains: a match is a slip
-        self.assertTrue(added.search('[core]\n\tbare = false\n[remote "origin"]\n\turl = /x\n'))
-        self.assertFalse(added.search("[core]\n\tbare = false\n[user]\n\tname = Sam Rivera\n"))
+        self.assert_states(
+            "sitting-account-written", "whose tool result is a success (not an error)",
+            "a new dated log file under kivna/sessions/ other than 2026-11-20.md",
+            "a new \"## \" sitting heading added to 2026-11-20.md followed by that account",
+            "Substantive means the new text says what this sitting did",
+            "more than a heading, a date or a placeholder",
+            "only the earlier sitting's existing account was reworded")
+        self.assertIn("## Sitting: Harbor Hours launch brief", scaffold_file("kivna/sessions/2026-11-20.md"))
 
 
 if __name__ == "__main__":
