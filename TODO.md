@@ -6,10 +6,10 @@
 
 | Rank | Task id | Task | Outcome | Status | ETA | Depends on |
 |---|---|---|---|---|---|---|
-| 1 | sam-round6 | [Walk Sam again (round 6) on 0.200.1](notes:batch-1114/first-user-5.md) | Round-5 fixes confirmed or reopened before invites | queued | ~1 sitting | — |
-| 2 | slim-marketplace | [Slim marketplace from the plugin branch](notes:batch-1114/package.md) | marketplace add clones ~2 MB, not 59 MB | blocked (his decision) | unknown | — |
+| 1 | slim-marketplace | [Slim marketplace from the plugin branch](notes:batch-1114/package.md) | marketplace add clones about 6 MB, not 59 MB | in progress | ~1 sitting | — |
+| 2 | sam-round6 | [Walk Sam again (round 6) on 0.200.1](notes:batch-1114/first-user-5.md) | Round-5 fixes confirmed or reopened before invites | queued | ~1 sitting | — |
 
-Updated: 2026-11-20T14:16:33-05:00
+Updated: 2026-11-20T17:40:22-05:00
 
 - **Watch the chief-of-staff queue in real use (0.200.0/0.200.1):** after each project's Kerd restarts on 0.200.1, Conductor and Switch Out keep the `### Queue` table through `cos.py write` in Kerd and Cosplay (both in `~/.config/kerd/chief-of-staff.json`), Cosplay's Switch In shows ROLE: chief of staff, and Cosplay's scans read them; first real sitting not yet seen. Decisions reach Anthony through his chief of staff, cosplay-b1; a push still needs his go typed in the Kerd window. `notes:chief-of-staff/design.md`.
 - **Walk Sam again on 0.199.0 (round 6, proposed):** round 5 (on 0.197.0, `notes:batch-1114/first-user-5.md`) found 2 confuses and 5 cosmetics; their fixes are in 0.198.0 (wording only, unwalked); 0.199.0 (main 6224b5ed) adds the slim install. Same method, from `main` at 6224b5ed, and also install it once from the marketplace into an isolated config so Sam meets the slim package; confirm the project name, the never-denied word, the saved detail preference carried to sitting 2, Out's piped inputs (fewer prompts) and the release cell; count first-arrival prompts; write `notes:batch-1114/first-user-6.md`. Stops at findings.
