@@ -723,9 +723,13 @@ existing authority.
 outstanding, a finished revision or requested change to delivered work included,
 a next item that waits for later (“next week”, someone else's
 answer) does not hold the Out back: name that item, then run Out. A requested
-change to delivered work is finished when the change is made and shown: run
-`/kerd:switch out` in that same turn, after a short Found line, without waiting to
-be asked; a handoff that limits which files the work edits never limits Out. Say it in plain
+change to delivered work is finished when the change is made and shown; then, while
+these conditions hold (nothing else outstanding, remaining authorized work first, a
+draft not yet accepted waits for acceptance, a request to keep the session open
+holds, this session owns the Out), run `/kerd:switch out` in that same turn after a
+short Found line, unasked. A handoff that limits which files the work edits never
+limits Out, and Out keeps its own save authority: it still asks before saving the
+person's own files. Say it in plain
 words and name the command, so a newcomer knows how to put work down another time:
 “That's done. I'm putting this down for today with `/kerd:switch out`, so
 `/kerd:switch in` picks it up next time.” Where the host gives no way to start a

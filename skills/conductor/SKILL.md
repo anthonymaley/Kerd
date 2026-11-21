@@ -421,9 +421,13 @@ names the guide section with its detail: open that section before the step.
   runs Switch Out itself, unasked, and says so in plain words naming
   `/kerd:switch out`, so a newcomer learns how to put work down; a next item that
   waits for later is named, and does not hold the Out back. A requested change to
-  delivered work is finished when the change is made and shown: run
-  `/kerd:switch out` in that same turn, after a short Found line, without waiting
-  to be asked; a handoff that limits which files the work edits never limits Out.
+  delivered work is finished when the change is made and shown; then, while these
+  conditions hold (nothing else outstanding, remaining authorized work first, a
+  draft not yet accepted waits for acceptance, a request to keep the session open
+  holds, this session owns the Out), run `/kerd:switch out` in that same turn after
+  a short Found line, unasked. A handoff that limits which files the work edits
+  never limits Out, and Out keeps its own save authority: it still asks before
+  saving the person's own files.
   Where the host gives no way to start the skill, the turn ends on the one question
   `> 💬 **Put this down for today with /kerd:switch out?**`
   ([One clear finish](references/journey.md#one-clear-finish)). To a person who has

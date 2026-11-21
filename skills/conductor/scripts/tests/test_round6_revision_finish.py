@@ -14,9 +14,20 @@ REPO = Path(__file__).resolve().parents[4]
 CONDUCTOR = REPO / "skills" / "conductor"
 
 RULE = (
-    "A requested change to delivered work is finished when the change is made and shown: "
-    "run `/kerd:switch out` in that same turn, after a short Found line, without waiting to be "
-    "asked; a handoff that limits which files the work edits never limits Out."
+    "A requested change to delivered work is finished when the change is made and shown; then, "
+    "while these conditions hold (nothing else outstanding, remaining authorized work first, a "
+    "draft not yet accepted waits for acceptance, a request to keep the session open holds, this "
+    "session owns the Out), run `/kerd:switch out` in that same turn after a short Found line, "
+    "unasked. A handoff that limits which files the work edits never limits Out, and Out keeps its "
+    "own save authority: it still asks before saving the person's own files."
+)
+# Codex review of 45636539..9e111bc0 (High): the sentence read as overriding the rules
+# around it. Each condition it stays subject to is named in it.
+CONDITIONS = (
+    "nothing else outstanding", "remaining authorized work first",
+    "a draft not yet accepted waits for acceptance", "a request to keep the session open holds",
+    "this session owns the Out", "Out keeps its own save authority",
+    "it still asks before saving the person's own files",
 )
 FALLBACK = "`> 💬 **Put this down for today with /kerd:switch out?**`"
 
@@ -41,6 +52,13 @@ class RevisionEndsInOut(unittest.TestCase):
         finish = section(text, "### One clear finish", "**A draft for review is done when it is accepted.**")
         self.assertEqual(finish.count(RULE), 1)
         self.assertEqual(flat(text).count(RULE), 1)
+
+    def test_it_stays_subject_to_the_surrounding_conditions(self):
+        for condition in CONDITIONS:
+            with self.subTest(condition=condition):
+                self.assertIn(condition, RULE)
+        # The unasked Out comes only after the conditions, never before them.
+        self.assertLess(RULE.index("while these conditions hold"), RULE.index("run `/kerd:switch out`"))
 
     def test_put_down_question_stays_only_for_hosts_without_a_skill_start(self):
         skill = flat((CONDUCTOR / "SKILL.md").read_text(encoding="utf-8"))
