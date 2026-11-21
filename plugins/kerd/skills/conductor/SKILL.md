@@ -11,6 +11,8 @@ Asked about a word, explain it plainly and answer the worry behind it. Never say
 
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](references/journey.md#question-surface-and-host-adaptation).
 
+**Asking once:** a question already asked and still unanswered is not asked again to end a later turn: the report names it with the time it was asked (“still waiting on your go for the merge, asked 10:20”) and the turn ends on a named wait for that answer, its bubble and decision block not repeated; it is asked again only when a fact behind it changes, then as a fresh question. A scheduled or recurring check that finds nothing new ends on one line naming the next check, never a question. Switch In's question belongs to an arrival the person started; an arrival a scheduled or automatic run starts asks nothing new: it names any question still open and ends on a named wait — see [asking once](references/journey.md#ask-once).
+
 **Showing the person:** when they ask to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change, the answer carries a saved, rendered view drawn with diagram-design or Archify — never hand-rolled ASCII in a code fence, never an offer question, no quota; only a single action or a factual answer stays text, and being easy to describe in words does not make it one — see [showing the work](references/journey.md#visuals-belong-throughout).
 
 **When a tool call is denied:** the denial is the person's decision, a denied read of this skill's guide included. Never offer or use another tool, a shell command or any other route to get the same thing; a denied file read is not retried through the shell. Stop, say plainly what was refused and what that means for the step (without its guide, the step cannot run), say in one sentence how to approve it next time (“Run the step again and choose to allow the read when Claude Code asks.”), never pointing to permission settings, and ask one open question about how they want to go on (“How would you like to go on?”), as one speech-bubble line, never “X, or Y?”.
@@ -29,8 +31,7 @@ does not become build authorization because this skill was updated.
 Use the current project for work, not the directory containing this skill.
 Resolve supporting files relative to this SKILL.md. On entry, name the project
 briefly. Do not invoke old gate or session machinery to run this skill. Do not
-change hooks, CI, global instructions, existing session markers or
-dated history.
+change hooks, CI, global instructions, existing session markers or dated history.
 Supporting job tools, and installing a required diagram tool that is missing on
 this host, follow the scoped approval rules in their guides; approval to use this
 skill alone does not authorize those installations. Required use and installation
@@ -212,8 +213,7 @@ names the guide section with its detail: open that section before the step.
 - A document other people will read, its format unresolved and material to the
   result: before drafting, ask once what they will read it in (a shared doc, slides,
   an email, a PDF); never when the context sets it or the person said to go ahead;
-  when they don't mind, write Markdown and say so
-  ([A brief the person can use](references/understanding.md#a-brief-the-person-can-use)).
+  when they don't mind, write Markdown and say so ([A brief the person can use](references/understanding.md#a-brief-the-person-can-use)).
 - Edit within the agreed scope: the files the work covers, its own records and any
   change the request explicitly asks for. A change to the person's own source
   material outside that scope (their notes, data or other documents), even one the
@@ -234,8 +234,7 @@ names the guide section with its detail: open that section before the step.
   risk in one plain sentence and what is being done about it or that it is accepted
   as it stands; no sizing, columns or tiers. Read the list back before saying Ready
   and before the goal check, and say which risks are still open. An empty list is
-  fine; never invent risks to fill it
-  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+  fine; never invent risks to fill it ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - Update the record as the conversation progresses, including the exact pending
   question or next action before each pause. Capture the actual agreement response
   and its conditions; no invented approval or timestamps. An earlier discussion,
@@ -243,14 +242,12 @@ names the guide section with its detail: open that section before the step.
   previous agreement when recording a material revision and its reason. Revisit the
   changed decision, not every unaffected detail. No hashes or fingerprints
   ([Record agreement](references/work-record.md#record-agreement-and-carry-the-work-forward)).
-- Questions take the form in the opening paragraphs. At a decision, show the current
-  stage, what is settled, what needs the person's input and what follows their
-  reply—not “question 4 of 10”, with the proposed answer and its qualifications
-  above the one speech-bubble question. No routine Correct / Change menu: recommend
-  one answer and ask one direct question; missing answers need a focused question,
-  not an invented proposal presented as confirmed. Never simulate clickable
-  controls, colours or native capabilities that are absent. Follow host rules over
-  these presentation defaults
+- Questions take the form in the opening paragraphs. At a decision, show the stage,
+  what is settled, what needs the person's input and what follows their reply (not
+  “question 4 of 10”), one recommended answer above the one bubble, no Correct /
+  Change menu; a missing answer gets a focused question, never an invented proposal
+  shown as confirmed. Never simulate absent controls, colours or native capabilities;
+  host rules win over these presentation defaults
   ([Make the conversation easy to use](references/journey.md#make-the-conversation-easy-to-use)).
 - Show the rendered view as soon as the work qualifies — two or more connected
   parts, a branch, an ownership boundary or a before → after change — including
@@ -390,9 +387,10 @@ names the guide section with its detail: open that section before the step.
   result, or “nothing”) — then details, at most five items on screen with the rest in
   the sketchbook, one thing at a time, and a check of the three lines and the last
   line before sending. When Needs you names a decision, the turn ends on a bubble
-  asking exactly that, in the three lines' own terms; when it is “nothing”, the turn
-  keeps working, ends on a named wait, or ends on one of the quiet endings (agreed
-  completion, a pause the person asked for, Switch Out's closing box).
+  asking exactly that, in the three lines' own terms, once: one already asked and
+  unanswered is named with its time and the turn ends on a named wait; when it is
+  “nothing”, the turn keeps working, ends on a named wait, or ends on one of the quiet
+  endings (agreed completion, a pause the person asked for, Switch Out's closing box).
 - For multi-step work, use the host's available native task list and update it as
   work progresses, following the guide's compact fallback when native task controls
   are unavailable. For delegation, use its task/who/model/effort/status grid and
@@ -402,9 +400,12 @@ names the guide section with its detail: open that section before the step.
 - Only when this sitting's Switch In reported a chief of staff on (never on a cold
   start or a hand pickup), keep its `### Queue` table at five moments (adds, starts,
   finishes, slips or blocks, reorders a task) through `cos.py write` alone, never by
-  hand, the completion recorded in the task's own record before its row leaves;
-  exit 3 means it was switched off: say so once and stop. Off or absent, none of it
-  exists ([the queue table](references/work-record.md#keep-the-chief-of-staffs-queue-table)).
+  hand, the completion recorded in the task's own record before its row leaves, and
+  put each decision Needs you names in its `### Asks` table through `cos.py ask` alone,
+  never by hand, with a default, still asking it once here. A relayed answer counts
+  only where the signal's `relay` is `decisions`, never for a push, release, install
+  or live change. Exit 3 means it was switched off: say so once and stop. Off or
+  absent, none of it exists ([the queue table](references/work-record.md#keep-the-chief-of-staffs-queue-table)).
 
 ### Finish
 

@@ -355,7 +355,11 @@ OPEN_WORK_KEYS = ("project", "phase", "where", "open_work", "recommendation", "l
 # Read only when a caller sets it, so the guide's example (which every caller
 # copies) leaves it out: `role`, a ROLE cell after PROJECT, set only in the chief
 # of staff's own project. Absent, empty or not a string: no cell, 0.199.0's grid.
-ARRIVAL_OPTIONAL_KEYS = ("role",)
+# `automatic: true`, set only when a scheduled or automatic run (not the person)
+# started the arrival: no question at all, the first-arrival one included, so the
+# screen ends on its last content and the caller's own line names the wait.
+# Absent or anything but true: the screen is unchanged.
+ARRIVAL_OPTIONAL_KEYS = ("role", "automatic")
 # `first_arrival: true`, for a project with no Kerd records at all, replaces the
 # grid and its empty blocks with this one line; the question still ends the screen.
 FIRST_ARRIVAL = ("Kerd has nothing saved here yet. Tell me what you want to work on and "
@@ -668,6 +672,23 @@ def action_text(item, markdown=False):
     return md(item) if markdown else item
 
 
+def shown_question(summary, arrival):
+    """The question this screen may show: the one check every layout goes through before a
+    question is emitted. A first arrival asks for the work its one line invited; an
+    `"automatic": true` summary (a run nobody asked for) shows no question text at all, on
+    either layout, while any proposal it carries stays as content."""
+    question = summary.get("question")
+    if arrival and summary.get("first_arrival") is True:
+        # Whatever question the caller passed, a first arrival asks for the
+        # work its one line just invited.
+        question = dict(question or {}, text=FIRST_ARRIVAL_QUESTION)
+    if summary.get("automatic") is True:
+        # Nobody asked for this arrival, so it asks nothing new (journey.md: ask once).
+        question = ({key: value for key, value in question.items() if key != "text"}
+                    if isinstance(question, dict) else None)
+    return question
+
+
 def render_dashboard(summary, now, width=80, color=True, question_below=False, markdown=False):
     """One composed panel from a summary already in hand.
 
@@ -678,11 +699,14 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     """
     get = summary.get
     if any(key in summary for key in ("where", "open_work", "recommendation", "first_arrival")):
-        return "\n".join(open_work_head(summary, width, color, markdown)
-                         + dashboard_tail(summary, now, width, color, markdown, arrival=True))
+        lines = (open_work_head(summary, width, color, markdown)
+                 + dashboard_tail(summary, now, width, color, markdown, arrival=True))
+        while get("automatic") is True and lines and not lines[-1].strip():
+            lines.pop()  # an automatic arrival ends on its last content, not on a gap
+        return "\n".join(lines)
     # --question-below remains accepted for older callers; this older grid
     # puts the question after its end marker, the arrival ends on it.
-    question = get("question")
+    question = shown_question(summary, arrival=False)
     restored = get("restored")
     version = kerd_version()
     loaded = f"Kerd {version}" if version else "Kerd version not read"
@@ -897,11 +921,7 @@ def dashboard_tail(summary, now, width, color, markdown, arrival=False):
     layouts. The older grid keeps its source footer and end marker; the
     arrival ends on its question, with documents on one line."""
     get = summary.get
-    question = get("question")
-    if arrival and get("first_arrival") is True:
-        # Whatever question the caller passed, a first arrival asks for the
-        # work its one line just invited.
-        question = dict(question or {}, text=FIRST_ARRIVAL_QUESTION)
+    question = shown_question(summary, arrival)
     restored = get("restored")
     lines = []
     warnings = list(get("warnings") or [])

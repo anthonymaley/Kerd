@@ -216,6 +216,25 @@ class OffPathGoldenTests(Fixture):
                     self.config_present():
                 self.assertIsNone(handoff.chief_of_staff_signal(self.project, []))
 
+    def test_ask_and_check_without_config_change_nothing(self):
+        """0.203.0: `cos.py ask` with no config is the same silent off: exit 3, the no-config
+        payload, TODO.md's bytes untouched, and the helpers still print the golden bytes."""
+        todo = self.project / "TODO.md"
+        before = todo.read_bytes()
+        ask = json.dumps({"id": "merge-go", "question": "Merge?", "default": "Hold", "why": "Review due"})
+        for argv, stdin in ((["ask"], ask), (["ask", "--again"], ask), (["ask", "--answered", "merge-go"], ""),
+                            (["check"], ""), (["write"], "[]")):
+            with self.subTest(argv=argv):
+                result = subprocess.run([sys.executable, str(SCRIPTS / "cos.py"), *argv, "--project",
+                                         str(self.project)], input=stdin.encode(), env=clean_env(self.home),
+                                        capture_output=True)
+                self.assertEqual((result.returncode, result.stderr), (3, b""))
+                self.assertEqual(json.loads(result.stdout), {"on": False, "why": "no config"})
+                self.assertEqual(todo.read_bytes(), before)
+        for name in RUNS:
+            with self.subTest(run=name):
+                self.assertEqual(self.helper(name), self.golden(name))
+
     def test_a_missing_cos_module_is_off(self):
         with patch.object(handoff, "COS_SCRIPT", self.base / "absent.py"), self.config_present():
             self.assertIsNone(handoff.chief_of_staff_signal(self.project, []))
@@ -312,10 +331,23 @@ class RealSignalTests(Fixture):
         out = json.loads(self.helper("pickup"))
         self.assertIs(out["chief_of_staff"]["on"], True)
         self.assertIs(out["chief_of_staff"]["is_cos_repo"], False)
+        self.assertEqual(out["chief_of_staff"]["relay"], "none")
+        self.assertIsNone(out["chief_of_staff"]["relay_warning"])
         self.assertIs(out["queue_md_present"], False)
         golden = json.loads(self.golden("pickup"))
         self.assertEqual({k: v for k, v in out.items() if k not in ("chief_of_staff", "queue_md_present")},
                          golden)
+
+    def test_relay_rule_travels_with_the_signal(self):
+        self.configure({"repo": str(self.base / "elsewhere"), "projects": "all"})
+        (self.project / "kivna").mkdir()
+        (self.project / ".git" / "info" / "exclude").write_text("kivna/\n")
+        (self.project / "kivna" / "vault.json").write_text(json.dumps({"chief_of_staff_relay": "decisions"}))
+        self.assertEqual(json.loads(self.helper("pickup"))["chief_of_staff"]["relay"], "decisions")
+        (self.project / "kivna" / "vault.json").write_text(json.dumps({"chief_of_staff_relay": "yes"}))
+        signal = json.loads(self.helper("pickup"))["chief_of_staff"]
+        self.assertEqual(signal["relay"], "none")
+        self.assertIn("read as", signal["relay_warning"])
 
     def test_excluded_project_gains_only_the_machine_key(self):
         self.configure({"repo": str(self.base / "elsewhere"), "projects": [str(self.base / "other")],
@@ -402,6 +434,99 @@ class ArrivalRoleTests(unittest.TestCase):
         out = render(dict(SUMMARY, warnings=lines), 80, False, True)
         for line in lines:
             self.assertIn(f"- {view.md(line)}", out)
+
+
+class ArrivalAutomaticTests(unittest.TestCase):
+    """Review r2 (0.203.0): `"automatic": true` suppresses every arrival question, the
+    first-arrival one included, so an arrival nobody asked for asks nothing new. Absent or
+    anything but true, the screen is the golden's, byte for byte."""
+
+    @staticmethod
+    def without_question(text):
+        lines = text.split("\n")
+        cut = next(i for i, line in enumerate(lines) if "💬" in line)
+        lines = lines[:cut]
+        while lines and not lines[-1].strip():
+            lines.pop()
+        return "\n".join(lines)
+
+    def test_key_absent_or_not_true_is_byte_identical(self):
+        for value in ({}, {"automatic": False}, {"automatic": None}, {"automatic": "true"},
+                      {"automatic": 1}):
+            for name, options in RENDERS.items():
+                with self.subTest(value=value, render=name):
+                    out = render(dict(SUMMARY, **value), **options)
+                    self.assertEqual(out, (GOLDEN / name).read_text(encoding="utf-8"))
+
+    def test_automatic_normal_arrival_ends_on_its_content(self):
+        for name, options in RENDERS.items():
+            with self.subTest(render=name):
+                out = render(dict(SUMMARY, automatic=True), **options)
+                golden = (GOLDEN / name).read_text(encoding="utf-8")
+                self.assertNotIn("💬", out)
+                self.assertNotIn("Start a Conductor session?", out)
+                self.assertEqual(out, self.without_question(golden))
+                self.assertTrue(out.splitlines()[-1].strip())
+
+    def test_automatic_first_arrival_asks_nothing_either(self):
+        first = {"project": "Fixture", "first_arrival": True, "restored": "yes",
+                 "question": {"text": "Start a Conductor session?"}}
+        for name, options in RENDERS.items():
+            with self.subTest(render=name):
+                asked = render(first, **options)
+                self.assertIn("What do you want to work on?", asked)
+                out = render(dict(first, automatic=True), **options)
+                self.assertNotIn("💬", out)
+                self.assertNotIn("What do you want to work on?", out)
+                self.assertNotIn("Start a Conductor session?", out)
+                self.assertEqual(out, self.without_question(asked))
+                self.assertIn("Kerd has nothing saved here yet.", out)
+                self.assertTrue(out.splitlines()[-1].strip())
+
+    # Review r3: a sparse summary (no where, open_work, recommendation or first_arrival)
+    # takes the older layout. Its goldens were rendered by main at 90c50f78, before the
+    # key existed, never by the code under test.
+    SPARSE = {"project": "Fixture",
+              "question": {"text": "Start a Conductor session?", "proposed": "Finish the fixture task"},
+              "warnings": ["One fixture warning."], "restored": "yes"}
+    SPARSE_RENDERS = {"sparse_plain.txt": RENDERS["arrival_plain.txt"],
+                      "sparse_color.txt": RENDERS["arrival_color.txt"],
+                      "sparse_markdown.txt": RENDERS["arrival_markdown.txt"]}
+
+    def test_sparse_summary_key_absent_is_byte_identical(self):
+        for value in ({}, {"automatic": False}, {"automatic": "true"}):
+            for name, options in self.SPARSE_RENDERS.items():
+                with self.subTest(value=value, render=name):
+                    out = render(dict(self.SPARSE, **value), **options)
+                    self.assertEqual(out, (GOLDEN / name).read_text(encoding="utf-8"))
+
+    def test_sparse_automatic_summary_asks_nothing(self):
+        """The older layout goes through the same check: no question, the proposal kept."""
+        for summary in (dict(self.SPARSE, automatic=True),
+                        {"project": "Fixture", "question": {"text": "Start a Conductor session?"},
+                         "automatic": True}):
+            for name, options in self.SPARSE_RENDERS.items():
+                with self.subTest(keys=sorted(summary), render=name):
+                    out = render(summary, **options)
+                    self.assertNotIn("💬", out)
+                    self.assertNotIn("Start a Conductor session?", out)
+                    self.assertIn("END OF PICKUP", out.splitlines()[-1] if not options["markdown"]
+                                  else out)
+        for name, options in self.SPARSE_RENDERS.items():
+            with self.subTest(render=name, proposal="kept"):
+                out = render(dict(self.SPARSE, automatic=True), **options)
+                self.assertEqual(out, self.without_question((GOLDEN / name).read_text(encoding="utf-8")))
+                self.assertIn("Finish the fixture task", out)
+
+    def test_every_layout_uses_the_one_check(self):
+        import inspect
+        source = inspect.getsource(view.render_dashboard) + inspect.getsource(view.dashboard_tail)
+        self.assertNotIn('get("question")', source)
+        self.assertEqual(source.count("shown_question("), 2)
+
+    def test_automatic_stays_out_of_the_guide_example(self):
+        self.assertIn("automatic", view.ARRIVAL_OPTIONAL_KEYS)
+        self.assertNotIn("automatic", view.OPEN_WORK_KEYS)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Optional chief-of-staff support: the on/off signal and the `### Queue` table in TODO.md's `## Now`.
+"""Optional chief-of-staff support: the on/off signal, the `### Queue` table in TODO.md's `## Now`
+and the `### Asks` table of open decisions directly under it.
 
 Off unless ~/.config/kerd/chief-of-staff.json exists. With no file, `signal()` returns None
 and nothing else here runs: callers show nothing and change nothing.
@@ -7,7 +8,18 @@ and nothing else here runs: callers show nothing and change nothing.
     cos.py status --project P [--scope S]   the signal as JSON; exit 0 on, 3 off
     cos.py write  --project P [--scope S]   rows JSON on stdin; exit 0 written, 2 invalid,
                                             3 off, 4 no TODO.md or no `## Now`, 5 changed underneath
-    cos.py check  --project P [--scope S]   read-only validation; exit 0 valid, 2 invalid, 3 off
+    cos.py ask    --project P [--scope S]   one open decision as JSON on stdin, added to `### Asks`
+                  [--again]                 the same id asked again because a fact behind it changed
+                  [--answered ID]           that ask leaves the table (no stdin); exit codes as write
+    cos.py check  --project P [--scope S]   read-only validation of both tables; exit 0 valid,
+                                            2 invalid, 3 off
+
+When on, the signal carries `relay`: "decisions" when kivna/vault.json's
+`chief_of_staff_relay` says so in the project (and its root, when scoped), else "none".
+Unset is "none"; "none" in either file wins; any other value is "none" with `relay_warning`.
+"decisions" means an answer relayed by the chief of staff counts for a decision, never for a
+push, release, install or live change. Each `### Asks` row says where its answer counts:
+"relay ok" or "this window".
 
 Config ({"repo": abs path, "projects": "all" | [abs paths], "skip": [abs paths]}; unknown keys
 ignored; `~` expanded; every path compared after realpath). Precedence, fail closed: missing
@@ -20,8 +32,8 @@ The project is realpath(--project), joined with one --scope when given (a scoped
 is its scope folder). More than one --scope, or a scope outside the project, is off.
 `is_cos_repo` is true only when the signal is on and the project is the config's `repo`.
 
-`write` is a compare-and-swap at the last moment, not a locked one: it re-checks the config
-and compares TODO.md's SHA-256 with the one it read as the very last steps before
+`write` and `ask` are a compare-and-swap at the last moment, not a locked one: each re-checks
+the config and compares TODO.md's SHA-256 with the one it read as the very last steps before
 os.replace. A write by another program in the microseconds between that final check and the
 replace can still be lost; nothing here can stop that, because editors take no lock.
 
@@ -71,6 +83,20 @@ FENCE = re.compile(r"^\s*(```|~~~)")
 UPDATED = re.compile(r"Updated:(.*)")  # fullmatch on a bare line
 SEPARATOR_CELL = re.compile(r":?-{3,}:?")  # fullmatch
 LINK_CHARS_REFUSED = set("()[]<>|\\\"'`")
+
+ASKS_HEADING = re.compile(r"###[ \t]+Asks[ \t]*")  # fullmatch on a bare line
+ASK_COLUMNS = ("Ask id", "Question", "Default", "Why", "Blocks", "Kind", "Asked", "Answer where")
+ASK_KEYS = {"id", "question", "default", "why", "blocks", "link", "operation"}
+ASK_STAMPED = {"asked": "asked is stamped from the clock; leave it out",
+               "answer_where": "answer_where comes from chief_of_staff_relay; leave it out"}
+MAX_ASKS = 50
+RELAY_KEY = "chief_of_staff_relay"
+RELAY_VALUES = ("none", "decisions")
+THIS_WINDOW = "this window"
+RELAY_OK = "relay ok"
+KINDS = ("decision", "operation")  # an operation approves a push, release, install or live change
+NO_BLOCKS = NO_DEPENDS
+KEEP = object()  # compose_now: keep the existing block as it is
 
 
 class ConfigError(Exception):
@@ -186,6 +212,41 @@ def vault_opt_out(folder: str) -> tuple:
     return (not value), None
 
 
+def relay_rule(folders) -> tuple:
+    """(relay, warning) from `chief_of_staff_relay` in each folder's kivna/vault.json.
+
+    "decisions" only when every file that sets the key says "decisions"; unset is "none" and
+    "none" in either file wins (fail closed). Any other value is "none" with a warning."""
+    found, warning = [], None
+    for folder in folders:
+        path = os.path.join(folder, "kivna", "vault.json")
+        if not os.path.lexists(path):
+            continue
+        try:
+            with open(path, "rb") as handle:
+                data = json.loads(handle.read().decode("utf-8"))
+        except (OSError, ValueError):
+            return "none", f'{path} could not be read; {RELAY_KEY} read as "none"'
+        if not isinstance(data, dict) or RELAY_KEY not in data:
+            continue
+        value = data[RELAY_KEY]
+        if not isinstance(value, str) or value not in RELAY_VALUES:
+            warning = warning or f'{path}: {RELAY_KEY} is not "none" or "decisions"; read as "none"'
+            found.append("none")
+        else:
+            found.append(value)
+    if warning:
+        return "none", warning
+    return ("decisions" if found and all(v == "decisions" for v in found) else "none"), None
+
+
+def _on(is_cos_repo: bool, why: str, folders) -> dict:
+    """The on result, with the project's relay rule beside it."""
+    result = _result(True, is_cos_repo, why)
+    result["relay"], result["relay_warning"] = relay_rule(folders)
+    return result
+
+
 def _result(on: bool, is_cos_repo: bool, why: str, config_error=None) -> dict:
     """`is_cos_repo` is reported only when on: a skipped, opted-out or unlisted repo shows no role."""
     return {"on": on, "is_cos_repo": bool(on and is_cos_repo), "why": why, "config_error": config_error}
@@ -219,11 +280,12 @@ def signal(project: str, scopes: list[str] | None = None, config_path: str | Non
         if opted:
             return _result(False, is_cos_repo,
                            f"opted out: chief_of_staff is false in {os.path.join(folder, 'kivna', 'vault.json')}")
+    folders = list(dict.fromkeys([identity, root]))
     if config["projects"] == "all":
-        return _result(True, is_cos_repo, 'projects is "all"')
+        return _on(is_cos_repo, 'projects is "all"', folders)
     for entry in config["projects"]:
         if _under(identity, entry):
-            return _result(True, is_cos_repo, f"listed in projects: {entry}")
+            return _on(is_cos_repo, f"listed in projects: {entry}", folders)
     return _result(False, is_cos_repo, "not in projects")
 
 
@@ -402,9 +464,14 @@ def _bare(line: str) -> str:
 
 
 def scan(lines: list) -> tuple:
-    """(Now heading index or None, index where Now ends, `### Queue` heading indexes in Now).
-    Lines inside ``` or ~~~ fences are never headings."""
-    fence, now, end, queues = None, None, len(lines), []
+    """(Now heading index or None, index where Now ends, `### Queue` heading indexes in Now)."""
+    return scan_now(lines)[:3]
+
+
+def scan_now(lines: list) -> tuple:
+    """(Now heading index or None, index where Now ends, `### Queue` and `### Asks` heading
+    indexes in Now). Lines inside ``` or ~~~ fences are never headings."""
+    fence, now, end, queues, asks = None, None, len(lines), [], []
     for i, raw in enumerate(lines):
         line = _bare(raw)
         marker = FENCE.match(line)
@@ -425,7 +492,9 @@ def scan(lines: list) -> tuple:
             break
         if QUEUE_HEADING.fullmatch(line):
             queues.append(i)
-    return now, end, queues
+        elif ASKS_HEADING.fullmatch(line):
+            asks.append(i)
+    return now, end, queues, asks
 
 
 def block_end(lines: list, start: int, stop: int) -> int:
@@ -622,6 +691,177 @@ def parse_block(lines: list) -> tuple:
     return rows, stamp, errors
 
 
+# ------------------------------------------------------------ the Asks table
+
+def _id_list(value, where: str, key: str, errors: list) -> list:
+    if not isinstance(value, list) or not all(isinstance(v, str) for v in value):
+        errors.append(f"{where}: {key} must be a list of task ids")
+        return []
+    seen = []
+    for item in value:
+        if not ID_PATTERN.fullmatch(item):
+            errors.append(f"{where}: {key} {item!r} must match {ID_PATTERN.pattern}")
+        elif item in seen:
+            errors.append(f"{where}: {key} lists {item} twice")
+        seen.append(item)
+    return value
+
+
+def validate_ask(data) -> tuple:
+    """(normalized ask, errors) for one open decision: id, question, default, why and
+    operation are required (a decision without a default is refused, and so is one that does
+    not say whether it is an operation: true when the answer would approve a push, merge,
+    release, install, deletion, live change or anything sent out). blocks lists task ids;
+    link is optional."""
+    errors, where = [], "ask"
+    if not isinstance(data, dict):
+        return None, ["the ask must be one JSON object"]
+    for key in sorted(set(data) & set(ASK_STAMPED)):
+        errors.append(f"{where}: {ASK_STAMPED[key]}")
+    unknown = sorted(set(data) - ASK_KEYS - set(ASK_STAMPED))
+    if unknown:
+        errors.append(f"{where}: unknown key(s) {', '.join(unknown)}")
+    ask = {}
+    ask_id = data.get("id")
+    if not isinstance(ask_id, str) or not ID_PATTERN.fullmatch(ask_id):
+        errors.append(f"{where}: id must match {ID_PATTERN.pattern}")
+    ask["id"] = ask_id
+    question = _text(data, "question", where, errors, MAX_TEXT)
+    if question is not None and ("[" in question or "]" in question):
+        errors.append(f"{where}: question has a square bracket")
+    ask["question"] = question
+    if "link" in data:
+        link = data["link"]
+        if not isinstance(link, str):
+            errors.append(f"{where}: link is not a string")
+        else:
+            problem = link_problem(link)
+            if problem:
+                errors.append(f"{where}: link {problem}")
+            ask["link"] = link
+    default = _text(data, "default", where, errors, MAX_TEXT)
+    if "default" not in data:
+        errors[-1] = f"{where}: default is missing; every ask carries the default that runs unless he objects"
+    ask["default"] = default
+    ask["why"] = _text(data, "why", where, errors, MAX_TEXT)
+    for key in ("default", "why"):
+        if ask[key] == NO_BLOCKS:
+            errors.append(f"{where}: {key} is only a dash")
+    ask["blocks"] = _id_list(data.get("blocks", []), where, "blocks", errors)
+    if "operation" not in data:  # fail closed: an unclassified ask is never relayed
+        errors.append(f"{where}: operation is missing; say true when the answer would approve a "
+                      "push, merge, release, install, deletion, live change or anything sent out, "
+                      "false for a decision")
+    elif not isinstance(data["operation"], bool):
+        errors.append(f"{where}: operation is not true or false")
+    ask["operation"] = data.get("operation") is not False
+    return ask, errors
+
+
+def render_asks(asks: list) -> list:
+    """The `### Asks` block as lines without line endings (no Updated line: each row is stamped)."""
+    lines = ["### Asks", "", "| " + " | ".join(ASK_COLUMNS) + " |", "|" + "---|" * len(ASK_COLUMNS)]
+    for ask in asks:
+        question = escape(ask["question"])
+        if ask.get("link"):
+            question = f"[{question}]({ask['link']})"
+        cells = [ask["id"], question, escape(ask["default"]), escape(ask["why"]),
+                 ", ".join(ask["blocks"]) or NO_BLOCKS, ask["kind"], ask["asked"], ask["answer_where"]]
+        lines.append("| " + " | ".join(cells) + " |")
+    return lines
+
+
+def _stamp_problem(value: str):
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError:
+        parsed = None
+    if parsed is None or parsed.tzinfo is None or "T" not in value:
+        return "is not an ISO 8601 time with an offset"
+    return None
+
+
+def asks_end(lines: list, start: int, stop: int) -> int:
+    """End (exclusive) of the `### Asks` block at lines[start]: the heading, blank lines and the
+    contiguous pipe-table lines. Nothing else, so hand-written Now content after it is kept."""
+    end = start + 1
+    i = end
+    while i < stop and _blank(lines[i]):
+        i += 1
+    while i < stop and lines[i].lstrip().startswith("|"):
+        i += 1
+        end = i
+    return end
+
+
+def parse_asks(lines: list) -> tuple:
+    """(asks, errors) for a `### Asks` block (lines without endings), in render_asks' grammar."""
+    errors = []
+    if not lines or not ASKS_HEADING.fullmatch(lines[0]):
+        return [], ["no ### Asks heading"]
+    table = [line for line in lines[1:] if not _blank(line)]
+    if len(table) < 2:
+        return [], ["no table under ### Asks (needs the header row and the separator)"]
+    header = split_cells(table[0])
+    if header is None or tuple(header) != ASK_COLUMNS:
+        return [], ["Asks columns must be: " + " | ".join(ASK_COLUMNS)]
+    separator = split_cells(table[1])
+    if separator is None or len(separator) != len(ASK_COLUMNS) or \
+            not all(SEPARATOR_CELL.fullmatch(c) for c in separator):
+        return [], ["the second Asks table line is not the separator row"]
+    body = table[2:]
+    if len(body) > MAX_ASKS:
+        return [], [f"more than {MAX_ASKS} asks"]
+    asks, seen = [], set()
+    for n, line in enumerate(body, 1):
+        where = f"ask {n}"
+        cells = split_cells(line)
+        if cells is None or len(cells) != len(ASK_COLUMNS):
+            errors.append(f"{where}: expected {len(ASK_COLUMNS)} cells")
+            continue
+        ask_id, question_raw, default_raw, why_raw, blocks_raw, kind, asked, answer_where = cells
+        ask = {"id": ask_id}
+        if not ID_PATTERN.fullmatch(ask_id):
+            errors.append(f"{where}: ask id {ask_id!r} must match {ID_PATTERN.pattern}")
+        elif ask_id in seen:
+            errors.append(f"{where}: ask id {ask_id} appears twice")
+        seen.add(ask_id)
+        linked = re.fullmatch(r"\[([^\[\]]*)\]\(([^()]*)\)", question_raw)
+        link = None
+        if linked:
+            question_raw, link = linked.group(1), linked.group(2)
+            problem = link_problem(link)
+            if problem:
+                errors.append(f"{where}: link {problem}")
+        elif "[" in question_raw or "]" in question_raw:
+            errors.append(f"{where}: question has a square bracket outside a link")
+        for key, raw in (("question", question_raw), ("default", default_raw), ("why", why_raw)):
+            value = unescape(raw)
+            if value is None:
+                errors.append(f"{where}: {key} has a stray backslash")
+            elif not value.strip() or value == NO_BLOCKS or len(value) > MAX_TEXT:
+                errors.append(f"{where}: {key} is empty or longer than {MAX_TEXT} characters")
+            ask[key] = value
+        if link is not None:
+            ask["link"] = link
+        ask["blocks"] = [] if blocks_raw == NO_BLOCKS else [b.strip() for b in blocks_raw.split(",")]
+        _id_list(ask["blocks"], where, "blocks", errors)
+        problem = _stamp_problem(asked)
+        if problem:
+            errors.append(f"{where}: asked {asked!r} {problem}")
+        ask["asked"] = asked
+        if kind not in KINDS:
+            errors.append(f"{where}: kind must be one of {', '.join(KINDS)}")
+        ask["kind"] = kind
+        if answer_where not in (THIS_WINDOW, RELAY_OK):
+            errors.append(f"{where}: answer where must be {THIS_WINDOW!r} or {RELAY_OK!r}")
+        elif kind == "operation" and answer_where == RELAY_OK:
+            errors.append(f"{where}: an operation is answered in this window, never by relay")
+        ask["answer_where"] = answer_where
+        asks.append(ask)
+    return asks, errors
+
+
 # -------------------------------------------------------------------- actions
 
 def todo_path(project: str, scopes) -> str:
@@ -652,29 +892,67 @@ def _hash(data) -> str | None:
 
 
 def compose(text: str, rows: list, stamp: str) -> tuple:
-    """(new text, problem kind, message). Replaces or creates the block as Now's first child;
-    every byte outside the block is kept."""
+    """(new text, problem kind, message) for a Queue write: the block is replaced or created as
+    Now's first child, an Asks block directly under it moves with it, and every byte outside
+    the two blocks is kept."""
+    return compose_now(text, render_block(rows, stamp), KEEP)
+
+
+def _adjacent(lines: list, first, second) -> bool:
+    return second[0] >= first[1] and all(_blank(line) for line in lines[first[1]:second[0]])
+
+
+def compose_now(text: str, queue, asks) -> tuple:
+    """(new text, problem kind, message). `queue` is the rendered Queue block's lines, or None to
+    keep the existing one; `asks` is the open asks to render ([] removes the block), or KEEP.
+
+    The Queue block is Now's first child and the Asks block sits directly under it (first,
+    when there is no Queue yet). When both already stand there, the two are replaced in place;
+    otherwise exactly their lines are lifted out and they are placed first."""
     lines = text.splitlines(keepends=True)
-    now, end, queues = scan(lines)
+    now, end, queues, asks_at = scan_now(lines)
     if now is None:
         return None, EXIT_NO_NOW, "TODO.md has no ## Now section"
     if len(queues) > 1:
         return None, EXIT_INVALID, "## Now holds more than one ### Queue block; keep one and retry"
+    if len(asks_at) > 1:
+        return None, EXIT_INVALID, "## Now holds more than one ### Asks block; keep one and retry"
     newline = "\r\n" if lines[now].endswith("\r\n") else "\n"
-    block = newline.join(render_block(rows, stamp)) + newline
-    if queues and _first_child(lines, now, queues[0]):
-        start = queues[0]
-        stop = block_end(lines, start, end)
-        return "".join(lines[:start]) + block + "".join(lines[stop:]), None, None
-    if queues:  # the block exists further down Now: lift out exactly its lines, then place it first
-        start = queues[0]
-        stop = block_end(lines, start, end)
-        lines = lines[:start] + lines[stop:]
+
+    def raw(span):
+        chunk = "".join(lines[span[0]:span[1]])
+        return chunk if chunk.endswith("\n") else chunk + newline
+
+    q = (queues[0], block_end(lines, queues[0], end)) if queues else None
+    a = (asks_at[0], asks_end(lines, asks_at[0], end)) if asks_at else None
+    q_text = newline.join(queue) + newline if queue is not None else (raw(q) if q else None)
+    if asks is KEEP:
+        a_text = raw(a) if a else None
+    else:
+        a_text = newline.join(render_asks(asks)) + newline if asks else None
+    adjacent = bool(q and a and _adjacent(lines, q, a))
+    gap = ("".join(lines[q[1]:a[0]]) if adjacent else "") or newline
+    unit = (q_text or "") + (gap if q_text and a_text else "") + (a_text or "")
+    spans = sorted(span for span in (q, a) if span)
+
+    if spans and _first_child(lines, now, spans[0][0]) and (len(spans) == 1 or adjacent):
+        start, stop = spans[0][0], spans[-1][1]
+        tail = lines[stop:]
+        if not unit and start > now + 1:  # the Asks block alone left: no doubled gap behind it
+            while tail and _blank(tail[0]):
+                tail = tail[1:]
+        elif a_text and tail and not _blank(tail[0]):
+            unit += newline  # a table never runs into the next line
+        return "".join(lines[:start]) + unit + "".join(tail), None, None
+    for span in reversed(spans):  # lift out exactly the blocks' lines, then place them first
+        lines = lines[:span[0]] + lines[span[1]:]
+    if not unit:
+        return "".join(lines), None, None
     head = lines[now]
     if not head.endswith("\n"):
         head += newline
     after = lines[now + 1:]
-    inserted = newline + block
+    inserted = newline + unit
     if after and not _blank(after[0]):
         inserted += newline
     return "".join(lines[:now]) + head + inserted + "".join(after), None, None
@@ -688,15 +966,50 @@ def _current_hash(path: str) -> str | None:
         return None
 
 
-def write_queue(project: str, scopes, rows_json: str, config_path: str | None = None,
-                now: datetime | None = None, before_commit=None) -> tuple:
-    """(exit code, payload). `before_commit` is a test seam called after the read, before the
-    final config re-check and hash compare.
+def _commit(path: str, updated: str, original_hash, project: str, scopes, config_path,
+            before_commit=None, relay=None):
+    """None when TODO.md was replaced, else (exit code, payload). `before_commit` is a test seam
+    called after the temp file is written, before the final config re-check and hash compare.
 
     Compare-and-swap at the last moment: the config re-check and the hash compare are the very
-    last steps before os.replace, with nothing in between. A write by another program in the
-    microseconds between the final check and the replace can still be lost; no lock is taken,
-    because the other writers (editors, an agent's edit tool) take none."""
+    last steps before os.replace, with nothing in between but comparing values already read. A
+    write by another program in the microseconds between the final check and the replace can
+    still be lost; no lock is taken, because the other writers (editors, an agent's edit tool)
+    take none. With `relay` given (an ask), a relay rule changed since the read is refused too."""
+    folder = os.path.dirname(path)
+    mode = stat.S_IMODE(os.stat(path).st_mode)
+    handle, temp = tempfile.mkstemp(prefix=".TODO.md.", suffix=".cos", dir=folder)
+    try:
+        with os.fdopen(handle, "wb") as out:
+            out.write(updated.encode("utf-8"))
+            out.flush()
+            os.fsync(out.fileno())
+        os.chmod(temp, mode)
+        if before_commit is not None:
+            before_commit()
+        # The last moment: config re-check, hash compare, replace. Nothing goes between them.
+        sig = signal(project, scopes, config_path)
+        if sig is None or not sig["on"]:
+            return EXIT_OFF, off_payload(sig)
+        if relay is not None and sig.get("relay") != relay:
+            return EXIT_CHANGED, {"error": "chief_of_staff_relay changed underneath; retry"}
+        if _current_hash(path) != original_hash:
+            return EXIT_CHANGED, {"error": "TODO.md changed underneath; re-read and retry"}
+        os.replace(temp, path)
+        temp = None
+    finally:
+        if temp is not None:
+            try:
+                os.unlink(temp)
+            except OSError:
+                pass
+    return None
+
+
+def write_queue(project: str, scopes, rows_json: str, config_path: str | None = None,
+                now: datetime | None = None, before_commit=None) -> tuple:
+    """(exit code, payload). The rows replace the whole `### Queue` table; see `_commit` for the
+    compare-and-swap at the last moment, not a lock."""
     sig = signal(project, scopes, config_path)
     if sig is None or not sig["on"]:
         return EXIT_OFF, off_payload(sig)
@@ -716,36 +1029,101 @@ def write_queue(project: str, scopes, rows_json: str, config_path: str | None = 
     updated, kind, message = compose(text, rows, stamp)
     if kind is not None:
         return kind, ({"errors": [message]} if kind == EXIT_INVALID else {"error": message})
-    folder = os.path.dirname(path)
-    mode = stat.S_IMODE(os.stat(path).st_mode)
-    handle, temp = tempfile.mkstemp(prefix=".TODO.md.", suffix=".cos", dir=folder)
-    try:
-        with os.fdopen(handle, "wb") as out:
-            out.write(updated.encode("utf-8"))
-            out.flush()
-            os.fsync(out.fileno())
-        os.chmod(temp, mode)
-        if before_commit is not None:
-            before_commit()
-        # The last moment: config re-check, hash compare, replace. Nothing goes between them.
-        sig = signal(project, scopes, config_path)
-        if sig is None or not sig["on"]:
-            return EXIT_OFF, off_payload(sig)
-        if _current_hash(path) != original_hash:
-            return EXIT_CHANGED, {"error": "TODO.md changed underneath; re-read and retry"}
-        os.replace(temp, path)
-        temp = None
-    finally:
-        if temp is not None:
-            try:
-                os.unlink(temp)
-            except OSError:
-                pass
+    failed = _commit(path, updated, original_hash, project, scopes, config_path, before_commit)
+    if failed:
+        return failed
     return EXIT_OK, {"written": path, "rows": rows, "updated": stamp}
 
 
+def _open_asks(text: str) -> tuple:
+    """(asks, problem kind, message) read from the existing `### Asks` block; none is []."""
+    lines = text.splitlines(keepends=True)
+    now, end, _, asks_at = scan_now(lines)
+    if now is None:
+        return None, EXIT_NO_NOW, "TODO.md has no ## Now section"
+    if len(asks_at) > 1:
+        return None, EXIT_INVALID, "## Now holds more than one ### Asks block; keep one and retry"
+    if not asks_at:
+        return [], None, None
+    stop = asks_end(lines, asks_at[0], end)
+    asks, errors = parse_asks([_bare(line) for line in lines[asks_at[0]:stop]])
+    if errors:
+        return None, EXIT_INVALID, "the ### Asks table is damaged: " + "; ".join(errors)
+    return asks, None, None
+
+
+def ask_decision(project: str, scopes, ask_json: str | None = None, answered: str | None = None,
+                 again: bool = False, config_path: str | None = None, now: datetime | None = None,
+                 before_commit=None) -> tuple:
+    """(exit code, payload). Adds one open decision to `### Asks` (or, with `again`, replaces the
+    open one with its id and a fresh time), or with `answered` removes that one. The same
+    gating and compare-and-swap at the last moment as `write`. An id already open is refused:
+    a decision is asked once, and asked again only when a fact behind it changes (`again`)."""
+    sig = signal(project, scopes, config_path)
+    if sig is None or not sig["on"]:
+        return EXIT_OFF, off_payload(sig)
+    relay = sig.get("relay", "none")
+    new = None
+    if answered is not None:
+        if again:
+            return EXIT_INVALID, {"errors": ["--answered and --again do not go together"]}
+        if not isinstance(answered, str) or not ID_PATTERN.fullmatch(answered):
+            return EXIT_INVALID, {"errors": [f"--answered must match {ID_PATTERN.pattern}"]}
+    else:
+        try:
+            data = json.loads(ask_json if ask_json is not None else "")
+        except ValueError as error:
+            return EXIT_INVALID, {"errors": [f"stdin is not valid JSON: {error}"]}
+        new, errors = validate_ask(data)
+        if errors:
+            return EXIT_INVALID, {"errors": errors}
+    path = todo_path(project, scopes)
+    original, text, problem = _read_todo(path)
+    if problem:
+        return EXIT_NO_NOW, {"error": problem}
+    asks, kind, message = _open_asks(text)
+    if kind is not None:
+        return kind, ({"errors": [message]} if kind == EXIT_INVALID else {"error": message})
+    ids = [ask["id"] for ask in asks]
+    if answered is not None:
+        if answered not in ids:
+            return EXIT_INVALID, {"errors": [f"no open ask {answered}"]}
+        asks = [ask for ask in asks if ask["id"] != answered]
+    else:
+        operation = new.pop("operation")
+        new["kind"] = "operation" if operation else "decision"
+        new["asked"] = clock_stamp(now)
+        new["answer_where"] = RELAY_OK if relay == "decisions" and not operation else THIS_WINDOW
+        if new["id"] in ids and not again:
+            asked = asks[ids.index(new["id"])]["asked"]
+            return EXIT_INVALID, {"errors": [
+                f"ask {new['id']} is already open, asked {asked}: it is not asked again. "
+                "When a fact behind it changes, send it with --again"]}
+        if again and new["id"] not in ids:
+            return EXIT_INVALID, {"errors": [f"no open ask {new['id']} to ask again"]}
+        if again:
+            asks[ids.index(new["id"])] = new
+        else:
+            asks.append(new)
+    if len(asks) > MAX_ASKS:
+        return EXIT_INVALID, {"errors": [f"more than {MAX_ASKS} open asks"]}
+    if relay != "decisions":  # fail closed: a relay rule taken back reaches every open row
+        for ask in asks:
+            ask["answer_where"] = THIS_WINDOW
+    updated, kind, message = compose_now(text, None, asks)
+    if kind is not None:
+        return kind, ({"errors": [message]} if kind == EXIT_INVALID else {"error": message})
+    failed = _commit(path, updated, _hash(original), project, scopes, config_path, before_commit,
+                     relay=relay)
+    if failed:
+        return failed
+    return EXIT_OK, {"written": path, "asks": asks, "relay": relay}
+
+
 def check_queue(project: str, scopes, config_path: str | None = None) -> tuple:
-    """(exit code, payload). Read-only: never writes."""
+    """(exit code, payload) for the `### Queue` table and, when present, the `### Asks` table
+    directly under it. An Asks table with no Queue yet is valid as Now's first block (a project
+    can have decisions before it has a queue); neither table is invalid. Read-only."""
     sig = signal(project, scopes, config_path)
     if sig is None or not sig["on"]:
         return EXIT_OFF, off_payload(sig)
@@ -754,22 +1132,38 @@ def check_queue(project: str, scopes, config_path: str | None = None) -> tuple:
     if problem:
         return EXIT_INVALID, {"valid": False, "errors": [problem]}
     lines = text.splitlines(keepends=True)
-    now, end, queues = scan(lines)
+    now, end, queues, asks_at = scan_now(lines)
     if now is None:
         return EXIT_INVALID, {"valid": False, "errors": ["TODO.md has no ## Now section"]}
-    if not queues:
+    if not queues and not asks_at:
         return EXIT_INVALID, {"valid": False, "errors": ["## Now has no ### Queue heading"]}
-    errors = []
+    errors, rows, stamp, queue_span = [], [], None, None
     if len(queues) > 1:
         errors.append("## Now holds more than one ### Queue block")
-    if not _first_child(lines, now, queues[0]):
-        errors.append("### Queue is not the first block of ## Now")
-    stop = block_end(lines, queues[0], end)
-    rows, stamp, block_errors = parse_block([_bare(line) for line in lines[queues[0]:stop]])
-    errors += block_errors
+    if queues:
+        if not _first_child(lines, now, queues[0]):
+            errors.append("### Queue is not the first block of ## Now")
+        queue_span = (queues[0], block_end(lines, queues[0], end))
+        rows, stamp, block_errors = parse_block([_bare(line) for line in lines[slice(*queue_span)]])
+        errors += block_errors
+    relay, asks = sig.get("relay", "none"), []
+    if len(asks_at) > 1:
+        errors.append("## Now holds more than one ### Asks block")
+    elif asks_at:
+        span = (asks_at[0], asks_end(lines, asks_at[0], end))
+        if queue_span is not None and not _adjacent(lines, queue_span, span):
+            errors.append("### Asks does not directly follow the ### Queue block")
+        if queue_span is None and not _first_child(lines, now, span[0]):
+            errors.append("### Asks is not the first block of ## Now (there is no ### Queue yet)")
+        asks, ask_errors = parse_asks([_bare(line) for line in lines[span[0]:span[1]]])
+        errors += ask_errors
+        if relay != "decisions":
+            errors += [f"ask {n}: answer where says {RELAY_OK!r}, but this project's "
+                       f'{RELAY_KEY} is "none"' for n, ask in enumerate(asks, 1)
+                       if ask.get("answer_where") == RELAY_OK]
     if errors:
         return EXIT_INVALID, {"valid": False, "errors": errors}
-    return EXIT_OK, {"valid": True, "rows": rows, "updated": stamp}
+    return EXIT_OK, {"valid": True, "rows": rows, "updated": stamp, "asks": asks, "relay": relay}
 
 
 # ------------------------------------------------------------------------ CLI
@@ -784,7 +1178,12 @@ def main(argv=None) -> int:
     sub = parser.add_subparsers(dest="action", required=True)
     sub.add_parser("status", parents=[common], help="Print the signal; exit 0 on, 3 off")
     sub.add_parser("write", parents=[common], help="Write the ### Queue block from rows JSON on stdin")
-    sub.add_parser("check", parents=[common], help="Validate the ### Queue block; never writes")
+    ask = sub.add_parser("ask", parents=[common],
+                         help="Add one open decision to ### Asks from JSON on stdin")
+    ask.add_argument("--again", action="store_true",
+                     help="Ask the open decision with this id again: a fact behind it changed")
+    ask.add_argument("--answered", metavar="ID", help="The ask with this id leaves the table; no stdin")
+    sub.add_parser("check", parents=[common], help="Validate the ### Queue and ### Asks blocks; never writes")
     args = parser.parse_args(argv)
 
     if args.action == "status":
@@ -792,6 +1191,10 @@ def main(argv=None) -> int:
         code, payload = (EXIT_OK if sig and sig["on"] else EXIT_OFF), off_payload(sig)
     elif args.action == "write":
         code, payload = write_queue(args.project, args.scope, sys.stdin.read(), args.config)
+    elif args.action == "ask":
+        stdin = None if args.answered is not None else sys.stdin.read()
+        code, payload = ask_decision(args.project, args.scope, stdin, args.answered, args.again,
+                                     args.config)
     else:
         code, payload = check_queue(args.project, args.scope, args.config)
     print(json.dumps(payload, indent=2))

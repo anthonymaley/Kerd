@@ -1,0 +1,31 @@
+ KERD · Kerd 0.199.0                                         SESSION RESTORED ✓ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ PROJECT Fixture
+ PHASE   not recorded
+ TASK    not recorded
+ STATE   not recorded
+ TEAM    not recorded
+
+ NOW
+   no immediate work recorded
+
+ Scope / recommendation
+
+   Finish the fixture task
+
+ LAST SESSION
+   no completed job is recorded
+ THIS SESSION
+   Nothing agreed yet.
+
+╭─ ⚠ NEEDS ATTENTION ──────────────────────────────────────────────────────────╮
+│ One fixture warning.                                                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ read: not recorded · updated unknown · rendered 2026-11-20 10:00 UTC
+
+END OF PICKUP · SESSION READY
+
+💬 Start a Conductor session?

@@ -1,0 +1,31 @@
+[1;36m KERD · Kerd 0.199.0                                         [0m[32mSESSION RESTORED ✓ [0m
+[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+ [2mPROJECT[0m Fixture
+ [2mPHASE  [0m not recorded
+ [2mTASK   [0m not recorded
+ [2mSTATE  [0m not recorded
+ [2mTEAM   [0m not recorded
+
+[2m NOW[0m
+   no immediate work recorded
+
+ Scope / recommendation
+
+   Finish the fixture task
+
+[2m LAST SESSION[0m
+   no completed job is recorded
+[2m THIS SESSION[0m
+   Nothing agreed yet.
+
+[31m╭─ ⚠ NEEDS ATTENTION ──────────────────────────────────────────────────────────╮[0m
+[31m│[0m One fixture warning.                                                         [31m│[0m
+[31m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+
+[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[2m read: not recorded · updated unknown · rendered 2026-11-20 10:00 UTC[0m
+
+[36mEND OF PICKUP · SESSION READY[0m
+
+[1m💬 Start a Conductor session?[0m
