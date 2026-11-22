@@ -29,8 +29,11 @@ whole native conversation or private session IDs as project history.
 that changed the person's delivered work (Conductor's finish), the person has not
 yet heard what changed. The reply opens with a short Found line naming what
 changed in their files, then one line saying Kerd is putting the sitting down with
-`/kerd:switch out`, and only then any save question. (First-user round 6 and its
-reruns, 2026-11-21 and 22: 3 of 3 unasked Outs went straight to the save question.)
+`/kerd:switch out`, and only then the save question about the person's own files,
+which Out always asks before saving them, whatever preference the handoff carries.
+(First-user round 6 and its reruns, 2026-11-21 and 22: 3 of 3 unasked Outs went
+straight to the save question; one rerun on “any save question” saved the brief
+unasked.)
 
 **When the session log or TODO.md is missing.** Setting a project up with
 `/kerd:tend` is optional, so Out may meet a project with no `kivna/sessions/`

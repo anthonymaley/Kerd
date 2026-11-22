@@ -26,9 +26,12 @@ class UnaskedOutOpensWithFound(unittest.TestCase):
         rule = self.text[start:start + 700]
         found = rule.index("opens with a short Found line")
         names = rule.index("`/kerd:switch out`")
-        question = rule.index("only then any save question")
+        question = rule.index("only then the save question about the person's own files")
         self.assertLess(found, names)
         self.assertLess(names, question)
+        # Rerun lo2/k2 (2026-11-22): on "any save question" Out saved the brief unasked.
+        self.assertNotIn("any save question", rule.split("(First-user", 1)[0])
+        self.assertIn("which Out always asks before saving them", rule)
 
     def test_step_sits_in_the_out_section_before_the_save_question(self):
         section = self.text.index("## Out ")
