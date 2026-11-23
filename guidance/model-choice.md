@@ -22,10 +22,13 @@ including an explicitly requested older model, can be considered on the same bas
 
 | Model | Provider-described fit | Local prompt guidance | Evidence qualification |
 | --- | --- | --- | --- |
+| GPT-6.2 Astra · `gpt-6.2-astra` | Most capable model for the hardest projects (API models page, retrieved 2026-11-23) | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here |
+| GPT-6.2 Sol · `gpt-6.2-sol` | The models page's go-to model for everyday work; the model-selection page starts most API workflows here at medium effort (retrieved 2026-11-23) | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; the GPT-5.6 Sol evidence below is not credited to it |
 | GPT-6 Astra · `gpt-6-astra` | Most capable model for complex work across code, apps and research | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here |
 | GPT-6 Sol · `gpt-6-sol` | Complex coding and agentic workflows, with stronger factual reliability | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; the GPT-5.6 Sol evidence below is not credited to it |
 | GPT-6 Luna · `gpt-6-luna` | Most efficient, for focused high-volume work | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; price is not eligibility |
 | Claude Opus 5.5 · `claude-opus-5-5` | Long-running agentic coding and knowledge work; Anthropic's default starting point | [Opus 5.5](anthropic/opus-5-5.md) | One matched composer trial (2026-09-27, one brief, blind-graded first over Fable 5.1 and Codex; see [task evidence](task-evidence.md#matched-composer-trial-2026-09-27)); the Opus 5 review evidence is not credited to it |
+| Claude Fable 5.2 · `claude-fable-5-2` | Demanding reasoning and long-horizon agentic work, after Opus 5.5 at higher effort still falls short; released 2026-11-09 (models overview, retrieved 2026-11-23) | [Fable 5.2](anthropic/fable-5-2.md) | From Anthropic's docs only; no matched Kerd comparison yet; do not credit Fable 5.1 results to it |
 | Claude Fable 5.1 · `claude-fable-5-1` | Demanding reasoning and long-horizon agentic work, after Opus 5.5 still falls short at xhigh or max | [Fable 5.1](anthropic/fable-5-1.md) | Do not credit the earlier Fable 5 drafting trial to 5.1 |
 | Claude Sonnet 5.5 · `claude-sonnet-5-5` | A faster, lower-cost complement to Opus 5.5; Opus 5.5 stays clearly stronger at complex, open-ended work | [Sonnet 5.5](anthropic/sonnet-5-5.md) | No matched selection comparison recorded here; Kerd's Sonnet readers ran on it from 2026-09-29 (observed); three effort checks on grading readers (2026-10-03, 2026-10-08 x2) found medium caught the same hard failures and core findings as high, a little less complete ([profile](anthropic/sonnet-5-5.md) `grading-reader-at-medium`) |
 | Claude Sonnet 5 · `claude-sonnet-5` | The previous Sonnet; `sonnet` no longer points to it on the Anthropic API | [Sonnet 5](anthropic/sonnet-5.md) | No matched selection comparison recorded here; do not credit Sonnet 5.5 results to it, or its results to 5.5 |
@@ -115,8 +118,8 @@ the tools it requires, then ask which kind of evidence speaks to that.
    point, state the uncertainty and assess its first useful result. Missing
    historical evaluation is not a universal ban on trying a model.
 4. **Choose supported effort, then prepare the prompt.** Use task evidence and
-   current model/route guidance. Opus 5.5 defaults to medium and Fable 5.1 to
-   high; the documented default is a starting point, not a proved optimum. For other models, use an evidenced
+   current model/route guidance. Opus 5.5 defaults to medium and Fable 5.1 and Fable 5.2 to
+   high on the API (Claude Code lists medium for Fable 5.2); the documented default is a starting point, not a proved optimum. For other models, use an evidenced
    supported setting or disclose the native default; never copy effort labels
    between providers as though equal. Apply the level through the route's control
    in the [route table](../model-jobs.md#prepare-work-the-chosen-model-can-do-well):
