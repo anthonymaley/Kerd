@@ -425,9 +425,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.203.0)
+## What's New (v0.203.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.203.1
+
+**0.203.1: Plainer replies around refusals and saving.** When you refuse a read, Kerd now tells you which command to run again (for Switch In, `/kerd:switch in`) instead of just "run the step again" (Switch, Conductor, Agent and Visuals). Kerd's own record words, such as "the saved place" or "handoff", stay in its records; to you it says what they mean (Switch and Conductor). When Out starts by itself after a change to your work, it opens with what changed and says it is putting the sitting down with `/kerd:switch out`, then asks before saving your own files, whatever preference was passed along to it.
 
 ### v0.203.0
 
