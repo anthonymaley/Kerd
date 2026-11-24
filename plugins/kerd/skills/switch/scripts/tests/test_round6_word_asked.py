@@ -16,6 +16,10 @@ SKILLS = REPO / "skills"
 
 RULE = ("Asked about a word, explain it plainly and answer the worry behind it. Never say Kerd "
         "did or did not use it: a fresh session cannot see what an earlier one said.")
+# Round 6 leftover 4 (h22, 2026-11-21): "The saved place also isn't on any other device yet"
+# reached the person; Kerd's record words stay in the records.
+RECORD_WORDS = ("Kerd's own record words (“the saved place”, “handoff”) stay in the records: to the "
+                "person, say what they mean (“your notes, saved on this computer”).")
 NARRATION = ("narration never says push, pushed, remote or “nowhere to push to”, only what it "
              "means for their files (“saved on this computer”)")
 
@@ -33,7 +37,8 @@ class NeverDenyKerdsOwnWords(unittest.TestCase):
                 paragraphs = [p for p in text.split("\n\n") if p.strip()]
                 asking = next(i for i, p in enumerate(paragraphs)
                               if p.startswith("**Asking the person:**"))
-                self.assertEqual(flat(paragraphs[asking + 1]), RULE)
+                self.assertTrue(flat(paragraphs[asking + 1]).startswith(RULE))
+                self.assertIn(RECORD_WORDS, flat(paragraphs[asking + 1]))
                 body = text.split("\n---\n", 1)[1]
                 self.assertLess(body.index(RULE), body.index("\n## "))
 

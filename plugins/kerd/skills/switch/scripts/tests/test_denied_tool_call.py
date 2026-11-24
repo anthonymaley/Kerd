@@ -21,8 +21,9 @@ RULE = (
     "skill's guide included. Never offer or use another tool, a shell command or any other route "
     "to get the same thing; a denied file read is not retried through the shell. Stop, say plainly "
     "what was refused and what that means for the step (without its guide, the step cannot run), "
-    "say in one sentence how to approve it next time (“Run the step again and choose to allow the "
-    "read when Claude Code asks.”), never pointing to permission settings, "
+    "say in one sentence how to approve it next time, naming the command that runs the step "
+    "(for Switch In: “Run `/kerd:switch in` again and choose to allow the read when Claude Code "
+    "asks.”), never pointing to permission settings, "
     "and ask one open question about how they want to go on (“How would you like to go on?”), "
     "as one speech-bubble line, never “X, or Y?”."
 )
@@ -78,6 +79,12 @@ class DeniedToolCallTests(unittest.TestCase):
         rule = flat(RULE)
         self.assertLess(rule.index("how to approve it next time"), rule.index("ask one open question"))
         self.assertIn("when Claude Code asks", rule)
+
+    def test_how_to_approve_names_the_command(self):
+        # Round 6 leftover 3 (probe g09a/b, 2026-11-21): "run the step again" left a
+        # newcomer without the command to type.
+        self.assertIn("naming the command that runs the step", flat(RULE))
+        self.assertIn("`/kerd:switch in` again", flat(RULE))
 
 
 if __name__ == "__main__":
