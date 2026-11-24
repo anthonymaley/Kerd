@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.203.1
+
+**0.203.1: Plainer replies around refusals and saving.** When you refuse a read, Kerd now tells you which command to run again (for Switch In, `/kerd:switch in`) instead of just "run the step again" (Switch, Conductor, Agent and Visuals). Kerd's own record words, such as "the saved place" or "handoff", stay in its records; to you it says what they mean (Switch and Conductor). When Out starts by itself after a change to your work, it opens with what changed and says it is putting the sitting down with `/kerd:switch out`, then asks before saving your own files, whatever preference was passed along to it.
+
 ## 0.203.0
 
 **0.203.0: Asked once.** A question you have not answered yet is never asked again just to end a turn: Kerd names it with the time it was asked and waits, asks again only when something behind it changes, and a routine check with nothing new ends on one line (Conductor, Switch and Agent). With a chief of staff configured, `cos.py ask` keeps an `### Asks` table beside the queue in each project's plan: one row per decision, with its default, what it blocks, when it was asked and where your answer counts, so your chief of staff reads it instead of asking again. A per-project `chief_of_staff_relay` in `kivna/vault.json` says whether a relayed answer counts for decisions; it never covers a push, release, install or live change, and it is "none" unless set. Without a chief of staff nothing changes.
