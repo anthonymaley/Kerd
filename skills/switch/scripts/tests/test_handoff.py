@@ -1304,6 +1304,18 @@ class HandoffTests(unittest.TestCase):
         none = self.run_cli("measure", "--record", "record.md")
         self.assertNotEqual(none.returncode, 0)
 
+    def test_repeated_project_values_must_agree_on_either_side(self):
+        a, b = str(self.dest), str(self.source)
+        for argv in (["--project", a, "--project", b, "measure", "--record", "record.md"],
+                     ["measure", "--project", a, "--project", b, "--record", "record.md"]):
+            with self.subTest(argv=argv):
+                result = self.run_cli(*argv)
+                self.assertEqual(result.returncode, 2)
+                self.assertIn("different values", json.loads(result.stderr)["error"])
+        same = self.run_cli("--project", a, "--project", a, "measure", "--project", a, "--project", a,
+                            "--record", "record.md")
+        self.assertEqual(same.returncode, 0, same.stderr)
+
     def test_carry_reports_the_holding_source_or_a_miss_without_blocking(self):
         self.notes()
         phrases = self.carry_file("Ship the private notes\nArchive only\n")

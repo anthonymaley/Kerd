@@ -1069,7 +1069,7 @@ def measure(root, record, files=(), sections=(), target=TARGET_TOKENS, carry=(),
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--project")
+    parser.add_argument("--project", action="append", default=[])
     sub = parser.add_subparsers(dest="action", required=True)
     save = sub.add_parser("save")
     save.add_argument("--branch", required=True)
@@ -1124,17 +1124,18 @@ def main():
     check.add_argument("--preserve", action="append", default=[],
                        help="Exact untracked path this project keeps locally; not counted as unsaved")
     for each in (save, load, packet, size, check):
-        each.add_argument("--project", dest="project_after", help=argparse.SUPPRESS)
+        each.add_argument("--project", dest="project_after", action="append", default=[], help=argparse.SUPPRESS)
     for each in (load, packet):
         each.add_argument("--record-cap", type=int, default=RECORD_CAP_BYTES, metavar="N",
                           help="Informational record size in bytes (default: %(default)s); never blocks")
     args = parser.parse_args()
     try:
-        if args.project and args.project_after and args.project != args.project_after:
-            raise HandoffError("--project given twice with different values; name one project")
-        args.project = args.project or args.project_after
-        if not args.project:
+        given = set(args.project) | set(args.project_after)
+        if len(given) > 1:
+            raise HandoffError("--project given more than once with different values; name one project")
+        if not given:
             parser.error("--project is required")
+        args.project = given.pop()
         root = root_for(args.project)
         if args.action == "boundary":
             result = boundary(root, args.preserve)
