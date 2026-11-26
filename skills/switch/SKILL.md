@@ -5,7 +5,7 @@ description: "Save, restore or move repo work between sittings and devices, or R
 
 # Switch
 
-**First, before any other tool call:** read this skill's guide for the named action, resolved from this skill's base directory, with the host's file reader (the Read tool in Claude Code): for In, `references/in.md` in full; for Out, `references/out.md` in full; for To or Roll, `references/to-roll.md` from its contents, then only the sections it routes that action to. The lists below are reminders of that guide, not a replacement for it. Run every command in the person's project, never in this skill's directory. Each command is one plain call with absolute paths: no `cd … &&`, `; echo` or `| head` chained on; read files with the host's file reader and edit prose with its file-edit tool, never `python3 - <<EOF`.
+**First, before any other tool call:** read this skill's guide for the named action, resolved from this skill's base directory, with the host's file reader (the Read tool in Claude Code): for In, `references/in.md` in full, then `references/in-detail.md` only for the section in.md points to (chief of staff signal when `prepare` or `pickup` output carries `chief_of_staff`; the existing team when a pairing directory, a `handoff` designation or a `recovery` receipt exists; the summary field details when filling the arrival summary); for Out, `references/out.md` in full; for To or Roll, `references/to-roll.md` from its contents, then only the sections it routes that action to. The lists below are reminders of that guide, not a replacement for it. Run every command in the person's project, never in this skill's directory. Each command is one plain call with absolute paths: no `cd … &&`, `; echo` or `| head` chained on; read files with the host's file reader and edit prose with its file-edit tool, never `python3 - <<EOF`.
 
 **When a tool call is denied:** the denial is the person's decision, a denied read of this skill's guide included. Never offer or use another tool, a shell command or any other route to get the same thing; a denied file read is not retried through the shell. Stop, say plainly what was refused and what that means for the step (without its guide, the step cannot run), say in one sentence how to approve it next time, naming the command that runs the step (for Switch In: “Run `/kerd:switch in` again and choose to allow the read when Claude Code asks.”), never pointing to permission settings, and ask one open question about how they want to go on (“How would you like to go on?”), as one speech-bubble line, never “X, or Y?”.
 
@@ -57,7 +57,7 @@ item names the guide section with its detail: open that section before the step.
   (or, when none is named, the helper's unambiguous default); TEAM shows provider and
   role only; stale bindings are not greeted, and a non-empty `stale` list becomes one
   person-owned Open work line offering to retire them, retired only on their yes;
-  no binding, no setup question ([Restore the existing team](references/in.md#restore-the-existing-team)).
+  no binding, no setup question ([Restore the existing team](references/in-detail.md#restore-the-existing-team)).
 - Weigh every open item, the saved one included, and recommend exactly one with its
   Why, or say nothing is actionable rather than invent work, without loading
   Conductor; an item that only waits (to watch real use, or for the person to
