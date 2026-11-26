@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.204.0
+
+**0.204.0: Start points stay small, and nothing is lost.** Switch Out now keeps `CONTEXT.md` lean: before it changes or removes anything in a file it trims, it copies that text word for word into an append-only archive (`docs/context-archive/`, with an index listing every write), so old positions and reading lists leave the start point without being summarised or deleted. The pickup helper flags any file in the reading set over 32 KB, and Out archives until none is. Switch In reads the archive through its index whenever the short start point lacks something an open item needs, and names any oversized file under attention. `prepare` and `pickup` work out the branch themselves, and `--project` can go before or after the subcommand. Switch In's guide is shorter: the chief-of-staff and team detail moved to `in-detail.md`, opened only when needed.
+
 ## 0.203.1
 
 **0.203.1: Plainer replies around refusals and saving.** When you refuse a read, Kerd now tells you which command to run again (for Switch In, `/kerd:switch in`) instead of just "run the step again" (Switch, Conductor, Agent and Visuals). Kerd's own record words, such as "the saved place" or "handoff", stay in its records; to you it says what they mean (Switch and Conductor). When Out starts by itself after a change to your work, it opens with what changed and says it is putting the sitting down with `/kerd:switch out`, then asks before saving your own files, whatever preference was passed along to it.

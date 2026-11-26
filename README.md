@@ -425,9 +425,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.203.1)
+## What's New (v0.204.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.204.0
+
+**0.204.0: Start points stay small, and nothing is lost.** Switch Out now keeps `CONTEXT.md` lean: before it changes or removes anything in a file it trims, it copies that text word for word into an append-only archive (`docs/context-archive/`, with an index listing every write), so old positions and reading lists leave the start point without being summarised or deleted. The pickup helper flags any file in the reading set over 32 KB, and Out archives until none is. Switch In reads the archive through its index whenever the short start point lacks something an open item needs, and names any oversized file under attention. `prepare` and `pickup` work out the branch themselves, and `--project` can go before or after the subcommand. Switch In's guide is shorter: the chief-of-staff and team detail moved to `in-detail.md`, opened only when needed.
 
 ### v0.203.1
 
