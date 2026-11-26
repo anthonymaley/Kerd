@@ -29,6 +29,19 @@ def root_for(path):
     return Path(git(path, "rev-parse", "--show-toplevel")).resolve()
 
 
+RECORD_CAP_BYTES = 32768  # informational size for the start point (CONTEXT.md); the Read tool fails past 256 KB
+
+
+def mark_over_cap(sources, picks, sizes, cap):
+    """Flag each source over the cap and name them; informational, never a refusal."""
+    labels = []
+    for source, (path, heading), size in zip(sources, picks, sizes):
+        source["over_cap"] = size > cap
+        if source["over_cap"]:
+            labels.append(path if heading is None else f"{path} \u00a7 {heading}")
+    return labels
+
+
 def require_branch(root, branch):
     if not branch or branch.startswith("-"):
         raise HandoffError("An explicit branch name is required")
@@ -407,6 +420,14 @@ def current_branch(root):
     raise HandoffError(found.stderr.strip() or "git symbolic-ref failed")
 
 
+def default_branch(root):
+    """The checked-out branch for a pickup given no --branch; a detached HEAD is an error."""
+    found = current_branch(root)
+    if not found:
+        raise HandoffError("No --branch given and HEAD is detached; name the branch with --branch")
+    return found
+
+
 def remote_config(root):
     """Every `remote.*` setting (URLs, fetch refspecs and the rest), as Git prints them.
 
@@ -673,7 +694,9 @@ def overtaken_revisions(root, content, head):
 
 
 def pickup(root, branch, record, sync=False, expected_commit=None, preserve=(), notes_commit=None,
-           notes_needed=False, scope=()):
+           notes_needed=False, scope=(), record_cap=RECORD_CAP_BYTES):
+    record_size(0, record_cap)
+    branch = branch or default_branch(root)
     full_commit(expected_commit, "saved revision")
     full_commit(notes_commit, "saved notes commit")
     require_branch(root, branch)
@@ -737,6 +760,7 @@ def pickup(root, branch, record, sync=False, expected_commit=None, preserve=(), 
         config_saved(root)
     result = {"status": "record_loaded", "branch": branch, "commit": commit, "notes_commit": notes_head,
               "record": record, "bytes": len(content.encode()), "content": content,
+              **record_size(len(content.encode()), record_cap),
               "overtaken_revisions": overtaken_revisions(root, content, commit),
               "preserved_local_only": keep,
               "scope": [spec[len(":(literal)"):] for spec in folders],
@@ -839,15 +863,19 @@ def selected_source(root, path, heading, label=None):
 
 
 def prepare(root, branch, record, files=(), sections=(), sync=False, expected_commit=None, preserve=(),
-            notes_commit=None, scope=()):
+            notes_commit=None, scope=(), record_cap=RECORD_CAP_BYTES):
     """Assemble caller-selected raw sources; never choose or summarise memory."""
     needed = any(value.startswith(NOTES_PREFIX) for value in [*files, *(pair[0] for pair in sections)])
     outside_scope(root, [*files, *(pair[0] for pair in sections)], scope)
-    loaded = pickup(root, branch, record, sync, expected_commit, preserve, notes_commit, needed, scope)
+    branch = branch or default_branch(root)
+    loaded = pickup(root, branch, record, sync, expected_commit, preserve, notes_commit, needed, scope,
+                    record_cap)
     keep = loaded["preserved_local_only"]
     folders = scoped(root, scope)
     picks, location = reading_picks(root, record, files, sections)
     sources = [tracked_source(root, location, path, heading) for path, heading in picks]
+    over_cap_sources = mark_over_cap(sources, picks, [len(source["content"].encode()) for source in sources],
+                                     loaded["record_cap_bytes"])
     if loaded["notes_commit"]:
         notes_unchanged(location, loaded["notes_commit"])
     # A concurrent edit must not silently acquire the earlier clean/commit claim.
@@ -858,6 +886,9 @@ def prepare(root, branch, record, files=(), sections=(), sync=False, expected_co
         config_saved(root)
     packet = {"status": "pickup_prepared", "branch": branch, "commit": loaded["commit"],
               "notes_commit": loaded["notes_commit"],
+              "record_bytes": loaded["record_bytes"], "record_cap_bytes": loaded["record_cap_bytes"],
+              "record_over_cap": loaded["record_over_cap"],
+              "over_cap_sources": over_cap_sources,
               "clean_at_check": True, "synchronized": sync, "sources": sources,
               "preserved_local_only": keep,
               "scope": loaded["scope"],
@@ -980,7 +1011,15 @@ def carry_phrases(value, stdin=None):
 TARGET_TOKENS = 8000  # the Switch trial's pickup allowance, from the In guide
 
 
-def measure(root, record, files=(), sections=(), target=TARGET_TOKENS, carry=(), scope=()):
+def record_size(size, cap=RECORD_CAP_BYTES):
+    """Informational keys for the record's size; never a refusal."""
+    if not isinstance(cap, int) or isinstance(cap, bool) or cap <= 0:
+        raise ValueError("Record cap must be a positive integer number of bytes")
+    return {"record_bytes": size, "record_cap_bytes": cap, "record_over_cap": size > cap}
+
+
+def measure(root, record, files=(), sections=(), target=TARGET_TOKENS, carry=(), scope=(),
+            record_cap=RECORD_CAP_BYTES):
     """Size the pickup reading set as it stands in the working tree.
 
     Bytes are counted exactly; tokens are estimated at four bytes each, which
@@ -1017,7 +1056,9 @@ def measure(root, record, files=(), sections=(), target=TARGET_TOKENS, carry=(),
     estimate = -(-total // 4)
     for folder in (spec[len(":(literal)"):] for spec in scoped(root, scope)):
         read_args += ["--scope", folder]
-    return {"status": "measured", "sources": sources, "read_args": read_args, "total_bytes": total,
+    sizes = record_size(sources[0]["bytes"], record_cap)
+    over = mark_over_cap(sources, picks, [source["bytes"] for source in sources], record_cap)
+    return {"status": "measured", **sizes, "over_cap_sources": over, "sources": sources, "read_args": read_args, "total_bytes": total,
             "approx_tokens": estimate, "target_tokens": target,
             "within_target": estimate <= target,
             "method": "bytes counted exactly per selection, including any whole-file/section or nested-section overlap; "
@@ -1028,7 +1069,7 @@ def measure(root, record, files=(), sections=(), target=TARGET_TOKENS, carry=(),
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--project", required=True)
+    parser.add_argument("--project")
     sub = parser.add_subparsers(dest="action", required=True)
     save = sub.add_parser("save")
     save.add_argument("--branch", required=True)
@@ -1038,7 +1079,7 @@ def main():
     save.add_argument("--preserve", action="append", default=[],
                       help="Exact untracked path this project keeps locally; never saved or touched")
     load = sub.add_parser("pickup")
-    load.add_argument("--branch", required=True)
+    load.add_argument("--branch", help="Default: the checked-out branch")
     load.add_argument("--record", required=True)
     load.add_argument("--sync", action="store_true")
     load.add_argument("--commit", help="Exact saved revision for a named handoff; omit for ordinary latest-state In")
@@ -1050,7 +1091,7 @@ def main():
     load.add_argument("--preserve", action="append", default=[],
                       help="Exact untracked path to keep; a collision in the incoming revision stops the pickup")
     packet = sub.add_parser("prepare", help="Gather caller-selected sources for a fresh reader")
-    packet.add_argument("--branch", required=True)
+    packet.add_argument("--branch", help="Default: the checked-out branch")
     packet.add_argument("--record", required=True)
     packet.add_argument("--file", action="append", default=[])
     packet.add_argument("--section", nargs=2, action="append", default=[], metavar=("FILE", "HEADING"))
@@ -1073,6 +1114,8 @@ def main():
                       help="Carried into read_args for prepare; a source outside it is refused")
     size.add_argument("--target", type=int, default=TARGET_TOKENS,
                       help="Token allowance to compare against (default: the trial's %(default)s)")
+    size.add_argument("--record-cap", type=int, default=RECORD_CAP_BYTES, metavar="N",
+                      help="Informational record size in bytes (default: %(default)s); never blocks")
     size.add_argument("--carry-file", action="append", default=[], metavar="PATH",
                       help="Owner-only (0600) file of exact phrases the pickup must carry, one per line, "
                            "or - for stdin; reports which source holds each, never blocks")
@@ -1080,8 +1123,18 @@ def main():
                                             "clean; with no remote configured, a clean tree is a local-only save")
     check.add_argument("--preserve", action="append", default=[],
                        help="Exact untracked path this project keeps locally; not counted as unsaved")
+    for each in (save, load, packet, size, check):
+        each.add_argument("--project", dest="project_after", help=argparse.SUPPRESS)
+    for each in (load, packet):
+        each.add_argument("--record-cap", type=int, default=RECORD_CAP_BYTES, metavar="N",
+                          help="Informational record size in bytes (default: %(default)s); never blocks")
     args = parser.parse_args()
     try:
+        if args.project and args.project_after and args.project != args.project_after:
+            raise HandoffError("--project given twice with different values; name one project")
+        args.project = args.project or args.project_after
+        if not args.project:
+            parser.error("--project is required")
         root = root_for(args.project)
         if args.action == "boundary":
             result = boundary(root, args.preserve)
@@ -1089,17 +1142,17 @@ def main():
             return 1 if result["failures"] else 0
         if args.action == "measure":
             carry = [phrase for value in args.carry_file for phrase in carry_phrases(value)]
-            result = measure(root, args.record, args.file, args.section, args.target, carry, args.scope)
+            result = measure(root, args.record, args.file, args.section, args.target, carry, args.scope, args.record_cap)
         elif args.action == "save":
             result = publish(root, args.branch, args.file, args.message, args.push, preserve=args.preserve)
         elif args.action == "prepare":
             result = with_chief_of_staff(
                 prepare(root, args.branch, args.record, args.file, args.section, args.sync,
-                        args.commit, args.preserve, args.notes_commit, scope=args.scope), root)
+                        args.commit, args.preserve, args.notes_commit, scope=args.scope, record_cap=args.record_cap), root)
         else:
             result = with_chief_of_staff(
                 pickup(root, args.branch, args.record, args.sync, args.commit, args.preserve,
-                       args.notes_commit, scope=args.scope), root)
+                       args.notes_commit, scope=args.scope, record_cap=args.record_cap), root)
         print(json.dumps(result, indent=2))
         return 0
     except (HandoffError, OSError, ValueError) as exc:
