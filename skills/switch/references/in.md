@@ -5,7 +5,7 @@ Contents:
 - [In](#in): named handoffs first, a managed Roll record, Git synchronization, the pickup reading set and the coverage check
   - [Carry the chief of staff signal](#carry-the-chief-of-staff-signal): moved to [in-detail.md](in-detail.md#carry-the-chief-of-staff-signal): open it only when `prepare` or `pickup` output carries `chief_of_staff`
   - [Compose the arrival in Switch](#compose-the-arrival-in-switch): weigh every open item, one recommendation
-  - [Restore the existing team](#restore-the-existing-team): moved to [in-detail.md](in-detail.md#restore-the-existing-team): open it only when a pairing directory, `handoff` designation or `recovery` receipt exists
+  - [Restore the existing team](#restore-the-existing-team): moved to [in-detail.md](in-detail.md#restore-the-existing-team): open it when the pairing directory exists, or a `handoff` designation or `recovery` receipt exists
   - [Enter Conductor from the answer](#enter-conductor-from-the-answer): what each answer to the arrival question opens
   - [Welcome back: the screen summary](#welcome-back-the-screen-summary): the renderer, its JSON shape, the question and picker; the field-by-field details are in [in-detail.md](in-detail.md#summary-field-details)
 
@@ -287,7 +287,7 @@ unchanged and stop; no second list, task menu or narration.
 
 ### Restore the existing team
 
-Open [in-detail.md](in-detail.md#restore-the-existing-team) when `git rev-parse --git-path kerd-agent/partners` names an existing directory with bindings for this project, or a `handoff` designation or `recovery` receipt exists; with none of these, there is no team to restore and no Agent setup question.
+Always resolve `git rev-parse --git-path kerd-agent/partners`. When that directory exists (any bindings), or a `handoff` designation or `recovery` receipt exists, open [in-detail.md](in-detail.md#restore-the-existing-team); with none of these, there is no team to restore and no Agent setup question.
 
 ### Enter Conductor from the answer
 

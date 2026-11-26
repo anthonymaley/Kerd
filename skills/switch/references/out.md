@@ -329,8 +329,10 @@ making it small on purpose, not by reading less next time. These moves, in this
 order, each leaving a reachable link behind:
 
 0. **Archive what is older than the current position.** This is the first thing
-   Out does to the start point, before any other edit to it: each block is
-   appended to the archive verbatim before it is changed or removed. When `measure`
+   Out does to the start point, before any other edit to it: any passage Out
+   removes from or rewrites in `CONTEXT.md` or `TODO.md`, whatever its category, is first
+   appended verbatim to the archive; reducing a decision to its ruling line moves its
+   existing case verbatim first (to `docs/decisions.md` or the archive). When `measure`
    reports `record_over_cap`, or the pointer holds more than one position block
    or more than one pickup reading list ("For Kerd's next pickup"), move every
    position block older than the current one, every older reading list or
@@ -338,8 +340,9 @@ order, each leaving a reachable link behind:
    `docs/context-archive/<YYYY-MM-DD>.md` in the repo, or
    `notes:context-archive/<date>.md` when `work_notes` is set. Material moves verbatim, never summarized, rewritten or dropped. Append to that
    day's file, newest first; archives are append-only, never trimmed or deleted. Keep one index, `docs/context-archive/index.md` (or
-   `notes:context-archive/index.md`), append-only, one line per archive file with
-   its date and what moved. Leave one link line in the pointer that names the index. A legacy link to a single migration file (for example
+   `notes:context-archive/index.md`), append-only, one line appended per archive write
+   (date, file, what moved), so a second same-day append adds its own line and an
+   earlier line is never edited. Leave one link line in the pointer that names the index. A legacy link to a single migration file (for example
    `CONTEXT-2026-11-26.md`) is kept and listed in the index at the next Out. The pointer
    keeps only: what this is, the current position, rulings one line each,
    standing constraints, urgent risks, kept-out paths and the one current reading
