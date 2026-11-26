@@ -14,7 +14,10 @@ SWITCH = Path(__file__).resolve().parents[2]
 
 
 def guide(rel):
-    return " ".join((SWITCH / rel).read_text(encoding="utf-8").split())
+    text = (SWITCH / rel).read_text(encoding="utf-8")
+    if rel == "references/in.md":
+        text += "\n" + (SWITCH / "references/in-detail.md").read_text(encoding="utf-8")
+    return " ".join(text.split())
 
 
 class ProjectNameNeverByAlphabet(unittest.TestCase):

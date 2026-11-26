@@ -22,7 +22,10 @@ SWITCH_SKILL = REPO / "skills" / "switch" / "SKILL.md"
 
 def flat(path):
     """Whitespace-normalized text, so a rewrap of the prose is not a rule change."""
-    return " ".join(path.read_text(encoding="utf-8").split())
+    text = path.read_text(encoding="utf-8")
+    if path == SWITCH_IN:
+        text += "\n" + (path.parent / "in-detail.md").read_text(encoding="utf-8")
+    return " ".join(text.split())
 
 
 class ConductorPlansFreshReviewTests(unittest.TestCase):

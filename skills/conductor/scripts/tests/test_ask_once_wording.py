@@ -37,7 +37,10 @@ def flat(text):
 
 
 def read(path):
-    return flat(path.read_text(encoding="utf-8"))
+    text = path.read_text(encoding="utf-8")
+    if path == IN:
+        text += "\n" + (IN.parent / "in-detail.md").read_text(encoding="utf-8")
+    return flat(text)
 
 
 def journey_section(heading):
