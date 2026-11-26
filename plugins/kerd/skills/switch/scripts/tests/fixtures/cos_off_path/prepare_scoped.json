@@ -3,6 +3,10 @@
   "branch": "main",
   "commit": "133f92cfbb29586ba5b3569f5d7e5b1995410bc3",
   "notes_commit": null,
+  "record_bytes": 54,
+  "record_cap_bytes": 32768,
+  "record_over_cap": false,
+  "over_cap_sources": [],
   "clean_at_check": true,
   "synchronized": false,
   "sources": [
@@ -10,13 +14,15 @@
       "file": "area/record.md",
       "selection": "complete file",
       "content": "# Area record\n\nA scoped project inside a shared repo.\n",
-      "reaches_eof": true
+      "reaches_eof": true,
+      "over_cap": false
     },
     {
       "file": "area/TODO.md",
       "selection": "complete file",
       "content": "# Area TODO\n\n## Now\n\n- [ ] Scoped fixture task\n",
-      "reaches_eof": true
+      "reaches_eof": true,
+      "over_cap": false
     }
   ],
   "preserved_local_only": [],

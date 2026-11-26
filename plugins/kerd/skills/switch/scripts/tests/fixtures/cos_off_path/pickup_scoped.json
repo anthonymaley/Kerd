@@ -6,6 +6,9 @@
   "record": "area/record.md",
   "bytes": 54,
   "content": "# Area record\n\nA scoped project inside a shared repo.\n",
+  "record_bytes": 54,
+  "record_cap_bytes": 32768,
+  "record_over_cap": false,
   "overtaken_revisions": [],
   "preserved_local_only": [],
   "scope": [

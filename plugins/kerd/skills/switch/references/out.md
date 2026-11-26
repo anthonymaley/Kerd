@@ -187,6 +187,10 @@ name it in the pickup reading set; without `work_notes`, Out keeps no such list.
 ### Save the selected continuation
 
 Update the next session's lean start point with what is true and what to do next.
+The archive move in [Leave a lean start point](#leave-a-lean-start-point) comes
+first: before Out edits any existing position block, reading list or closed
+TODO block, it appends that block verbatim to the archive, so nothing is
+rewritten before it is preserved.
 After reconciling contributions and active work, leave one concise continuation
 in the existing pointer's current section, or a directly linked current work
 record included in the pickup reading set. Save the choice the sitting reached,
@@ -289,7 +293,7 @@ decisions and authority even when the next action looks simple.
 
 Only when this sitting's signal is on: its Switch In's `prepare` or `pickup`
 output carried `chief_of_staff` with `"on": true`
-([Carry the chief of staff signal](in.md#carry-the-chief-of-staff-signal)). With
+([Carry the chief of staff signal](in-detail.md#carry-the-chief-of-staff-signal)). With
 the signal off or absent, a cold start or a hand pickup included, none of this
 exists: no `cos.py` call, no table, nothing said.
 
@@ -321,9 +325,37 @@ in the sitting's account.
 ### Leave a lean start point
 
 The next pickup pays for every byte the start point carries, so Out ends by
-making it small on purpose, not by reading less next time. Four moves, in this
+making it small on purpose, not by reading less next time. These moves, in this
 order, each leaving a reachable link behind:
 
+0. **Archive what is older than the current position.** This is the first thing
+   Out does to the start point, before any other edit to it: any passage Out
+   removes from or rewrites in any file it edits to reduce size (`CONTEXT.md`,
+   `TODO.md`, any reading-set source: work records, session logs), whatever its category, is first
+   appended verbatim to the archive; reducing a decision to its ruling line moves its
+   existing case verbatim first (to `docs/decisions.md` or the archive). When `measure`
+   reports `record_over_cap`, or the pointer holds more than one position block
+   or more than one pickup reading list ("For Kerd's next pickup"), move every
+   position block older than the current one, every older reading list or
+   measurement, and closed-work narrative to a dated archive file:
+   `docs/context-archive/<YYYY-MM-DD>.md` in the repo, or
+   `notes:context-archive/<date>.md` when `work_notes` is set. Material moves verbatim, never summarized, rewritten or dropped. Append to that
+   day's file in chronological order, newest at the end; archives are append-only, never trimmed or deleted. Keep one index, `docs/context-archive/index.md` (or
+   `notes:context-archive/index.md`), append-only, one line appended per archive write
+   (date, file, what moved), so a second same-day append adds its own line and an
+   earlier line is never edited. Leave one link line in the pointer that names the index. A legacy link to a single migration file (for example
+   `CONTEXT-2026-11-26.md`) is kept and listed in the index at the next Out. The pointer
+   keeps only: what this is, the current position, rulings one line each,
+   standing constraints, urgent risks, kept-out paths and the one current reading
+   list. Re-measure after the move and stay under the cap (`record_cap_bytes`)
+   unless a recorded reason says why not. The same applies to every source in
+   `over_cap_sources` (each carries its own `over_cap`): for `TODO.md`, done and
+   closed blocks move to the backlog archive (`docs/backlog-archive.md`, with the
+   verdict, evidence and date) and dated narrative to the same context archive;
+   open rows stay. After the final `measure` of the full reading set (below), if any source is over
+   cap, return to this move for that source and measure again; the save never
+   proceeds with an over-cap source without a recorded reason. Nothing is deleted: the archive file
+   and Git history keep every original.
 1. **Rulings stay, cases move.** The loaded pointer keeps each standing decision
    as its ruling — the bold sentence and its date — only for decisions that
    govern the next work or a constraint the next sitting must honour. The full
@@ -437,7 +469,7 @@ order, each leaving a reachable link behind:
    size guarantee for edited files. Keep findings archives available on demand.
 
 The first run on a legacy pointer is a migration: keep a recoverable original
-(the move itself, in Git, plus a dated note in the session log), reconcile any
+(the originals moved whole to the archive file, also in Git history, plus a dated note in the session log), reconcile any
 conflicting current claims, and say what was not reconciled. Do not apply the
 migration to an unrelated live project.
 

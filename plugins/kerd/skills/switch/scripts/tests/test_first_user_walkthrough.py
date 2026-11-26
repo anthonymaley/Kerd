@@ -34,7 +34,10 @@ def flat(text):
 
 
 def guide(rel):
-    return flat((SWITCH / rel).read_text(encoding="utf-8"))
+    text = (SWITCH / rel).read_text(encoding="utf-8")
+    if rel == "references/in.md":
+        text += "\n" + (SWITCH / "references/in-detail.md").read_text(encoding="utf-8")
+    return flat(text)
 
 
 def closing(**over):

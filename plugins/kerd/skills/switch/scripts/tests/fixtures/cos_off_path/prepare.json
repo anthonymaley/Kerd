@@ -3,6 +3,10 @@
   "branch": "main",
   "commit": "133f92cfbb29586ba5b3569f5d7e5b1995410bc3",
   "notes_commit": null,
+  "record_bytes": 99,
+  "record_cap_bytes": 32768,
+  "record_over_cap": false,
+  "over_cap_sources": [],
   "clean_at_check": true,
   "synchronized": false,
   "sources": [
@@ -10,19 +14,22 @@
       "file": "CONTEXT.md",
       "selection": "complete file",
       "content": "# Context\n\n## Now\n\nFixture project for the chief-of-staff off-path golden.\n\n## Next\n\nNothing else.\n",
-      "reaches_eof": true
+      "reaches_eof": true,
+      "over_cap": false
     },
     {
       "file": "TODO.md",
       "selection": "complete file",
       "content": "# TODO\n\n## Now\n\n- [ ] Golden fixture task\n\n## Backlog\n\n- Nothing yet\n",
-      "reaches_eof": true
+      "reaches_eof": true,
+      "over_cap": false
     },
     {
       "file": "CONTEXT.md",
       "selection": "## Now (including child sections)",
       "content": "## Now\n\nFixture project for the chief-of-staff off-path golden.\n\n",
-      "reaches_eof": false
+      "reaches_eof": false,
+      "over_cap": false
     }
   ],
   "preserved_local_only": [],

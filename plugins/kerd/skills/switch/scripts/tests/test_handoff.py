@@ -1226,6 +1226,96 @@ class HandoffTests(unittest.TestCase):
         self.assertEqual(old.returncode, 2)
         self.assertIn("unrecognized arguments", old.stderr)
 
+    def run_cli(self, *argv):
+        return subprocess.run(["python3", str(SCRIPT), *argv], capture_output=True, text=True)
+
+    def test_measure_reports_the_record_size_against_a_cap_without_blocking(self):
+        result = handoff.measure(self.dest, "record.md")
+        size = len((self.dest / "record.md").read_bytes())
+        self.assertEqual((result["record_bytes"], result["record_cap_bytes"], result["record_over_cap"]),
+                         (size, 32768, False))
+        over = self.run_cli("--project", str(self.dest), "measure", "--record", "record.md",
+                            "--record-cap", str(size - 1))
+        self.assertEqual(over.returncode, 0, over.stderr)
+        packet = json.loads(over.stdout)
+        self.assertEqual((packet["record_cap_bytes"], packet["record_over_cap"]), (size - 1, True))
+        self.assertEqual(packet["read_args"], ["--record", "record.md"])
+        bad = self.run_cli("--project", str(self.dest), "measure", "--record", "record.md", "--record-cap", "0")
+        self.assertEqual(bad.returncode, 2)
+
+    def test_each_source_is_flagged_over_the_cap_and_named(self):
+        (self.dest / "tasks.md").write_text("## Now\n" + "x" * 50 + "\n\n## Later\nshort\n")
+        self.commit(self.dest, "tasks")
+        result = handoff.measure(self.dest, "record.md", ["result.txt"], [("tasks.md", "## Now")],
+                                 record_cap=40)
+        flags = {s["file"]: s["over_cap"] for s in result["sources"]}
+        self.assertEqual(flags, {"record.md": False, "result.txt": False, "tasks.md": True})
+        self.assertEqual(result["over_cap_sources"], ["tasks.md \u00a7 ## Now"])
+        self.assertFalse(result["record_over_cap"])
+        whole = handoff.measure(self.dest, "record.md", ["tasks.md"], record_cap=40)
+        self.assertEqual(whole["over_cap_sources"], ["tasks.md"])
+        self.assertEqual(handoff.measure(self.dest, "record.md")["over_cap_sources"], [])
+        packet = json.loads(self.run_cli("--project", str(self.dest), "prepare", "--record", "record.md",
+                                         "--section", "tasks.md", "## Now", "--record-cap", "40").stdout)
+        self.assertEqual(packet["over_cap_sources"], ["tasks.md \u00a7 ## Now"])
+        self.assertEqual([s["over_cap"] for s in packet["sources"]], [False, True])
+
+    def test_pickup_and_prepare_carry_the_record_size_keys(self):
+        size = len((self.dest / "record.md").read_bytes())
+        for argv in (["pickup"], ["prepare"]):
+            with self.subTest(argv=argv):
+                result = self.run_cli("--project", str(self.dest), *argv, "--record", "record.md",
+                                      "--record-cap", "5")
+                self.assertEqual(result.returncode, 0, result.stderr)
+                packet = json.loads(result.stdout)
+                self.assertEqual((packet["record_bytes"], packet["record_cap_bytes"], packet["record_over_cap"]),
+                                 (size, 5, True))
+        packet = json.loads(self.run_cli("--project", str(self.dest), "pickup", "--record", "record.md").stdout)
+        self.assertEqual((packet["record_cap_bytes"], packet["record_over_cap"]), (32768, False))
+
+    def test_pickup_and_prepare_default_to_the_checked_out_branch(self):
+        for action in ("pickup", "prepare"):
+            with self.subTest(action=action):
+                result = self.run_cli("--project", str(self.dest), action, "--record", "record.md")
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(json.loads(result.stdout)["branch"], self.branch)
+        wrong = self.run_cli("--project", str(self.dest), "pickup", "--record", "record.md", "--branch", "other")
+        self.assertEqual(wrong.returncode, 2, "an explicit branch is still checked")
+
+    def test_a_detached_head_with_no_branch_is_a_clear_error(self):
+        self.git(self.dest, "checkout", "-q", "--detach")
+        for action in ("pickup", "prepare"):
+            with self.subTest(action=action):
+                result = self.run_cli("--project", str(self.dest), action, "--record", "record.md")
+                self.assertEqual(result.returncode, 2)
+                self.assertIn("HEAD is detached", json.loads(result.stderr)["error"])
+
+    def test_project_is_accepted_after_the_subcommand_and_a_conflict_is_an_error(self):
+        after = self.run_cli("prepare", "--project", str(self.dest), "--record", "record.md")
+        self.assertEqual(after.returncode, 0, after.stderr)
+        self.assertEqual(json.loads(after.stdout)["status"], "pickup_prepared")
+        both = self.run_cli("--project", str(self.dest), "measure", "--project", str(self.dest),
+                            "--record", "record.md")
+        self.assertEqual(both.returncode, 0, both.stderr)
+        clash = self.run_cli("--project", str(self.dest), "measure", "--project", str(self.source),
+                             "--record", "record.md")
+        self.assertEqual(clash.returncode, 2)
+        self.assertIn("different values", json.loads(clash.stderr)["error"])
+        none = self.run_cli("measure", "--record", "record.md")
+        self.assertNotEqual(none.returncode, 0)
+
+    def test_repeated_project_values_must_agree_on_either_side(self):
+        a, b = str(self.dest), str(self.source)
+        for argv in (["--project", a, "--project", b, "measure", "--record", "record.md"],
+                     ["measure", "--project", a, "--project", b, "--record", "record.md"]):
+            with self.subTest(argv=argv):
+                result = self.run_cli(*argv)
+                self.assertEqual(result.returncode, 2)
+                self.assertIn("different values", json.loads(result.stderr)["error"])
+        same = self.run_cli("--project", a, "--project", a, "measure", "--project", a, "--project", a,
+                            "--record", "record.md")
+        self.assertEqual(same.returncode, 0, same.stderr)
+
     def test_carry_reports_the_holding_source_or_a_miss_without_blocking(self):
         self.notes()
         phrases = self.carry_file("Ship the private notes\nArchive only\n")

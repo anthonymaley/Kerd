@@ -20,7 +20,10 @@ README = "README.md"
 
 
 def read(rel):
-    return " ".join((ROOT / rel).read_text(encoding="utf-8").split())
+    text = (ROOT / rel).read_text(encoding="utf-8")
+    if rel == IN:
+        text += "\n" + (ROOT / "skills/switch/references/in-detail.md").read_text(encoding="utf-8")
+    return " ".join(text.split())
 
 
 class ChiefOfStaffWordingTests(unittest.TestCase):

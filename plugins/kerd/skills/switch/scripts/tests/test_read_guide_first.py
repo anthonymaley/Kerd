@@ -16,7 +16,8 @@ class ReadGuideFirstTests(unittest.TestCase):
         text = " ".join(SKILL.read_text(encoding="utf-8").split())
         self.assertIn("**First, before any other tool call:** read this skill's guide for the named "
                       "action", text)
-        self.assertIn("for In, `references/in.md` in full; for Out, `references/out.md` in full;", text)
+        self.assertIn("for In, `references/in.md` in full, then `references/in-detail.md` only for the section in.md points to", text)
+        self.assertIn("for Out, `references/out.md` in full;", text)
 
     def test_host_neutral_reader(self):
         # codex-tui 2026-10-07: the Codex package copies this line and has no Read tool.
