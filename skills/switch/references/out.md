@@ -330,7 +330,8 @@ order, each leaving a reachable link behind:
 
 0. **Archive what is older than the current position.** This is the first thing
    Out does to the start point, before any other edit to it: any passage Out
-   removes from or rewrites in `CONTEXT.md` or `TODO.md`, whatever its category, is first
+   removes from or rewrites in any file it edits to reduce size (`CONTEXT.md`,
+   `TODO.md`, any reading-set source: work records, session logs), whatever its category, is first
    appended verbatim to the archive; reducing a decision to its ruling line moves its
    existing case verbatim first (to `docs/decisions.md` or the archive). When `measure`
    reports `record_over_cap`, or the pointer holds more than one position block
@@ -339,7 +340,7 @@ order, each leaving a reachable link behind:
    measurement, and closed-work narrative to a dated archive file:
    `docs/context-archive/<YYYY-MM-DD>.md` in the repo, or
    `notes:context-archive/<date>.md` when `work_notes` is set. Material moves verbatim, never summarized, rewritten or dropped. Append to that
-   day's file, newest first; archives are append-only, never trimmed or deleted. Keep one index, `docs/context-archive/index.md` (or
+   day's file in chronological order, newest at the end; archives are append-only, never trimmed or deleted. Keep one index, `docs/context-archive/index.md` (or
    `notes:context-archive/index.md`), append-only, one line appended per archive write
    (date, file, what moved), so a second same-day append adds its own line and an
    earlier line is never edited. Leave one link line in the pointer that names the index. A legacy link to a single migration file (for example
