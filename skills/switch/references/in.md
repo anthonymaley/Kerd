@@ -421,7 +421,7 @@ when it names an action, never in ATTENTION.
 
 When `prepare` or `pickup` reports `record_over_cap` true, or lists any source in `over_cap_sources`, ATTENTION carries one line saying the start point is oversized, naming each oversized source (for example `CONTEXT.md`, `TODO.md`), and that the next Switch Out will archive it ([Leave a lean start point](out.md#leave-a-lean-start-point)); the arrival still restores from what it could read and never archives during In.
 
-When the lean start point lacks a fact a recommendation or an open item needs, read the relevant complete entry from the archive its link line names (bounded, not the whole archive).
+When the lean start point lacks a fact a recommendation or an open item needs, read the relevant complete entry from the archive, reached through the index its link line names (`docs/context-archive/index.md` or the folder), bounded, not the whole archive.
 
 An **Insight** is optional: one source-grounded learning, implication or tradeoff
 in its own callout — never compulsory, never a hidden question.
