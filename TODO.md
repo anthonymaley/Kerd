@@ -6,9 +6,9 @@
 
 | Rank | Task id | Task | Outcome | Status | ETA | Depends on |
 |---|---|---|---|---|---|---|
-| 1 | round6-leftovers | [Round-6 cosmetic leftovers and a revision-finish rerun](notes:batch-1114/first-user-6.md) | Found line before Out, refusal names /kerd:switch in, unasked Out seen holding | queued | ~1 sitting | — |
+| 1 | start-point-size | Keep start points small, and migrate the four big projects | Every CONTEXT.md under 32 KB; Out keeps it there; pickup defaults the branch | in progress | ~1 sitting + his go | — |
 
-Updated: 2026-11-21T14:58:46-05:00
+Updated: 2026-11-26T11:46:59-05:00
 
 - **Watch the chief of staff on 0.203.0 in real use:** its ticks read each project's `### Asks` table, re-ask nothing a project asked, and show him two or three decisions per batch (Cosplay's side, `notes:cos-mode/cosplay-side.md`). Before it, **the queue (0.200.0/0.200.1):** after each project's Kerd restarts on 0.200.1, Conductor and Switch Out keep the `### Queue` table through `cos.py write` in Kerd and Cosplay (both in `~/.config/kerd/chief-of-staff.json`), Cosplay's Switch In shows ROLE: chief of staff, and Cosplay's scans read them; first real sitting not yet seen. Decisions reach Anthony through his chief of staff, now cosplay-a8 (since 2026-11-21 16:3x); a push still needs his go typed in the Kerd window. `notes:chief-of-staff/design.md`.
 - **Portal links and the paper template as Kerd defaults (proposed, his decision):** his chief of staff relayed two asks (cosplay-a8): papers reach him as Cosplay portal links (`https://anthonys-mac-studio.anoa-haddock.ts.net:8741/doc/kerd/<path>.md`, his ask 2026-11-21 16:39, no Markdown opened on his screen) and in his approved paper template (`~/development/product/cosplay/docs/templates/paper.md`, 2026-11-21 17:31; header, In short, Options with Do nothing, What happens on yes, Needs his hands, Detail; settled items leave the paper, 2026-11-22 11:19). This Kerd session follows both by memory; Switch and Conductor still link documents as file paths and write briefs free-form. Next: a short paper (in that template) proposing how Kerd adopts both, likely a per-machine setting for the document link base and the template path, for his decision. Nothing built.
