@@ -28,8 +28,11 @@ def repo():
     return d
 
 
-def run(*args):
-    return subprocess.run(["python3", str(NEEDS), *args], capture_output=True, text=True)
+def run(*args, session=None):
+    env = {k: v for k, v in os.environ.items() if k not in needs.SESSION_ENV}
+    if session:
+        env["CLAUDE_CODE_SESSION_ID"] = session
+    return subprocess.run(["python3", str(NEEDS), *args], capture_output=True, text=True, env=env)
 
 
 class NeedsTest(unittest.TestCase):
@@ -38,10 +41,51 @@ class NeedsTest(unittest.TestCase):
         self.assertEqual(run("show", "--project", d).stdout, "")
         self.assertEqual(run("set", "--project", d, "  Release   0.205.0 \n").returncode, 0)
         self.assertEqual(run("show", "--project", d).stdout, "Release 0.205.0\n")
-        self.assertTrue(os.path.exists(os.path.join(d, ".git", "kerd", "needs-you")))
+        self.assertTrue(os.path.exists(os.path.join(d, ".git", "kerd", "needs-you", "default")))
         self.assertEqual(run("clear", "--project", d).returncode, 0)
         self.assertEqual(run("show", "--project", d).stdout, "")
         self.assertEqual(run("clear", "--project", d).returncode, 0)
+
+    def test_sessions_are_separate(self):
+        d = repo()
+        run("set", "--project", d, "from A", session="a/../1")
+        run("set", "--project", d, "from B", session="b")
+        self.assertEqual(run("show", "--project", d).stdout, "from A\nfrom B\n")
+        self.assertTrue(os.path.exists(os.path.join(d, ".git", "kerd", "needs-you", "a1")))
+        run("clear", "--project", d, session="a/../1")
+        self.assertEqual(run("show", "--project", d).stdout, "from B\n")
+
+    def test_old_files_ignored_and_legacy_file_read(self):
+        d = repo()
+        run("set", "--project", d, "old one", session="a")
+        f = os.path.join(d, ".git", "kerd", "needs-you", "a")
+        t = os.path.getmtime(f) - 8 * 24 * 3600
+        os.utime(f, (t, t))
+        self.assertEqual(run("show", "--project", d).stdout, "")
+        d2 = repo()
+        os.makedirs(os.path.join(d2, ".git", "kerd"))
+        Path(d2, ".git", "kerd", "needs-you").write_text("legacy q\n")
+        self.assertEqual(run("show", "--project", d2).stdout, "legacy q\n")
+        run("set", "--project", d2, "mine", session="s")
+        self.assertEqual(run("show", "--project", d2).stdout, "legacy q\nmine\n")
+
+    def test_control_characters_stripped(self):
+        d = repo()
+        run("set", "--project", d, "a\x1b[31mred\x1b[0m\x07 b\x9bc\x01d", session="s")
+        self.assertEqual(run("show", "--project", d).stdout, "ared bcd\n")
+
+    def test_worktree_gitdir_file(self):
+        d = repo()
+        wt = tempfile.mkdtemp()
+        gd = os.path.join(d, ".git", "worktrees", "w")
+        os.makedirs(gd)
+        Path(wt, ".git").write_text("gitdir: " + gd + "\n")
+        run("set", "--project", wt, "wt q")
+        self.assertTrue(os.path.exists(os.path.join(gd, "kerd", "needs-you", "default")))
+
+    def test_asks_only_contiguous_table_and_case(self):
+        text = "## NOW\n\n### Asks\n\n" + HEAD + "| a | First | | | | | | |\n\nstray\n| b | Not mine | | | | | | |\n"
+        self.assertEqual(needs.asks_questions(text), ["First"])
 
     def test_label_trimmed_to_limit(self):
         d = repo()
@@ -100,6 +144,14 @@ class StatuslineTest(unittest.TestCase):
     def test_inner_output_without_needs_and_bad_json(self):
         self.assertRegex(self.sl("{}", "echo INNER"), r"^\d\d:\d\d · INNER\n$")
         self.assertRegex(self.sl("not json", "echo INNER"), r"^\d\d:\d\d · INNER\n$")
+
+    def test_inner_receives_stdin_bytes(self):
+        d = repo()
+        out_file = os.path.join(d, "got")
+        for tail in (b"\n\n", b"", b"\n"):
+            payload = json.dumps({"cwd": d}).encode() + tail
+            subprocess.run(["bash", str(STATUSLINE), "cat > " + out_file], input=payload, capture_output=True)
+            self.assertEqual(Path(out_file).read_bytes(), payload)
 
     def test_inner_receives_stdin(self):
         d = repo()

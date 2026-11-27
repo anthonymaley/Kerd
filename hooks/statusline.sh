@@ -17,7 +17,11 @@ inner="${1:-}"
 # Claude Code feeds statusline commands a context JSON envelope on stdin.
 # Read it once, hand it to the wrapped command unchanged.
 payload=""
-[ -t 0 ] || payload=$(cat 2>/dev/null || true)
+if [ ! -t 0 ]; then
+  # printf x guards trailing newlines, which command substitution would strip.
+  payload=$(cat 2>/dev/null; printf x) || true
+  payload=${payload%x}
+fi
 
 # "Needs you" segment: what waits for the person in this session's folder.
 # Quiet on any error; local files only, no network.

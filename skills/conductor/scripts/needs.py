@@ -5,7 +5,7 @@
     needs.py clear --project P                 remove it
     needs.py show  --project P [--line]        print the combined labels
 
-Combined = the session's label file (`<git dir>/kerd/needs-you`, one line) plus the open
+Combined = the session's label file (`<git dir>/kerd/needs-you/<session id>`, one line each) plus the open
 rows of TODO.md's `### Asks` table under `## Now`. Quiet by design: it never raises,
 and a missing file or folder means nothing waits. No network, no git fetch.
 """
@@ -14,31 +14,60 @@ from __future__ import annotations
 import argparse
 import os
 import re
-import subprocess
 import sys
+import time
 
 LABEL_MAX = 60
 SHORT_WORDS = 6
 SHORT_CHARS = 40
 
 
-def _git(project, *args):
+SESSION_ENV = ("CLAUDE_CODE_SESSION_ID", "CODEX_THREAD_ID")
+STALE_SECONDS = 7 * 24 * 3600
+_ESC = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]|\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)|\x1b[@-Z\\-_]?")
+_CTRL = re.compile(r"[\x00-\x08\x0b-\x1f\x7f-\x9f]")
+
+
+def find_git(project):
+    """(toplevel, git dir) found by walking up for `.git`; no git process. (None, None) if none."""
     try:
-        out = subprocess.run(["git", "-C", project, *args], capture_output=True, text=True, timeout=3)
-        return out.stdout.strip() if out.returncode == 0 else ""
+        here = os.path.abspath(project)
+        while True:
+            dot = os.path.join(here, ".git")
+            if os.path.isdir(dot):
+                return here, dot
+            if os.path.isfile(dot):
+                with open(dot, encoding="utf-8") as f:
+                    first = f.readline().strip()
+                if first.startswith("gitdir:"):
+                    target = first[7:].strip()
+                    return here, target if os.path.isabs(target) else os.path.normpath(os.path.join(here, target))
+            parent = os.path.dirname(here)
+            if parent == here:
+                return None, None
+            here = parent
     except Exception:
-        return ""
+        return None, None
 
 
-def label_path(project):
-    rel = _git(project, "rev-parse", "--git-path", "kerd/needs-you")
-    if not rel:
-        return None
-    return rel if os.path.isabs(rel) else os.path.join(project, rel)
+def session_id():
+    for key in SESSION_ENV:
+        value = re.sub(r"[^A-Za-z0-9_-]", "", os.environ.get(key, ""))[:100]
+        if value:
+            return value
+    return "default"
+
+
+def needs_base(project):
+    _, gitdir = find_git(project)
+    return os.path.join(gitdir, "kerd", "needs-you") if gitdir else None
 
 
 def clean(text, limit=LABEL_MAX):
-    text = " ".join(str(text).split())
+    text = _ESC.sub("", str(text))
+    text = re.sub(r"[\t\n\r\x0b\x0c]", " ", text)
+    text = _CTRL.sub("", text)
+    text = " ".join(text.split())
     return text[:limit].rstrip()
 
 
@@ -73,38 +102,36 @@ def split_row(line):
 
 
 def asks_questions(todo_text):
-    """Question cells of the `### Asks` table under `## Now`; tolerant, never raises."""
-    questions, in_now, in_asks, header_seen, fence = [], False, False, False, False
+    """Question cells of the `### Asks` table under `## Now`: only the contiguous pipe-table
+    rows directly under the heading. Tolerant, never raises."""
+    questions, in_now, fence, table = [], False, False, None
     for raw in todo_text.splitlines():
         line = raw.strip()
         if line.startswith("```") or line.startswith("~~~"):
             fence = not fence
+            if table is not None:
+                break
             continue
         if fence:
             continue
-        if re.match(r"##\s+Now\b", line):
-            in_now, in_asks, header_seen = True, False, False
+        if table is not None:
+            if not line.startswith("|"):
+                if not line and not table:
+                    continue          # blank lines between heading and table
+                break
+            table.append(line)
             continue
-        if in_now and re.match(r"##\s+\S", line) and not line.startswith("###"):
+        if re.match(r"##\s+now\b", line, re.I):
+            in_now = True
+            continue
+        if in_now and re.match(r"#{1,2}(?:\s|$)", line):
             break
-        if not in_now:
-            continue
-        if re.fullmatch(r"###\s+Asks\s*", line):
-            in_asks, header_seen = True, False
-            continue
-        if line.startswith("###"):
-            in_asks = False
-            continue
-        if not in_asks or not line.startswith("|"):
-            continue
+        if in_now and re.fullmatch(r"###\s+asks\s*", line, re.I):
+            table = []
+    for n, line in enumerate(table or []):
         cells = split_row(line)
-        if not cells or len(cells) < 2:
-            continue
-        if re.fullmatch(r":?-{2,}:?", cells[0].strip()) or all(re.fullmatch(r":?-+:?", c) for c in cells):
-            continue
-        if not header_seen:
-            header_seen = True
-            continue
+        if n < 2 or not cells or len(cells) < 2:
+            continue                  # header row, separator row, junk
         q = re.sub(r"^\[([^\]]*)\]\([^)]*\)$", r"\1", cells[1])
         q = shorten(q)
         if q:
@@ -112,33 +139,59 @@ def asks_questions(todo_text):
     return questions
 
 
-def read_label(project):
-    path = label_path(project)
-    if not path:
-        return ""
+def _fresh_label(path):
     try:
-        with open(path, encoding="utf-8") as f:
+        if time.time() - os.path.getmtime(path) > STALE_SECONDS:
+            return ""
+        with open(path, encoding="utf-8", errors="replace") as f:
             return clean(f.readline())
     except Exception:
         return ""
 
 
+def read_labels(project):
+    """Every session's label under <git dir>/kerd/needs-you (a directory), plus the old
+    single file if that is what is there. Files older than 7 days are ignored."""
+    base = needs_base(project)
+    if not base:
+        return []
+    try:
+        if os.path.isdir(base):
+            paths = [os.path.join(base, n) for n in os.listdir(base)]
+            paths = [p for p in paths if os.path.isfile(p)]
+            paths.sort(key=lambda p: (os.path.getmtime(p), p))
+        else:
+            paths = [base]
+    except Exception:
+        return []
+    out = []
+    for p in paths:
+        label = _fresh_label(p)
+        if label and label not in out:
+            out.append(label)
+    return out
+
+
 def todo_text(project):
-    for base in (project, _git(project, "rev-parse", "--show-toplevel")):
-        if base:
-            try:
-                with open(os.path.join(base, "TODO.md"), encoding="utf-8") as f:
-                    return f.read()
-            except Exception:
-                continue
+    top, _ = find_git(project)
+    here, seen = os.path.abspath(project), []
+    while True:                       # the folder itself, then up to the repo top
+        seen.append(here)
+        parent = os.path.dirname(here)
+        if here == top or parent == here or top is None:
+            break
+        here = parent
+    for base in seen:
+        try:
+            with open(os.path.join(base, "TODO.md"), encoding="utf-8", errors="replace") as f:
+                return f.read()
+        except Exception:
+            continue
     return ""
 
 
 def combined(project):
-    labels = []
-    own = read_label(project)
-    if own:
-        labels.append(own)
+    labels = list(read_labels(project))
     try:
         labels.extend(q for q in asks_questions(todo_text(project)) if q not in labels)
     except Exception:
@@ -171,17 +224,25 @@ def main(argv=None):
     except SystemExit as e:
         return 2 if e.code else 0
     try:
-        if args.cmd == "set":
-            path, label = label_path(args.project), clean(args.label)
-            if not path or not label:
-                return 1
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-            with open(path, "w", encoding="utf-8") as f:
-                f.write(label + "\n")
-        elif args.cmd == "clear":
-            path = label_path(args.project)
-            if path and os.path.exists(path):
-                os.remove(path)
+        if args.cmd in ("set", "clear"):
+            base = needs_base(args.project)
+            if not base:
+                return 1 if args.cmd == "set" else 0
+            mine = os.path.join(base, session_id())
+            if args.cmd == "set":
+                label = clean(args.label)
+                if not label:
+                    return 1
+                if os.path.isfile(base):          # the old single file: keep it as a session file
+                    legacy = base + ".old"
+                    os.replace(base, legacy)
+                    os.makedirs(base, exist_ok=True)
+                    os.replace(legacy, os.path.join(base, "legacy"))
+                os.makedirs(base, exist_ok=True)
+                with open(mine, "w", encoding="utf-8") as f:
+                    f.write(label + "\n")
+            elif os.path.isfile(mine):
+                os.remove(mine)
         else:
             labels = combined(args.project)
             if args.line:
