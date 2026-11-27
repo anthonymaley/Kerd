@@ -229,6 +229,7 @@ class StatuslineTest(unittest.TestCase):
                            capture_output=True, env=env)
         self.assertRegex(r.stdout.decode(), r"^\d\d:\d\d · INNER\n$")
         self.assertEqual(Path(out_file).read_bytes(), b"")
+        self.assertEqual(r.stderr, b"")
 
     def test_newline_in_cwd_still_finds_question(self):
         d = repo()

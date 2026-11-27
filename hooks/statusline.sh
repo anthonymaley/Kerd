@@ -25,7 +25,7 @@ if [ -n "$tmp" ]; then
   trap 'rm -f "$tmp"' EXIT
   mode=file
   if [ ! -t 0 ]; then
-    cat > "$tmp" 2>/dev/null || mode=none
+    { cat > "$tmp"; } 2>/dev/null || mode=none
   fi
 fi
 
