@@ -5,13 +5,14 @@
     needs.py clear --project P                 remove it
     needs.py show  --project P [--line]        print the combined labels
 
-Combined = the session's label file (`<git dir>/kerd/needs-you/<session id>`, one line each) plus the open
+Combined = this session's label file (`<git dir>/kerd/needs-you/<session id>`, one line each) plus the open
 rows of TODO.md's `### Asks` table under `## Now`. Quiet by design: it never raises,
 and a missing file or folder means nothing waits. No network, no git fetch.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import re
 import sys
@@ -23,7 +24,7 @@ SHORT_CHARS = 40
 
 
 SESSION_ENV = ("CLAUDE_CODE_SESSION_ID", "CODEX_THREAD_ID")
-STALE_SECONDS = 7 * 24 * 3600
+PRUNE_SECONDS = 30 * 24 * 3600
 _ESC = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]|\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)|\x1b[@-Z\\-_]?")
 _CTRL = re.compile(r"[\x00-\x08\x0b-\x1f\x7f-\x9f]")
 
@@ -50,12 +51,21 @@ def find_git(project):
         return None, None
 
 
-def session_id():
+def raw_session_id():
     for key in SESSION_ENV:
-        value = re.sub(r"[^A-Za-z0-9_-]", "", os.environ.get(key, ""))[:100]
+        value = os.environ.get(key, "").strip()
         if value:
             return value
-    return "default"
+    return ""
+
+
+def session_file(raw):
+    """Collision-proof file name for a session id: sanitized, plus a short sha256 of the raw id
+    when sanitizing changed it."""
+    safe = re.sub(r"[^A-Za-z0-9_-]", "", raw)[:100]
+    if safe != raw or not safe:
+        safe = (safe + "-" if safe else "") + hashlib.sha256(raw.encode("utf-8", "replace")).hexdigest()[:8]
+    return safe
 
 
 def needs_base(project):
@@ -139,37 +149,30 @@ def asks_questions(todo_text):
     return questions
 
 
-def _fresh_label(path):
-    try:
-        if time.time() - os.path.getmtime(path) > STALE_SECONDS:
-            return ""
-        with open(path, encoding="utf-8", errors="replace") as f:
-            return clean(f.readline())
-    except Exception:
-        return ""
-
-
-def read_labels(project):
-    """Every session's label under <git dir>/kerd/needs-you (a directory), plus the old
-    single file if that is what is there. Files older than 7 days are ignored."""
+def read_labels(project, session=""):
+    """This session's label only: <git dir>/kerd/needs-you/<file for the id>. No id, no label.
+    (An old single `needs-you` file cannot be attributed to a session, so it is ignored.)"""
     base = needs_base(project)
-    if not base:
+    if not base or not session:
         return []
     try:
-        if os.path.isdir(base):
-            paths = [os.path.join(base, n) for n in os.listdir(base)]
-            paths = [p for p in paths if os.path.isfile(p)]
-            paths.sort(key=lambda p: (os.path.getmtime(p), p))
-        else:
-            paths = [base]
+        with open(os.path.join(base, session_file(session)), encoding="utf-8", errors="replace") as f:
+            label = clean(f.readline())
     except Exception:
         return []
-    out = []
-    for p in paths:
-        label = _fresh_label(p)
-        if label and label not in out:
-            out.append(label)
-    return out
+    return [label] if label else []
+
+
+def prune(base, keep):
+    """Remove other sessions' files not touched for 30 days."""
+    now = time.time()
+    try:
+        for name in os.listdir(base):
+            path = os.path.join(base, name)
+            if name != keep and os.path.isfile(path) and now - os.path.getmtime(path) > PRUNE_SECONDS:
+                os.remove(path)
+    except Exception:
+        pass
 
 
 def todo_text(project):
@@ -190,8 +193,8 @@ def todo_text(project):
     return ""
 
 
-def combined(project):
-    labels = list(read_labels(project))
+def combined(project, session=""):
+    labels = list(read_labels(project, session))
     try:
         labels.extend(q for q in asks_questions(todo_text(project)) if q not in labels)
     except Exception:
@@ -219,32 +222,37 @@ def main(argv=None):
     h = sub.add_parser("show")
     h.add_argument("--project", required=True)
     h.add_argument("--line", action="store_true")
+    h.add_argument("--session", default="")
     try:
         args = p.parse_args(argv)
     except SystemExit as e:
         return 2 if e.code else 0
     try:
         if args.cmd in ("set", "clear"):
+            raw = raw_session_id()
+            if not raw:
+                print("needs.py: no session id (CLAUDE_CODE_SESSION_ID or CODEX_THREAD_ID is not set); "
+                      "refusing to write a label shared by every session", file=sys.stderr)
+                return 2
             base = needs_base(args.project)
             if not base:
                 return 1 if args.cmd == "set" else 0
-            mine = os.path.join(base, session_id())
+            keep = session_file(raw)
+            mine = os.path.join(base, keep)
             if args.cmd == "set":
                 label = clean(args.label)
                 if not label:
                     return 1
-                if os.path.isfile(base):          # the old single file: keep it as a session file
-                    legacy = base + ".old"
-                    os.replace(base, legacy)
-                    os.makedirs(base, exist_ok=True)
-                    os.replace(legacy, os.path.join(base, "legacy"))
+                if os.path.isfile(base):          # old single shared file: ignored, replaced
+                    os.remove(base)
                 os.makedirs(base, exist_ok=True)
                 with open(mine, "w", encoding="utf-8") as f:
                     f.write(label + "\n")
+                prune(base, keep)
             elif os.path.isfile(mine):
                 os.remove(mine)
         else:
-            labels = combined(args.project)
+            labels = combined(args.project, args.session)
             if args.line:
                 out = line(labels)
                 if out:

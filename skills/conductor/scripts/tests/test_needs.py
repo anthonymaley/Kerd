@@ -28,51 +28,91 @@ def repo():
     return d
 
 
-def run(*args, session=None):
+def run(*args, session=None, codex=None):
     env = {k: v for k, v in os.environ.items() if k not in needs.SESSION_ENV}
     if session:
         env["CLAUDE_CODE_SESSION_ID"] = session
+    if codex:
+        env["CODEX_THREAD_ID"] = codex
     return subprocess.run(["python3", str(NEEDS), *args], capture_output=True, text=True, env=env)
+
+
+def show(d, session=""):
+    return run("show", "--project", d, "--session=" + session).stdout
 
 
 class NeedsTest(unittest.TestCase):
     def test_set_show_clear(self):
         d = repo()
-        self.assertEqual(run("show", "--project", d).stdout, "")
-        self.assertEqual(run("set", "--project", d, "  Release   0.205.0 \n").returncode, 0)
-        self.assertEqual(run("show", "--project", d).stdout, "Release 0.205.0\n")
-        self.assertTrue(os.path.exists(os.path.join(d, ".git", "kerd", "needs-you", "default")))
-        self.assertEqual(run("clear", "--project", d).returncode, 0)
-        self.assertEqual(run("show", "--project", d).stdout, "")
-        self.assertEqual(run("clear", "--project", d).returncode, 0)
+        self.assertEqual(show(d, "s1"), "")
+        self.assertEqual(run("set", "--project", d, "  Release   0.205.0 \n", session="s1").returncode, 0)
+        self.assertEqual(show(d, "s1"), "Release 0.205.0\n")
+        self.assertTrue(os.path.exists(os.path.join(d, ".git", "kerd", "needs-you", "s1")))
+        self.assertEqual(run("clear", "--project", d, session="s1").returncode, 0)
+        self.assertEqual(show(d, "s1"), "")
+        self.assertEqual(run("clear", "--project", d, session="s1").returncode, 0)
 
-    def test_sessions_are_separate(self):
+    def test_show_is_session_scoped(self):
         d = repo()
-        run("set", "--project", d, "from A", session="a/../1")
+        run("set", "--project", d, "from A", session="a")
         run("set", "--project", d, "from B", session="b")
-        self.assertEqual(run("show", "--project", d).stdout, "from A\nfrom B\n")
-        self.assertTrue(os.path.exists(os.path.join(d, ".git", "kerd", "needs-you", "a1")))
-        run("clear", "--project", d, session="a/../1")
-        self.assertEqual(run("show", "--project", d).stdout, "from B\n")
+        self.assertEqual(show(d, "a"), "from A\n")
+        self.assertEqual(show(d, "b"), "from B\n")
+        self.assertEqual(show(d, ""), "")
+        self.assertEqual(show(d, "c"), "")
+        run("clear", "--project", d, session="a")
+        self.assertEqual(show(d, "b"), "from B\n")
 
-    def test_old_files_ignored_and_legacy_file_read(self):
+    def test_set_refuses_without_session_id(self):
         d = repo()
-        run("set", "--project", d, "old one", session="a")
-        f = os.path.join(d, ".git", "kerd", "needs-you", "a")
-        t = os.path.getmtime(f) - 8 * 24 * 3600
-        os.utime(f, (t, t))
-        self.assertEqual(run("show", "--project", d).stdout, "")
-        d2 = repo()
-        os.makedirs(os.path.join(d2, ".git", "kerd"))
-        Path(d2, ".git", "kerd", "needs-you").write_text("legacy q\n")
-        self.assertEqual(run("show", "--project", d2).stdout, "legacy q\n")
-        run("set", "--project", d2, "mine", session="s")
-        self.assertEqual(run("show", "--project", d2).stdout, "legacy q\nmine\n")
+        r = run("set", "--project", d, "q")
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("no session id", r.stderr)
+        self.assertFalse(os.path.exists(os.path.join(d, ".git", "kerd")))
+        self.assertEqual(run("clear", "--project", d).returncode, 2)
+
+    def test_codex_thread_id_used(self):
+        d = repo()
+        run("set", "--project", d, "codex q", codex="thr1")
+        self.assertEqual(show(d, "thr1"), "codex q\n")
+
+    def test_sanitized_ids_do_not_collide(self):
+        d = repo()
+        run("set", "--project", d, "one", session="a/b")
+        run("set", "--project", d, "two", session="ab")
+        run("set", "--project", d, "three", session="a.b")
+        self.assertEqual(show(d, "a/b"), "one\n")
+        self.assertEqual(show(d, "ab"), "two\n")
+        self.assertEqual(show(d, "a.b"), "three\n")
+        self.assertEqual(len(os.listdir(os.path.join(d, ".git", "kerd", "needs-you"))), 3)
+
+    def test_set_prunes_only_other_files_older_than_30_days(self):
+        d = repo()
+        run("set", "--project", d, "old", session="old")
+        run("set", "--project", d, "mid", session="mid")
+        base = os.path.join(d, ".git", "kerd", "needs-you")
+        for name, days in (("old", 31), ("mid", 10)):
+            t = os.path.getmtime(os.path.join(base, name)) - days * 24 * 3600
+            os.utime(os.path.join(base, name), (t, t))
+        run("set", "--project", d, "new", session="new")
+        self.assertEqual(sorted(os.listdir(base)), ["mid", "new"])
+        # an old file of the session itself is rewritten, not pruned
+        run("set", "--project", d, "again", session="mid")
+        self.assertEqual(show(d, "mid"), "again\n")
+
+    def test_legacy_single_file_ignored_then_replaced(self):
+        d = repo()
+        os.makedirs(os.path.join(d, ".git", "kerd"))
+        legacy = Path(d, ".git", "kerd", "needs-you")
+        legacy.write_text("legacy q\n")
+        self.assertEqual(show(d, "s"), "")
+        self.assertEqual(run("set", "--project", d, "mine", session="s").returncode, 0)
+        self.assertEqual(show(d, "s"), "mine\n")
 
     def test_control_characters_stripped(self):
         d = repo()
         run("set", "--project", d, "a\x1b[31mred\x1b[0m\x07 b\x9bc\x01d", session="s")
-        self.assertEqual(run("show", "--project", d).stdout, "ared bcd\n")
+        self.assertEqual(show(d, "s"), "ared bcd\n")
 
     def test_worktree_gitdir_file(self):
         d = repo()
@@ -80,8 +120,8 @@ class NeedsTest(unittest.TestCase):
         gd = os.path.join(d, ".git", "worktrees", "w")
         os.makedirs(gd)
         Path(wt, ".git").write_text("gitdir: " + gd + "\n")
-        run("set", "--project", wt, "wt q")
-        self.assertTrue(os.path.exists(os.path.join(gd, "kerd", "needs-you", "default")))
+        run("set", "--project", wt, "wt q", session="s")
+        self.assertTrue(os.path.exists(os.path.join(gd, "kerd", "needs-you", "s")))
 
     def test_asks_only_contiguous_table_and_case(self):
         text = "## NOW\n\n### Asks\n\n" + HEAD + "| a | First | | | | | | |\n\nstray\n| b | Not mine | | | | | | |\n"
@@ -89,8 +129,8 @@ class NeedsTest(unittest.TestCase):
 
     def test_label_trimmed_to_limit(self):
         d = repo()
-        run("set", "--project", d, "x" * 200)
-        self.assertEqual(len(run("show", "--project", d).stdout.strip()), needs.LABEL_MAX)
+        run("set", "--project", d, "x" * 200, session="s")
+        self.assertEqual(len(show(d, "s").strip()), needs.LABEL_MAX)
 
     def test_asks_table_rows(self):
         qs = needs.asks_questions(todo("Push release 0.205.0 to the remote now please ok", "[Merge it](http://x)"))
@@ -104,8 +144,10 @@ class NeedsTest(unittest.TestCase):
     def test_combined_label_and_asks(self):
         d = repo()
         Path(d, "TODO.md").write_text(todo("Ship it"))
-        run("set", "--project", d, "Pick a name")
-        self.assertEqual(run("show", "--project", d).stdout, "Pick a name\nShip it\n")
+        run("set", "--project", d, "Pick a name", session="s")
+        self.assertEqual(show(d, "s"), "Pick a name\nShip it\n")
+        self.assertEqual(show(d, ""), "Ship it\n")
+        self.assertEqual(show(d, "other"), "Ship it\n")
 
     def test_line_format(self):
         self.assertEqual(needs.line([]), "")
@@ -113,9 +155,9 @@ class NeedsTest(unittest.TestCase):
         self.assertEqual(needs.line(["a", "b", "c", "d"]), "💬 Needs you: a · b +2")
 
     def test_missing_project_never_crashes(self):
-        r = run("show", "--project", "/nonexistent/zzz")
+        r = run("show", "--project", "/nonexistent/zzz", "--session=s")
         self.assertEqual((r.returncode, r.stdout), (0, ""))
-        self.assertEqual(run("clear", "--project", "/nonexistent/zzz").returncode, 0)
+        self.assertEqual(run("clear", "--project", "/nonexistent/zzz", session="s").returncode, 0)
 
 
 class StatuslineTest(unittest.TestCase):
@@ -131,9 +173,20 @@ class StatuslineTest(unittest.TestCase):
 
     def test_segment_after_clock_and_inner_kept(self):
         d = repo()
-        run("set", "--project", d, "Release 0.205.0")
-        out = self.sl(json.dumps({"workspace": {"current_dir": d}}), "echo INNER")
+        run("set", "--project", d, "Release 0.205.0", session="sess1")
+        out = self.sl(json.dumps({"workspace": {"current_dir": d}, "session_id": "sess1"}), "echo INNER")
         self.assertRegex(out, r"^\d\d:\d\d · 💬 Needs you: Release 0\.205\.0 · INNER\n$")
+
+    def test_other_sessions_question_not_shown(self):
+        d = repo()
+        run("set", "--project", d, "Release 0.205.0", session="sess1")
+        out = self.sl(json.dumps({"cwd": d, "session_id": "sess2"}))
+        self.assertRegex(out, r"^\d\d:\d\d\n$")
+
+    def test_nul_byte_input_is_quiet(self):
+        r = subprocess.run(["bash", str(STATUSLINE), "echo INNER"], input=b'{"cwd":"/x"}\x00', capture_output=True)
+        self.assertEqual(r.stderr, b"")
+        self.assertRegex(r.stdout.decode(), r"^\d\d:\d\d · INNER\n$")
 
     def test_cwd_fallback_and_asks(self):
         d = repo()

@@ -19,7 +19,8 @@ inner="${1:-}"
 payload=""
 if [ ! -t 0 ]; then
   # printf x guards trailing newlines, which command substitution would strip.
-  payload=$(cat 2>/dev/null; printf x) || true
+  # a NUL byte in the input makes bash warn on stderr: keep that off the status line.
+  { payload=$(cat; printf x); } 2>/dev/null || true
   payload=${payload%x}
 fi
 
@@ -30,14 +31,17 @@ if [ -n "$payload" ]; then
   here=$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd -P || true)
   helper="$here/../skills/conductor/scripts/needs.py"
   if [ -f "$helper" ] && command -v python3 >/dev/null 2>&1; then
-    dir=$(printf '%s' "$payload" | python3 -c 'import json,sys
+    info=$(printf '%s' "$payload" | python3 -c 'import json,sys
 try:
     d=json.load(sys.stdin)
     print((d.get("workspace") or {}).get("current_dir") or d.get("cwd") or "")
+    print(d.get("session_id") or "")
 except Exception:
     pass' 2>/dev/null || true)
+    dir=$(printf '%s\n' "$info" | sed -n 1p)
+    sid=$(printf '%s\n' "$info" | sed -n 2p)
     if [ -n "$dir" ] && [ -d "$dir" ]; then
-      needs=$(python3 "$helper" show --project "$dir" --line 2>/dev/null || true)
+      needs=$(python3 "$helper" show --project "$dir" --line "--session=$sid" 2>/dev/null || true)
     fi
   fi
 fi
