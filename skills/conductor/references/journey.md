@@ -290,7 +290,8 @@ other turn ends with “Nothing needs you” plus what happens next, or a named 
 nothing else can move). The quiet endings stay as they are: Switch Out's closing
 box and an agreed completion.
 
-**The status line.** When a turn ends needing the person, run
+**The status line.** Each session keeps its own label and sets and clears only that
+one. When this session's turn ends needing the person, run
 `python3 <conductor skill dir>/scripts/needs.py set --project <project> "<short label>"`;
 when the answer arrives, or nothing needs them, run
 `needs.py clear --project <project>`. The status line reads that file and, with a
@@ -298,8 +299,10 @@ chief of staff on, the `### Asks` table too, so `cos.py ask` stays as it is.
 
 A scheduled or recurring check (a loop, a timed scan, a chief of staff's tick) that
 finds nothing new ends on one line naming the next check and when it runs (“Nothing
-new; next check 14:05.”), never a question and never a repeat of the open ones. A
-check that does find something reports it in the usual shape.
+new; next check 14:05.”), never a question and never a repeat of the full block. When
+a question is open, that one line carries its one-line restatement (“Nothing new ·
+still needs you: release 0.205.0 — yes publishes it · next check 14:05”). A check
+that does find something reports it in the usual shape.
 
 This does not touch the questions that are fixed by design. Switch In's question
 belongs to an arrival the person started: they ran Switch In, so its question

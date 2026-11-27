@@ -25,7 +25,7 @@ RULE = (
     "open question is mentioned in a later turn, state the question itself in one line with what yes does "
     "(“Release 0.205.0 — yes pushes and publishes it”), never “asked 10:20” and never a pointer to scroll "
     "back; ask it in full again only when a fact behind it changes, then as a fresh question. A scheduled "
-    "or recurring check that finds nothing new ends on one line naming the next check, never a question. "
+    "or recurring check that finds nothing new ends on one line naming the next check, never a question; when one is open, that line carries its one-line restatement (“Nothing new · still needs you: release 0.205.0 — yes publishes it · next check 14:05”). "
     "Switch In's question belongs to an arrival the person started; an arrival a scheduled or automatic "
     "run starts asks nothing new: it restates any question still open in one line and ends on a named "
     "wait — see [restate, don't repeat]({link}). "
@@ -33,7 +33,7 @@ RULE = (
     "`▌ NEEDS YOU`, then what is needed and what yes does (and no), then the usual bubble; a later turn "
     "with it still open ends `▌ STILL NEEDS YOU` plus the one-line restatement, no second bubble; every "
     "other turn ends “Nothing needs you” plus what happens next, or a named wait. Quiet endings (Switch "
-    "Out's box, agreed completion) stay. When a turn ends needing the person, run `python3 <conductor "
+    "Out's box, agreed completion) stay. This session sets and clears only its own label: when its turn ends needing the person, run `python3 <conductor "
     "skill dir>/scripts/needs.py set --project <project> \"<short label>\"`; when the answer arrives or "
     "nothing needs them, `needs.py clear --project <project>`."
 )
@@ -126,7 +126,9 @@ class AskOnceGuideTests(unittest.TestCase):
     def test_a_quiet_scheduled_check_is_one_line(self):
         self.assertIn("finds nothing new ends on one line naming the next check and when it runs "
                       "(“Nothing new; next check 14:05.”), never a question and never a repeat of the "
-                      "open ones.", self.section)
+                      "full block. When a question is open, that one line carries its one-line "
+                      "restatement (“Nothing new · still needs you: release 0.205.0 — yes publishes "
+                      "it · next check 14:05”).", self.section)
 
     def test_fixed_questions_and_the_first_asking_are_untouched(self):
         self.assertIn("Switch In's question belongs to an arrival the person started: they ran Switch "
