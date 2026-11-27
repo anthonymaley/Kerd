@@ -22,7 +22,7 @@ inner="${1:-}"
 tmp=$(mktemp 2>/dev/null || true)
 mode=orig
 if [ -n "$tmp" ]; then
-  trap 'rm -f "$tmp"' EXIT
+  trap 'rm -f "$tmp" 2>/dev/null' EXIT
   mode=file
   if [ ! -t 0 ]; then
     { cat > "$tmp"; } 2>/dev/null || mode=none
@@ -46,7 +46,15 @@ head="$now"
 rest=""
 if [ -n "$inner" ]; then
   case "$mode" in
-    file) rest=$(/bin/sh -c "$inner" < "$tmp" 2>/dev/null || true) ;;
+    file)
+      # Open the saved input quietly; if it can no longer be read, still run
+      # the wrapped command (on an empty stdin) so its output is never lost.
+      if { exec 3< "$tmp"; } 2>/dev/null; then
+        rest=$(/bin/sh -c "$inner" <&3 2>/dev/null || true)
+        exec 3<&-
+      else
+        rest=$(/bin/sh -c "$inner" < /dev/null 2>/dev/null || true)
+      fi ;;
     none) rest=$(/bin/sh -c "$inner" < /dev/null 2>/dev/null || true) ;;
     *)    rest=$(/bin/sh -c "$inner" 2>/dev/null || true) ;;
   esac
