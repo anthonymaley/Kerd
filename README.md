@@ -430,9 +430,13 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.204.0)
+## What's New (v0.205.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.205.0
+
+**0.205.0: You can see when a session needs you.** In Claude Code, Kerd's status-line script (`hooks/statusline.sh`, wrapping whatever status line you already have) shows `💬 Needs you: …` after the clock: this session's open question and the project's open decisions (`### Asks`), blank when nothing waits. Sessions set and clear their own question with `skills/conductor/scripts/needs.py`. A turn that needs you ends in a marked `▌ NEEDS YOU` block saying what's needed and what yes does; a later turn with it still open ends `▌ STILL NEEDS YOU` with the question restated in one line; other turns end "Nothing needs you". The ask-once rule is replaced by "Restate, don't repeat": an open question is always stated itself, never "asked at 15:11", and the full question block is not repeated (Conductor, Switch, Agent).
 
 ### v0.204.0
 

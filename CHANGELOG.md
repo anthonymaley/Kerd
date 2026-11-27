@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.205.0
+
+**0.205.0: You can see when a session needs you.** In Claude Code, Kerd's status-line script (`hooks/statusline.sh`, wrapping whatever status line you already have) shows `💬 Needs you: …` after the clock: this session's open question and the project's open decisions (`### Asks`), blank when nothing waits. Sessions set and clear their own question with `skills/conductor/scripts/needs.py`. A turn that needs you ends in a marked `▌ NEEDS YOU` block saying what's needed and what yes does; a later turn with it still open ends `▌ STILL NEEDS YOU` with the question restated in one line; other turns end "Nothing needs you". The ask-once rule is replaced by "Restate, don't repeat": an open question is always stated itself, never "asked at 15:11", and the full question block is not repeated (Conductor, Switch, Agent).
+
 ## 0.204.0
 
 **0.204.0: Start points stay small, and nothing is lost.** Switch Out now keeps `CONTEXT.md` lean: before it changes or removes anything in a file it trims, it copies that text word for word into an append-only archive (`docs/context-archive/`, with an index listing every write), so old positions and reading lists leave the start point without being summarised or deleted. The pickup helper flags any file in the reading set over 32 KB, and Out archives until none is. Switch In reads the archive through its index whenever the short start point lacks something an open item needs, and names any oversized file under attention. `prepare` and `pickup` work out the branch themselves, and `--project` can go before or after the subcommand. Switch In's guide is shorter: the chief-of-staff and team detail moved to `in-detail.md`, opened only when needed.
