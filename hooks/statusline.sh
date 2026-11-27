@@ -16,15 +16,23 @@ inner="${1:-}"
 
 # Claude Code feeds statusline commands a context JSON envelope on stdin. It goes to a
 # private temp file, so every byte (NUL included) reaches the wrapped command and needs.py.
+# If the file cannot be made, the Needs-you segment is skipped and the wrapped command
+# reads the original stdin as before. If the write fails midway, nothing partial is
+# forwarded: the segment is skipped and the wrapped command gets an empty stdin.
 tmp=$(mktemp 2>/dev/null || true)
-[ -n "$tmp" ] || { printf '%s\n' "$now"; exit 0; }
-trap 'rm -f "$tmp"' EXIT
-[ -t 0 ] || cat > "$tmp" 2>/dev/null || true
+mode=orig
+if [ -n "$tmp" ]; then
+  trap 'rm -f "$tmp"' EXIT
+  mode=file
+  if [ ! -t 0 ]; then
+    cat > "$tmp" 2>/dev/null || mode=none
+  fi
+fi
 
 # "Needs you" segment: what waits for the person in this session's folder.
 # Quiet on any error; local files only, no network.
 needs=""
-if [ -s "$tmp" ]; then
+if [ "$mode" = file ] && [ -s "$tmp" ]; then
   here=$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd -P || true)
   helper="$here/../skills/conductor/scripts/needs.py"
   if [ -f "$helper" ] && command -v python3 >/dev/null 2>&1; then
@@ -37,7 +45,11 @@ head="$now"
 
 rest=""
 if [ -n "$inner" ]; then
-  rest=$(/bin/sh -c "$inner" < "$tmp" 2>/dev/null || true)
+  case "$mode" in
+    file) rest=$(/bin/sh -c "$inner" < "$tmp" 2>/dev/null || true) ;;
+    none) rest=$(/bin/sh -c "$inner" < /dev/null 2>/dev/null || true) ;;
+    *)    rest=$(/bin/sh -c "$inner" 2>/dev/null || true) ;;
+  esac
 fi
 
 if [ -n "$rest" ]; then

@@ -200,6 +200,36 @@ class StatuslineTest(unittest.TestCase):
         self.assertRegex(r.stdout.decode(), r"^\d\d:\d\d\n$")
         self.assertEqual(Path(out_file).read_bytes(), payload)
 
+    def test_mktemp_failure_runs_wrapped_command_on_original_stdin(self):
+        d = repo()
+        run("set", "--project", d, "q", session="s1")
+        env = dict(os.environ)
+        fake = tempfile.mkdtemp()
+        Path(fake, "mktemp").write_text("#!/bin/sh\nexit 1\n")
+        os.chmod(os.path.join(fake, "mktemp"), 0o755)
+        env["PATH"] = fake + ":" + os.environ["PATH"]
+        payload = json.dumps({"cwd": d, "session_id": "s1"}).encode() + b"\x00end\n"
+        out_file = os.path.join(d, "got")
+        r = subprocess.run(["bash", str(STATUSLINE), "cat > " + out_file], input=payload,
+                           capture_output=True, env=env)
+        self.assertRegex(r.stdout.decode(), r"^\d\d:\d\d\n$")      # clock kept, segment skipped
+        self.assertEqual(Path(out_file).read_bytes(), payload)         # original stdin, every byte
+
+    def test_temp_write_failure_forwards_nothing_partial(self):
+        d = repo()
+        run("set", "--project", d, "q", session="s1")
+        fake = tempfile.mkdtemp()
+        ro = os.path.join(fake, "readonly")
+        Path(fake, "mktemp").write_text(f"#!/bin/sh\n: > {ro}\nchmod 444 {ro}\necho {ro}\n")
+        os.chmod(os.path.join(fake, "mktemp"), 0o755)
+        env = dict(os.environ, PATH=fake + ":" + os.environ["PATH"])
+        out_file = os.path.join(d, "got")
+        payload = json.dumps({"cwd": d, "session_id": "s1"}).encode() + b"\n"
+        r = subprocess.run(["bash", str(STATUSLINE), "echo INNER; cat > " + out_file], input=payload,
+                           capture_output=True, env=env)
+        self.assertRegex(r.stdout.decode(), r"^\d\d:\d\d · INNER\n$")
+        self.assertEqual(Path(out_file).read_bytes(), b"")
+
     def test_newline_in_cwd_still_finds_question(self):
         d = repo()
         odd = os.path.join(d, "a\nb")
