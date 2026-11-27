@@ -316,7 +316,7 @@ Before saving, an open decision the sitting asked that is not in the table goes 
 through `cos.py ask`, with its default; one the sitting saw answered leaves through
 `cos.py ask --answered ID`, after the answer is recorded in its task's own record.
 An open decision stays in the table across the roll or the next sitting, and Switch
-Out does not ask it again: the box's next step names it with the time it was asked.
+Out does not ask it again: the box's next step restates it in one line.
 The same `check` validates both tables; its exit codes and warnings are as above.
 
 The session log mentions a reorder like any other change: the new order and why,

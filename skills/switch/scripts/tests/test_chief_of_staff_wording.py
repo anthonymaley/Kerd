@@ -169,8 +169,8 @@ class AsksWordingTests(unittest.TestCase):
         out = read(OUT)
         self.assertIn("an open decision the sitting asked that is not in the table goes in through "
                       "`cos.py ask`, with its default", out)
-        self.assertIn("Switch Out does not ask it again: the box's next step names it with the time it "
-                      "was asked.", out)
+        self.assertIn("Switch Out does not ask it again: the box's next step restates it in one "
+                      "line.", out)
 
 
 if __name__ == "__main__":
