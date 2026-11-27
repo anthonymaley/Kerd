@@ -467,9 +467,9 @@ started. An arrival a scheduled or automatic run starts asks nothing new: set
 `"automatic": true` in the summary, which leaves every arrival question off the
 screen, the first-arrival one included, so the screen ends on its last content
 (attention, documents or open work), and no picker follows. After the unchanged
-screen, in the caller's own line, name any question still open with the time it was
-asked and end on a named wait
-([ask once](../../conductor/references/journey.md#ask-once)). Where the host offers a native picker,
+screen, in the caller's own line, restate any question still open in one line
+and end on a named wait
+([restate, don't repeat](../../conductor/references/journey.md#restate-dont-repeat)). Where the host offers a native picker,
 follow the rendered output with up to four options: **“Yes — <the recommended
 work>”**, naming the work it opens; up to two other open items from this
 arrival's weighing, each named by the work it opens with a one-line why; and

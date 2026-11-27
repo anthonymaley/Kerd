@@ -5,7 +5,7 @@ Contents:
 - [Make the conversation easy to use](#make-the-conversation-easy-to-use): report shape, task list, delegation grid, decisions and when views appear
 - [The conversation frame](#the-conversation-frame): what to show at entry, resume, decisions and stage changes
 - [Question surface and host adaptation](#question-surface-and-host-adaptation): the speech bubble, the decision block, pickers
-  - [Ask once](#ask-once): a question still open is named with its time, never asked again; quiet scheduled checks
+  - [Restate, don't repeat](#restate-dont-repeat): an open question is restated in one line with what yes does; the marked turn endings; quiet scheduled checks
 - [Visuals belong throughout](#visuals-belong-throughout): the rendered-view default and the required tools
 - [Show the direction](#show-the-direction): drawing the product view and the direction summary
 - [Make answers feel consequential](#make-answers-feel-consequential): showing what an answer changed
@@ -264,38 +264,60 @@ JOURNEY  [NOW: Shape] → Agree → Deliver → Complete
 > 💬 **Add a short delivery guide to the package — approve?**
 ```
 
-### Ask once
+<a id="ask-once"></a>
 
-A question is asked once. Once it has been put to the person and is still
-unanswered, a later turn does not ask it again to have something to end on: a
-recurring check, a wake-up after a job or a report that lands while the question is
-open would otherwise put the same bubble on screen every time, and the person reads
-that as being asked over and over. Instead, the report names it, with the time it
-was asked, in Needs you (“your go for the merge, asked 10:20, still open”), and the
-turn ends on a named wait for that answer: what it waits on, that the session
-resumes when the person answers, and what this turn did meanwhile or why nothing
-else can move. The bubble and the decision block went with the first asking and are
-not repeated; the person can scroll back to them, and a link to the record that
-holds them is enough.
+### Restate, don't repeat
 
-Ask it again only when a fact behind it changes: the cost, the risk, the options, or
-something the recommendation depended on. Then it is a fresh question, put in full,
-with its block, saying what changed. Time passing is not a changed fact, and neither
-is a new turn, a roll or a new report.
+A question's full decision block and bubble are shown once. Whenever an open
+question is mentioned in a later turn (a recurring check, a wake-up after a job, a
+report that lands while it is open), the turn states the question itself in one
+line with what yes does (“Release 0.205.0 — yes pushes and publishes it”), never
+“asked 10:20” and never a pointer to scroll back or a link to where it was put. The
+block and the bubble are not repeated, so the same bubble does not fill the screen
+every few minutes.
+
+Put the question in full again only when a fact behind it changes: the cost, the
+risk, the options, or something the recommendation depended on. Then it is a fresh
+question, with its block, saying what changed. Time passing is not a changed fact,
+and neither is a new turn, a roll or a new report.
+
+**Marked turn endings.** A turn that needs the person ends with one marked block.
+Its first line is `▌ NEEDS YOU`; then what is needed and what yes does (and what no
+does); then the usual bubble. A later turn with the question still open ends on
+`▌ STILL NEEDS YOU` and the one-line restatement, with no second bubble. Every
+other turn ends with “Nothing needs you” plus what happens next, or a named wait
+(what it waits on, how the session resumes, what this turn did meanwhile or why
+nothing else can move). The quiet endings stay as they are: Switch Out's closing
+box and an agreed completion.
+
+**The status line.** Each session keeps its own label and sets and clears only that
+one (`needs.py set` refuses without a session id, `CLAUDE_CODE_SESSION_ID` or
+`CODEX_THREAD_ID`); the status line shows this session's question plus the Asks
+table's open rows. When this session's turn ends needing the person, run
+`python3 <conductor skill dir>/scripts/needs.py set --project <project> "<short label>"`;
+when the answer arrives, or nothing needs them, run
+`needs.py clear --project <project>`. The status line reads that file and, with a
+chief of staff on, the `### Asks` table too, so `cos.py ask` stays as it is.
+
+Precedence: a scheduled or recurring check with nothing new uses the one-line form
+below; every other turn with a question still open ends on the `▌ STILL NEEDS YOU`
+block.
 
 A scheduled or recurring check (a loop, a timed scan, a chief of staff's tick) that
 finds nothing new ends on one line naming the next check and when it runs (“Nothing
-new; next check 14:05.”), never a question and never a repeat of the open ones. A
-check that does find something reports it in the usual shape.
+new; next check 14:05.”), never a question and never a repeat of the full block. When
+a question is open, that one line carries its one-line restatement (“Nothing new ·
+still needs you: release 0.205.0 — yes publishes it · next check 14:05”). A check
+that does find something reports it in the usual shape.
 
 This does not touch the questions that are fixed by design. Switch In's question
 belongs to an arrival the person started: they ran Switch In, so its question
 answers their own request and is not a repeat. An arrival a scheduled or automatic
-run starts asks nothing new: it names any question still open and ends on a named
-wait. Its summary sets `"automatic": true`, so the rendered screen carries no
-question (not even the first-arrival one) and no picker, and the named wait is the
+run starts asks nothing new: it restates any question still open in one line and
+ends on a named wait. Its summary sets `"automatic": true`, so the rendered screen carries no question
+(not even the first-arrival one) and no picker, and the named wait is the
 caller's own line after it. A declined Switch Out keeps its own rule for when it comes back. A decision still gets its
-decision block the first time it is put; asking once changes only what later turns
+decision block the first time it is put; restating changes only what later turns
 do while it is open.
 
 With a chief of staff on, the open decision also goes in the project's `### Asks`
@@ -407,8 +429,8 @@ Inline work with nothing dispatched keeps its plain treatment: no grid or Fit li
    on a bubble asking exactly what Needs you says, using only terms that already
    appear in the three lines; a consequential one keeps its decision block directly
    above the bubble. A decision already asked and still unanswered is not asked
-   again: it is named with its time and the turn ends on a named wait, as
-   [ask once](#ask-once) says. When Needs you is “nothing”, the turn does not stop there: it
+   again: it is restated in one line with what yes does and the turn ends
+   `▌ STILL NEEDS YOU`, as [restate, don't repeat](#restate-dont-repeat) says. When Needs you is “nothing”, the turn does not stop there: it
    keeps working, ends on a named wait for the job, as
    [a turn ends carrying on](#delivery-has-a-working-view-too) says, or ends on
    one of the quiet endings that section keeps (agreed completion, a pause the
@@ -677,8 +699,8 @@ goal is clear and the authority already covers the next step, so the turn takes
 it; or the next step needs information, a decision or permission the person
 holds, and the turn ends on one question they can answer cold: what is blocked,
 what it is waiting for, and what follows each answer. A question already asked and
-still open is not asked again: the turn names it with its time and ends on a named
-wait for the answer ([ask once](#ask-once)). Running out of steps in
+still open is not asked again: the turn restates it in one line with what yes does
+and ends `▌ STILL NEEDS YOU` ([restate, don't repeat](#restate-dont-repeat)). Running out of steps in
 the current item is not a reason to stop, and neither is the end of a document,
 a stage or a report. This holds in rehearsal as much as in the concert:
 rehearsal's own tasks — research, drafts, checks, reviews, the score being
