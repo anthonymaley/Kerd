@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Needs-you screens</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FFFFFF;--paper-2:#F2F2F0;--ink:#1F1B18;--muted:#4A443E;--soft:#6B645B;--rule:#C9C3B6;--rule-solid:#8F887C;--accent:#C4161C}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#14171A;--paper-2:#1C2024;--ink:#E6E2D8;--muted:#A8A296;--soft:#8A857B;--rule:#2C3136;--rule-solid:#5A5F64;--accent:#FF4A3D}}
+:root[data-theme="dark"]{--paper:#14171A;--paper-2:#1C2024;--ink:#E6E2D8;--muted:#A8A296;--soft:#8A857B;--rule:#2C3136;--rule-solid:#5A5F64;--accent:#FF4A3D}
+body{margin:0;background:var(--paper);overflow-x:auto;padding:24px}
+svg{display:block;width:1440px;height:auto;margin:0 auto}
+.p{fill:var(--paper)}
+.p2{fill:var(--paper-2)}
+.ik{fill:var(--ink)}
+.frame{fill:none;stroke:var(--rule-solid);stroke-width:2}
+.hair{stroke:var(--rule);stroke-width:1}
+.box{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}
+.blk{fill:var(--paper-2);stroke:var(--ink);stroke-width:1}
+.thin{fill:var(--paper);stroke:var(--muted);stroke-width:1}
+.focal{fill:var(--paper);stroke:var(--accent);stroke-width:2.5}
+.dot{fill:var(--rule-solid)}
+.tag{fill:var(--ink)}
+.bar{stroke:var(--rule-solid);stroke-width:1}
+.title{font:500 36px "IBM Plex Mono",monospace;letter-spacing:.04em;fill:var(--ink)}
+.name{font:700 16px "Open Sans","Gill Sans","Helvetica Neue",sans-serif;letter-spacing:.06em;fill:var(--ink)}
+.mono{font:400 13px "IBM Plex Mono",monospace;fill:var(--ink)}
+.mono-m{font:400 13px "IBM Plex Mono",monospace;fill:var(--muted)}
+.fine{font:400 13px "IBM Plex Mono",monospace;fill:var(--soft)}
+.eyebrow{font:600 13px "IBM Plex Mono",monospace;letter-spacing:.12em;fill:var(--muted)}
+.tagn{font:600 13px "IBM Plex Mono",monospace;fill:var(--paper);text-anchor:middle}
+.end{text-anchor:end}
+</style>
+</head>
+<body>
+<svg viewBox="0 0 1440 1200" role="img" aria-labelledby="needs-you-screens-title needs-you-screens-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="needs-you-screens-title">Needs-you states in a Claude Code session</title>
+<desc id="needs-you-screens-desc">Three terminal screens: a session ending on a marked NEEDS YOU block with an approval question, a session ending with nothing waiting, and a later turn where the release is still marked as waiting; the status line shows the waiting item when one is open.</desc>
+<defs>
+<filter id="ny-grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0.07"/></feComponentTransfer></filter>
+<pattern id="ny-pole" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" class="p"/><rect width="6" height="12" class="ik"/></pattern>
+</defs>
+
+<!-- sheet ground and frame -->
+<rect width="1440" height="1200" class="p"/>
+<rect x="24" y="24" width="1392" height="1152" class="frame"/>
+
+<!-- title block, barber-pole frame -->
+<rect x="1040" y="48" width="336" height="224" fill="url(#ny-pole)"/>
+<rect x="1052" y="60" width="312" height="200" class="p"/>
+<text x="1072" y="92" class="eyebrow">PROJECT: KERD ·</text>
+<text x="1072" y="112" class="eyebrow">SCREENS · DRAFT</text>
+<text x="1072" y="166" class="title">NEEDS YOU</text>
+<text x="1072" y="208" class="title">STATUS LINE</text>
+<text x="1072" y="240" class="fine">sheet 1 of 1 · Claude Code session</text>
+<text x="1040" y="304" class="fine">The waiting item shows in two places:</text>
+<text x="1040" y="324" class="fine">the chat block and the status line.</text>
+
+<!-- group 01: something waits (focal screen, the one red thing) -->
+<polygon points="48,56 76,56 84,66 76,76 48,76" class="tag"/>
+<text x="62" y="71" class="tagn">01</text>
+<text x="100" y="72" class="name">SOMETHING WAITS FOR YOU</text>
+<rect x="48" y="88" width="968" height="272" rx="4" class="focal"/>
+<rect x="49" y="89" width="966" height="31" class="p2"/>
+<line x1="48" y1="120" x2="1016" y2="120" class="bar"/>
+<circle cx="68" cy="104" r="5" class="dot"/>
+<circle cx="88" cy="104" r="5" class="dot"/>
+<circle cx="108" cy="104" r="5" class="dot"/>
+<text x="132" y="109" class="mono-m">claude · kerd</text>
+<rect x="68" y="136" width="928" height="84" class="blk"/>
+<text x="84" y="160" class="mono">▌ NEEDS YOU</text>
+<text x="84" y="180" class="mono">▌ Release 0.205.0 to Claude Code and Codex users.</text>
+<text x="84" y="200" class="mono">▌ Yes: I push, wait for checks, publish. No: it stays on its branch.</text>
+<text x="84" y="244" class="mono">&gt; 💬 Release 0.205.0 — approve?</text>
+<rect x="68" y="260" width="928" height="36" class="thin"/>
+<text x="84" y="283" class="mono-m">&gt;</text>
+<text x="84" y="336" class="mono-m">14:07 · 💬 Needs you: release 0.205.0 · ctx 34% · 7d 76%</text>
+<text x="48" y="384" class="fine">The chat ends on a marked block and a question. The status line carries the waiting item.</text>
+
+<!-- group 02: nothing waits -->
+<polygon points="48,424 76,424 84,434 76,444 48,444" class="tag"/>
+<text x="62" y="439" class="tagn">02</text>
+<text x="100" y="440" class="name">NOTHING WAITS</text>
+<rect x="48" y="456" width="968" height="272" rx="4" class="box"/>
+<rect x="49" y="457" width="966" height="31" class="p2"/>
+<line x1="48" y1="488" x2="1016" y2="488" class="bar"/>
+<circle cx="68" cy="472" r="5" class="dot"/>
+<circle cx="88" cy="472" r="5" class="dot"/>
+<circle cx="108" cy="472" r="5" class="dot"/>
+<text x="132" y="477" class="mono-m">claude · kerd</text>
+<text x="84" y="524" class="mono">Nothing needs you. Next: the weekly-review check runs at 15:00.</text>
+<rect x="68" y="628" width="928" height="36" class="thin"/>
+<text x="84" y="651" class="mono-m">&gt;</text>
+<text x="84" y="704" class="mono-m">14:20 · ctx 35% · 7d 76%</text>
+<text x="48" y="752" class="fine">The last line says nothing is waiting, and the status line has no Needs you segment.</text>
+
+<!-- group 03: still open from earlier -->
+<polygon points="48,792 76,792 84,802 76,812 48,812" class="tag"/>
+<text x="62" y="807" class="tagn">03</text>
+<text x="100" y="808" class="name">STILL OPEN FROM EARLIER</text>
+<rect x="48" y="824" width="968" height="272" rx="4" class="box"/>
+<rect x="49" y="825" width="966" height="31" class="p2"/>
+<line x1="48" y1="856" x2="1016" y2="856" class="bar"/>
+<circle cx="68" cy="840" r="5" class="dot"/>
+<circle cx="88" cy="840" r="5" class="dot"/>
+<circle cx="108" cy="840" r="5" class="dot"/>
+<text x="132" y="845" class="mono-m">claude · kerd</text>
+<text x="84" y="896" class="mono-m">&gt; Tidied the docs index. Nothing else changed.</text>
+<rect x="68" y="920" width="928" height="60" class="blk"/>
+<text x="84" y="944" class="mono">▌ STILL NEEDS YOU</text>
+<text x="84" y="964" class="mono">▌ Release 0.205.0 — yes pushes and publishes it.</text>
+<rect x="68" y="996" width="928" height="36" class="thin"/>
+<text x="84" y="1019" class="mono-m">&gt;</text>
+<text x="84" y="1072" class="mono-m">14:31 · 💬 Needs you: release 0.205.0 · ctx 52% · 7d 76%</text>
+<text x="48" y="1120" class="fine">A later turn about other work. The open release stays marked once, with no repeated decision block.</text>
+
+<!-- legend strip -->
+<line x1="48" y1="1136" x2="1376" y2="1136" class="hair"/>
+<text x="48" y="1168" class="eyebrow">LEGEND</text>
+<polygon points="128,1152 156,1152 164,1162 156,1172 128,1172" class="tag"/>
+<text x="146" y="1167" class="tagn">01</text>
+<text x="176" y="1168" class="fine">NUMBERED SCREEN</text>
+<rect x="316" y="1152" width="40" height="20" rx="4" class="box"/>
+<text x="368" y="1168" class="fine">TERMINAL SCREEN</text>
+<rect x="500" y="1152" width="40" height="20" class="blk"/>
+<text x="552" y="1168" class="fine">MARKED BLOCK</text>
+<text x="680" y="1168" class="fine">RED BORDER: THE ONE SCREEN THAT NEEDS YOU</text>
+<text x="1376" y="1168" class="fine end">SHEET KERD-0001 · 2026-11-27</text>
+
+<!-- grain, last -->
+<rect width="1440" height="1200" filter="url(#ny-grain)" pointer-events="none"/>
+</svg>
+</body>
+</html>
