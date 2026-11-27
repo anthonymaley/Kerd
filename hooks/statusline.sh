@@ -14,35 +14,21 @@ now=$(date '+%H:%M' 2>/dev/null || true)
 
 inner="${1:-}"
 
-# Claude Code feeds statusline commands a context JSON envelope on stdin.
-# Read it once, hand it to the wrapped command unchanged.
-payload=""
-if [ ! -t 0 ]; then
-  # printf x guards trailing newlines, which command substitution would strip.
-  # a NUL byte in the input makes bash warn on stderr: keep that off the status line.
-  { payload=$(cat; printf x); } 2>/dev/null || true
-  payload=${payload%x}
-fi
+# Claude Code feeds statusline commands a context JSON envelope on stdin. It goes to a
+# private temp file, so every byte (NUL included) reaches the wrapped command and needs.py.
+tmp=$(mktemp 2>/dev/null || true)
+[ -n "$tmp" ] || { printf '%s\n' "$now"; exit 0; }
+trap 'rm -f "$tmp"' EXIT
+[ -t 0 ] || cat > "$tmp" 2>/dev/null || true
 
 # "Needs you" segment: what waits for the person in this session's folder.
 # Quiet on any error; local files only, no network.
 needs=""
-if [ -n "$payload" ]; then
+if [ -s "$tmp" ]; then
   here=$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd -P || true)
   helper="$here/../skills/conductor/scripts/needs.py"
   if [ -f "$helper" ] && command -v python3 >/dev/null 2>&1; then
-    info=$(printf '%s' "$payload" | python3 -c 'import json,sys
-try:
-    d=json.load(sys.stdin)
-    print((d.get("workspace") or {}).get("current_dir") or d.get("cwd") or "")
-    print(d.get("session_id") or "")
-except Exception:
-    pass' 2>/dev/null || true)
-    dir=$(printf '%s\n' "$info" | sed -n 1p)
-    sid=$(printf '%s\n' "$info" | sed -n 2p)
-    if [ -n "$dir" ] && [ -d "$dir" ]; then
-      needs=$(python3 "$helper" show --project "$dir" --line "--session=$sid" 2>/dev/null || true)
-    fi
+    needs=$(python3 "$helper" show --line --status-json "$tmp" 2>/dev/null || true)
   fi
 fi
 
@@ -51,7 +37,7 @@ head="$now"
 
 rest=""
 if [ -n "$inner" ]; then
-  rest=$(printf '%s' "$payload" | /bin/sh -c "$inner" 2>/dev/null || true)
+  rest=$(/bin/sh -c "$inner" < "$tmp" 2>/dev/null || true)
 fi
 
 if [ -n "$rest" ]; then

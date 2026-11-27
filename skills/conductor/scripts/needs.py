@@ -3,7 +3,7 @@
 
     needs.py set   --project P "short label"   write this session's pending question
     needs.py clear --project P                 remove it
-    needs.py show  --project P [--line]        print the combined labels
+    needs.py show  --project P [--line] [--session ID | --status-json FILE]   print the combined labels
 
 Combined = this session's label file (`<git dir>/kerd/needs-you/<session id>`, one line each) plus the open
 rows of TODO.md's `### Asks` table under `## Now`. Quiet by design: it never raises,
@@ -13,10 +13,10 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import os
 import re
 import sys
-import time
 
 LABEL_MAX = 60
 SHORT_WORDS = 6
@@ -24,7 +24,6 @@ SHORT_CHARS = 40
 
 
 SESSION_ENV = ("CLAUDE_CODE_SESSION_ID", "CODEX_THREAD_ID")
-PRUNE_SECONDS = 30 * 24 * 3600
 _ESC = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]|\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)|\x1b[@-Z\\-_]?")
 _CTRL = re.compile(r"[\x00-\x08\x0b-\x1f\x7f-\x9f]")
 
@@ -60,12 +59,9 @@ def raw_session_id():
 
 
 def session_file(raw):
-    """Collision-proof file name for a session id: sanitized, plus a short sha256 of the raw id
-    when sanitizing changed it."""
-    safe = re.sub(r"[^A-Za-z0-9_-]", "", raw)[:100]
-    if safe != raw or not safe:
-        safe = (safe + "-" if safe else "") + hashlib.sha256(raw.encode("utf-8", "replace")).hexdigest()[:8]
-    return safe
+    """File name for a session id: the first 32 hex characters of sha256 of the raw id, so
+    different ids never share a file."""
+    return hashlib.sha256(raw.encode("utf-8", "replace")).hexdigest()[:32]
 
 
 def needs_base(project):
@@ -163,18 +159,6 @@ def read_labels(project, session=""):
     return [label] if label else []
 
 
-def prune(base, keep):
-    """Remove other sessions' files not touched for 30 days."""
-    now = time.time()
-    try:
-        for name in os.listdir(base):
-            path = os.path.join(base, name)
-            if name != keep and os.path.isfile(path) and now - os.path.getmtime(path) > PRUNE_SECONDS:
-                os.remove(path)
-    except Exception:
-        pass
-
-
 def todo_text(project):
     top, _ = find_git(project)
     here, seen = os.path.abspath(project), []
@@ -211,6 +195,22 @@ def line(labels):
     return text
 
 
+def from_status(path, project="", session=""):
+    """(folder, session id) from Claude Code's status JSON file: workspace.current_dir, else cwd."""
+    try:
+        with open(path, encoding="utf-8", errors="replace") as f:
+            data = json.load(f)
+        if not isinstance(data, dict):
+            return project, session
+        ws = data.get("workspace")
+        folder = (ws.get("current_dir") if isinstance(ws, dict) else "") or data.get("cwd") or ""
+        sid = data.get("session_id") or ""
+        return (folder if isinstance(folder, str) and folder else project,
+                sid if isinstance(sid, str) and sid else session)
+    except Exception:
+        return project, session
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(prog="needs.py")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -220,7 +220,8 @@ def main(argv=None):
     c = sub.add_parser("clear")
     c.add_argument("--project", required=True)
     h = sub.add_parser("show")
-    h.add_argument("--project", required=True)
+    h.add_argument("--project", default="")
+    h.add_argument("--status-json", default="")
     h.add_argument("--line", action="store_true")
     h.add_argument("--session", default="")
     try:
@@ -248,11 +249,13 @@ def main(argv=None):
                 os.makedirs(base, exist_ok=True)
                 with open(mine, "w", encoding="utf-8") as f:
                     f.write(label + "\n")
-                prune(base, keep)
             elif os.path.isfile(mine):
                 os.remove(mine)
         else:
-            labels = combined(args.project, args.session)
+            project, session = args.project, args.session
+            if args.status_json:
+                project, session = from_status(args.status_json, project, session)
+            labels = combined(project, session) if project else []
             if args.line:
                 out = line(labels)
                 if out:

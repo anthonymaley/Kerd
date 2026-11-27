@@ -47,7 +47,7 @@ class NeedsTest(unittest.TestCase):
         self.assertEqual(show(d, "s1"), "")
         self.assertEqual(run("set", "--project", d, "  Release   0.205.0 \n", session="s1").returncode, 0)
         self.assertEqual(show(d, "s1"), "Release 0.205.0\n")
-        self.assertTrue(os.path.exists(os.path.join(d, ".git", "kerd", "needs-you", "s1")))
+        self.assertTrue(os.path.exists(os.path.join(d, ".git", "kerd", "needs-you", needs.session_file("s1"))))
         self.assertEqual(run("clear", "--project", d, session="s1").returncode, 0)
         self.assertEqual(show(d, "s1"), "")
         self.assertEqual(run("clear", "--project", d, session="s1").returncode, 0)
@@ -76,29 +76,37 @@ class NeedsTest(unittest.TestCase):
         run("set", "--project", d, "codex q", codex="thr1")
         self.assertEqual(show(d, "thr1"), "codex q\n")
 
-    def test_sanitized_ids_do_not_collide(self):
+    def test_ids_never_collide(self):
         d = repo()
-        run("set", "--project", d, "one", session="a/b")
-        run("set", "--project", d, "two", session="ab")
-        run("set", "--project", d, "three", session="a.b")
-        self.assertEqual(show(d, "a/b"), "one\n")
-        self.assertEqual(show(d, "ab"), "two\n")
-        self.assertEqual(show(d, "a.b"), "three\n")
-        self.assertEqual(len(os.listdir(os.path.join(d, ".git", "kerd", "needs-you"))), 3)
+        h = needs.session_file("a/b")
+        for sid, text in (("a/b", "one"), ("ab", "two"), ("a.b", "three"), (h, "four")):
+            run("set", "--project", d, text, session=sid)
+        for sid, text in (("a/b", "one"), ("ab", "two"), ("a.b", "three"), (h, "four")):
+            self.assertEqual(show(d, sid), text + "\n")
+        self.assertEqual(len(os.listdir(os.path.join(d, ".git", "kerd", "needs-you"))), 4)
+        self.assertEqual(len(h), 32)
 
-    def test_set_prunes_only_other_files_older_than_30_days(self):
+    def test_no_pruning_of_old_open_questions(self):
         d = repo()
         run("set", "--project", d, "old", session="old")
-        run("set", "--project", d, "mid", session="mid")
-        base = os.path.join(d, ".git", "kerd", "needs-you")
-        for name, days in (("old", 31), ("mid", 10)):
-            t = os.path.getmtime(os.path.join(base, name)) - days * 24 * 3600
-            os.utime(os.path.join(base, name), (t, t))
+        f = os.path.join(d, ".git", "kerd", "needs-you", needs.session_file("old"))
+        t = os.path.getmtime(f) - 90 * 24 * 3600
+        os.utime(f, (t, t))
         run("set", "--project", d, "new", session="new")
-        self.assertEqual(sorted(os.listdir(base)), ["mid", "new"])
-        # an old file of the session itself is rewritten, not pruned
-        run("set", "--project", d, "again", session="mid")
-        self.assertEqual(show(d, "mid"), "again\n")
+        self.assertEqual(show(d, "old"), "old\n")
+
+    def test_status_json_file_with_newline_in_path(self):
+        d = repo()
+        odd = os.path.join(d, "sub\nfolder")
+        os.makedirs(odd)
+        subprocess.run(["git", "init", "-q", odd], check=True)
+        run("set", "--project", odd, "odd q", session="s1")
+        f = os.path.join(d, "status.json")
+        Path(f).write_text(json.dumps({"workspace": {"current_dir": odd}, "session_id": "s1"}))
+        r = run("show", "--line", "--status-json", f)
+        self.assertEqual(r.stdout, "💬 Needs you: odd q\n")
+        Path(f).write_text("not json")
+        self.assertEqual(run("show", "--line", "--status-json", f).stdout, "")
 
     def test_legacy_single_file_ignored_then_replaced(self):
         d = repo()
@@ -121,7 +129,7 @@ class NeedsTest(unittest.TestCase):
         os.makedirs(gd)
         Path(wt, ".git").write_text("gitdir: " + gd + "\n")
         run("set", "--project", wt, "wt q", session="s")
-        self.assertTrue(os.path.exists(os.path.join(gd, "kerd", "needs-you", "s")))
+        self.assertTrue(os.path.exists(os.path.join(gd, "kerd", "needs-you", needs.session_file("s"))))
 
     def test_asks_only_contiguous_table_and_case(self):
         text = "## NOW\n\n### Asks\n\n" + HEAD + "| a | First | | | | | | |\n\nstray\n| b | Not mine | | | | | | |\n"
@@ -183,10 +191,23 @@ class StatuslineTest(unittest.TestCase):
         out = self.sl(json.dumps({"cwd": d, "session_id": "sess2"}))
         self.assertRegex(out, r"^\d\d:\d\d\n$")
 
-    def test_nul_byte_input_is_quiet(self):
-        r = subprocess.run(["bash", str(STATUSLINE), "echo INNER"], input=b'{"cwd":"/x"}\x00', capture_output=True)
+    def test_nul_byte_input_is_quiet_and_forwarded(self):
+        d = repo()
+        out_file = os.path.join(d, "got")
+        payload = b'{"cwd":"/x"}\x00\x01tail\n\n'
+        r = subprocess.run(["bash", str(STATUSLINE), "cat > " + out_file], input=payload, capture_output=True)
         self.assertEqual(r.stderr, b"")
-        self.assertRegex(r.stdout.decode(), r"^\d\d:\d\d · INNER\n$")
+        self.assertRegex(r.stdout.decode(), r"^\d\d:\d\d\n$")
+        self.assertEqual(Path(out_file).read_bytes(), payload)
+
+    def test_newline_in_cwd_still_finds_question(self):
+        d = repo()
+        odd = os.path.join(d, "a\nb")
+        os.makedirs(odd)
+        subprocess.run(["git", "init", "-q", odd], check=True)
+        run("set", "--project", odd, "odd q", session="s9")
+        out = self.sl(json.dumps({"cwd": odd, "session_id": "s9"}))
+        self.assertRegex(out, r"💬 Needs you: odd q\n$")
 
     def test_cwd_fallback_and_asks(self):
         d = repo()
