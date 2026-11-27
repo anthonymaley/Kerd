@@ -173,12 +173,26 @@ class AskOnceGuideTests(unittest.TestCase):
         self.assertIn("a scheduled check that found nothing new is, when its one line names the next "
                       "check and its time.", journey)
 
-    def test_readme_says_it_covers_everyone(self):
+    def test_precedence_is_stated_once(self):
+        self.assertIn("Precedence: a scheduled or recurring check with nothing new uses the one-line "
+                      "form below; every other turn with a question still open ends on the "
+                      "`▌ STILL NEEDS YOU` block.", self.section)
+        self.assertEqual(flat(JOURNEY.read_text(encoding="utf-8")).count("Precedence: a scheduled"), 1)
+
+    def test_feed_is_per_session(self):
+        self.assertIn("`needs.py set` refuses without a session id", self.section)
+        self.assertIn("shows this session's question plus the Asks table's open rows", self.section)
+
+    def test_readme_describes_the_restate_rule(self):
         readme = read(README)
-        self.assertIn("**You are asked once.** A question Kerd has put to you and you haven't answered "
-                      "yet is not asked again on the next turn", readme)
         what = readme[readme.index("## What Kerd lets you do"):readme.index("## What it writes")]
-        self.assertIn("**You are asked once.**", what)
+        self.assertIn("**Kerd restates, it doesn't repeat.** The full question is shown once.", what)
+        self.assertIn("`▌ NEEDS YOU`", what.replace("`▌ NEEDS YOU`", "`▌ NEEDS YOU`"))
+        for phrase in ("STILL NEEDS YOU", "Nothing needs you", "\"💬 Needs you\" item in the status line",
+                       "Claude Code", "set on this machine at release"):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, what)
+        self.assertNotIn("You are asked once", what)
 
 
 if __name__ == "__main__":

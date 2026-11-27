@@ -215,11 +215,16 @@ in real use yet: [known limits](docs/guide/known-limits.md).
 
 Every command, one line each: [reference](docs/guide/reference.md).
 
-**You are asked once.** A question Kerd has put to you and you haven't answered yet
-is not asked again on the next turn, or the one after. The report says what is still
-open and when it was asked, and waits for your answer; it asks again only when
-something behind the question changes. A check that runs on a timer and finds
-nothing new says so in one line, with the time of the next check.
+**Kerd restates, it doesn't repeat.** The full question is shown once. When a later
+turn mentions a question you haven't answered, it states the question itself in one
+line with what yes does, never "asked 10:20", and asks in full again only when
+something behind it changes. A turn that needs you ends in a marked block, `▌ NEEDS
+YOU`, saying what is needed and what yes and no do; a later turn with it still open
+ends `▌ STILL NEEDS YOU` plus the one line; every other turn ends "Nothing needs you"
+and what happens next. A check that runs on a timer and finds nothing new ends on one
+line that names the next check and, when a question is open, restates it. In Claude
+Code a "💬 Needs you" item in the status line shows this session's open question and
+the open rows of the project's Asks table; it is set on this machine at release.
 
 Kerd also runs a small release rules check in CI, the checks GitHub runs on a
 push: it catches version drift and a mismatched capability list between the

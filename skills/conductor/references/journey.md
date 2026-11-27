@@ -291,11 +291,17 @@ nothing else can move). The quiet endings stay as they are: Switch Out's closing
 box and an agreed completion.
 
 **The status line.** Each session keeps its own label and sets and clears only that
-one. When this session's turn ends needing the person, run
+one (`needs.py set` refuses without a session id, `CLAUDE_CODE_SESSION_ID` or
+`CODEX_THREAD_ID`); the status line shows this session's question plus the Asks
+table's open rows. When this session's turn ends needing the person, run
 `python3 <conductor skill dir>/scripts/needs.py set --project <project> "<short label>"`;
 when the answer arrives, or nothing needs them, run
 `needs.py clear --project <project>`. The status line reads that file and, with a
 chief of staff on, the `### Asks` table too, so `cos.py ask` stays as it is.
+
+Precedence: a scheduled or recurring check with nothing new uses the one-line form
+below; every other turn with a question still open ends on the `▌ STILL NEEDS YOU`
+block.
 
 A scheduled or recurring check (a loop, a timed scan, a chief of staff's tick) that
 finds nothing new ends on one line naming the next check and when it runs (“Nothing
