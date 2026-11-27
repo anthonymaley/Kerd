@@ -171,9 +171,11 @@ def todo_text(project):
     for base in seen:
         try:
             with open(os.path.join(base, "TODO.md"), encoding="utf-8", errors="replace") as f:
-                return f.read()
+                text = f.read()
         except Exception:
             continue
+        if re.search(r"^###\s+Asks\s*$", text, re.M):   # the nearest TODO.md that keeps an Asks table
+            return text
     return ""
 
 

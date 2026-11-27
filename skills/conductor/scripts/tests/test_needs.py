@@ -246,6 +246,15 @@ class StatuslineTest(unittest.TestCase):
         out = self.sl(json.dumps({"cwd": d}))
         self.assertRegex(out, r"💬 Needs you: One · Two \+1\n$")
 
+    def test_nested_todo_without_asks_does_not_hide_root_asks(self):
+        d = repo()
+        Path(d, "TODO.md").write_text(todo("Root ask"))
+        sub = os.path.join(d, "sub")
+        os.makedirs(sub)
+        Path(sub, "TODO.md").write_text("# TODO\n\n## Now\n\n- a plain list, no Asks\n")
+        out = self.sl(json.dumps({"cwd": sub}))
+        self.assertRegex(out, r"💬 Needs you: Root ask\n$")
+
     def test_inner_output_without_needs_and_bad_json(self):
         self.assertRegex(self.sl("{}", "echo INNER"), r"^\d\d:\d\d · INNER\n$")
         self.assertRegex(self.sl("not json", "echo INNER"), r"^\d\d:\d\d · INNER\n$")
